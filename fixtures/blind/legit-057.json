@@ -19,7 +19,8 @@
         "text": "Check in for your flight to London, departing 5/21/2025."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

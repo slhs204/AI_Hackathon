@@ -19,7 +19,8 @@
         "text": "Benefits enrollment for 2025 closes 6/10. Log in to select."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

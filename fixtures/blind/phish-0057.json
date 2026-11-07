@@ -26,7 +26,8 @@
         "display_text": "https://amaz0n-rewards.com",
         "href": "https://amaz0n-rewards.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

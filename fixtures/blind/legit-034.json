@@ -19,7 +19,8 @@
         "text": "Your Twitter password was changed. Contact us if this wasn’t you."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

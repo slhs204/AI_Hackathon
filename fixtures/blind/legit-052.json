@@ -19,7 +19,8 @@
         "text": "The latest project status report is available in the shared folder."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

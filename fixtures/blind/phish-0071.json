@@ -26,7 +26,8 @@
         "display_text": "https://secure-pass.com",
         "href": "https://secure-pass.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

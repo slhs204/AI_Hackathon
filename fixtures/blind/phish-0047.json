@@ -26,7 +26,8 @@
         "display_text": "https://loan-scam.com",
         "href": "https://loan-scam.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

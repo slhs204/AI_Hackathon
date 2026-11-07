@@ -26,7 +26,8 @@
         "display_text": "https://0utlook-verify.com",
         "href": "https://0utlook-verify.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

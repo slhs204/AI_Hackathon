@@ -19,7 +19,8 @@
         "text": "Your $29.99 payment was successful. View receipt online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

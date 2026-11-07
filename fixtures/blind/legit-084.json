@@ -19,7 +19,8 @@
         "text": "Your Facebook password was changed. Contact us if not you."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

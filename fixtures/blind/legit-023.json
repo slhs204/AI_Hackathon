@@ -19,7 +19,8 @@
         "text": "Join our webinar on AI trends on 5/25 at 3 PM. Register now."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

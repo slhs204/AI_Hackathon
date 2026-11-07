@@ -26,7 +26,8 @@
         "display_text": "https://air1ine-booking.com",
         "href": "https://air1ine-booking.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

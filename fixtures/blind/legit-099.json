@@ -19,7 +19,8 @@
         "text": "Your plan was upgraded. Access new features now."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -26,7 +26,8 @@
         "display_text": "https://fb-security.com",
         "href": "https://fb-security.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

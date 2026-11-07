@@ -19,7 +19,12 @@
         "text": "Scheduled maintenance requires action: [attachment: maintenance_tool.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "maintenance_tool.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "Your order is being processed. Shipping expected by 5/23."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

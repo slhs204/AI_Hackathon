@@ -19,7 +19,8 @@
         "text": "Complete your compliance training by 5/25."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

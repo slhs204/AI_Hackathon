@@ -26,7 +26,8 @@
         "display_text": "https://court-documents.org",
         "href": "https://court-documents.org"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

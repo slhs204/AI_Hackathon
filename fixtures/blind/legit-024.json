@@ -19,7 +19,8 @@
         "text": "Your travel insurance policy is active. View coverage details."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

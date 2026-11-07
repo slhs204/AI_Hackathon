@@ -26,7 +26,8 @@
         "display_text": "https://dropb0x-upgrade.com",
         "href": "https://dropb0x-upgrade.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

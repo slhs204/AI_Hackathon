@@ -19,7 +19,8 @@
         "text": "Your refund of $29.99 has been processed. Expect funds in 3-5 days."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

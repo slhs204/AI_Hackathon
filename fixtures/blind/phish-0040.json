@@ -26,7 +26,8 @@
         "display_text": "https://tw1tter-security.com",
         "href": "https://tw1tter-security.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

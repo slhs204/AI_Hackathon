@@ -19,7 +19,8 @@
         "text": "Recent login to your account was successful. Review activity in settings."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

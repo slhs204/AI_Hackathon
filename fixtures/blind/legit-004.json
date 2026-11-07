@@ -19,7 +19,8 @@
         "text": "Your password was successfully reset. Contact support if this wasn’t you."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

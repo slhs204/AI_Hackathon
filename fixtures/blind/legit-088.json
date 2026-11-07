@@ -19,7 +19,8 @@
         "text": "Your 6/5-6/7 hotel stay is confirmed. View details online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Your Google Drive is at 90% capacity. Manage files or upgrade."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

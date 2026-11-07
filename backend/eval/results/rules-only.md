@@ -1,4 +1,4 @@
-# Eval report (core) — 2026-11-07 19:28 UTC
+# Eval report (core) — 2026-11-07 19:46 UTC
 
 Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy claim.
 

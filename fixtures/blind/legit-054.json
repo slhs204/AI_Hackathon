@@ -19,7 +19,8 @@
         "text": "Your account settings were updated. Contact us if this wasn’t you."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

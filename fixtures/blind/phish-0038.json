@@ -26,7 +26,8 @@
         "display_text": "https://card-secure.com",
         "href": "https://card-secure.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

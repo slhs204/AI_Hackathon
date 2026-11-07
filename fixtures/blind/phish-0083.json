@@ -19,7 +19,12 @@
         "text": "Protect your device: [attachment: antivirus.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "antivirus.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

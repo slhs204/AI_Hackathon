@@ -26,7 +26,8 @@
         "display_text": "https://g00gle-security.com",
         "href": "https://g00gle-security.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "Join our 5/28 workshop on cybersecurity. Register today."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -26,7 +26,8 @@
         "display_text": "https://str3am-verify.com",
         "href": "https://str3am-verify.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

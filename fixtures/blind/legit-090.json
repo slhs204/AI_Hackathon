@@ -19,7 +19,8 @@
         "text": "Check out exclusive deals in our latest newsletter."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

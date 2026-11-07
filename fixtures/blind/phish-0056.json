@@ -26,7 +26,8 @@
         "display_text": "https://faceb00k-security.com",
         "href": "https://faceb00k-security.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

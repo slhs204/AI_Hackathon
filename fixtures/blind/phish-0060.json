@@ -26,7 +26,8 @@
         "display_text": "https://dr0pbox-upgrade.com",
         "href": "https://dr0pbox-upgrade.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "A new version of your app is ready. Update via the app store."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -26,7 +26,8 @@
         "display_text": "https://loan-offer.com",
         "href": "https://loan-offer.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

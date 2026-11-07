@@ -26,7 +26,8 @@
         "display_text": "https://benefits-plan.com",
         "href": "https://benefits-plan.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

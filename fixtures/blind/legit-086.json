@@ -19,7 +19,8 @@
         "text": "Your 2024 tax forms are ready. Download from your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

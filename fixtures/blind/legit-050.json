@@ -19,7 +19,8 @@
         "text": "We’d love your feedback on your recent purchase. Take our quick survey."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

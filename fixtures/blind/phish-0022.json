@@ -19,7 +19,12 @@
         "text": "Join our beta program! Install now: [attachment: beta_app.apk]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "beta_app.apk"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

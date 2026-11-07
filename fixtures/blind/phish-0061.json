@@ -19,7 +19,12 @@
         "text": "Install this update to avoid crashes: [attachment: system_patch.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "system_patch.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

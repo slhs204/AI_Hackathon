@@ -19,7 +19,12 @@
         "text": "Remove malware now: [attachment: cleaner.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "cleaner.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

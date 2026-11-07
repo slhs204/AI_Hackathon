@@ -26,7 +26,8 @@
         "display_text": "https://irs-g0v.com",
         "href": "https://irs-g0v.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

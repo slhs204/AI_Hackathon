@@ -19,7 +19,8 @@
         "text": "Your product warranty is valid until 5/19/2026."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

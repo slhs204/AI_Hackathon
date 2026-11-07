@@ -19,7 +19,12 @@
         "text": "Review new policy: [attachment: hr_policy.pdf]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "hr_policy.pdf"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,12 @@
         "text": "New company policy effective immediately. Review: [attachment: policy_update.pdf]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "policy_update.pdf"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

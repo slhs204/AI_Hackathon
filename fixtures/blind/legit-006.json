@@ -19,7 +19,8 @@
         "text": "Thanks for subscribing! Expect weekly updates on our products and offers."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Your 2024 tax documents are ready. Access them in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

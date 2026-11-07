@@ -19,7 +19,8 @@
         "text": "All systems are operational. Contact support for any issues."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

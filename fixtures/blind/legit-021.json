@@ -19,7 +19,8 @@
         "text": "Open enrollment for 2025 benefits starts 6/1. Log in to choose your plan."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Your Adobe Creative Cloud plan is active. Manage it in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

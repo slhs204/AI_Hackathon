@@ -26,7 +26,8 @@
         "display_text": "https://c1oud-backup.com",
         "href": "https://c1oud-backup.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

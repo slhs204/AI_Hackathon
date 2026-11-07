@@ -26,7 +26,8 @@
         "display_text": "https://g00gle-account.com",
         "href": "https://g00gle-account.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

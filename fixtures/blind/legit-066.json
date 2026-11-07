@@ -19,7 +19,8 @@
         "text": "Agenda for tomorrow’s 11 AM sync is posted in Teams."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

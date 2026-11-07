@@ -19,7 +19,12 @@
         "text": "Join our team! Submit your resume here: [attachment: job_application.doc]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "job_application.doc"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

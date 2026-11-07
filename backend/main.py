@@ -36,7 +36,11 @@ app.add_middleware(
 @app.middleware("http")
 async def limit_body(request: Request, call_next):
     length = request.headers.get("content-length")
-    if length and length.isdigit() and int(length) > MAX_BODY_BYTES:
+    if request.method == "POST" and not (length and length.isdigit()):
+        # Without a length (chunked upload) the size check below could be skipped.
+        # Browsers' fetch() with a string body always sends Content-Length.
+        return JSONResponse({"error": "Content-Length required"}, status_code=411)
+    if length and int(length) > MAX_BODY_BYTES:
         return JSONResponse({"error": "Request too large (limit 200 KB)"}, status_code=413)
     return await call_next(request)
 

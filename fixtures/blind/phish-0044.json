@@ -26,7 +26,8 @@
         "display_text": "https://event-scam.com",
         "href": "https://event-scam.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

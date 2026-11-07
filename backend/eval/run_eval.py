@@ -111,8 +111,8 @@ def main() -> None:
     if args.model and model_call is None:
         sys.exit("--model needs MODEL_PROVIDER (tinker or anthropic) and that provider's key/model settings")
 
-    # The blind set has no headers, so only the Gmail-visible view makes sense.
-    views = ["full", "gmail"] if args.set == "core" else ["gmail"]
+    # "full" keeps Reply-To / auth results / attachments; "gmail" drops them, as the extensions can't read them yet.
+    views = ["full", "gmail"]
     rows = {v: run(FIXTURE_SETS[args.set], v, model_call) for v in views}
     results = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),

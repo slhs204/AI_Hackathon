@@ -26,7 +26,8 @@
         "display_text": "https://charity-aid.org",
         "href": "https://charity-aid.org"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

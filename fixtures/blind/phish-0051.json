@@ -26,7 +26,8 @@
         "display_text": "https://secure-1ogin.com",
         "href": "https://secure-1ogin.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

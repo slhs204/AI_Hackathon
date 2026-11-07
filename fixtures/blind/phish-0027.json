@@ -26,7 +26,8 @@
         "display_text": "https://bank-secure.com",
         "href": "https://bank-secure.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

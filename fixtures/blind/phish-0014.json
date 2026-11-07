@@ -26,7 +26,8 @@
         "display_text": "https://0utlook-security.com",
         "href": "https://0utlook-security.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

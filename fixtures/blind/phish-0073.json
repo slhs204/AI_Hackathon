@@ -26,7 +26,8 @@
         "display_text": "https://air1ine-reschedule.com",
         "href": "https://air1ine-reschedule.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

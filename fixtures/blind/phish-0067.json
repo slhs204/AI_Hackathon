@@ -19,7 +19,12 @@
         "text": "Install our free VPN: [attachment: vpn_install.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "vpn_install.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

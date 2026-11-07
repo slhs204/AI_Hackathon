@@ -19,7 +19,8 @@
         "text": "You’re registered for our 5/30 workshop. Details sent to your calendar."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -26,7 +26,8 @@
         "display_text": "https://travel-prize.com",
         "href": "https://travel-prize.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

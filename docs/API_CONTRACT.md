@@ -12,7 +12,8 @@ server with `DEMO_API_TOKEN=dev` and send `X-Demo-Token: dev`.
 ## `GET /health`
 
 ```json
-{"status": "ok", "service": "phishing-coach", "model": "rules-only"}
+{"status": "ok", "service": "phishing-coach",
+ "model": {"triage": "rules-only", "analyze": "rules-only", "challenge": "rules-only"}}
 ```
 
 ## `POST /analyze`
@@ -38,6 +39,8 @@ server with `DEMO_API_TOKEN=dev` and send `X-Demo-Token: dev`.
 - Limits: 200 blocks, 50 links, 20 000 characters of text in total (one block may hold all of it). Over the limit: HTTP 422.
 
 ### Response
+
+Example: Hookline's demo email (real output, rules only).
 
 ```json
 {
@@ -76,8 +79,10 @@ server with `DEMO_API_TOKEN=dev` and send `X-Demo-Token: dev`.
   "callback": {"name": "...", "role": "vendor", "phone": "...", "source": "vendor master file"},  // or null
   "hold_scenario": "bank_change",                                  // or null
   "stages": [
-    {"stage": "subject", "score": 24, "flags": [{"n": 1, "category": "urgency_pressure", "points": 8, "tags": ["urgent"], "finding_ids": ["f1"]}]},
-    {"stage": "body", "score": 36, "flags": [{"n": 1, "category": "payment_or_data_request", "points": 20, "tags": ["bank change"], "finding_ids": ["f5"]}]}
+    {"stage": "subject", "score": 8, "flags": [{"n": 1, "category": "urgency_pressure", "points": 8, "tags": ["urgent"], "finding_ids": ["f1"]}]},
+    {"stage": "body", "score": 36, "flags": [
+      {"n": 1, "category": "urgency_pressure", "points": 16, "tags": ["today", "urgent", "do not tell"], "finding_ids": ["f2", "f3", "f4"]},
+      {"n": 2, "category": "payment_or_data_request", "points": 20, "tags": ["bank change"], "finding_ids": ["f5"]}]}
   ],
   "ai_summary": null                                               // = summary when the model ran
 }

@@ -19,7 +19,12 @@
         "text": "Disputed invoice detected. Resolve now: [attachment: dispute_form.doc]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "dispute_form.doc"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

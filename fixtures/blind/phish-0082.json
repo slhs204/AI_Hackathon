@@ -26,7 +26,8 @@
         "display_text": "https://secure-id.com",
         "href": "https://secure-id.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "You’ve earned 200 rewards points. Redeem in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

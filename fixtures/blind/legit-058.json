@@ -19,7 +19,8 @@
         "text": "Our systems will undergo maintenance on 5/22/2025, 2 AM–4 AM."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

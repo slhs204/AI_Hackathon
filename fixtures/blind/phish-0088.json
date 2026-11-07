@@ -26,7 +26,8 @@
         "display_text": "https://visa-secure.com",
         "href": "https://visa-secure.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

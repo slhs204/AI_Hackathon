@@ -19,7 +19,8 @@
         "text": "Your order has been shipped and will arrive in 3-5 days. Track it in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

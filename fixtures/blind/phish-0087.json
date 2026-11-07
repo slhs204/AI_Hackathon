@@ -26,7 +26,8 @@
         "display_text": "https://invest-now.com",
         "href": "https://invest-now.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

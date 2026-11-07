@@ -19,7 +19,8 @@
         "text": "Your account is now verified. Start using all features today."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

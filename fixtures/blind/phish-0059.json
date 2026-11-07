@@ -19,7 +19,12 @@
         "text": "Transfer $15,000 to new vendor. Details: [attachment: payment.doc]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "payment.doc"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

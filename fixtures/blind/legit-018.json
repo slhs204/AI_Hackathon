@@ -19,7 +19,8 @@
         "text": "Your recent Google account activity is available for review."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

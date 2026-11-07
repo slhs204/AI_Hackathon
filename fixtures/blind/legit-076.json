@@ -19,7 +19,8 @@
         "text": "Your May sales report is ready in the analytics dashboard."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

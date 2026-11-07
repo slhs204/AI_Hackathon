@@ -26,7 +26,8 @@
         "display_text": "https://warranty-plan.com",
         "href": "https://warranty-plan.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

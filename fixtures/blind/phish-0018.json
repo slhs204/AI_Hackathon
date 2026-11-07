@@ -26,7 +26,8 @@
         "display_text": "https://court-notice.org",
         "href": "https://court-notice.org"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

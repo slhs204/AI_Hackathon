@@ -19,7 +19,8 @@
         "text": "Your doctor’s appointment is scheduled for 5/21 at 10 AM."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

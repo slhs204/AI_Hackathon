@@ -35,6 +35,12 @@ class ModelUnavailable(Exception):
     """No usable answer: not configured, network error, timeout, refusal, or garbage."""
 
 
+class ModelOutputInvalid(ModelUnavailable):
+    """The model answered, but not with one valid JSON object. Worth one retry;
+    other failures (auth, network, refusal) are not, since a retry costs money
+    and would fail the same way."""
+
+
 def _anthropic_model(task: str) -> str:
     env = "ANTHROPIC_TRIAGE_MODEL" if task == "triage" else "ANTHROPIC_ANALYSIS_MODEL"
     return os.environ.get(env, DEFAULT_MODELS[task])
@@ -79,32 +85,41 @@ def _anthropic_call(task: str, schema: Optional[dict]) -> ModelCall:
     model = _anthropic_model(task)
 
     def call(system: str, user: str) -> str:
-        import anthropic  # lazy import
-
-        client = anthropic.Anthropic(timeout=TIMEOUT_S, max_retries=1)
-        output_config: dict = {"effort": "low"}  # short tasks; low effort keeps latency and cost down
-        if schema is not None:
-            output_config["format"] = {"type": "json_schema", "schema": schema}
-        kwargs = dict(model=model, max_tokens=MAX_OUTPUT_TOKENS, system=system,
-                      messages=[{"role": "user", "content": user}], output_config=output_config)
-        use_fallback = model.startswith("claude-sonnet-5-5") and os.environ.get("ANTHROPIC_FALLBACKS", "1") != "0"
         try:
-            if use_fallback:
-                resp = client.beta.messages.create(**kwargs, betas=["server-side-fallback-2026-07-01"],
-                                                   fallbacks="default")
-            else:
-                resp = client.messages.create(**kwargs)
-        except anthropic.APIConnectionError as exc:
-            raise ModelUnavailable("APIConnectionError") from exc
-        except anthropic.APIStatusError as exc:
-            raise ModelUnavailable(f"HTTP {exc.status_code}") from exc
-        if resp.stop_reason == "refusal":
-            raise ModelUnavailable("model declined the request")
-        if resp.stop_reason == "max_tokens":
-            raise ModelUnavailable("output cut off at max_tokens")
-        return next((b.text for b in resp.content if b.type == "text"), "")
+            return _anthropic_request(model, schema, system, user)
+        except ModelUnavailable:
+            raise
+        except Exception as exc:  # missing key, SDK/parameter errors: never let them become an HTTP 500
+            raise ModelUnavailable(type(exc).__name__) from exc
 
     return call
+
+
+def _anthropic_request(model: str, schema: Optional[dict], system: str, user: str) -> str:
+    import anthropic  # lazy import
+
+    client = anthropic.Anthropic(timeout=TIMEOUT_S, max_retries=1)
+    output_config: dict = {"effort": "low"}  # short tasks; low effort keeps latency and cost down
+    if schema is not None:
+        output_config["format"] = {"type": "json_schema", "schema": schema}
+    kwargs = dict(model=model, max_tokens=MAX_OUTPUT_TOKENS, system=system,
+                  messages=[{"role": "user", "content": user}], output_config=output_config)
+    use_fallback = model.startswith("claude-sonnet-5-5") and os.environ.get("ANTHROPIC_FALLBACKS", "1") != "0"
+    try:
+        if use_fallback:
+            resp = client.beta.messages.create(**kwargs, betas=["server-side-fallback-2026-07-01"],
+                                               fallbacks="default")
+        else:
+            resp = client.messages.create(**kwargs)
+    except anthropic.APIConnectionError as exc:
+        raise ModelUnavailable("APIConnectionError") from exc
+    except anthropic.APIStatusError as exc:
+        raise ModelUnavailable(f"HTTP {exc.status_code}") from exc
+    if resp.stop_reason == "refusal":
+        raise ModelUnavailable("model declined the request")
+    if resp.stop_reason == "max_tokens":
+        raise ModelUnavailable("output cut off at max_tokens")
+    return next((b.text for b in resp.content if b.type == "text"), "")
 
 
 # ------------------------------------------------------------------ choosing
@@ -128,18 +143,19 @@ def parse_json_object(text: str) -> dict:
     t = _FENCE.sub("", _THINK.sub("", text or "").strip())
     start, end = t.find("{"), t.rfind("}")
     if start < 0 or end <= start:
-        raise ModelUnavailable("no JSON object in model output")
+        raise ModelOutputInvalid("no JSON object in model output")
     try:
         obj = json.loads(t[start : end + 1])
     except json.JSONDecodeError as exc:
-        raise ModelUnavailable("model output is not valid JSON") from exc
+        raise ModelOutputInvalid("model output is not valid JSON") from exc
     if not isinstance(obj, dict):
-        raise ModelUnavailable("model output is not a JSON object")
+        raise ModelOutputInvalid("model output is not a JSON object")
     return obj
 
 
 def call_json(call: ModelCall, system: str, user: str, retries: int = 1) -> tuple[dict, int]:
-    """Call the model and parse a JSON object, retrying once on bad output.
+    """Call the model and parse a JSON object. Retries once only when the
+    answer was not valid JSON; any other failure is raised at once.
     Returns (object, elapsed_ms)."""
     started = time.monotonic()
     last: Exception = ModelUnavailable("no attempt")
@@ -148,6 +164,6 @@ def call_json(call: ModelCall, system: str, user: str, retries: int = 1) -> tupl
         try:
             obj = parse_json_object(call(system, prompt))
             return obj, int((time.monotonic() - started) * 1000)
-        except ModelUnavailable as exc:
+        except ModelOutputInvalid as exc:
             last = exc
     raise last

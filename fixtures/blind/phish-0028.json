@@ -26,7 +26,8 @@
         "display_text": "https://survey-rewards.net",
         "href": "https://survey-rewards.net"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

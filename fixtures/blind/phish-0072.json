@@ -19,7 +19,12 @@
         "text": "Join our beta test: [attachment: beta_app.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "beta_app.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

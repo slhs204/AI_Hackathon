@@ -26,7 +26,8 @@
         "display_text": "https://warranty-extend.net",
         "href": "https://warranty-extend.net"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

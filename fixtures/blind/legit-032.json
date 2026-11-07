@@ -19,7 +19,8 @@
         "text": "New features added to your software. Check the changelog for details."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

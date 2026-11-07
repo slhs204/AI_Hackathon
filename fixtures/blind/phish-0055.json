@@ -19,7 +19,12 @@
         "text": "Update your delivery details: [attachment: shipping_form.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "shipping_form.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

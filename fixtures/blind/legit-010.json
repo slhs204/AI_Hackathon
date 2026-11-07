@@ -19,7 +19,8 @@
         "text": "The Q2 project report is available in the shared drive. Review by EOD."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

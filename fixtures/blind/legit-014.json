@@ -19,7 +19,8 @@
         "text": "Two-factor authentication was enabled on your account. Contact us if needed."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

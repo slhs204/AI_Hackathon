@@ -19,7 +19,8 @@
         "text": "Thank you for your $50 donation. Your receipt is attached."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

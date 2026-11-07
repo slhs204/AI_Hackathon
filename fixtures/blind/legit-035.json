@@ -19,7 +19,8 @@
         "text": "You’ve earned 100 points! Redeem them in your rewards portal."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

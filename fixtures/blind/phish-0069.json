@@ -26,7 +26,8 @@
         "display_text": "https://rewards-points.com",
         "href": "https://rewards-points.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

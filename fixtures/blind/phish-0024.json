@@ -26,7 +26,8 @@
         "display_text": "https://datasecure-alert.com",
         "href": "https://datasecure-alert.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

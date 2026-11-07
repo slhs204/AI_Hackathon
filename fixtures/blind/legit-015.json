@@ -19,7 +19,8 @@
         "text": "Thank you for your Spotify Premium subscription. Receipt available online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

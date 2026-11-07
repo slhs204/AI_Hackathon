@@ -19,7 +19,8 @@
         "text": "Your analytics report for April is ready. Download from the dashboard."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

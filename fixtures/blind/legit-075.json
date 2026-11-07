@@ -19,7 +19,8 @@
         "text": "Your Instagram profile was updated. Contact us if unintended."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

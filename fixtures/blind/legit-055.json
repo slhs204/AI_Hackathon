@@ -19,7 +19,8 @@
         "text": "Your Hulu subscription has been renewed. Check billing in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

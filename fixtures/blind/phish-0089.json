@@ -19,7 +19,12 @@
         "text": "Try our software: [attachment: trial.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "trial.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

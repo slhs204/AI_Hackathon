@@ -19,7 +19,8 @@
         "text": "Your Netflix plan has been renewed. View billing details in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

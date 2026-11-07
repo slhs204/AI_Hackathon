@@ -19,7 +19,12 @@
         "text": "Try our software for free: [attachment: premium_trial.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "premium_trial.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

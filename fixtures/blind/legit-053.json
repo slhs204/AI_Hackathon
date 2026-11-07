@@ -19,7 +19,8 @@
         "text": "Your package has shipped. Track your order in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

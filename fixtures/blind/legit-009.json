@@ -19,7 +19,8 @@
         "text": "Your monthly statement is ready. Log in to view or download it."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

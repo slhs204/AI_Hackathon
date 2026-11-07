@@ -19,7 +19,8 @@
         "text": "Share feedback on your recent purchase. Take our survey."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

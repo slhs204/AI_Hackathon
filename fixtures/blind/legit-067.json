@@ -19,7 +19,8 @@
         "text": "Your order was delivered on 5/19/2025. Contact us for issues."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

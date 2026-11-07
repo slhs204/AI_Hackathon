@@ -19,7 +19,8 @@
         "text": "Your updated health plan is available in your portal."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

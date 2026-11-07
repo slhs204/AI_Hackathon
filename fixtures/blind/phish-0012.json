@@ -26,7 +26,8 @@
         "display_text": "https://netf1ix-renewal.com",
         "href": "https://netf1ix-renewal.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

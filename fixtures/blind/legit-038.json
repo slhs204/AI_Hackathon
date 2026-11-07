@@ -19,7 +19,8 @@
         "text": "Your hotel booking for 6/1-6/3 is confirmed. View details online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Your order was delivered today. Contact us for any issues."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

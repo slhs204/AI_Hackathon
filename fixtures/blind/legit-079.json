@@ -19,7 +19,8 @@
         "text": "Your Microsoft 365 plan is active. Manage in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

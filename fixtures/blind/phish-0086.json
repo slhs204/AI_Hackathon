@@ -26,7 +26,8 @@
         "display_text": "https://1inkedin-upgrade.com",
         "href": "https://1inkedin-upgrade.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "Please process a $10,000 transfer by EOD. Details in attached PDF."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

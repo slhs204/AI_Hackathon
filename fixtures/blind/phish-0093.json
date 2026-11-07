@@ -19,7 +19,12 @@
         "text": "Complete training: [attachment: training.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "training.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

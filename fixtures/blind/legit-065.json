@@ -19,7 +19,8 @@
         "text": "Your monthly Disney+ payment was processed. View receipt online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Your policy details have been updated. Review them in your portal."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

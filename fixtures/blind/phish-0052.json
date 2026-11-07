@@ -19,7 +19,12 @@
         "text": "Download your invoice and settle payment: [attachment: invoice.pdf]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "invoice.pdf"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

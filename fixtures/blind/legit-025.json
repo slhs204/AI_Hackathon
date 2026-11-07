@@ -19,7 +19,8 @@
         "text": "Your profile was updated. Contact support if you didn’t make this change."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

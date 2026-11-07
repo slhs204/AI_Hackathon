@@ -19,7 +19,8 @@
         "text": "A login to your OneDrive was recorded. Review in settings."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

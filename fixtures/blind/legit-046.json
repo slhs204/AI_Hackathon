@@ -19,7 +19,8 @@
         "text": "We’ve updated our security protocols. Review them in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Register for our 2025 tech summit by 6/15."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

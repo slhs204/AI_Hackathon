@@ -19,7 +19,12 @@
         "text": "Install this critical update to avoid system failure: [attachment: patch.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "patch.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

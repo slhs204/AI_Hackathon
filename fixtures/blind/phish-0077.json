@@ -26,7 +26,8 @@
         "display_text": "https://bank-alert.com",
         "href": "https://bank-alert.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

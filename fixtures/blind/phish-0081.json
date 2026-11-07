@@ -26,7 +26,8 @@
         "display_text": "https://partner-scam.com",
         "href": "https://partner-scam.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

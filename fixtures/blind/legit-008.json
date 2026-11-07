@@ -19,7 +19,8 @@
         "text": "Scheduled maintenance on 5/20/2025 from 1 AM to 3 AM. Expect brief downtime."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

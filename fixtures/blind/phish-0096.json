@@ -26,7 +26,8 @@
         "display_text": "https://amaz0n-verify.com",
         "href": "https://amaz0n-verify.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

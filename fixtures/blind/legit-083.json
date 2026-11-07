@@ -19,7 +19,8 @@
         "text": "Your dental appointment is on 5/22 at 2 PM."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

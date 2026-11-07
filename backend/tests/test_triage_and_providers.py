@@ -142,3 +142,60 @@ def test_schemas_are_strict_objects():
     for s in (prompts.ANALYZE_SCHEMA, prompts.CHALLENGE_SCHEMA, prompts.TRIAGE_SCHEMA):
         assert s["type"] == "object" and s["additionalProperties"] is False
         assert set(s["required"]) == set(s["properties"])
+
+
+# --- error handling found in self-review ---------------------------------------
+
+def test_sdk_error_without_credentials_becomes_model_unavailable(monkeypatch):
+    class Client:
+        def __init__(self, **kw):
+            pass
+
+        @property
+        def messages(self):
+            raise TypeError("Could not resolve authentication method")
+
+    mod = types.SimpleNamespace(Anthropic=Client, APIConnectionError=type("E1", (Exception,), {}),
+                                APIStatusError=type("E2", (Exception,), {}))
+    monkeypatch.setitem(sys.modules, "anthropic", mod)
+    monkeypatch.setenv("MODEL_PROVIDER", "anthropic")
+    monkeypatch.setenv("ANTHROPIC_FALLBACKS", "0")
+    with pytest.raises(llm.ModelUnavailable):
+        llm.default_call("triage", prompts.TRIAGE_SCHEMA)("s", "u")
+
+
+def test_no_retry_when_the_failure_is_not_bad_json():
+    calls = []
+
+    def refusing(system, user):
+        calls.append(1)
+        raise llm.ModelUnavailable("model declined the request")
+
+    with pytest.raises(llm.ModelUnavailable):
+        llm.call_json(refusing, "s", "u")
+    assert len(calls) == 1  # a refusal or auth error would fail again and cost money
+
+
+def test_bad_json_is_retried_once():
+    calls = []
+
+    def sloppy(system, user):
+        calls.append(1)
+        return "not json"
+
+    with pytest.raises(llm.ModelOutputInvalid):
+        llm.call_json(sloppy, "s", "u")
+    assert len(calls) == 2
+
+
+def test_post_without_content_length_is_refused(monkeypatch):
+    monkeypatch.setenv("DEMO_API_TOKEN", "dev")
+    import main
+
+    c = TestClient(main.app, headers={"X-Demo-Token": "dev"})
+
+    def chunks():
+        yield json.dumps(INBOX).encode()
+
+    r = c.post("/triage", content=chunks(), headers={"Content-Type": "application/json"})
+    assert r.status_code == 411

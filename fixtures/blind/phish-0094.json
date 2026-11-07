@@ -26,7 +26,8 @@
         "display_text": "https://vip-event.com",
         "href": "https://vip-event.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

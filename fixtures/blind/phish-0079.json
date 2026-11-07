@@ -19,7 +19,12 @@
         "text": "Install update now: [attachment: update.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "update.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "RSVP for the 6/10 team outing by 6/1."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

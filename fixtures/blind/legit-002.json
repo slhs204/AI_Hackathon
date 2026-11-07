@@ -19,7 +19,8 @@
         "text": "Join us for the weekly team meeting tomorrow at 9 AM. Check the calendar for details."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

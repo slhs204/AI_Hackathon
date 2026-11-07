@@ -19,7 +19,8 @@
         "text": "You’ve used 80% of your Dropbox storage. Upgrade or manage files."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

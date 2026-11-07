@@ -19,7 +19,12 @@
         "text": "Apply now for remote work: [attachment: job_offer.doc]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "job_offer.doc"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

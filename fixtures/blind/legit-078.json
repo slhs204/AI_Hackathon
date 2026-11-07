@@ -19,7 +19,8 @@
         "text": "Secure your account with two-factor authentication. Set it up now."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

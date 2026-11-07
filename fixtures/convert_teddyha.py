@@ -13,6 +13,8 @@ HERE = Path(__file__).resolve().parent
 SRC = HERE / "external" / "teddyha"
 OUT = HERE / "blind"
 URL = re.compile(r"https?://[^\s<>\"')\]]+")
+# 33 rows describe attachments inside the body, e.g. "[attachment: invoice.exe]".
+ATTACHMENT = re.compile(r"\[attachment:\s*([^\]]+)\]", re.I)
 
 
 def main() -> None:
@@ -34,6 +36,7 @@ def main() -> None:
                 "subject": row["subject"] or "",
                 "blocks": [{"id": "b1", "text": body}],
                 "links": links,
+                "attachments": [{"name": n.strip()} for n in ATTACHMENT.findall(body)],
             },
             "expected": {"label": "phishing" if row["label"] == "phishing" else "legit", "must_flag": []},
         }

@@ -19,7 +19,8 @@
         "text": "Your June statement is available. Log in to review."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

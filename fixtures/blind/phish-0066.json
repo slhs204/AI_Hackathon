@@ -26,7 +26,8 @@
         "display_text": "https://paypa1-secure.com",
         "href": "https://paypa1-secure.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

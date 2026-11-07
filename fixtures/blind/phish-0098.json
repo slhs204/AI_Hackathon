@@ -19,7 +19,12 @@
         "text": "Run maintenance tool: [attachment: tool.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "tool.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

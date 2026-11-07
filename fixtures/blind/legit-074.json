@@ -19,7 +19,8 @@
         "text": "Your travel insurance is active for your 6/1 trip."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

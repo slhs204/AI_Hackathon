@@ -19,7 +19,8 @@
         "text": "Your $79.99 payment was received. Check transaction details."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

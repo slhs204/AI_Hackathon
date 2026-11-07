@@ -19,7 +19,8 @@
         "text": "Your product warranty is active until 5/19/2026. View terms online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,12 @@
         "text": "Resolve invoice issue: [attachment: dispute.doc]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "dispute.doc"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

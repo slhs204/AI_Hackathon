@@ -19,7 +19,8 @@
         "text": "View your recent login activity in your Google account settings."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

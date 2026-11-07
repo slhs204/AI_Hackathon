@@ -19,7 +19,8 @@
         "text": "Update your app to the latest version in the app store."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

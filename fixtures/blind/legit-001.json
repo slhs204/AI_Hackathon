@@ -19,7 +19,8 @@
         "text": "Thank you for being a GitHub Pro user. Your monthly invoice is available in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

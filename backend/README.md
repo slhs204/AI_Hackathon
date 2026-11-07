@@ -56,7 +56,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `TINKER_MODEL` | The model/checkpoint the team's smoke test proved works (not yet confirmed here) |
 | `TINKER_BASE_URL` | Optional; defaults to Tinker's documented OpenAI-compatible endpoint |
 | `ALLOWED_ORIGINS` | CORS, comma-separated; default Gmail + Outlook web origins. Chrome extension origins are allowed. |
-| `MODEL_TIMEOUT_S`, `MODEL_MAX_TOKENS` | Defaults 30 s and 1500 tokens |
+| `MODEL_TIMEOUT_S`, `MODEL_MAX_TOKENS` | Defaults 30 s and 4000 output tokens (thinking counts toward the cap) |
 
 ## Endpoints
 
@@ -90,6 +90,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 - 23 fixtures: Albert's 10 samples (his rules were written against them, so optimistic), 4 extra cases,
   and 9 harder cases written to probe false alarms and misses. Rules-only today: 13/14 phishing flagged,
   2/7 legitimate emails falsely flagged, 1 miss (a real vendor account asking to move banks).
-  Blind set (Teddyha, 200 emails, MIT): rules catch only 18/100 phishing, 5/100 false alarms. The rules were
-  written for Acme payroll scams, not generic fake-Google/Dropbox mail; that gap is what the model has to close.
+  Blind set (Teddyha, 200 emails, MIT): rules catch 34/100 phishing when attachment names are known, 18/100 in
+  the Gmail view (extensions don't send attachments yet); 5/100 false alarms. The rules were written for Acme
+  payroll scams, not generic fake-Google/Dropbox mail; that gap is what the model has to close.
 - Logging records ids, counts and timing only, never email bodies.

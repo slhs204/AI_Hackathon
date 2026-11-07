@@ -19,7 +19,8 @@
         "text": "Explore our latest products in this month’s newsletter."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

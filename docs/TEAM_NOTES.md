@@ -5,7 +5,9 @@ Things to decide or change together. Numbers come from `backend/eval/results/rul
 ## Blind test (new)
 
 200 emails from the public Teddyha dataset (MIT, `fixtures/external/teddyha`), which nobody on the team wrote or
-tuned rules to. Rules only: **18/100 phishing flagged, 5/100 legitimate falsely flagged** (all 5 for urgency words).
+tuned rules to. Rules only: **34/100 phishing flagged when attachment names are sent, 18/100 without them**
+(today's extensions don't send attachments); **5/100 legitimate falsely flagged** (all 5 for urgency words).
+Sending attachment names from the extension would catch 16 more (malware attachments: 1/13 → 10/13).
 Most misses are generic fake-Google/Dropbox/bank mail with look-alike domains the directory doesn't know. The rules
 were written for Acme payroll scams, so this mostly measures how much the model has to add. Run the same set with
 `--model` once we have a key.
@@ -87,8 +89,8 @@ Gaps found by the eval, still present in v3.1. I did **not** edit `engine.py`; t
    `/api/analyze` (web demo) calls the LLM without a token when a key is set. Fine on a laptop; don't expose it
    publicly with a key configured.
 6. Deployment: `backend/Dockerfile` should work with the `gcloud run deploy --source backend` flow in
-   DEPLOYMENT.md (not tried yet; I have no GCP access). Secrets needed: `TINKER_API_KEY`, `DEMO_API_TOKEN`; plus env `MODEL_PROVIDER=tinker`,
-   `TINKER_MODEL=<value from the smoke test>`.
+   DEPLOYMENT.md (not tried yet; I have no GCP access). Secrets needed: `DEMO_API_TOKEN`, plus `TINKER_API_KEY` (env `MODEL_PROVIDER=tinker`,
+   `TINKER_MODEL=<value from the smoke test>`) or `ANTHROPIC_API_KEY` (env `MODEL_PROVIDER=anthropic`).
 
 ## Open questions
 

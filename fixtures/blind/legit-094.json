@@ -19,7 +19,8 @@
         "text": "Your TikTok account is now verified. Enjoy full access."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

@@ -19,7 +19,8 @@
         "text": "Your flight to New York is confirmed. Check-in opens 24 hours before departure."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

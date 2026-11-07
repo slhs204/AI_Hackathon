@@ -19,7 +19,8 @@
         "text": "Your order #78901 is being processed. Expect shipping soon."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

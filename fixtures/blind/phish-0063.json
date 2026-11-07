@@ -26,7 +26,8 @@
         "display_text": "https://relief-fund.org",
         "href": "https://relief-fund.org"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

@@ -19,7 +19,8 @@
         "text": "Reminder: Weekly sync at 2 PM tomorrow. Agenda shared in Slack."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

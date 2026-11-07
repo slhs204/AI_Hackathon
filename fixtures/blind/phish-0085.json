@@ -19,7 +19,12 @@
         "text": "Review benefits changes: [attachment: benefits.pdf]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "benefits.pdf"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

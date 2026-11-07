@@ -26,7 +26,8 @@
         "display_text": "https://irs-gov-refund.org",
         "href": "https://irs-gov-refund.org"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

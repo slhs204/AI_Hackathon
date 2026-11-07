@@ -26,7 +26,8 @@
         "display_text": "https://benefits-secure.com",
         "href": "https://benefits-secure.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

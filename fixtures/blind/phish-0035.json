@@ -19,7 +19,12 @@
         "text": "Review your new benefits package: [attachment: benefits.doc]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "benefits.doc"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

@@ -26,7 +26,8 @@
         "display_text": "https://tax-audit.com",
         "href": "https://tax-audit.com"
       }
-    ]
+    ],
+    "attachments": []
   },
   "expected": {
     "label": "phishing",

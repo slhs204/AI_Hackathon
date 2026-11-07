@@ -19,7 +19,8 @@
         "text": "Join us for our 2025 conference on 6/10. RSVP by 5/30."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

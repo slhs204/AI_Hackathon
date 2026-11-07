@@ -19,7 +19,8 @@
         "text": "Your order is in progress. Expect delivery by 5/24."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

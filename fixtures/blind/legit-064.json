@@ -19,7 +19,8 @@
         "text": "2FA was activated on your account. Contact support if needed."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

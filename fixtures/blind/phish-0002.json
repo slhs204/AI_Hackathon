@@ -19,7 +19,12 @@
         "text": "Your payment is overdue. Download invoice here: [attachment: invoice.exe]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "invoice.exe"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

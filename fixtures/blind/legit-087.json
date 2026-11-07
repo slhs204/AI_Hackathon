@@ -19,7 +19,8 @@
         "text": "All services are operational. Contact support if needed."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

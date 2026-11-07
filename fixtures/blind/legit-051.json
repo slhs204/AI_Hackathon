@@ -19,7 +19,8 @@
         "text": "Your annual subscription to Adobe Acrobat is confirmed. View details online."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

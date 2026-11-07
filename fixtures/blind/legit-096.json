@@ -19,7 +19,8 @@
         "text": "Review our updated security policies in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

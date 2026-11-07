@@ -19,7 +19,8 @@
         "text": "Please review the Q3 goals document in the team drive."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

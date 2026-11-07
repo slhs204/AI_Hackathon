@@ -19,7 +19,8 @@
         "text": "Join us for the team outing on 6/5. RSVP by 5/28."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

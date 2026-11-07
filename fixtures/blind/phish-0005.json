@@ -19,7 +19,12 @@
         "text": "Delivery issue detected. Update address via: [attachment: shipping_update.zip]"
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": [
+      {
+        "name": "shipping_update.zip"
+      }
+    ]
   },
   "expected": {
     "label": "phishing",

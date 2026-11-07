@@ -19,7 +19,8 @@
         "text": "Enable 2FA to secure your account. Visit settings to set it up."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",

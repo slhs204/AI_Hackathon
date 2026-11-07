@@ -19,7 +19,8 @@
         "text": "Your files were backed up successfully. View status in your account."
       }
     ],
-    "links": []
+    "links": [],
+    "attachments": []
   },
   "expected": {
     "label": "legit",
