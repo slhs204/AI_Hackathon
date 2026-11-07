@@ -1,0 +1,50 @@
+{
+  "_note": "Synthetic demo policies for the fictional company Acme Corp (matches phishhook/directory.json). Version these with the code.",
+  "version": "2026-11-07",
+  "policies": [
+    {
+      "id": "bank_account_change",
+      "title": "Changing an employee's or vendor's bank details",
+      "match": ["bank", "direct deposit", "routing", "account number", "remittance", "iban", "salary account"],
+      "steps": [
+        "Never change bank or direct-deposit details because of an email alone.",
+        "Employees submit the change themselves in the payroll portal.",
+        "For vendors, call the number in the vendor master file, not one in the email.",
+        "A second person approves the change before the next pay run."
+      ],
+      "next_action": "Don't change anything from this email. Call the person or vendor on the number already on file, and have the change approved by a second person."
+    },
+    {
+      "id": "sensitive_data_request",
+      "title": "Requests for W-2s, SSNs, or employee records",
+      "match": ["w-2", "w2", "social security", "ssn", "employee list", "employee records", "employee data", "roster"],
+      "steps": [
+        "Employee tax forms and SSNs are never sent by email.",
+        "Requests from executives still go through an HR ticket.",
+        "Confirm the request by phone with the requester before acting."
+      ],
+      "next_action": "Don't send any employee data. Ask for an HR ticket and confirm by phone using the company directory."
+    },
+    {
+      "id": "payment_approval",
+      "title": "Urgent payments, wires, and gift cards",
+      "match": ["wire", "gift card", "payment", "invoice", "approval", "pay "],
+      "steps": [
+        "Acme never pays anyone with gift cards.",
+        "New or changed payees need two approvers in the finance system.",
+        "An executive asking you to skip approval is a reason to verify, not to hurry."
+      ],
+      "next_action": "Don't pay or buy anything yet. Follow the two-approver process and call the requester on a number from the directory."
+    },
+    {
+      "id": "credentials",
+      "title": "Passwords and sign-in codes",
+      "match": ["password", "credential", "sign in", "login", "log in", "mfa", "verification code"],
+      "steps": [
+        "IT never asks for your password or sign-in code by email.",
+        "Sign in only by typing the portal address yourself."
+      ],
+      "next_action": "Don't sign in from this email. Type the portal address yourself, and report the email to IT."
+    }
+  ]
+}

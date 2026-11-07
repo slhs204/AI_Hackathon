@@ -1,0 +1,405 @@
+{
+ "source": "Phish Drill Arena question bank (builds/2_phish_drill_arena/data/bank.json), fictional company Northwind Dynamics",
+ "questions": [
+  {
+   "id": "t1-ceo-gmail",
+   "category": "ceo_fraud",
+   "answer": "report",
+   "from_name": "David Lee",
+   "from_addr": "davidlee.ceo.office@gmail.com",
+   "subject": "Urgent wire needed",
+   "lesson": "Executive + new payee + secrecy = stop and call the executive on a known number.",
+   "body": "Are you at your desk? I need you to process an urgent wire of $48,500 to a new supplier today.\nI'm in a board meeting and can't take calls. Keep this between us until it's announced.\nDavid"
+  },
+  {
+   "id": "t1-cred-mailbox",
+   "category": "credential",
+   "answer": "report",
+   "from_name": "M365 Mail Admin",
+   "from_addr": "no-reply@0ffice365-secure.com",
+   "subject": "Your mailbox will be suspended in 24 hours",
+   "lesson": "Hover every link: the text is a costume, the real URL is the person.",
+   "body": "Dear user, your mailbox storage verification has failed.\nTo avoid suspension, confirm your password within 24 hours using the secure link below.\nMail Administration Team"
+  },
+  {
+   "id": "t1-att-delta",
+   "category": "attachment",
+   "answer": "report",
+   "from_name": "Delta Print Billing",
+   "from_addr": "billing@deltaprint-invoices.net",
+   "subject": "Invoice #88213 overdue - see attached",
+   "lesson": "Invoices never arrive as .html files.",
+   "body": "Final notice: invoice #88213 is overdue.\nOpen the attached invoice and settle today to avoid collection fees."
+  },
+  {
+   "id": "t1-bank-acme",
+   "category": "bank_change",
+   "answer": "report",
+   "from_name": "Acme Supply Accounts",
+   "from_addr": "accounts@acme-supply-payments.com",
+   "subject": "change of bank account",
+   "lesson": "Bank change by email = call the number already in the vendor master.",
+   "body": "Dear customer, we have changed our bank.\nPlease update the account for all payments effective immediately: First Coastal Bank, acct 99887766, routing 021000999.\nReply to this email to confirm the change."
+  },
+  {
+   "id": "t1-pay-maria",
+   "category": "payroll",
+   "answer": "report",
+   "from_name": "Maria Gomez",
+   "from_addr": "maria.gomez.nw@yahoo.com",
+   "subject": "direct deposit",
+   "lesson": "Payroll changes only through the HR portal \u2014 no exceptions.",
+   "body": "Hi, I changed my bank. Can you update my direct deposit before this Friday's payroll?\nI can't login to the HR portal from my phone. New account: 55102938, routing 011000777.\nThanks, Maria"
+  },
+  {
+   "id": "t1-inv-quickfix",
+   "category": "fake_invoice",
+   "answer": "report",
+   "from_name": "QuickFix IT Solutions",
+   "from_addr": "invoices@quickfix-it-solutions.biz",
+   "subject": "Annual domain renewal - action required",
+   "lesson": "No PO, unknown vendor \u2192 don't pay; report.",
+   "body": "Your annual domain & SSL renewal of $1,890.00 is due.\nFailure to pay will suspend your domain within 48 hours.\nClick Pay now to keep your website online."
+  },
+  {
+   "id": "t1-legit-acme",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Acme Supply AR",
+   "from_addr": "ar@acme-supply.com",
+   "subject": "Invoice INV-4471 for PO-2291",
+   "lesson": "Known vendor + real PO + no bank change = normal invoice.",
+   "body": "Hello Northwind AP team,\nPlease find attached invoice INV-4471 for PO-2291 (240 units, delivered Oct 28), total $12,480.00.\nPayment terms Net 30 to the same account on file. Thank you for your business!"
+  },
+  {
+   "id": "t1-legit-bluepeak",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "BluePeak Logistics",
+   "from_addr": "billing@bluepeak-logistics.com",
+   "subject": "October freight statement",
+   "lesson": "Routine, matching, nothing changed.",
+   "body": "Your October freight statement is ready: 14 shipments, total $3,215.40.\nAs usual, view and download it from our billing portal."
+  },
+  {
+   "id": "t1-verify-harbor",
+   "category": "bank_change",
+   "answer": "verify",
+   "from_name": "Jordan Ortiz, Harbor Legal",
+   "from_addr": "j.ortiz@harborlegal.com",
+   "subject": "New remittance details from December",
+   "lesson": "Real domain is not proof. Hold and call the vendor-master number.",
+   "body": "Our firm is moving banks next month.\nNew remittance details are attached. Please update your records before our next invoice.\nBest, Jordan Ortiz \u2014 Accounts, Harbor Legal LLP"
+  },
+  {
+   "id": "t1-cred-paystub",
+   "category": "credential",
+   "answer": "report",
+   "from_name": "Northwind Payroll",
+   "from_addr": "payroll@northwinddyn-payroll.com",
+   "subject": "Your pay stub is ready",
+   "lesson": "Go to the portal yourself; never via the email link.",
+   "body": "Your November pay stub is available.\nSign in with your company email and password to view it."
+  },
+  {
+   "id": "t1-legit-amy",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Amy Chen (CFO)",
+   "from_addr": "amy.chen@northwinddyn.com",
+   "subject": "Month-end: approved batch APR-5510",
+   "lesson": "Internal + existing approval + normal system = proceed.",
+   "body": "Hi team, month-end close reminder.\nPlease pay the approved invoices in batch APR-5510 in the AP system by Thursday.\nThanks! Amy"
+  },
+  {
+   "id": "t2-bank-acme1",
+   "category": "bank_change",
+   "answer": "report",
+   "from_name": "Acme Supply AR",
+   "from_addr": "ar@acme-supp1y.com",
+   "subject": "INV-4502 / PO-2318 - remittance update",
+   "lesson": "Read the domain letter by letter. 1 \u2260 l.",
+   "body": "Hello Northwind AP team,\nThank you for PO-2318. Invoice INV-4502 for $48,700.00 is attached.\nDue to an audit of our banking arrangements, remittances should now go to our account at Summit Bank, ending 4410.\nPlease do not call our old line \u2014 it is being retired this week."
+  },
+  {
+   "id": "t2-ceo-acq",
+   "category": "ceo_fraud",
+   "answer": "report",
+   "from_name": "David Lee",
+   "from_addr": "david.lee@northwind-dyn.com",
+   "subject": "Confidential - quick favor",
+   "lesson": "Secret deal + outside counsel + no call = CEO fraud script.",
+   "body": "Quick favor \u2014 I'm finalizing a confidential acquisition.\nOur outside counsel will send wiring instructions this afternoon. Treat it as priority and don't discuss with the team until we announce.\nSent from my iPhone"
+  },
+  {
+   "id": "t2-cred-docusafe",
+   "category": "credential",
+   "answer": "report",
+   "from_name": "DocuSafe",
+   "from_addr": "dse@docusafe-notify.com",
+   "subject": "Amy Chen shared \"Q4 Vendor Payments.xlsx\" with you",
+   "lesson": "Read a URL right-to-left from the first single slash: the last domain owns it.",
+   "body": "Amy Chen has shared a document with you via DocuSafe.\nReview Document\nSign in with your Northwind email to access the file."
+  },
+  {
+   "id": "t2-att-xlsm",
+   "category": "attachment",
+   "answer": "report",
+   "from_name": "BluePeak Logistics",
+   "from_addr": "billing@bluepeak-logistics.co",
+   "subject": "Revised freight statement (October)",
+   "lesson": "Macros from email = never enable.",
+   "body": "Please see the revised October statement attached.\nIf the totals don't show, click Enable Editing and Enable Content."
+  },
+  {
+   "id": "t2-inv-cobalt",
+   "category": "fake_invoice",
+   "answer": "report",
+   "from_name": "Cobalt Cloud Billing",
+   "from_addr": "billing@cobaltcloud-billing.io",
+   "subject": "Invoice CC-7741 - additional seats",
+   "lesson": "Check the invoice against the PO and the contract.",
+   "body": "Invoice CC-7741: 120 additional seats, $9,840.00.\nNote: we moved to a new remittance account; details on the invoice.\nQuestions? Reply to this email."
+  },
+  {
+   "id": "t2-pay-payflow",
+   "category": "payroll",
+   "answer": "report",
+   "from_name": "PayFlow HR Support",
+   "from_addr": "support@payflow-hr-support.com",
+   "subject": "Payroll run #1107 failed - action needed before 5 PM",
+   "lesson": "Payroll alarms: open the portal yourself.",
+   "body": "Your payroll run #1107 failed due to an expired admin session.\nRe-enter your admin credentials to release payroll before 5 PM, or employees will not be paid today."
+  },
+  {
+   "id": "t2-verify-delta",
+   "category": "bank_change",
+   "answer": "verify",
+   "from_name": "Delta Print Orders",
+   "from_addr": "orders@deltaprint.com",
+   "subject": "Order 7781 - updated ACH form",
+   "lesson": "Right domain, wrong department, bank change \u2192 verify.",
+   "body": "Hi, thanks for Order 7781 \u2014 it ships Monday.\nOur finance team asked us to send the updated ACH form for future payments (attached).\nHave a great week, Kim"
+  },
+  {
+   "id": "t2-legit-amy",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Amy Chen (CFO)",
+   "from_addr": "amy.chen@northwinddyn.com",
+   "subject": "Approved: Harbor Legal HL-2210",
+   "lesson": "Approval in the system, not just in an email.",
+   "body": "Approved \u2014 please release payment for Harbor Legal invoice HL-2210 ($8,450).\nApproval is logged in the AP system as APR-5531."
+  },
+  {
+   "id": "t2-legit-delta",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Delta Print AR",
+   "from_addr": "ar@deltaprint.com",
+   "subject": "Invoice DP-9902 / PO-2330",
+   "lesson": "Normal invoice.",
+   "body": "Invoice DP-9902 for PO-2330 attached, $2,740.00, Net 30.\nRemit to the account on file. Thanks!"
+  },
+  {
+   "id": "t2-legit-payflow",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "PayFlow HR",
+   "from_addr": "notices@payflow-hr.com",
+   "subject": "Payroll run #1108 completed",
+   "lesson": "Notifications that ask for nothing are low risk.",
+   "body": "Payroll run #1108 completed. Funding of $182,400 will be debited per schedule.\nNo action required. View the summary in the portal."
+  },
+  {
+   "id": "t2-legit-cobalt",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Cobalt Cloud",
+   "from_addr": "billing@cobaltcloud.io",
+   "subject": "Renewal receipt - 40 seats",
+   "lesson": "Matches contract, nothing changed.",
+   "body": "Your annual renewal for 40 seats ($4,800.00) will be charged to the card on file per contract CC-2025-11.\nNo changes to your plan or billing details."
+  },
+  {
+   "id": "t2-verify-lisa",
+   "category": "payroll",
+   "answer": "verify",
+   "from_name": "Lisa Park (HR)",
+   "from_addr": "lisa.park@northwinddyn.com",
+   "subject": "Maria's direct deposit",
+   "lesson": "Second-hand bank changes: confirm with the employee directly.",
+   "body": "Maria Gomez stopped by and asked me to update her direct deposit \u2014 can you change it in payroll today?\nNew account ending 2938. Thanks!"
+  },
+  {
+   "id": "t3-hijack-acme",
+   "category": "thread_hijack",
+   "answer": "verify",
+   "from_name": "Acme Supply AR",
+   "from_addr": "ar@acme-supply.com",
+   "subject": "RE: INV-4519 / PO-2342 - payment timing",
+   "lesson": "Real mailbox + real thread can still be hijacked. Bank change \u2192 call back.",
+   "body": "Hi Jordan, as discussed on our call, please use our new receiving account for this one (ending 7720) \u2014 our main account is frozen during the audit.\nEverything else stays the same. Appreciate the help!\n> On Nov 3, Jordan (Northwind AP) wrote:\n> Thanks \u2014 INV-4519 is scheduled for Friday's run."
+  },
+  {
+   "id": "t3-hijack-bluepeak",
+   "category": "thread_hijack",
+   "answer": "report",
+   "from_name": "BluePeak Logistics",
+   "from_addr": "billing@bluepeak-logistics.com",
+   "subject": "RE: October freight statement",
+   "lesson": "Always compare From AND Reply-To.",
+   "body": "Thanks Jordan. Quick update: going forward please remit to our new account at Harbor Trust (details attached).\nReply here once updated so we can close the ticket.\n> On Nov 2, Jordan (Northwind AP) wrote:\n> Received, will pay with the next run."
+  },
+  {
+   "id": "t3-ceo-spoof",
+   "category": "ceo_fraud",
+   "answer": "report",
+   "from_name": "David Lee",
+   "from_addr": "david.lee@northwinddyn.com",
+   "subject": "Harbor settlement - wire before 2 PM",
+   "lesson": "A perfect From line can be forged; check Authentication-Results.",
+   "body": "Amy is out today. Treasury needs the Harbor Legal settlement wired before the 2 PM cutoff \u2014 $185,000.\nInstructions attached. I'll sign the approval form when I'm back."
+  },
+  {
+   "id": "t3-homoglyph-cobalt",
+   "category": "bank_change",
+   "answer": "report",
+   "from_name": "Cobalt Cloud",
+   "from_addr": "billing@cobaItcloud.io",
+   "subject": "Annual renewal - remittance update",
+   "lesson": "Homoglyphs: copy the domain into the vendor master search instead of trusting your eyes.",
+   "body": "Your annual renewal is unchanged at $14,400.\nFollowing our merger with Strata Pay, our remittance address has changed. Updated details are in the billing portal."
+  },
+  {
+   "id": "t3-subdomain-delta",
+   "category": "fake_invoice",
+   "answer": "report",
+   "from_name": "Delta Print AR",
+   "from_addr": "ar@deltaprint.com-billing.net",
+   "subject": "Invoice DP-9931 / PO-2345",
+   "lesson": "Read domains from the right.",
+   "body": "Invoice DP-9931 for PO-2345 is ready, $6,380.00.\nView statement and pay online."
+  },
+  {
+   "id": "t3-pay-lisa",
+   "category": "payroll",
+   "answer": "report",
+   "from_name": "Lisa Park (HR)",
+   "from_addr": "lisa.park@northwinddyn.com",
+   "subject": "Updated direct deposit - Maria Gomez",
+   "lesson": "Even internal senders: check Reply-To.",
+   "body": "Per the attached updated direct deposit form from Maria Gomez, please apply it to this Friday's run.\nHR portal is down for maintenance, so please just update it directly."
+  },
+  {
+   "id": "t3-qr-mfa",
+   "category": "credential",
+   "answer": "report",
+   "from_name": "Northwind IT Service Desk",
+   "from_addr": "servicedesk@northwinddyn-it.com",
+   "subject": "Action required: MFA re-enrollment",
+   "lesson": "QR codes are links you can't hover.",
+   "body": "As part of our security upgrade, all finance users must re-register your MFA device by end of day.\nScan the QR code in the attachment with your phone camera."
+  },
+  {
+   "id": "t3-verify-amy",
+   "category": "ceo_fraud",
+   "answer": "verify",
+   "from_name": "Amy Chen (CFO)",
+   "from_addr": "amy.chen@northwinddyn.com",
+   "subject": "new vendor today",
+   "lesson": "Genuine sender, abnormal request \u2192 verify on a known channel.",
+   "body": "Can you add a new vendor 'Strata Advisory' and pay their retainer of $22,000 today?\nThe contract is in my inbox, I'll forward later."
+  },
+  {
+   "id": "t3-att-htm",
+   "category": "attachment",
+   "answer": "report",
+   "from_name": "Acme Supply AR",
+   "from_addr": "ar@acme-supply.com",
+   "subject": "Remittance advice - payment received",
+   "lesson": "Trusted sender + .htm + sign-in = compromised vendor.",
+   "body": "Thank you for your payment. Your remittance advice is attached.\nSign in with your Microsoft account to view the secure document."
+  },
+  {
+   "id": "t3-legit-harbor",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Harbor Legal Billing",
+   "from_addr": "billing@harborlegal.com",
+   "subject": "URGENT: Invoice HL-2244 due Friday",
+   "lesson": "Urgent \u2260 phish. Look for what changed \u2014 here, nothing.",
+   "body": "Friendly but urgent reminder: invoice HL-2244 ($6,900) per our engagement letter is due Friday.\nPlease pay via the account on file. Thank you!"
+  },
+  {
+   "id": "t3-legit-david",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "David Lee",
+   "from_addr": "david.lee@northwinddyn.com",
+   "subject": "Q3 vendor payments approved",
+   "lesson": "CEO name \u2260 fraud. Check what's being asked.",
+   "body": "Thanks team \u2014 Q3 vendor payments are approved in the AP system (batch APR-5602).\nProceed with the scheduled run."
+  },
+  {
+   "id": "t3-legit-bluepeak",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "BluePeak Logistics",
+   "from_addr": "billing@bluepeak-logistics.com",
+   "subject": "RE: October statement - corrected total",
+   "lesson": "A thread reply that answers your question and changes nothing is fine.",
+   "body": "Hi Jordan, apologies \u2014 corrected October statement attached. New total $3,190.00 (one duplicate shipment removed).\nSame account on file as always.\n> On Nov 4, Jordan (Northwind AP) wrote:\n> Shipment 8812 looks duplicated?"
+  },
+  {
+   "id": "t3-legit-acme-price",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "Acme Supply AR",
+   "from_addr": "ar@acme-supply.com",
+   "subject": "2027 price list + INV-4530",
+   "lesson": "Normal.",
+   "body": "Attached: our 2027 price list and invoice INV-4530 for PO-2350 ($5,420.00).\nNo change to payment details \u2014 keep using the account on file."
+  },
+  {
+   "id": "t1-data-w2",
+   "category": "data_request",
+   "answer": "report",
+   "from_name": "David Lee",
+   "from_addr": "ceo.davidlee@outlook.com",
+   "subject": "Need W-2s for all staff",
+   "lesson": "Employee data never leaves via email on request \u2014 verify in person.",
+   "body": "I need a PDF of all employee W-2 forms for 2026 for a meeting with the auditors in an hour.\nSend them straight to me here, don't loop in HR."
+  },
+  {
+   "id": "t2-offcycle-amy",
+   "category": "payroll",
+   "answer": "report",
+   "from_name": "Amy Chen (CFO)",
+   "from_addr": "amy.chen@northwinddyn.com",
+   "subject": "Off-cycle payment - consultant",
+   "lesson": "Never skip dual approval because of an email.",
+   "body": "Please run an off-cycle payroll payment of $18,750 to our new contractor today, details below.\nI'm traveling, so skip the second approval this time \u2014 I'll sign off on Monday."
+  },
+  {
+   "id": "t3-data-roster",
+   "category": "data_request",
+   "answer": "verify",
+   "from_name": "Lisa Park (HR)",
+   "from_addr": "lisa.park@northwinddyn.com",
+   "subject": "Benefits audit - employee roster",
+   "lesson": "Internal sender, sensitive data, outside recipient \u2192 verify with HR by phone.",
+   "body": "The benefits broker needs an updated employee roster with SSNs and home addresses for the open-enrollment audit.\nCould you export it from payroll and email it to them at enroll@benefits-partner.net?"
+  },
+  {
+   "id": "t2-legit-payroll-calendar",
+   "category": "legit",
+   "answer": "pay",
+   "from_name": "PayFlow HR",
+   "from_addr": "notices@payflow-hr.com",
+   "subject": "Holiday payroll calendar",
+   "lesson": "Informational notices that ask for nothing are fine.",
+   "body": "Reminder: the Thanksgiving payroll run will process one day early, on Wednesday.\nNo action needed if your approvals are complete in the portal."
+  }
+ ]
+}

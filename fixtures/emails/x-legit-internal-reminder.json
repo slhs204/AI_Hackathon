@@ -1,0 +1,38 @@
+{
+  "source": "handwritten",
+  "title": "Reminder: timesheets due Thursday",
+  "request": {
+    "email_id": "x-legit-internal-reminder",
+    "sender": {
+      "name": "Robert Chen",
+      "address": "robert.chen@acme-corp.com"
+    },
+    "subject": "Reminder: timesheets due Thursday",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi team, a reminder that timesheets for this period are due Thursday at noon."
+      },
+      {
+        "id": "b2",
+        "text": "You can submit them in the usual portal: portal.acme-corp.com"
+      },
+      {
+        "id": "b3",
+        "text": "Thanks, Robert"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b2",
+        "display_text": "portal.acme-corp.com",
+        "href": "https://portal.acme-corp.com/timesheets"
+      }
+    ]
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

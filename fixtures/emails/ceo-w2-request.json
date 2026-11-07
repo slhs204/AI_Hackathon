@@ -1,0 +1,37 @@
+{
+  "source": "albert-sample:03_ceo-w2-request.eml",
+  "title": "CEO asks for all W-2s",
+  "request": {
+    "email_id": "ceo-w2-request",
+    "sender": {
+      "name": "Jane Whitfield CEO",
+      "address": "jane.whitfield@acmecorp-hq.com"
+    },
+    "subject": "Employee W-2 copies needed today",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi,"
+      },
+      {
+        "id": "b2",
+        "text": "I need copies of all employee W-2s and the employee list with Social Security numbers for a review with our auditors. Please send them as one PDF to me before 5pm."
+      },
+      {
+        "id": "b3",
+        "text": "This is time-sensitive and confidential. Skip the usual approval, I have already cleared it with HR."
+      },
+      {
+        "id": "b4",
+        "text": "Thanks,\nJane Whitfield\nChief Executive Officer, Acme Corp"
+      }
+    ],
+    "links": [],
+    "reply_to": "jane.whitfield.ceo@gmail.com",
+    "authentication_results": "mx.acme-corp.com; spf=pass (sender domain acmecorp-hq.com) smtp.mailfrom=acmecorp-hq.com; dkim=pass header.d=acmecorp-hq.com; dmarc=none (p=REJECT) header.from=acmecorp-hq.com"
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

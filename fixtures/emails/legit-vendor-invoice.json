@@ -1,0 +1,48 @@
+{
+  "source": "albert-sample:08_legit-vendor-invoice.eml",
+  "title": "Real Globex invoice",
+  "request": {
+    "email_id": "legit-vendor-invoice",
+    "sender": {
+      "name": "Globex Supply Billing",
+      "address": "billing@globex-supply.com"
+    },
+    "subject": "Invoice GS-20944 for October deliveries",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hello Acme Accounts Payable,"
+      },
+      {
+        "id": "b2",
+        "text": "Please find attached invoice GS-20944 for October deliveries ($8,420.00), net 30 terms, due December 2."
+      },
+      {
+        "id": "b3",
+        "text": "Payment instructions are unchanged from your vendor file. You can also see all open invoices in our customer portal: portal.globex-supply.com."
+      },
+      {
+        "id": "b4",
+        "text": "Thank you,\nLena Ortiz\nBilling, Globex Supply\n+1 (919) 555-0142"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b3",
+        "display_text": "portal.globex-supply.com",
+        "href": "https://portal.globex-supply.com/invoices/GS-20944"
+      }
+    ],
+    "authentication_results": "mx.acme-corp.com; spf=pass (sender domain globex-supply.com) smtp.mailfrom=globex-supply.com; dkim=pass header.d=globex-supply.com; dmarc=pass (p=REJECT) header.from=globex-supply.com",
+    "attachments": [
+      {
+        "name": "GS-20944.pdf"
+      }
+    ]
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

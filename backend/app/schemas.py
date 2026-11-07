@@ -1,0 +1,183 @@
+"""Request and response shapes for the extension.
+
+Follows the contract already used by Albert's prototype and extension
+(`phishhook.engine.analyze_contract`). Fields marked "added" are extras the
+extension may use or ignore. Limits exist so one request cannot make the
+backend do unbounded work or spend.
+"""
+
+from typing import Literal, Optional
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+MAX_BLOCKS = 200
+MAX_LINKS = 50
+MAX_ATTACHMENTS = 20
+MAX_BLOCK_CHARS = 4_000
+MAX_TOTAL_CHARS = 20_000
+MAX_CONTEXT_CHARS = 1_000
+
+# Categories produced by the rule engine (CONTRACT_CATEGORY) plus the ones
+# this backend adds.
+RULE_CATEGORIES = (
+    "sender_impersonation",
+    "reply_to_mismatch",
+    "authentication_failure",
+    "authority_impersonation",
+    "deceptive_link",
+    "risky_attachment",
+    "urgency_pressure",
+    "payment_or_data_request",
+)
+MODEL_CATEGORIES = RULE_CATEGORIES + ("manipulation_cue",)
+
+METADATA_FIELDS = ("sender.name", "sender.address", "reply_to", "subject", "authentication_results", "attachments")
+
+
+class _In(BaseModel):
+    # Unknown fields are ignored, so an older or newer extension still works.
+    model_config = ConfigDict(extra="ignore")
+
+
+class Sender(_In):
+    name: str = Field(default="", max_length=200)
+    address: str = Field(default="", max_length=320)
+
+
+class Block(_In):
+    id: str = Field(min_length=1, max_length=40)
+    text: str = Field(max_length=MAX_BLOCK_CHARS)
+
+
+class Link(_In):
+    id: str = Field(min_length=1, max_length=40)
+    block_id: Optional[str] = Field(default=None, max_length=40)
+    display_text: str = Field(default="", max_length=500)
+    href: str = Field(default="", max_length=2_000)
+
+
+class Attachment(_In):
+    name: str = Field(max_length=255)
+
+
+class AnalyzeRequest(_In):
+    email_id: Optional[str] = Field(default=None, max_length=200)
+    sender: Sender = Field(default_factory=Sender)
+    subject: str = Field(default="", max_length=500)
+    blocks: list[Block] = Field(max_length=MAX_BLOCKS)
+    links: list[Link] = Field(default_factory=list, max_length=MAX_LINKS)
+    reply_to: str = Field(default="", max_length=320)
+    authentication_results: str = Field(default="", max_length=2_000)
+    attachments: list[Attachment] = Field(default_factory=list, max_length=MAX_ATTACHMENTS)
+
+    @model_validator(mode="after")
+    def _check_ids_and_size(self) -> "AnalyzeRequest":
+        block_ids = [b.id for b in self.blocks]
+        if len(set(block_ids)) != len(block_ids):
+            raise ValueError("block ids must be unique")
+        link_ids = [link.id for link in self.links]
+        if len(set(link_ids)) != len(link_ids):
+            raise ValueError("link ids must be unique")
+        total = len(self.subject) + sum(len(b.text) for b in self.blocks)
+        if total > MAX_TOTAL_CHARS:
+            raise ValueError(f"email text is longer than {MAX_TOTAL_CHARS} characters")
+        return self
+
+    def block(self, block_id: Optional[str]) -> Optional[Block]:
+        return next((b for b in self.blocks if b.id == block_id), None)
+
+    def link(self, link_id: Optional[str]) -> Optional[Link]:
+        return next((link for link in self.links if link.id == link_id), None)
+
+
+class Evidence(BaseModel):
+    """kind=text: block_id + quote. kind=link: link_id. kind=metadata: field + value."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    kind: Literal["text", "link", "metadata"]
+    block_id: Optional[str] = None
+    quote: Optional[str] = Field(default=None, max_length=500)
+    link_id: Optional[str] = None
+    field: Optional[str] = None
+    value: Optional[str] = Field(default=None, max_length=500)
+
+    @model_validator(mode="after")
+    def _shape(self) -> "Evidence":
+        if self.kind == "text" and not (self.block_id and self.quote):
+            raise ValueError("text evidence needs block_id and quote")
+        if self.kind == "link" and not self.link_id:
+            raise ValueError("link evidence needs link_id")
+        if self.kind == "metadata" and not (self.field and self.value):
+            raise ValueError("metadata evidence needs field and value")
+        return self
+
+
+class Finding(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str
+    category: str
+    evidence: Evidence
+    explanation: str = Field(max_length=800)
+    next_action: str = Field(max_length=800)
+    points: int = 0
+    # added
+    source: Literal["rules", "tool", "model"] = "rules"
+    evidence_verified: bool = True
+    policy_id: Optional[str] = None
+
+
+class Policy(BaseModel):
+    id: str
+    title: str
+    steps: list[str]
+
+
+class PracticeQuestion(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str
+    category: str
+    answer: str
+    from_name: str
+    from_addr: str
+    subject: str
+    body: str
+    lesson: str
+
+
+class AnalyzeResponse(BaseModel):
+    analysis_id: str
+    email_id: Optional[str]
+    assessment: Literal["insufficient_evidence", "needs_verification", "no_obvious_indicators"]
+    analysis_complete: bool
+    risk_score: int
+    risk_level: str
+    payroll_weighted: bool
+    scam_type: str
+    findings: list[Finding]
+    recommended_actions: list[str]
+    limitations: list[str]
+    # added
+    summary: str = ""
+    policies: list[Policy] = Field(default_factory=list)
+    practice: Optional[PracticeQuestion] = None
+    model: str
+    elapsed_ms: int
+
+
+class ChallengeRequest(_In):
+    email: AnalyzeRequest
+    finding: Finding
+    user_context: str = Field(min_length=1, max_length=MAX_CONTEXT_CHARS)
+
+
+class ChallengeResponse(BaseModel):
+    finding_id: str
+    # A challenge can lower concern but never clears a finding by itself.
+    assessment: Literal["still_concerning", "less_concerning"]
+    message: str
+    still_unresolved: str
+    next_action: str
+    model: str

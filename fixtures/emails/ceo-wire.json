@@ -1,0 +1,41 @@
+{
+  "source": "albert-sample:02_ceo-wire.eml",
+  "title": "CEO urgent wire",
+  "request": {
+    "email_id": "ceo-wire",
+    "sender": {
+      "name": "Jane Whitfield",
+      "address": "jane.whitfield@acme-c0rp.com"
+    },
+    "subject": "Quick favor - confidential",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi Payroll team,"
+      },
+      {
+        "id": "b2",
+        "text": "Are you at your desk? I'm in a board meeting and can't talk, but I need you to process a wire of $48,500 today for the Hartwell acquisition deposit. Legal has already approved it."
+      },
+      {
+        "id": "b3",
+        "text": "Keep this confidential until we announce on Monday — do not discuss it with anyone else in finance."
+      },
+      {
+        "id": "b4",
+        "text": "I'll send the beneficiary details as soon as you confirm. Please handle this ASAP."
+      },
+      {
+        "id": "b5",
+        "text": "Jane\nSent from my iPhone"
+      }
+    ],
+    "links": [],
+    "reply_to": "jwhitfield.office@proton.me",
+    "authentication_results": "mx.acme-corp.com; spf=softfail (sender domain acme-c0rp.com) smtp.mailfrom=acme-c0rp.com; dkim=fail header.d=acme-c0rp.com; dmarc=fail (p=REJECT) header.from=acme-c0rp.com"
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}
