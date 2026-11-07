@@ -56,12 +56,11 @@ def require_token(x_demo_token: str = Header(default="")) -> None:
         raise HTTPException(status_code=401, detail="invalid or missing X-Demo-Token")
 
 
-_SCHEMAS = {"analyze": prompts.ANALYZE_SCHEMA, "challenge": prompts.CHALLENGE_SCHEMA, "triage": prompts.TRIAGE_SCHEMA}
-
-
 def model_for_request(task: str):
     """Haiku for /triage, Sonnet for /analyze and /challenge (with MODEL_PROVIDER=anthropic)."""
-    return llm.default_call(task, _SCHEMAS[task])
+    schema = {"analyze": prompts.analyze_prompt()[1], "challenge": prompts.CHALLENGE_SCHEMA,
+              "triage": prompts.TRIAGE_SCHEMA}[task]
+    return llm.default_call(task, schema)
 
 
 @app.get("/health")

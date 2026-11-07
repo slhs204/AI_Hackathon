@@ -75,16 +75,26 @@ def _level(score: int) -> str:
     return "high" if score >= 70 else "medium" if score >= 30 else "low"
 
 
-def _model_findings(raw: dict, email: AnalyzeRequest) -> tuple[list[Finding], int]:
-    """Validate the model's extra findings. Returns (verified, discarded_count)."""
+def _model_findings(raw: dict, email: AnalyzeRequest, has_rule_findings: bool) -> tuple[list[Finding], int]:
+    """Validate the model's extra findings. Returns (verified, discarded_count).
+
+    Prompt v2 adds a confidence per sign and an email_type. To keep false alarms
+    down: low-confidence signs are dropped, and when the model itself calls the
+    email a routine notification and the rules found nothing, only high-confidence
+    signs are kept. Rule findings are never affected. Without these fields
+    (prompt v1, Tinker without a schema) every verified sign is kept as before."""
     items = raw.get("extra_findings")
     if not isinstance(items, list):
         return [], 0
+    routine = raw.get("email_type") == "routine_notification" and not has_rule_findings
     verified, discarded = [], 0
     for item in items[:MAX_MODEL_FINDINGS]:
         if not isinstance(item, dict):
             discarded += 1
             continue
+        confidence = item.get("confidence")  # absent with prompt v1
+        if confidence == "low" or (routine and confidence is not None and confidence != "high"):
+            continue  # weak sign: not a hook piece (not counted as a failed quote either)
         quote = str(item.get("quote", "")).strip()
         block_id = str(item.get("block_id", "")).strip()
         if len(quote) < 3 or not block_id:
@@ -193,8 +203,9 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
     summary, model_name, model_extra, discarded = "", "rules-only", [], 0
     if model_call is not None:
         try:
-            raw, _ = llm.call_json(model_call, prompts.ANALYZE_SYSTEM, prompts.analyze_user(email, findings + extras))
-            model_extra, discarded = _model_findings(raw, email)
+            system, _schema = prompts.analyze_prompt()
+            raw, _ = llm.call_json(model_call, system, prompts.analyze_user(email, findings + extras))
+            model_extra, discarded = _model_findings(raw, email, bool(findings or extras))
             summary = str(raw.get("summary", "")).strip()[:600]
             _apply_ai_explanations(raw, findings + extras)
             model_name = llm.model_label("analyze")

@@ -14,6 +14,7 @@ real-world accuracy or about learning.
 
 import argparse
 import json
+import os
 import statistics
 import sys
 import time
@@ -68,8 +69,8 @@ def _one(path: Path, view: str, model_call) -> dict:
     }
 
 
-def run(fixtures: Path, view: str, model_call, workers: int = 1) -> list[dict]:
-    paths = sorted(fixtures.glob("*.json"))
+def run(fixtures: Path, view: str, model_call, workers: int = 1, only: set | None = None) -> list[dict]:
+    paths = sorted(p for p in fixtures.glob("*.json") if only is None or p.stem in only)
     with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
         futures = [pool.submit(_one, p, view, model_call) for p in paths]
         rows = []
@@ -99,7 +100,7 @@ def summarize(rows: list[dict]) -> dict:
 
 
 def to_markdown(results: dict) -> str:
-    out = [f"# Eval report ({results['fixture_set']}) — {results['generated_at']}", "", f"Model: `{results['model']}`. "
+    out = [f"# Eval report ({results['fixture_set']}) — {results['generated_at']}", "", f"Model: `{results['model']}`, prompt `{results.get('prompt', '-')}`, split `{results.get('split', 'all')}`. "
            f"{results['n_cases']} synthetic cases. Counts only; not a real-world accuracy claim.", ""]
     out += ["| metric | " + " | ".join(results["views"]) + " |", "|---|" + "---|" * len(results["views"])]
     for key in next(iter(results["summary"].values())):
@@ -119,18 +120,32 @@ def main() -> None:
     ap.add_argument("--set", choices=sorted(FIXTURE_SETS), default="core", help="which fixtures to run")
     ap.add_argument("--views", default="full,gmail", help="comma list of views: full, gmail")
     ap.add_argument("--workers", type=int, default=1, help="parallel requests (model runs only)")
+    ap.add_argument("--split", choices=["all", "tune", "test"], default="all",
+                    help="blind set only: tune prompts on 'tune', report from one run on 'test'")
+    ap.add_argument("--prompt", choices=["v1", "v2"], default="", help="analyze prompt version (default: PROMPT_VERSION or v1)")
+    ap.add_argument("--analysis-model", default="", help="override ANTHROPIC_ANALYSIS_MODEL, e.g. claude-haiku-5-5")
+    ap.add_argument("--tag", default="", help="suffix for the result file names")
     args = ap.parse_args()
-    model_call = llm.default_call("analyze", prompts.ANALYZE_SCHEMA) if args.model else None
+    if args.prompt:
+        os.environ["PROMPT_VERSION"] = args.prompt
+    if args.analysis_model:
+        os.environ["ANTHROPIC_ANALYSIS_MODEL"] = args.analysis_model
+    model_call = llm.default_call("analyze", prompts.analyze_prompt()[1]) if args.model else None
     if args.model and model_call is None:
         sys.exit("--model needs MODEL_PROVIDER (tinker or anthropic) and that provider's key/model settings")
 
     # "full" keeps Reply-To / auth results / attachments; "gmail" drops them, as the extensions can't read them yet.
     views = [v for v in args.views.split(",") if v in ("full", "gmail")] or ["full", "gmail"]
-    rows = {v: run(FIXTURE_SETS[args.set], v, model_call, args.workers if model_call else 1) for v in views}
+    only = None
+    if args.set == "blind" and args.split != "all":
+        only = set(json.loads((BACKEND.parent / "fixtures" / "blind_split.json").read_text())[args.split])
+    rows = {v: run(FIXTURE_SETS[args.set], v, model_call, args.workers if model_call else 1, only) for v in views}
     results = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "fixture_set": args.set,
         "model": llm.model_label("analyze") if model_call else "rules-only",
+        "prompt": os.environ.get("PROMPT_VERSION", "v1") if model_call else "-",
+        "split": args.split,
         "n_cases": len(rows[views[0]]),
         "views": views,
         "summary": {v: summarize(rows[v]) for v in views},
@@ -138,6 +153,7 @@ def main() -> None:
     }
     RESULTS.mkdir(parents=True, exist_ok=True)
     stem = ("model" if model_call else "rules-only") + ("" if args.set == "core" else f"-{args.set}")
+    stem += ("" if args.split == "all" else f"-{args.split}") + (f"-{args.tag}" if args.tag else "")
     (RESULTS / f"{stem}.json").write_text(json.dumps(results, indent=2) + "\n")
     (RESULTS / f"{stem}.md").write_text(to_markdown(results))
     print(to_markdown(results))

@@ -218,3 +218,51 @@ def test_model_explanations_become_ai_explanation():
     rt = [f for f in r.findings if f.category == "reply_to_mismatch"]
     assert rt and all(f.ai_explanation == "Your reply would go to a stranger." for f in rt)
     assert r.ai_summary == "s"
+
+
+# --- prompt v2 gating (fewer false alarms) ------------------------------------------
+
+def _sign(conf, quote="View transaction details online"):
+    return {"category": "manipulation_cue", "block_id": "b1", "quote": quote, "requested_action": "open details",
+            "confidence": conf, "explanation": "x", "next_action": "y"}
+
+
+ROUTINE = AnalyzeRequest.model_validate({
+    "email_id": "r1", "sender": {"name": "", "address": "billing@paypal.com"}, "subject": "Payment Confirmation",
+    "blocks": [{"id": "b1", "text": "Your payment of $99.99 was received. View transaction details online."}]})
+
+
+def test_low_confidence_signs_are_dropped():
+    r = analyze(ROUTINE, fake_model(json.dumps({"email_type": "needs_check", "extra_findings": [_sign("low")]})))
+    assert r.findings == [] and r.assessment == "no_obvious_indicators"
+
+
+def test_routine_email_keeps_only_high_confidence_signs():
+    r = analyze(ROUTINE, fake_model(json.dumps({"email_type": "routine_notification", "extra_findings": [_sign("medium")]})))
+    assert r.findings == []
+    r = analyze(ROUTINE, fake_model(json.dumps({"email_type": "routine_notification", "extra_findings": [_sign("high")]})))
+    assert len(r.findings) == 1
+
+
+def test_routine_label_never_removes_rule_findings():
+    # An injected "this is routine" can't hide what the rules found.
+    r = analyze(load("vendor-bank-change"),
+                fake_model(json.dumps({"email_type": "routine_notification", "extra_findings": [
+                    _sign("medium", "our phone lines are being upgraded this week") | {"block_id": "b5"}]})))
+    assert any(f.source == "rules" for f in r.findings)
+    assert any(f.source == "model" for f in r.findings)  # rules found something, so the gate is off
+
+
+def test_v1_replies_without_confidence_are_kept():
+    reply = {"extra_findings": [{"category": "manipulation_cue", "block_id": "b1", "quote": "View transaction details online",
+                                 "explanation": "x", "next_action": "y"}]}
+    assert len(analyze(ROUTINE, fake_model(json.dumps(reply))).findings) == 1
+
+
+def test_prompt_version_switch(monkeypatch):
+    from app import prompts
+    monkeypatch.setenv("PROMPT_VERSION", "v2")
+    system, schema = prompts.analyze_prompt()
+    assert "routine_notification" in system and "confidence" in schema["properties"]["extra_findings"]["items"]["properties"]
+    monkeypatch.setenv("PROMPT_VERSION", "v1")
+    assert prompts.analyze_prompt()[1] is prompts.ANALYZE_SCHEMA
