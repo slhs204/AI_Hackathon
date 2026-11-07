@@ -1,0 +1,25 @@
+{
+ "_note": "Offline recomputation (no API calls): stored per-email results re-scored with the pressure-only rule. Valid because the rule is deterministic post-processing of the findings.",
+ "results": {
+  "Sonnet v1, blind all": {
+   "before": "phishing 100/100, false alarms 24/100",
+   "after_pressure_rule": "phishing 96/100, false alarms 21/100"
+  },
+  "Sonnet v1, blind tune": {
+   "before": "phishing 50/50, false alarms 12/50",
+   "after_pressure_rule": "phishing 48/50, false alarms 10/50"
+  },
+  "Haiku v1, blind tune": {
+   "before": "phishing 49/50, false alarms 4/50",
+   "after_pressure_rule": "phishing 47/50, false alarms 1/50"
+  },
+  "Haiku v2, blind tune": {
+   "before": "phishing 49/50, false alarms 3/50",
+   "after_pressure_rule": "phishing 48/50, false alarms 0/50"
+  },
+  "Sonnet v1, core": {
+   "before": "phishing 14/14, false alarms 3/7",
+   "after_pressure_rule": "phishing 14/14, false alarms 2/7"
+  }
+ }
+}
