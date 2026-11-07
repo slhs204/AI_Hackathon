@@ -1,0 +1,45 @@
+{
+  "source": "albert-sample:01_vendor-bank-change.eml",
+  "title": "Vendor 'changed banks'",
+  "request": {
+    "email_id": "vendor-bank-change",
+    "sender": {
+      "name": "Globex Supply Accounts",
+      "address": "accounts@globex-suppiy.com"
+    },
+    "subject": "URGENT: Updated banking details for invoice #GS-20931",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hello Payroll / Accounts Payable team,"
+      },
+      {
+        "id": "b2",
+        "text": "Please be advised that Globex Supply has changed our bank following an internal audit. All outstanding and future payments must be sent to the new bank account below, effective immediately."
+      },
+      {
+        "id": "b3",
+        "text": "Bank: First Coastal Trust\nRouting number: 061000104\nAccount number: 8840 2219 7730"
+      },
+      {
+        "id": "b4",
+        "text": "Invoice #GS-20931 ($184,250.00) is now overdue. Kindly update your vendor records and confirm the wire before end of day so we can avoid a late payment penalty on your account."
+      },
+      {
+        "id": "b5",
+        "text": "Please reply to this email only — our phone lines are being upgraded this week."
+      },
+      {
+        "id": "b6",
+        "text": "Best regards,\nDaniel Price\nAccounts Receivable, Globex Supply"
+      }
+    ],
+    "links": [],
+    "reply_to": "globex.remittance@gmail.com",
+    "authentication_results": "mx.acme-corp.com; spf=fail (sender domain globex-suppiy.com) smtp.mailfrom=globex-suppiy.com; dkim=none header.d=globex-suppiy.com; dmarc=fail (p=REJECT) header.from=globex-suppiy.com"
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "company": {
+    "name": "Acme Corp",
+    "domains": [
+      "acme-corp.com"
+    ],
+    "executives": [
+      {
+        "name": "Jane Whitfield",
+        "title": "CEO",
+        "phone": "+1 (919) 555-0100 (ext. 1)",
+        "email": "jane.whitfield@acme-corp.com"
+      },
+      {
+        "name": "Robert Chen",
+        "title": "CFO",
+        "phone": "+1 (919) 555-0100 (ext. 2)",
+        "email": "robert.chen@acme-corp.com"
+      }
+    ],
+    "employees": [
+      {
+        "name": "Maria Lopez",
+        "title": "Senior Accountant",
+        "phone": "+1 (919) 555-0100 (ext. 214)",
+        "email": "maria.lopez@acme-corp.com"
+      },
+      {
+        "name": "Daniel Kim",
+        "title": "AP Specialist",
+        "phone": "+1 (919) 555-0100 (ext. 231)",
+        "email": "daniel.kim@acme-corp.com"
+      }
+    ]
+  },
+  "vendors": [
+    {
+      "name": "Globex Supply",
+      "domains": [
+        "globex-supply.com"
+      ],
+      "phone": "+1 (919) 555-0142",
+      "email": "ar@globex-supply.com"
+    },
+    {
+      "name": "Initech",
+      "domains": [
+        "initech.com"
+      ],
+      "phone": "+1 (984) 555-0177",
+      "email": "billing@initech.com"
+    },
+    {
+      "name": "Umbrella Logistics",
+      "domains": [
+        "umbrella-logistics.com"
+      ],
+      "phone": "+1 (336) 555-0119",
+      "email": "ar@umbrella-logistics.com"
+    }
+  ],
+  "brands": [
+    {
+      "name": "DocuSign",
+      "domains": [
+        "docusign.com",
+        "docusign.net"
+      ]
+    },
+    {
+      "name": "Microsoft",
+      "domains": [
+        "microsoft.com",
+        "office.com",
+        "microsoftonline.com"
+      ]
+    },
+    {
+      "name": "PayPal",
+      "domains": [
+        "paypal.com"
+      ]
+    },
+    {
+      "name": "UPS",
+      "domains": [
+        "ups.com"
+      ]
+    }
+  ],
+  "free_mail": [
+    "gmail.com",
+    "outlook.com",
+    "hotmail.com",
+    "yahoo.com",
+    "proton.me",
+    "protonmail.com",
+    "icloud.com",
+    "aol.com",
+    "gmx.com"
+  ],
+  "url_shorteners": [
+    "bit.ly",
+    "tinyurl.com",
+    "t.co",
+    "goo.gl",
+    "is.gd",
+    "ow.ly",
+    "rb.gy",
+    "cutt.ly",
+    "shorturl.at",
+    "tiny.cc"
+  ]
+}

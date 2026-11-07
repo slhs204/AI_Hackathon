@@ -1,0 +1,34 @@
+{
+  "source": "handwritten",
+  "title": "Quick favor before Friday",
+  "request": {
+    "email_id": "x-ambiguous-internal-change",
+    "sender": {
+      "name": "Maria Lopez",
+      "address": "maria.lopez@acme-corp.com"
+    },
+    "subject": "Quick favor before Friday",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi, I switched banks last week. Could you update my direct deposit to the new account before Friday's payroll?"
+      },
+      {
+        "id": "b2",
+        "text": "New routing number 021000021, account 4400918822. Thanks so much!"
+      },
+      {
+        "id": "b3",
+        "text": "Maria"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "ambiguous",
+    "must_flag": [
+      "payment_or_data_request"
+    ],
+    "note": "Real internal address. Could be a compromised account; the policy call-back still applies."
+  }
+}

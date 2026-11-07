@@ -1,0 +1,521 @@
+{
+  "generated_at": "2026-11-07 16:38 UTC",
+  "model": "rules-only",
+  "n_cases": 14,
+  "views": [
+    "full",
+    "gmail"
+  ],
+  "summary": {
+    "full": {
+      "phishing_flagged": "9/9",
+      "legit_false_alarms": "0/3",
+      "ambiguous_flagged": "2/2",
+      "must_flag_misses": 0,
+      "incomplete_results": 0,
+      "model_findings_kept": 0,
+      "model_findings_discarded": 0,
+      "latency_ms_median": 0,
+      "latency_ms_max": 1
+    },
+    "gmail": {
+      "phishing_flagged": "9/9",
+      "legit_false_alarms": "0/3",
+      "ambiguous_flagged": "2/2",
+      "must_flag_misses": 0,
+      "incomplete_results": 0,
+      "model_findings_kept": 0,
+      "model_findings_discarded": 0,
+      "latency_ms_median": 0,
+      "latency_ms_max": 0
+    }
+  },
+  "rows": {
+    "full": [
+      {
+        "id": "ceo-w2-request",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 12,
+        "categories": [
+          "authentication_failure",
+          "authority_impersonation",
+          "payment_or_data_request",
+          "reply_to_mismatch",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 1
+      },
+      {
+        "id": "ceo-wire",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 13,
+        "categories": [
+          "authentication_failure",
+          "authority_impersonation",
+          "payment_or_data_request",
+          "reply_to_mismatch",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "cfo-gift-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 90,
+        "n_findings": 6,
+        "categories": [
+          "authority_impersonation",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "fake-docusign",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 8,
+        "categories": [
+          "authentication_failure",
+          "deceptive_link",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "legit-cfo-memo",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "legit-vendor-invoice",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "m365-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 78,
+        "n_findings": 5,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "new-supplier-onboarding",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 40,
+        "n_findings": 4,
+        "categories": [
+          "payment_or_data_request",
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "payroll-direct-deposit",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 79,
+        "n_findings": 8,
+        "categories": [
+          "authority_impersonation",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "vendor-bank-change",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 14,
+        "categories": [
+          "authentication_failure",
+          "payment_or_data_request",
+          "reply_to_mismatch",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-ambiguous-internal-change",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-code-link",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 50,
+        "n_findings": 3,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-legit-internal-reminder",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-prompt-injection",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 1,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      }
+    ],
+    "gmail": [
+      {
+        "id": "ceo-w2-request",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 10,
+        "categories": [
+          "authority_impersonation",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "ceo-wire",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 9,
+        "categories": [
+          "authority_impersonation",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "cfo-gift-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 90,
+        "n_findings": 6,
+        "categories": [
+          "authority_impersonation",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "fake-docusign",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 86,
+        "n_findings": 6,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "legit-cfo-memo",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "legit-vendor-invoice",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "m365-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 78,
+        "n_findings": 5,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "new-supplier-onboarding",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 3,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "payroll-direct-deposit",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 79,
+        "n_findings": 8,
+        "categories": [
+          "authority_impersonation",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "vendor-bank-change",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 96,
+        "n_findings": 10,
+        "categories": [
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-ambiguous-internal-change",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-code-link",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 50,
+        "n_findings": 3,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-legit-internal-reminder",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "x-prompt-injection",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 1,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      }
+    ]
+  }
+}

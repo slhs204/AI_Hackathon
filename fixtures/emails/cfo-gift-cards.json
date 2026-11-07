@@ -1,0 +1,39 @@
+{
+  "source": "albert-sample:05_cfo-gift-cards.eml",
+  "title": "CFO wants gift cards",
+  "request": {
+    "email_id": "cfo-gift-cards",
+    "sender": {
+      "name": "Robert Chen (CFO)",
+      "address": "robert.chen.acme@outlook.com"
+    },
+    "subject": "Are you available?",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi,"
+      },
+      {
+        "id": "b2",
+        "text": "I need a quick favor. I'm stuck in a meeting with a client and need you to purchase 6 Apple gift cards ($500 each) for a client appreciation event right away."
+      },
+      {
+        "id": "b3",
+        "text": "Scratch the back of each card and send me photos of the codes. I'll reimburse you by end of day."
+      },
+      {
+        "id": "b4",
+        "text": "Please don't tell anyone, I want it to be a surprise."
+      },
+      {
+        "id": "b5",
+        "text": "Robert Chen\nChief Financial Officer"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

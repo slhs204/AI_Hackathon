@@ -1,0 +1,38 @@
+{
+  "source": "handwritten",
+  "title": "Mailbox quota",
+  "request": {
+    "email_id": "x-code-link",
+    "sender": {
+      "name": "IT Helpdesk",
+      "address": "helpdesk@acme-corp-it.com"
+    },
+    "subject": "Mailbox quota",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your mailbox is almost full. Click Restore Quota to keep receiving mail."
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "Restore Quota",
+        "href": "javascript:document.location='https://quota-restore.example/'"
+      },
+      {
+        "id": "l2",
+        "block_id": "b1",
+        "display_text": "Mailbox settings",
+        "href": "https://acme-corp.com@quota-restore.example/settings"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": [
+      "deceptive_link"
+    ]
+  }
+}

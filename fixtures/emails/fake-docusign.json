@@ -1,0 +1,57 @@
+{
+  "source": "albert-sample:04_fake-docusign.eml",
+  "title": "Fake DocuSign",
+  "request": {
+    "email_id": "fake-docusign",
+    "sender": {
+      "name": "DocuSign",
+      "address": "dse@docusign-secure.net"
+    },
+    "subject": "Robert Chen sent you a document to review and sign: 2026 Payroll Bank Change Authorization",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Robert Chen sent you a document to review and sign."
+      },
+      {
+        "id": "b2",
+        "text": "2026 Payroll Bank Change Authorization.pdf"
+      },
+      {
+        "id": "b3",
+        "text": "REVIEW DOCUMENT"
+      },
+      {
+        "id": "b4",
+        "text": "Sign in to review the document with your Microsoft 365 email and password. This link expires within 24 hours."
+      },
+      {
+        "id": "b5",
+        "text": "If you have trouble, copy this address: https://www.docusign.net/Signing/77f2"
+      },
+      {
+        "id": "b6",
+        "text": "Do Not Share This Email. This message contains a secure link to DocuSign."
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b3",
+        "display_text": "REVIEW DOCUMENT",
+        "href": "http://185.231.44.10/docusign/review?id=77f2"
+      },
+      {
+        "id": "l2",
+        "block_id": "b5",
+        "display_text": "https://www.docusign.net/Signing/77f2",
+        "href": "https://docusign.account-verify.top/e/77f2"
+      }
+    ],
+    "authentication_results": "mx.acme-corp.com; spf=pass (sender domain docusign-secure.net) smtp.mailfrom=docusign-secure.net; dkim=fail header.d=docusign-secure.net; dmarc=fail (p=REJECT) header.from=docusign-secure.net"
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

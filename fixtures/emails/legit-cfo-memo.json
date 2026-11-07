@@ -1,0 +1,36 @@
+{
+  "source": "albert-sample:09_legit-cfo-memo.eml",
+  "title": "Real CFO month-end memo",
+  "request": {
+    "email_id": "legit-cfo-memo",
+    "sender": {
+      "name": "Robert Chen",
+      "address": "robert.chen@acme-corp.com"
+    },
+    "subject": "October close timeline",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Team,"
+      },
+      {
+        "id": "b2",
+        "text": "Thanks for the strong October numbers. Please have accruals posted by Thursday and reconciliations uploaded to the shared close folder by next Tuesday."
+      },
+      {
+        "id": "b3",
+        "text": "Our team review is Wednesday at 10:00 in Conference Room B."
+      },
+      {
+        "id": "b4",
+        "text": "Robert"
+      }
+    ],
+    "links": [],
+    "authentication_results": "mx.acme-corp.com; spf=pass (sender domain acme-corp.com) smtp.mailfrom=acme-corp.com; dkim=pass header.d=acme-corp.com; dmarc=pass (p=REJECT) header.from=acme-corp.com"
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}
