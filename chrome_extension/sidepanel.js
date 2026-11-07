@@ -166,8 +166,37 @@ async function selectFinding(finding) {
   await highlightFinding(finding);
 }
 
+const DIM_MARK = { ok: ["✓", "no warning"], warn: ["⚠", "warning"], unknown: ["?", "can't tell"] };
+
+// Rubric v2 from /analyze: the answer plus four questions, each ✓ / ⚠ / ? (can't tell). Hidden in mock mode.
+function renderVerdictBox(analysis) {
+  const dims = Array.isArray(analysis.dimensions) ? analysis.dimensions : [];
+  $("verdict-box").hidden = !analysis.verdict || !dims.length;
+  if ($("verdict-box").hidden) return;
+  const state = analysis.verdict.state === "unknown" ? "unknown" : analysis.verdict.key;
+  $("verdict-box").dataset.state = state;
+  $("verdict-line").textContent = analysis.verdict.label || analysis.verdict.key;
+  $("dim-list").replaceChildren(...dims.map((d) => {
+    const [mark, spoken] = DIM_MARK[d.status] || DIM_MARK.unknown;
+    const li = document.createElement("li");
+    li.className = `dim ${d.status}`;
+    const m = document.createElement("span");
+    m.className = "dim-mark";
+    m.textContent = mark;
+    m.setAttribute("aria-label", spoken);
+    const text = document.createElement("span");
+    const q = document.createElement("strong");
+    q.textContent = d.question;
+    text.append(q, document.createElement("br"), d.answer);
+    li.append(m, text);
+    return li;
+  }));
+  $("dim-rule").textContent = analysis.verdict.rule || "";
+}
+
 function renderResults(analysis, mocked) {
   const count = currentFindings.length;
+  renderVerdictBox(analysis);
   $("warning-total").textContent = String(count);
   $("count").textContent = `warning sign${count === 1 ? "" : "s"}`;
   $("summary").textContent = analysis.summary || "Review the findings and evidence below.";
