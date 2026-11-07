@@ -106,7 +106,7 @@ def test_neg_d_invariant_is_enforced_in_code():
 
 def _model(email_type):
     def call(system, user):
-        return json.dumps({"email_type": email_type, "summary": "s", "extra_findings": [{
+        return json.dumps({"email_type": email_type, "summary": "s", "explanations": [], "extra_findings": [{
             "category": "manipulation_cue", "block_id": "b1", "quote": "before Friday's payroll",
             "explanation": "x", "next_action": "y", "requested_action": "change deposit", "confidence": "high"}]})
     return call
@@ -132,8 +132,8 @@ def test_routine_label_never_lowers_a_score_stop():
     assert r.risk_score >= 70 and r.verdict["key"] == "stop"
 
 
-def test_pressure_words_alone_stay_a_note_and_green():
+def test_pressure_words_alone_stay_a_note_but_do_not_authenticate_sender():
     r = analyze(AnalyzeRequest.model_validate(json.loads((FIXTURES / "emails" / "h-legit-urgent-cutoff.json").read_text())["request"]))
     assert r.notes and r.findings == []
     assert dims(r)["pressure"] == "ok" and "note" in next(d["answer"] for d in r.dimensions if d["key"] == "pressure")
-    assert r.verdict["key"] == "pay"
+    assert r.verdict["key"] == "verify"

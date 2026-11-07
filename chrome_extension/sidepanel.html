@@ -10,7 +10,7 @@
 <body>
   <header class="masthead">
     <div class="brand"><span class="brand-icon" aria-hidden="true">🪝</span><div><strong>Hookline</strong><small>Phishing email coach</small></div></div>
-    <span class="mode" id="mode">DEMO</span>
+    <span class="mode" id="mode">NOT CONNECTED</span>
   </header>
 
   <main>
@@ -18,6 +18,20 @@
       <p class="eyebrow">STOP. SPOT. VERIFY.</p>
       <h1>Is this email trying to reel you in?</h1>
       <p>Learn which words deserve a second look—and why.</p>
+    </section>
+
+    <section class="panel">
+      <details id="connection-settings">
+        <summary>Connect to private staging</summary>
+        <p class="supporting">Start the authenticated proxy on this computer at 127.0.0.1:8080. Cloud Run stays private. This build uses rules only, not AI.</p>
+        <label for="demo-token">Staging demo token (this browser session only)</label>
+        <input id="demo-token" type="password" autocomplete="off" maxlength="512" spellcheck="false" />
+        <div class="actions">
+          <button id="connect" class="secondary">Connect</button>
+          <button id="disconnect" class="secondary">Disconnect</button>
+        </div>
+        <p id="connection-status" class="status" role="status">Not connected. Try demo runs locally without sending any email.</p>
+      </details>
     </section>
 
     <section class="panel">
@@ -83,6 +97,9 @@
         </div>
       </div>
       <p id="summary" class="summary"></p>
+      <p id="completeness" class="caveat"></p>
+      <ul id="limitations" class="limitation-list"></ul>
+      <div id="analysis-notes" class="analysis-notes"></div>
       <div id="findings" class="findings"></div>
       <p class="caveat">No warning signs found does not mean the email is safe.</p>
     </section>
@@ -91,7 +108,7 @@
       <div class="section-label">Challenge the assessment</div>
       <p class="supporting">Select a clue above, then add context that might change its interpretation.</p>
       <label for="challenge-text">Additional context</label>
-      <textarea id="challenge-text" rows="3" placeholder="e.g. I spoke with this coworker yesterday..."></textarea>
+      <textarea id="challenge-text" rows="3" maxlength="1000" placeholder="e.g. I spoke with this coworker yesterday..."></textarea>
       <button id="challenge" class="secondary full-width">Reconsider selected finding</button>
       <p id="challenge-result" class="challenge-result" aria-live="polite"></p>
     </section>

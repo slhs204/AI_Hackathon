@@ -107,3 +107,9 @@ footer { color:#78879b; font-size:10px; text-align:center; padding:0 16px 20px; 
 .dim.ok .dim-mark { color:#067647; } .dim.warn .dim-mark { color:#b54708; } .dim.unknown .dim-mark { color:#60718a; }
 .dim.warn { border-color:#f5c26b; }
 .dim-rule { margin:8px 0 0; color:var(--muted); font-size:13px; }
+
+/* Private staging settings and truthful result scope. */
+#demo-token { box-sizing: border-box; width: 100%; padding: 9px; margin: 6px 0; border: 1px solid #9ab8b5; border-radius: 6px; }
+.limitation-list { padding-left: 20px; font-size: .82rem; color: #5c5145; }
+.analysis-notes { font-size: .85rem; }
+summary { cursor: pointer; font-weight: 700; }

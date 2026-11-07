@@ -97,3 +97,20 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
   Haiku 5.5 + prompt v2 + pressure-words-as-notes (tuning half, recomputed offline): 48/50 phishing, 0/50 false
   alarms. Not yet confirmed on the test half.
 - Logging records ids, counts and timing only, never email bodies.
+
+## Fail-closed staging contract
+
+- `X-Require-Rules-Only: 1` on any POST rejects with 409 before provider selection unless
+  `MODEL_PROVIDER=mock`. The staging extension uses this guard in addition to checking `/health`.
+- `AnalyzeRequest.extraction_complete` (default `true`) describes extraction of the submitted
+  visible content, not authenticity. Gmail DOM clients should send `false` when headers,
+  attachments, or full content are unavailable. `extraction_limitations` accepts up to ten
+  strings (300 characters each). Partial extraction, missing body/sender, and failed AI review
+  set `analysis_complete=false` and `assessment=insufficient_evidence`.
+- Sender identity remains `unknown` without a warning, including known directory domains:
+  displayed addresses and supplied headers are not independent authentication. The final
+  rubric therefore does not grant `pay` merely because rules found no signs.
+- Valid JSON with a malformed analysis/challenge/triage shape retries once, then preserves
+  rules-only results with the model-unavailable label. No provider calls are made by tests.
+- Pressure-only findings become notes only when extracted content is complete and no link,
+  attachment or risky action wording is present. This is deliberately conservative.

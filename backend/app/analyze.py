@@ -11,6 +11,7 @@ A failed model call never turns into an all-clear: the rule result stands.
 """
 
 import logging
+import re
 import time
 from typing import Optional
 
@@ -76,6 +77,64 @@ def _for_extension(f: Finding, email: AnalyzeRequest) -> None:
 
 def _level(score: int) -> str:
     return "high" if score >= 70 else "medium" if score >= 30 else "low"
+
+
+def _validate_model_analysis(raw: dict, schema: dict) -> None:
+    """JSON syntax is not a successful review. Reject malformed structures before use."""
+    def required_fields(value, shape):
+        if shape.get("type") == "object":
+            if not isinstance(value, dict) or any(key not in value for key in shape.get("required", [])):
+                raise llm.ModelOutputInvalid("analysis is missing required schema fields")
+            for key, nested in shape.get("properties", {}).items():
+                if key in value:
+                    required_fields(value[key], nested)
+        elif shape.get("type") == "array":
+            if not isinstance(value, list):
+                raise llm.ModelOutputInvalid("analysis field must be an array")
+            for item in value:
+                required_fields(item, shape["items"])
+        elif shape.get("type") == "string":
+            if not isinstance(value, str) or ("enum" in shape and value not in shape["enum"]):
+                raise llm.ModelOutputInvalid("invalid analysis text field")
+    required_fields(raw, schema)
+    if not isinstance(raw.get("extra_findings"), list):
+        raise llm.ModelOutputInvalid("analysis requires an extra_findings array")
+    if "summary" in raw and not isinstance(raw["summary"], str):
+        raise llm.ModelOutputInvalid("analysis summary must be text")
+    if "email_type" in raw and raw["email_type"] not in (
+            "routine_notification", "needs_check", "likely_phishing"):
+        raise llm.ModelOutputInvalid("invalid email_type")
+    expl = raw.get("explanations", [])
+    if isinstance(expl, dict):  # legacy provider format
+        valid = all(isinstance(k, str) and isinstance(v, str) for k, v in expl.items())
+    else:
+        valid = isinstance(expl, list) and all(
+            isinstance(e, dict) and isinstance(e.get("category"), str)
+            and isinstance(e.get("text"), str) for e in expl)
+    if not valid:
+        raise llm.ModelOutputInvalid("invalid explanations")
+    for item in raw["extra_findings"]:
+        if not isinstance(item, dict) or any(not isinstance(item.get(k), str)
+                for k in ("category", "block_id", "quote", "explanation", "next_action")):
+            raise llm.ModelOutputInvalid("invalid finding fields")
+        if item["category"] not in MODEL_CATEGORIES:
+            raise llm.ModelOutputInvalid("invalid finding category")
+        if "confidence" in item and item["confidence"] not in ("low", "medium", "high"):
+            raise llm.ModelOutputInvalid("invalid finding confidence")
+        if "requested_action" in item and not isinstance(item["requested_action"], str):
+            raise llm.ModelOutputInvalid("invalid requested_action")
+
+
+# Conservative guard: lack of a rule hit is not evidence of lack of a risky request.
+_RISKY_ACTION = re.compile(
+    r"\b(sign[ -]?in|log[ -]?in|verify|download|install|open|click|pay|payment|wire|transfer|"
+    r"bank|password|passcode|credential|verification code|gift cards?|personal data|"
+    r"employee data|social security|ssn|w-?2|keep.{0,30}secret|confidential)\b", re.I)
+
+
+def _can_demote_pressure(email: AnalyzeRequest) -> bool:
+    return not (email.links or email.attachments or _RISKY_ACTION.search(
+        email_text(email.subject, email.blocks)))
 
 
 def _model_findings(raw: dict, email: AnalyzeRequest, has_rule_findings: bool) -> tuple[list[Finding], int]:
@@ -207,8 +266,9 @@ def _unknown_reasons(email: AnalyzeRequest, complete: bool, model_failed: bool) 
     if not body:
         for key in ("money", "pressure", "links"):
             why[key] = "the email text is empty or could not be read"
-    if not email.sender.address.strip():
-        why["sender"] = "the sender address is missing"
+    # Neither directory matches nor user-supplied headers authenticate the sender.
+    why["sender"] = ("the sender address is missing" if not email.sender.address.strip()
+                     else "displayed sender details cannot establish who sent this email")
     if not complete or model_failed:
         reason = "the AI review failed" if model_failed else "the analysis is incomplete"
         for key, *_ in DIMENSIONS:
@@ -280,8 +340,13 @@ def _final_verdict(score: int, findings: list[Finding], complete: bool, dimensio
 def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -> AnalyzeResponse:
     started = time.monotonic()
     rules = engine.analyze_contract(email.model_dump())
-    complete = bool(rules["analysis_complete"])
-    limitations = list(rules["limitations"])
+    complete = bool(rules["analysis_complete"]) and email.extraction_complete
+    limitations = list(rules["limitations"]) + email.extraction_limitations
+    if not any(b.text.strip() for b in email.blocks) or not email.sender.address.strip():
+        complete = False
+        limitations.append("The sender address or readable message body is missing.")
+    if not email.extraction_complete:
+        limitations.append("The email extraction is partial; unextracted content was not checked.")
 
     # 1. Rule findings, re-checked against the email.
     findings: list[Finding] = []
@@ -309,7 +374,8 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
     if model_call is not None:
         try:
             system, _schema = prompts.analyze_prompt()
-            raw, _ = llm.call_json(model_call, system, prompts.analyze_user(email, findings + extras))
+            raw, _ = llm.call_json(model_call, system, prompts.analyze_user(email, findings + extras),
+                                   validate=lambda result: _validate_model_analysis(result, _schema))
             email_type = raw.get("email_type") if isinstance(raw.get("email_type"), str) else None
             model_extra, discarded = _model_findings(raw, email, bool(findings or extras))
             summary = str(raw.get("summary", "")).strip()[:600]
@@ -317,6 +383,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
             model_name = llm.model_label("analyze")
         except llm.ModelUnavailable as exc:
             log.warning("model unavailable: %s", exc)
+            complete = False
             model_name = "rules-only (model unavailable)"
             limitations.append("The AI review was unavailable, so only the automatic checks ran.")
     if discarded:
@@ -369,7 +436,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
     # Without a request to pay, sign in, open a file or send data, they become a
     # note instead of a hook piece. Any other sign keeps them as warnings.
     notes: list[Finding] = []
-    if complete and all_findings and all(f.category in PRESSURE_ONLY for f in all_findings):
+    if complete and _can_demote_pressure(email) and all_findings and all(f.category in PRESSURE_ONLY for f in all_findings):
         notes, all_findings, score = all_findings, [], 0
         moved = {f.id for f in notes}
         for st in stages:

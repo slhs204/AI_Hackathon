@@ -13,6 +13,21 @@ let currentTabId = null;
 let currentFindings = [];
 let selectedFindingId = null;
 let requestNumber = 0;
+let challengeNumber = 0;
+let connected = false;
+let pendingExtractionTab = null;
+
+function setBusy(busy) {
+  $("analyze").disabled = busy;
+  $("demo").disabled = busy;
+}
+
+function modeLabel(analysis, mocked) {
+  if (mocked) return "LOCAL DEMO";
+  if (analysis?.model === "rules-only") return "BACKEND RULES ONLY";
+  return "MODE UNVERIFIED";
+}
+
 
 function setStatus(text, error = false) {
   $("status").textContent = text;
@@ -28,10 +43,16 @@ function setEmail(email) {
 
 function clearResults(status = "Open a Gmail message and analyze it.") {
   requestNumber++;
+  challengeNumber++;
+  setBusy(false);
+  $("challenge").disabled = false;
+  $("mode").textContent = connected ? "STAGING CONNECTED" : "NOT CONNECTED";
   currentEmail = null;
   currentFindings = [];
   selectedFindingId = null;
   currentMode = null;
+  currentTabId = null;
+  pendingExtractionTab = null;
   setEmail(null);
   resetHook();
   $("results").hidden = true;
@@ -54,8 +75,11 @@ async function clearGmailHighlight() {
 }
 
 async function analyzeEmail(email, mode, tabId = null) {
-  await clearGmailHighlight();
   const myRequest = ++requestNumber;
+  challengeNumber++;
+  setBusy(true);
+  await clearGmailHighlight();
+  if (myRequest !== requestNumber) return;
   currentEmail = email;
   currentMode = mode;
   currentTabId = tabId;
@@ -69,20 +93,22 @@ async function analyzeEmail(email, mode, tabId = null) {
   $("challenge-result").textContent = "";
   $("practice-feedback").textContent = "";
   setStatus("Analyzing selected message…");
-  $("analyze").disabled = true;
+  setBusy(true);
   try {
-    const response = await chrome.runtime.sendMessage({ type: "ANALYZE", email });
+    const response = await chrome.runtime.sendMessage({ type: "ANALYZE", email, demo: mode === "demo" });
     if (myRequest !== requestNumber) return;
     if (!response?.ok) throw new Error(response?.error || "No analysis returned.");
     const analysis = response.data;
     if (analysis.email_id !== email.email_id) throw new Error("Backend response email ID does not match the selected email.");
     currentFindings = Array.isArray(analysis.findings) ? analysis.findings : [];
     renderResults(analysis, response.mocked);
-    setStatus(response.mocked ? "Mock analysis complete. No AI was called." : "Analysis complete.");
+    setStatus(response.mocked ? "Local demo complete. No email was sent and no AI was called." :
+      analysis.analysis_complete ? "Backend rules-only check complete. No AI was called; this is not payment approval." :
+      "Partial backend rules-only check. Review the missing-information notes before acting.");
   } catch (error) {
     if (myRequest === requestNumber) setStatus(`Analysis failed: ${error.message}`, true);
   } finally {
-    if (myRequest === requestNumber) $("analyze").disabled = false;
+    if (myRequest === requestNumber) setBusy(false);
   }
 }
 
@@ -146,6 +172,8 @@ function renderBait() {
 async function selectFinding(finding) {
   // Selecting a clue also determines which finding the challenge feature discusses.
   selectedFindingId = finding.id;
+  challengeNumber++;
+  $("challenge").disabled = false;
   for (const button of $("bait-list").querySelectorAll(".bait")) {
     button.setAttribute("aria-pressed", String(button.dataset.findingId === finding.id));
   }
@@ -200,6 +228,18 @@ function renderResults(analysis, mocked) {
   $("warning-total").textContent = String(count);
   $("count").textContent = `warning sign${count === 1 ? "" : "s"}`;
   $("summary").textContent = analysis.summary || "Review the findings and evidence below.";
+  $("completeness").textContent = analysis.analysis_complete
+    ? "Checked the supplied text only. Sender identity and payment approval are not established."
+    : "Incomplete assessment. Missing information or failed checks must not be treated as clearance.";
+  $("limitations").replaceChildren(...(analysis.limitations || []).map(text => {
+    const item = document.createElement("li");
+    item.textContent = text;
+    return item;
+  }));
+  $("analysis-notes").replaceChildren();
+  for (const note of analysis.notes || []) {
+    appendParagraph($("analysis-notes"), `Context note: ${note.explanation || note.title || note.category}`);
+  }
   $("findings").replaceChildren();
   for (const finding of currentFindings) {
     const card = document.createElement("div");
@@ -226,7 +266,7 @@ function renderResults(analysis, mocked) {
   $("results").hidden = false;
   $("challenge-section").hidden = count === 0;
   $("practice").hidden = count === 0;
-  $("mode").textContent = mocked ? "MOCK AI" : "LIVE AI";
+  $("mode").textContent = modeLabel(analysis, mocked);
 }
 
 async function highlightFinding(finding) {
@@ -252,17 +292,32 @@ async function highlightFinding(finding) {
 }
 
 $("analyze").addEventListener("click", async () => {
+  const extractionRequest = ++requestNumber;
+  setBusy(true);
   try {
     const tab = await activeTab();
+    if (extractionRequest !== requestNumber) return;
     if (!tab?.id) throw new Error("No active browser tab was found.");
+    pendingExtractionTab = tab.id;
     // Do not depend on tab.url: Chrome can hide that field without explicit grants.
     // Only the Gmail content script responds to EXTRACT_EMAIL.
     const response = await chrome.tabs.sendMessage(tab.id, { type: "EXTRACT_EMAIL" });
+    if (extractionRequest !== requestNumber) return;
     if (!response?.ok) throw new Error(response?.error || "Could not read email.");
+    const stillActive = await activeTab();
+    const latest = await chrome.tabs.sendMessage(tab.id, { type: "EXTRACT_EMAIL" });
+    if (extractionRequest !== requestNumber) return;
+    if (stillActive?.id !== tab.id || !latest?.ok || latest.email.email_id !== response.email.email_id) {
+      clearResults("Selected email changed during extraction. Click Analyze again.");
+      return;
+    }
+    pendingExtractionTab = null;
     await analyzeEmail(response.email, "gmail", tab.id);
   } catch (error) {
     // Prevent a previously displayed demo from looking like an analysis of Gmail.
+    if (extractionRequest !== requestNumber) return;
     await clearGmailHighlight();
+    if (extractionRequest !== requestNumber) return;
     clearResults();
     const missingReceiver = /Receiving end does not exist|Could not establish connection/i.test(String(error?.message || ""));
     setStatus(missingReceiver
@@ -276,23 +331,30 @@ $("demo").addEventListener("click", () => analyzeEmail(DEMO_EMAIL, "demo"));
 $("challenge").addEventListener("click", async () => {
   const context = $("challenge-text").value.trim();
   if (!context) {
-    $("challenge-result").textContent = "Please enter the context you want the model to consider.";
+    $("challenge-result").textContent = "Please enter context for the selected finding. Rules-only mode does not call AI.";
     return;
   }
   const selectedFinding = currentFindings.find((item) => item.id === selectedFindingId)
     || currentFindings[0];
   if (!currentEmail || !selectedFinding) return;
   const myRequest = requestNumber;
+  const myChallenge = ++challengeNumber;
+  $("challenge").disabled = true;
   $("challenge-result").textContent = "Reconsidering…";
   try {
     const response = await chrome.runtime.sendMessage({
-      type: "CHALLENGE", email: currentEmail, finding_id: selectedFinding.id, context
+      type: "CHALLENGE", email: currentEmail, finding: selectedFinding, context, demo: currentMode === "demo"
     });
-    if (myRequest !== requestNumber || selectedFindingId !== selectedFinding.id && selectedFindingId !== null) return;
+    if (myRequest !== requestNumber || myChallenge !== challengeNumber) return;
     if (!response?.ok) throw new Error(response?.error || "No response.");
-    $("challenge-result").textContent = `${response.mocked ? "Mock response: " : ""}${response.data.explanation}\nNext step: ${response.data.next_action}`;
+    const data = response.data;
+    $("challenge-result").textContent = response.mocked
+      ? `Local demo response: ${data.explanation}\nNext step: ${data.next_action}`
+      : `Backend rules-only: ${data.assessment === "less_concerning" ? "Less concerning, not cleared" : "Still concerning"}. ${data.message}\nStill unresolved: ${data.still_unresolved}\nNext step: ${data.next_action}`;
   } catch (error) {
-    if (myRequest === requestNumber) $("challenge-result").textContent = `Challenge failed: ${error.message}`;
+    if (myRequest === requestNumber && myChallenge === challengeNumber) $("challenge-result").textContent = `Challenge failed: ${error.message}`;
+  } finally {
+    if (myRequest === requestNumber && myChallenge === challengeNumber) $("challenge").disabled = false;
   }
 });
 
@@ -305,14 +367,48 @@ $("safe-answer").addEventListener("click", () => {
 
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (message?.type !== "EMAIL_CHANGED") return;
-  if (currentMode === "gmail" && currentTabId === sender.tab?.id && message.email_id !== currentEmail?.email_id) {
+  if (pendingExtractionTab === sender.tab?.id ||
+      currentMode === "gmail" && currentTabId === sender.tab?.id && message.email_id !== currentEmail?.email_id) {
     clearResults("Different email opened. Click Analyze open email for fresh results.");
   }
 });
 chrome.tabs.onActivated.addListener(({ tabId }) => {
-  if (currentMode === "gmail" && currentTabId !== tabId) {
+  if (pendingExtractionTab !== null && pendingExtractionTab !== tabId ||
+      currentMode === "gmail" && currentTabId !== tabId) {
     clearResults("Tab changed. Analyze the email in your active tab.");
   }
 });
 
-setStatus("Open Gmail, select one message, and click Analyze open email. Or try the demo.");
+async function refreshConnection() {
+  const response = await chrome.runtime.sendMessage({ type: "CONNECTION_STATUS" });
+  connected = response?.ok && response.connected;
+  $("connection-status").textContent = connected
+    ? "Session configured for 127.0.0.1:8080. Each analysis rechecks rules-only mode."
+    : "Not connected. Try demo stays local. Connect before analyzing Gmail.";
+  if (!currentEmail) $("mode").textContent = connected ? "STAGING CONNECTED" : "NOT CONNECTED";
+}
+
+$("connect").addEventListener("click", async () => {
+  $("connect").disabled = true;
+  const token = $("demo-token").value;
+  $("demo-token").value = "";
+  try {
+    const response = await chrome.runtime.sendMessage({ type: "CONNECT", token });
+    if (!response?.ok) throw new Error(response?.error || "Connection failed.");
+    await refreshConnection();
+    clearResults("Connected to rules-only staging. Only a click on Analyze sends the selected email.");
+  } catch (error) {
+    $("connection-status").textContent = `Connection failed: ${error.message}`;
+  } finally { $("connect").disabled = false; }
+});
+$("disconnect").addEventListener("click", async () => {
+  requestNumber++;
+  challengeNumber++;
+  await chrome.runtime.sendMessage({ type: "DISCONNECT" });
+  await clearGmailHighlight();
+  connected = false;
+  clearResults("Disconnected. Session token cleared; Try demo stays local.");
+  await refreshConnection();
+});
+refreshConnection().catch(() => { $("connection-status").textContent = "Could not read connection state. Reload the extension."; });
+setStatus("Use synthetic email only. Connect to private staging before analyzing Gmail, or choose Try demo.");

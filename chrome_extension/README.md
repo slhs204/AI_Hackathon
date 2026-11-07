@@ -1,101 +1,49 @@
-# Hookline v0.2.0 — interactive fishing-hook update
+# Hookline 0.3: private rules-only staging
 
-## What's new
+This unpacked Chrome extension has two distinct modes:
 
-- Real illustrated fishing hook with **animated, clickable numbered clue/bait tokens**.
-- Click any token to see its exact quoted evidence, **why it matters**, and **how to verify**.
-- Clicking a token (or a finding card) still calls the proven Gmail exact-text highlighter.
-- The selected token and its corresponding finding card are visually linked.
-- The Challenge form now targets the **selected finding** (or the first if none was selected).
-- Respects **reduced-motion** settings and provides keyboard-accessible buttons.
-- No changes to the Gmail content extraction, backend request/response contract, permissions, or mock rule logic.
+- **Try demo:** local pattern demonstration. No email leaves the browser and no AI runs.
+- **Analyze open email:** sends the selected Gmail message to the private staging backend through a local authenticated proxy. The badge says **BACKEND RULES ONLY**. This build rejects paid-model mode.
 
-## Update your Chrome extension
+Neither mode authenticates a sender or authorizes payment. Missing information stays unknown. Gmail extraction is explicitly partial: last visible expanded message only, no raw authentication headers, Reply-To or attachment content. Messages over 20,000 characters are rejected; more than 50 links are explicitly reported as partial.
 
-1. Extract this ZIP into a **new folder** (keep the `hookline-extension` folder intact).
-2. Go to `chrome://extensions`.
-3. If you previously installed Hookline from a different folder, **Remove** the old copy, then choose **Load unpacked** and select this new `hookline-extension` folder. If you're updating files in the original loaded folder instead, **Reload** that extension.
-4. Refresh the Gmail tab. Open your synthetic phishing test email.
-5. Open Hookline, click **Analyze open email**, and scroll down to **The fishing hook**. Three numbered clue tokens should appear.
-6. Click the **Payment details change** token: the text `change my salary account today` should highlight yellow in Gmail. Try **Time pressure** and **Sensitive credential reference** too.
-7. Click another clue. Its selected state and evidence explanation should change, and the Gmail highlight should move.
-8. **Try demo** shows the interactive graphic without looking at any real email. Demo tokens cannot highlight Gmail.
+## Connect securely
 
-**How to change things:** UI markup in `sidepanel.html`, styles/animations in `sidepanel.css`, token behavior in `sidepanel.js` (`renderBait()`, `selectFinding()`). The mock analyzer remains in `background.js` and is clearly not AI.
+1. Update the private staging backend to this same commit using [the staging guide](../docs/PRIVATE_STAGING.md). Keep Cloud Run IAM authentication enabled and MODEL_PROVIDER=mock.
+2. On the **same computer as Chrome**, use an already signed-in Google Cloud CLI account with existing invoker permission. Start:
 
-**Security reminder:** A token is a warning sign, not a likelihood or guarantee of phishing. Quoted evidence must exist exactly in the extracted message. Avoid public demos with private emails.
+   ```bash
+   gcloud run services proxy phish-staging --project=lateral-nomad-514001-c7 --region=us-central1 --port=8080
+   ```
 
----
+   Cloud Shell is a different computer: its localhost is not your laptop's localhost. Leave the local proxy running. Do not change IAM, expose the service publicly, or copy Google identity tokens into the extension. If Google Cloud CLI is not installed or the account lacks access, stop and resolve that setup separately.
+3. Load this `chrome_extension` folder in `chrome://extensions` using **Load unpacked**, or reload the existing installation. The only backend host permission is `http://127.0.0.1/*`; the code fixes its destination to port 8080 and rejects redirects. Refresh Gmail after reloading.
+4. Open **Connect to private staging**. Enter the existing staging **demo token** directly into the password field and click Connect. Never put it in source code, chat, screenshots or Git. It is kept only in `chrome.storage.session`, not sync/local storage, and cleared on Disconnect or browser-session end. This is demo access control, not production authentication. If Chrome prompts for local-network access, review and allow it yourself only for this intended connection.
+5. Connection checks `/session`, validating both the app token and rules-only mode before any email is sent. An invalid token fails here. No provider key, service-account key or Cloud Run identity token is used by the extension.
+6. Open a **synthetic** Gmail message and click Analyze. The extension sends `X-Demo-Token` and `X-Require-Rules-Only: 1`; the backend refuses non-mock providers before calling a model. Challenge sends the original full finding and displays unresolved checks. A less-concerning response is never clearance.
 
-# Hookline extension starter — FIXED v0.1.1
+The proxy uses the local user's existing Google credentials to reach IAM-private Cloud Run. The app token is a separate second gate. A Cloud Run URL plus the app token alone is insufficient. Official references: [authenticate developers](https://docs.cloud.google.com/run/docs/authenticating/developers), [gcloud proxy](https://docs.cloud.google.com/sdk/gcloud/reference/run/services/proxy).
 
-**Fix for "Open Gmail in the active tab" error:** Gmail-specific `host_permissions` added to `manifest.json`; the side panel no longer assumes `tab.url` is available. Failed extraction now clears stale mock results.
+## Verification
 
-**Install the fixed version:** Extract this ZIP, open `chrome://extensions`, **Remove** the old Hookline extension if it was loaded from another folder (or point it to this new extracted folder), then click **Load unpacked** and select the inner `hookline-extension` folder (it contains `manifest.json`). Refresh the Gmail tab and open an email. Click **Analyze open email**. No API key needed for mock mode.
+```bash
+node --test chrome_extension/tests/*.test.cjs
+node --check chrome_extension/background.js
+node --check chrome_extension/content.js
+node --check chrome_extension/sidepanel.js
+```
 
-# Hookline — Member 2 Chrome extension starter
+Automated tests cover transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations and extraction. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
-**A load-unpacked Chrome Manifest V3 extension. No npm, React, build step, or API key needed.**
+Manual acceptance checklist, still required:
 
-## First run (5 steps)
+- Local demo works offline and is labeled LOCAL DEMO.
+- Wrong app token is rejected; valid token connects through IAM proxy.
+- Synthetic Gmail Analyze shows BACKEND RULES ONLY and missing-information notes.
+- Exact body quote highlights correctly; metadata/link-only evidence is not fabricated as body text.
+- Full-finding challenge retains unresolved procedure and never clears a finding.
+- Switching messages/tabs while extracting or analyzing clears stale results and leaves controls usable.
+- Disconnect clears the token; Gmail analysis then fails until reconnecting.
+- Stop the proxy: request fails visibly, not as a clean assessment.
 
-1. Unzip the project to a folder on your computer.
-2. Visit `chrome://extensions` in Chrome.
-3. Enable **Developer mode** (upper right).
-4. Click **Load unpacked**, then select the folder containing `manifest.json`.
-5. Pin **Hookline** (puzzle icon in the Chrome toolbar) and click it. The side panel opens. Click **Try demo** to verify the UI.
-
-To test real Gmail extraction, open `https://mail.google.com`, click a message, then click **Analyze open email**. The mock analyzer uses simple patterns to find a payroll-change request, urgency, or password/code references. Click a warning card to highlight its exact text in Gmail.
-
-**Important:** If Gmail was already open when you installed/reloaded the extension, refresh the Gmail tab to inject `content.js`.
-
-## What each file does
-
-- `manifest.json`: Chrome extension metadata, Gmail content-script access, and side-panel permission.
-- `content.js`: reads the currently expanded Gmail message, gives the body `b1`, extracts links, highlights matching quotes, and clears stale evidence on email changes.
-- `sidepanel.html`, `sidepanel.css`, `sidepanel.js`: user experience, evidence cards, fishing hook, demo and challenge UI, one-question practice.
-- `background.js`: routes `/analyze` and `/challenge`; currently returns mock analysis. API key is **never** stored in the extension.
-- `fixtures/demo-email.json`: agreed-upon sample payload.
-
-## Backend integration with Albert and Sunday
-
-1. Freeze the request payload and finding response contract first:
-
-   Request: `POST /analyze` with `{ email_id, sender:{name,address}, subject, blocks:[{id,text}], links:[{id,text,url}] }`.
-
-   Response: `{ email_id, findings:[{id, category, title, evidence:{block_id,quote}, explanation, next_action}], summary }`.
-
-   Challenge request expected by this starter: `{ email, finding_id, context }` to `POST /challenge`.
-
-   Challenge response: `{ explanation, next_action }`.
-
-2. In `background.js`, set `MOCK_MODE = false` and set `API_BASE_URL` to the Cloud Run HTTPS base URL.
-3. In `manifest.json`, add an **exact host permission** for the deployed backend (e.g. `"host_permissions": ["https://your-real-service.a.run.app/*"]`). Avoid broad `https://*/*` permissions.
-4. Reload your unpacked extension on `chrome://extensions` and refresh the Gmail tab.
-5. Check the service worker's Inspect link in `chrome://extensions` and Chrome DevTools for errors.
-6. Verify that Sunday returns *actual substrings* from the specified block and that the backend validates those quotes before sending them.
-
-If the backend returns a different response schema, coordinate one small normalization function rather than changing the UI and extraction code everywhere.
-
-## Demo test checklist
-
-- [ ] Chrome icon opens side panel.
-- [ ] Try demo produces two warning signs (payment change and urgency).
-- [ ] Gmail message extraction captures subject, sender, body, and links.
-- [ ] Warning card highlights the exact phrase, never guessed text.
-- [ ] If evidence does not match, no fabricated highlight is shown.
-- [ ] Opening another email clears old results and evidence.
-- [ ] Switching tabs clears stale results.
-- [ ] Challenge input works (in mock mode the reply is explicitly labeled as such).
-- [ ] Practice question works with mouse and keyboard.
-- [ ] UI remains usable at narrow side-panel widths.
-- [ ] No private email content is transmitted until user clicks Analyze.
-
-## Known limits / production cautions
-
-- This uses Gmail DOM selectors (`.a3s`, `.gD[email]`, `h2.hP`), which are not stable APIs; test on your Gmail UI. It extracts the *last visible expanded message* in a thread, not a full Gmail conversation.
-- Quote highlighting is exact substring-based. Quotes containing browser-normalized whitespace or embedded formatting may not visually map to DOM text; in that case, a warning is shown rather than a made-up highlight.
-- The mock analyzer is **not an AI classifier or a security guarantee**. It deliberately only demonstrates the interface and evidence workflow.
-- Do not run this against sensitive real inboxes during a public demo. Use synthetic messages and avoid logging full email bodies in the backend.
-- A matching domain is not proof of safety; a mismatch is not proof of phishing.
-- If Cloud Run is access-restricted, coordinate browser authentication and access control with Albert; adding a URL is not sufficient.
+Gmail DOM selectors are unstable and require actual-browser validation. Sender matching and a low risk score are not proof of authenticity. Do not test with sensitive real inbox data in public demos.

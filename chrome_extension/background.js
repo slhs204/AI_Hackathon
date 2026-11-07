@@ -1,42 +1,122 @@
-// CHANGEME for backend integration: Albert should supply the deployed Cloud Run URL.
-// Leave MOCK_MODE=true until the /analyze and /challenge contracts are finalized.
-const MOCK_MODE = true;
-const API_BASE_URL = ""; // e.g. "https://your-cloud-run-service.a.run.app"
+// Private staging is reached through the local, IAM-authenticated gcloud proxy.
+// No Cloud Run identity token, service-account key, or provider key belongs here.
+const API_BASE_URL = "http://127.0.0.1:8080";
+const SESSION_KEY = "hooklineConnection";
+const TIMEOUT_MS = 45000;
+let connectionRevision = 0;
 
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
-  .catch((error) => console.error("Cannot enable side panel:", error));
+  .catch(() => console.error("Cannot enable side panel."));
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (!message || !["ANALYZE", "CHALLENGE"].includes(message.type)) return;
+function trustedPanel(sender) {
+  return sender?.id === chrome.runtime.id && !sender.tab &&
+    sender.url === chrome.runtime.getURL("sidepanel.html");
+}
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (!message || !["ANALYZE", "CHALLENGE", "CONNECT", "DISCONNECT", "CONNECTION_STATUS"].includes(message.type)) return;
+  // Gmail content scripts only extract/highlight. They cannot initiate backend calls.
+  if (!trustedPanel(sender)) {
+    sendResponse({ ok: false, error: "Open the Hookline side panel to run this action." });
+    return;
+  }
   (async () => {
     try {
-      const result = MOCK_MODE
-        ? message.type === "ANALYZE"
-          ? mockAnalyze(message.email)
-          : mockChallenge(message)
-        : await callBackend(message);
-      sendResponse({ ok: true, data: result, mocked: MOCK_MODE });
+      if (message.type === "CONNECT") {
+        const revision = ++connectionRevision;
+        const token = typeof message.token === "string" ? message.token.trim() : "";
+        if (!token || token.length > 512 || /[\r\n]/.test(token)) throw new Error("Enter the staging demo token privately in this panel.");
+        await checkHealth(token);
+        if (revision !== connectionRevision) throw new Error("Connection was cancelled.");
+        await chrome.storage.session.set({ [SESSION_KEY]: { token } });
+        sendResponse({ ok: true, connected: true, endpoint: API_BASE_URL });
+        return;
+      }
+      if (message.type === "DISCONNECT") {
+        connectionRevision++;
+        await chrome.storage.session.remove(SESSION_KEY);
+        sendResponse({ ok: true, connected: false });
+        return;
+      }
+      const connection = (await chrome.storage.session.get(SESSION_KEY))[SESSION_KEY];
+      if (message.type === "CONNECTION_STATUS") {
+        sendResponse({ ok: true, connected: Boolean(connection?.token), endpoint: API_BASE_URL });
+        return;
+      }
+      const mocked = message.demo === true;
+      if (!mocked && !connection?.token) throw new Error("Connect to private staging first, or choose Try demo for local pattern rules.");
+      const result = mocked
+        ? message.type === "ANALYZE" ? mockAnalyze(message.email) : mockChallenge(message)
+        : await callBackend(message, connection.token);
+      sendResponse({ ok: true, data: result, mocked });
     } catch (error) {
       sendResponse({ ok: false, error: String(error?.message || error) });
     }
   })();
-  return true; // Keep messaging alive for asynchronous replies.
+  return true;
 });
 
-async function callBackend(message) {
-  if (!API_BASE_URL) throw new Error("Set API_BASE_URL in background.js.");
-  const endpoint = message.type === "ANALYZE" ? "/analyze" : "/challenge";
-  // Add the EXACT API host to manifest.json > host_permissions before enabling live mode.
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(message.type === "ANALYZE"
-      ? message.email
-      : { email: message.email, finding_id: message.finding_id, context: message.context })
-  });
-  if (!response.ok) throw new Error(`Backend returned HTTP ${response.status}`);
-  return await response.json();
+async function request(path, token, payload) {
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      method: payload ? "POST" : "GET",
+      headers: { "Content-Type": "application/json", "X-Demo-Token": token, "X-Require-Rules-Only": "1" },
+      ...(payload ? { body: JSON.stringify(payload) } : {}),
+      credentials: "omit",
+      redirect: "error", // Never forward the token or email to another destination.
+      cache: "no-store",
+      signal: AbortSignal.timeout(TIMEOUT_MS)
+    });
+  } catch (error) {
+    if (error?.name === "TimeoutError" || error?.name === "AbortError") throw new Error("Staging request timed out. No result was accepted; check the proxy before retrying.");
+    throw new Error("Cannot reach the local staging proxy. Start it on this computer and check Chrome's local-network permission if prompted.");
+  }
+  if (!response.ok) {
+    const detail = {
+      401: "The staging demo token is missing or incorrect.",
+      403: "Cloud Run access was denied. Check the proxy's signed-in account and existing invoker access.",
+      409: "The backend is not rules-only. This staging build will not call a paid model.",
+      422: "The backend rejected the email or finding. No assessment was accepted.",
+      503: "The backend is not ready or its demo token is not configured."
+    }[response.status];
+    throw new Error(detail || `Backend returned HTTP ${response.status}.`);
+  }
+  try { return await response.json(); }
+  catch { throw new Error("The backend returned invalid JSON. No assessment was accepted."); }
+}
+
+async function checkHealth(token) {
+  const data = await request("/session", token);
+  if (data?.status !== "ok" || data?.service !== "phishing-coach" ||
+      data?.model?.analyze !== "rules-only" || data?.model?.challenge !== "rules-only") {
+    throw new Error("Expected the private phishing-coach rules-only staging backend. No email was sent.");
+  }
+  return data;
+}
+
+async function callBackend(message, token) {
+  const revision = connectionRevision;
+  await checkHealth(token);
+  if (revision !== connectionRevision) throw new Error("Connection changed. No email was sent.");
+  const isAnalyze = message.type === "ANALYZE";
+  if (!isAnalyze && (!message.finding?.id || !message.finding?.evidence)) throw new Error("Select the original finding before challenging it.");
+  const data = await request(isAnalyze ? "/analyze" : "/challenge", token,
+    isAnalyze ? message.email : { email: message.email, finding: message.finding, user_context: message.context });
+  if (data?.model !== "rules-only") throw new Error("Unexpected backend model mode. No result was accepted.");
+  if (isAnalyze) {
+    if (data.email_id !== message.email?.email_id || !Array.isArray(data.findings) ||
+        typeof data.analysis_complete !== "boolean" || !Array.isArray(data.limitations) ||
+        !data.findings.every(f => f && typeof f.id === "string" && f.evidence && typeof f.explanation === "string")) {
+      throw new Error("Incomplete or mismatched analysis response. No assessment was accepted.");
+    }
+  } else if (data.finding_id !== message.finding.id ||
+      !["still_concerning", "less_concerning"].includes(data.assessment) ||
+      typeof data.still_unresolved !== "string" || typeof data.next_action !== "string" ||
+      typeof data.message !== "string") {
+    throw new Error("Incomplete or mismatched challenge response. No reassessment was accepted.");
+  }
+  return data;
 }
 
 function mockAnalyze(email) {
@@ -84,6 +164,9 @@ function mockAnalyze(email) {
 
   return {
     email_id: email.email_id,
+    model: "local-demo",
+    analysis_complete: false,
+    limitations: ["Local demonstration patterns only. Sender identity, headers, attachments and link destinations are not verified."],
     findings,
     summary: findings.length
       ? `${findings.length} warning sign${findings.length === 1 ? "" : "s"} identified for your review.`
@@ -95,7 +178,7 @@ function mockAnalyze(email) {
 function mockChallenge(message) {
   if (!String(message.context || "").trim()) throw new Error("Enter additional context.");
   return {
-    finding_id: message.finding_id,
+    finding_id: message.finding?.id,
     explanation: "Your context may make the request less unexpected. It does not independently verify the sender or authorize changing payment details.",
     next_action: "Confirm the request through your organization's existing approval procedure."
   };

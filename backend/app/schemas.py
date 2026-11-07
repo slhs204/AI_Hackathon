@@ -84,8 +84,14 @@ class AnalyzeRequest(_In):
     authentication_results: str = Field(default="", max_length=2_000)
     attachments: list[Attachment] = Field(default_factory=list, max_length=MAX_ATTACHMENTS)
 
+    # Whether the submitted visible content was fully extracted, not a claim of authenticity.
+    extraction_complete: bool = True
+    extraction_limitations: list[str] = Field(default_factory=list, max_length=10)
+
     @model_validator(mode="after")
     def _check_ids_and_size(self) -> "AnalyzeRequest":
+        if any(len(note) > 300 for note in self.extraction_limitations):
+            raise ValueError("extraction limitation is longer than 300 characters")
         block_ids = [b.id for b in self.blocks]
         if len(set(block_ids)) != len(block_ids):
             raise ValueError("block ids must be unique")

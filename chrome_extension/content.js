@@ -31,21 +31,30 @@
     if (!body) return null;
 
     const container = body.closest(".adn") || body.closest("[data-message-id]") || body.parentElement;
-    const from = container?.querySelector(".gD[email]") || document.querySelector(".gD[email]");
-    const senderAddress = from?.getAttribute("email") || "unknown";
+    const from = container?.querySelector(".gD[email]");
+    const senderAddress = from?.getAttribute("email") || "";
     const senderName = from?.textContent?.trim() || senderAddress;
     const subject = document.querySelector("h2.hP")?.textContent?.trim() || "(No subject found)";
     const content = body.innerText.trim();
-    const links = [...body.querySelectorAll("a[href]")].slice(0, 40).map((link, index) => ({
+    // Never silently drop body text or over-limit links and call it a complete check.
+    if (content.length + subject.length > 20000) throw new Error("This message exceeds the 20,000-character analysis limit. No text was sent.");
+    const allLinks = [...body.querySelectorAll("a[href]")];
+    const links = allLinks.slice(0, 50).map((link, index) => ({
       id: `l${index + 1}`,
       text: link.innerText?.trim() || link.textContent?.trim() || "(link)",
       url: link.href
     }));
     return {
-      email_id: `gmail-${shortHash(`${location.hash}|${senderAddress}|${subject}|${content}`)}`,
+      email_id: `gmail-${shortHash(`${location.hash}|${senderAddress}|${subject}|${content}|${JSON.stringify(links)}`)}`,
       sender: { name: senderName, address: senderAddress },
       subject,
       blocks: [{ id: "b1", text: content }],
+      extraction_complete: false,
+      extraction_limitations: [
+        "Gmail DOM view only: the last visible expanded message, not the full thread.",
+        "Raw authentication headers, Reply-To and attachment contents are unavailable.",
+        ...(allLinks.length > 50 ? ["Only the first 50 links were extracted."] : [])
+      ],
       links
     };
   }
@@ -133,11 +142,14 @@
 
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.type === "EXTRACT_EMAIL") {
-      const email = extractEmail();
-      lastEmailId = email?.email_id || null;
-      sendResponse(email ? { ok: true, email } : { ok: false, error: "Open a Gmail message first (not just your inbox)." });
+      try {
+        const email = extractEmail();
+        lastEmailId = email?.email_id || null;
+        sendResponse(email ? { ok: true, email } : { ok: false, error: "Open a Gmail message first (not just your inbox)." });
+      } catch (error) { sendResponse({ ok: false, error: error.message }); }
     } else if (message.type === "HIGHLIGHT_EVIDENCE") {
-      sendResponse(highlightEvidence(message.evidence, message.email_id));
+      try { sendResponse(highlightEvidence(message.evidence, message.email_id)); }
+      catch { sendResponse({ success: false, reason: "Message extraction changed. Analyze again before highlighting." }); }
     } else if (message.type === "CLEAR_HIGHLIGHTS") {
       clearHighlight();
       sendResponse({ success: true });
@@ -145,7 +157,9 @@
   });
 
   function checkEmailChange() {
-    const now = extractEmail()?.email_id || null;
+    let now;
+    try { now = extractEmail()?.email_id || null; }
+    catch { now = null; }
     if (now === lastEmailId) return;
     clearHighlight();
     lastEmailId = now;
@@ -156,7 +170,7 @@
     clearTimeout(checkTimer);
     checkTimer = setTimeout(checkEmailChange, 300);
   });
-  observer.observe(document.documentElement, { subtree: true, childList: true, characterData: true });
+  observer.observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["href", "email"] });
   window.addEventListener("hashchange", checkEmailChange);
   checkEmailChange();
 })();

@@ -17,8 +17,8 @@ def dims(r):
 
 def test_four_questions_are_always_answered():
     r = analyze(load("x-legit-internal-reminder"))
-    assert dims(r) == {"sender": "ok", "money": "ok", "pressure": "ok", "links": "ok"}
-    assert r.verdict["key"] == "pay"
+    assert dims(r) == {"sender": "unknown", "money": "ok", "pressure": "ok", "links": "ok"}
+    assert r.verdict["key"] == "verify"
 
 
 def test_money_plus_untrusted_sender_is_red():

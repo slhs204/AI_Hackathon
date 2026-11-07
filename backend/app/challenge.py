@@ -49,6 +49,13 @@ def _find_again(req: ChallengeRequest):
     return found
 
 
+def _validate_model_challenge(raw: dict) -> None:
+    if raw.get("assessment") not in ("still_concerning", "less_concerning") or any(
+            not isinstance(raw.get(k), str) or not raw[k].strip()
+            for k in ("message", "still_unresolved")):
+        raise llm.ModelOutputInvalid("invalid challenge response")
+
+
 def challenge(req: ChallengeRequest, model_call: Optional[llm.ModelCall] = None) -> ChallengeResponse:
     f = req.finding or _find_again(req)
     quote = f.evidence.quote or f.evidence.value or ""
@@ -62,7 +69,8 @@ def challenge(req: ChallengeRequest, model_call: Optional[llm.ModelCall] = None)
     if model_call is not None:
         try:
             raw, _ = llm.call_json(model_call, prompts.CHALLENGE_SYSTEM,
-                                   prompts.challenge_user(req.email, f, req.user_context, steps))
+                                   prompts.challenge_user(req.email, f, req.user_context, steps),
+                                   validate=_validate_model_challenge)
             a = raw.get("assessment")
             if a in ("still_concerning", "less_concerning"):
                 assessment = a

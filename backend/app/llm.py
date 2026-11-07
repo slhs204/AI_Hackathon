@@ -36,7 +36,7 @@ class ModelUnavailable(Exception):
 
 
 class ModelOutputInvalid(ModelUnavailable):
-    """The model answered, but not with one valid JSON object. Worth one retry;
+    """The model answered, but not with one valid JSON object matching the expected shape. Worth one retry;
     other failures (auth, network, refusal) are not, since a retry costs money
     and would fail the same way."""
 
@@ -140,6 +140,8 @@ _THINK = re.compile(r"<think>.*?</think>", re.S | re.I)
 def parse_json_object(text: str) -> dict:
     """Pull one JSON object out of model text (tolerates code fences, a
     leading sentence, or a <think> block). Raises ModelUnavailable."""
+    if not isinstance(text, str):
+        raise ModelOutputInvalid("model output must be text")
     t = _FENCE.sub("", _THINK.sub("", text or "").strip())
     start, end = t.find("{"), t.rfind("}")
     if start < 0 or end <= start:
@@ -153,7 +155,8 @@ def parse_json_object(text: str) -> dict:
     return obj
 
 
-def call_json(call: ModelCall, system: str, user: str, retries: int = 1) -> tuple[dict, int]:
+def call_json(call: ModelCall, system: str, user: str, retries: int = 1,
+              validate: Optional[Callable[[dict], None]] = None) -> tuple[dict, int]:
     """Call the model and parse a JSON object. Retries once only when the
     answer was not valid JSON; any other failure is raised at once.
     Returns (object, elapsed_ms)."""
@@ -163,6 +166,8 @@ def call_json(call: ModelCall, system: str, user: str, retries: int = 1) -> tupl
         prompt = user if attempt == 0 else user + "\n\nYour last reply was not one valid JSON object. Reply with ONLY the JSON object."
         try:
             obj = parse_json_object(call(system, prompt))
+            if validate is not None:
+                validate(obj)
             return obj, int((time.monotonic() - started) * 1000)
         except ModelOutputInvalid as exc:
             last = exc
