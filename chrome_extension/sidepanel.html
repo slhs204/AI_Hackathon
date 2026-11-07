@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hookline</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+  <script src="sidepanel.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="brand-icon" aria-hidden="true">🪝</span><div><strong>Hookline</strong><small>Phishing email coach</small></div></div>
+    <span class="mode" id="mode">DEMO</span>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">STOP. SPOT. VERIFY.</p>
+      <h1>Is this email trying to reel you in?</h1>
+      <p>Learn which words deserve a second look—and why.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-label">Selected email</div>
+      <strong id="subject" class="email-subject">No message selected</strong>
+      <p id="sender" class="sender">Open an email in Gmail to get started.</p>
+      <div class="actions">
+        <button id="analyze" class="primary">Analyze open email</button>
+        <button id="demo" class="secondary">Try demo</button>
+      </div>
+      <p id="status" role="status" aria-live="polite" class="status">Only the message you choose is analyzed.</p>
+    </section>
+
+    <section class="panel" id="results" hidden>
+      <div class="section-row">
+        <div class="section-label">The fishing hook</div>
+        <span class="interactive-flag">● INTERACTIVE</span>
+      </div>
+      <div class="hook-workbench">
+        <div class="hook-heading">
+          <div class="hook-score"><strong id="warning-total">0</strong><span id="count">warning signs</span></div>
+          <p>Each clue is evidence, <strong>not a phishing probability.</strong></p>
+        </div>
+        <div class="hook-stage" role="group" aria-label="Clickable warning-sign clues">
+          <div class="hook-illustration" aria-hidden="true">
+            <svg class="hook-svg" viewBox="0 0 120 258" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <defs>
+                <linearGradient id="hook-metal" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffcf73"/>
+                  <stop offset="0.45" stop-color="#f4a732"/>
+                  <stop offset="1" stop-color="#dd761b"/>
+                </linearGradient>
+                <linearGradient id="hook-water" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#a5e7dc" stop-opacity="0"/>
+                  <stop offset="0.5" stop-color="#a5e7dc" stop-opacity=".65"/>
+                  <stop offset="1" stop-color="#a5e7dc" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M59 2 V92" stroke="#77aeb4" stroke-width="2.5" stroke-dasharray="5 7" stroke-linecap="round"/>
+              <circle cx="59" cy="105" r="12" fill="#ecfffc" stroke="#e6a13d" stroke-width="7"/>
+              <path d="M59 119 V177 C59 221 109 228 109 187 L109 173" fill="none" stroke="#c4822d" stroke-width="13" stroke-linecap="round"/>
+              <path d="M59 119 V177 C59 221 109 228 109 187 L109 173" fill="none" stroke="url(#hook-metal)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M109 171 L99 184 L115 188 Z" fill="#f8b448" stroke="#c4822d" stroke-width="2" stroke-linejoin="round"/>
+              <ellipse cx="70" cy="241" rx="47" ry="7" fill="url(#hook-water)"/>
+              <path d="M27 242 Q47 236 67 242 T110 242" fill="none" stroke="#7bcdbf" stroke-width="2" opacity=".5"/>
+            </svg>
+          </div>
+          <div id="bait-list" class="bait-list"></div>
+        </div>
+        <p class="hook-instruction" id="hook-instruction">Select a clue to learn why it matters and highlight the evidence in Gmail.</p>
+        <div id="hook-detail" class="hook-detail" hidden aria-live="polite">
+          <div class="hook-detail-label">Selected clue <span id="hook-detail-number"></span></div>
+          <strong id="hook-detail-title"></strong>
+          <p class="hook-detail-evidence" id="hook-detail-quote"></p>
+          <p id="hook-detail-why"></p>
+          <p class="hook-detail-check" id="hook-detail-check"></p>
+        </div>
+      </div>
+      <p id="summary" class="summary"></p>
+      <div id="findings" class="findings"></div>
+      <p class="caveat">No warning signs found does not mean the email is safe.</p>
+    </section>
+
+    <section class="panel" id="challenge-section" hidden>
+      <div class="section-label">Challenge the assessment</div>
+      <p class="supporting">Select a clue above, then add context that might change its interpretation.</p>
+      <label for="challenge-text">Additional context</label>
+      <textarea id="challenge-text" rows="3" placeholder="e.g. I spoke with this coworker yesterday..."></textarea>
+      <button id="challenge" class="secondary full-width">Reconsider selected finding</button>
+      <p id="challenge-result" class="challenge-result" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" id="practice" hidden>
+      <div class="section-label">One-minute practice</div>
+      <strong>Before updating payroll details, you should…</strong>
+      <div class="practice-buttons">
+        <button id="unsafe-answer" class="option">Follow the email's instructions immediately</button>
+        <button id="safe-answer" class="option">Use your existing payroll verification process</button>
+      </div>
+      <p id="practice-feedback" class="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <footer>Built for the hackathon · Training tool, not a guarantee of safety</footer>
+</body>
+</html>
