@@ -88,6 +88,10 @@ Example: Hookline's demo email (real output, rules only).
 }
 ```
 
+`notes` (added): when the only signs are pressure words ("urgent", "today", "confidential") and nothing asks the
+reader to pay, sign in, open a file or send data, they are moved from `findings` to `notes`, the assessment is
+`no_obvious_indicators`, and a limitation explains why. Show notes as plain text, not as hook pieces.
+
 Each finding also carries `tag` (short chip text such as `"bank change"`, `"look-alike domain"`) and, when the
 model ran, `ai_explanation` (a plain-English rewording; the rule's `explanation` stays).
 `stages[].flags[].finding_ids` always point at ids in `findings`. The backend's extra findings are added to the

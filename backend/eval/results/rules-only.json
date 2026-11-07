@@ -1,7 +1,9 @@
 {
-  "generated_at": "2026-11-07 20:01 UTC",
+  "generated_at": "2026-11-07 20:50 UTC",
   "fixture_set": "core",
   "model": "rules-only",
+  "prompt": "-",
+  "split": "all",
   "n_cases": 23,
   "views": [
     "full",
@@ -10,7 +12,7 @@
   "summary": {
     "full": {
       "phishing_flagged": "13/14",
-      "legit_false_alarms": "2/7",
+      "legit_false_alarms": "1/7",
       "ambiguous_flagged": "2/2",
       "must_flag_misses": 1,
       "incomplete_results": 0,
@@ -18,11 +20,11 @@
       "model_findings_discarded": 0,
       "model_unavailable": 0,
       "latency_ms_median": 0,
-      "latency_ms_max": 3
+      "latency_ms_max": 2
     },
     "gmail": {
       "phishing_flagged": "13/14",
-      "legit_false_alarms": "2/7",
+      "legit_false_alarms": "1/7",
       "ambiguous_flagged": "2/2",
       "must_flag_misses": 1,
       "incomplete_results": 0,
@@ -55,7 +57,7 @@
         "model_findings": 0,
         "model_discarded": 0,
         "model": "rules-only",
-        "ms": 3
+        "ms": 2
       },
       {
         "id": "ceo-wire",
@@ -206,14 +208,12 @@
       {
         "id": "h-legit-urgent-cutoff",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 24,
-        "n_findings": 4,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -616,14 +616,12 @@
       {
         "id": "h-legit-urgent-cutoff",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 24,
-        "n_findings": 4,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,

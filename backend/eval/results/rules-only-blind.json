@@ -1,7 +1,9 @@
 {
-  "generated_at": "2026-11-07 20:01 UTC",
+  "generated_at": "2026-11-07 20:50 UTC",
   "fixture_set": "blind",
   "model": "rules-only",
+  "prompt": "-",
+  "split": "all",
   "n_cases": 200,
   "views": [
     "full",
@@ -9,8 +11,8 @@
   ],
   "summary": {
     "full": {
-      "phishing_flagged": "34/100",
-      "legit_false_alarms": "5/100",
+      "phishing_flagged": "27/100",
+      "legit_false_alarms": "0/100",
       "ambiguous_flagged": "0/0",
       "must_flag_misses": 0,
       "incomplete_results": 0,
@@ -21,8 +23,8 @@
       "latency_ms_max": 1
     },
     "gmail": {
-      "phishing_flagged": "18/100",
-      "legit_false_alarms": "5/100",
+      "phishing_flagged": "8/100",
+      "legit_false_alarms": "0/100",
       "ambiguous_flagged": "0/0",
       "must_flag_misses": 0,
       "incomplete_results": 0,
@@ -428,14 +430,12 @@
       {
         "id": "legit-027",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -685,14 +685,12 @@
       {
         "id": "legit-044",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -762,14 +760,12 @@
       {
         "id": "legit-049",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -1124,14 +1120,12 @@
       {
         "id": "legit-073",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -1201,14 +1195,12 @@
       {
         "id": "legit-078",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -1548,14 +1540,12 @@
       {
         "id": "phish-0001",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 16,
-        "n_findings": 2,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -1758,14 +1748,12 @@
       {
         "id": "phish-0014",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -1854,14 +1842,12 @@
       {
         "id": "phish-0020",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -1916,14 +1902,12 @@
       {
         "id": "phish-0024",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -2356,14 +2340,12 @@
       {
         "id": "phish-0052",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -2467,14 +2449,12 @@
       {
         "id": "phish-0059",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -2531,14 +2511,12 @@
       {
         "id": "phish-0063",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -3514,14 +3492,12 @@
       {
         "id": "legit-027",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -3771,14 +3747,12 @@
       {
         "id": "legit-044",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -3848,14 +3822,12 @@
       {
         "id": "legit-049",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4210,14 +4182,12 @@
       {
         "id": "legit-073",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4287,14 +4257,12 @@
       {
         "id": "legit-078",
         "label": "legit",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4634,14 +4602,12 @@
       {
         "id": "phish-0001",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 16,
-        "n_findings": 2,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4651,14 +4617,12 @@
       {
         "id": "phish-0002",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 16,
-        "n_findings": 2,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4840,14 +4804,12 @@
       {
         "id": "phish-0014",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4934,14 +4896,12 @@
       {
         "id": "phish-0020",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -4996,14 +4956,12 @@
       {
         "id": "phish-0024",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -5073,14 +5031,12 @@
       {
         "id": "phish-0029",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -5425,14 +5381,12 @@
       {
         "id": "phish-0052",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -5534,14 +5488,12 @@
       {
         "id": "phish-0059",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -5596,14 +5548,12 @@
       {
         "id": "phish-0063",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,
@@ -5838,14 +5788,12 @@
       {
         "id": "phish-0079",
         "label": "phishing",
-        "assessment": "needs_verification",
+        "assessment": "no_obvious_indicators",
         "verdict": "pay",
-        "flagged": true,
-        "score": 8,
-        "n_findings": 1,
-        "categories": [
-          "urgency_pressure"
-        ],
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
         "must_flag_missing": [],
         "model_findings": 0,
         "model_discarded": 0,

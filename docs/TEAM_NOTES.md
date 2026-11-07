@@ -16,6 +16,12 @@ email. Core set with Sonnet: 14/14 phishing (the compromised-vendor email the ru
 alarms (rules: 2/7). Trade-off to decide: the model closes the misses but raises false alarms. Proposed fix: tell
 the model to add a sign only when the email asks for a risky action, and show model-only weak signs as "low concern".
 
+**Update (Haiku tuning + pressure rule, no new API calls for the rule):** tuning half, Gmail view:
+Haiku + prompt v2 = 49/50 phishing, 3/50 false alarms (all 3 from the urgency rule). New backend rule: pressure
+words alone become `notes`, not findings. Recomputed offline from saved results: Haiku v2 = **48/50 phishing,
+0/50 false alarms**. Trade-off: rules-only mode drops from 18/100 to 8/100, so the rule assumes the model is on.
+Final numbers still need one run on the test half (`--split test`). New response field: `notes`.
+
 ## Models: Haiku for the inbox, Sonnet per email
 
 As discussed with Albert: `MODEL_PROVIDER=anthropic` uses **Claude Haiku 5.5** for `POST /triage` (sort the inbox by

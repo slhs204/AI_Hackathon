@@ -9,7 +9,7 @@ and adds the model layer, evidence checks, payroll policies, `/challenge`, and t
 cd backend
 uv venv --python 3.11 .venv && uv pip install --python .venv/bin/python -r requirements-dev.txt
 DEMO_API_TOKEN=dev .venv/bin/uvicorn main:app --reload --port 8080   # rules only; send X-Demo-Token: dev
-.venv/bin/python -m pytest -q                        # 59 tests
+.venv/bin/python -m pytest -q                        # 71 tests
 .venv/bin/python -m eval.run_eval                    # writes eval/results/rules-only.md
 .venv/bin/python -m eval.run_eval --set blind        # 200 emails from a public MIT dataset nobody tuned to
 .venv/bin/python -m eval.smoke_tinker                # first real Tinker call (needs key + model)
@@ -40,7 +40,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `eval/run_eval.py` | Runs all fixtures in "full headers" and "Gmail-visible" views, writes `eval/results/` |
 | `eval/smoke_tinker.py` | One tiny call + one full analysis to prove the Tinker setup works |
 | `eval/smoke_anthropic.py` | Haiku triage of a 3-email inbox + one Sonnet analysis |
-| `tests/` | 59 tests: evidence, pipeline, API/token, Hookline compatibility |
+| `tests/` | 71 tests: evidence, pipeline, API/token, Hookline compatibility |
 | `../fixtures/` | `build_fixtures.py` (core set) and `convert_teddyha.py` (blind set from `external/teddyha`, MIT) |
 
 ## Environment
@@ -94,4 +94,6 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
   the Gmail view (extensions don't send attachments yet); 5/100 false alarms. The rules were written for Acme
   payroll scams, not generic fake-Google/Dropbox mail; that gap is what the model has to close.
   With Sonnet 5.5 (Gmail view): 100/100 phishing, but 24/100 false alarms; see `eval/results/model-blind.md`.
+  Haiku 5.5 + prompt v2 + pressure-words-as-notes (tuning half, recomputed offline): 48/50 phishing, 0/50 false
+  alarms. Not yet confirmed on the test half.
 - Logging records ids, counts and timing only, never email bodies.

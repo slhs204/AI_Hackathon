@@ -1,11 +1,11 @@
-# Eval report (core) — 2026-11-07 20:01 UTC
+# Eval report (core) — 2026-11-07 20:50 UTC
 
-Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy claim.
+Model: `rules-only`, prompt `-`, split `all`. 23 synthetic cases. Counts only; not a real-world accuracy claim.
 
 | metric | full | gmail |
 |---|---|---|
 | phishing_flagged | 13/14 | 13/14 |
-| legit_false_alarms | 2/7 | 2/7 |
+| legit_false_alarms | 1/7 | 1/7 |
 | ambiguous_flagged | 2/2 | 2/2 |
 | must_flag_misses | 1 | 1 |
 | incomplete_results | 0 | 0 |
@@ -13,13 +13,13 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 | model_findings_discarded | 0 | 0 |
 | model_unavailable | 0 | 0 |
 | latency_ms_median | 0 | 0 |
-| latency_ms_max | 3 | 0 |
+| latency_ms_max | 2 | 0 |
 
 ## Per case — full
 
 | case | label | assessment | verdict | score | findings | categories | missing | ms |
 |---|---|---|---|---|---|---|---|---|
-| ceo-w2-request | phishing | needs_verification | stop | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 3 |
+| ceo-w2-request | phishing | needs_verification | stop | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 2 |
 | ceo-wire | phishing | needs_verification | stop | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 0 |
 | cfo-gift-cards | phishing | needs_verification | stop | 90 | 6 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
 | fake-docusign | phishing | needs_verification | stop | 100 | 8 | authentication_failure, deceptive_link, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
@@ -28,7 +28,7 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 | h-helpdesk-password | phishing | needs_verification | verify | 66 | 4 | deceptive_link, sender_impersonation, urgency_pressure | — | 0 |
 | h-legit-benefits | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | h-legit-ceo-review | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| h-legit-urgent-cutoff | legit | needs_verification | pay | 24 | 4 | urgency_pressure | — | 0 |
+| h-legit-urgent-cutoff | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | h-legit-vendor-no-change | legit | needs_verification | verify | 20 | 3 | payment_or_data_request | — | 0 |
 | h-ssn-benefits | phishing | needs_verification | verify | 50 | 2 | payment_or_data_request, sender_impersonation | — | 0 |
 | h-thread-hijack | phishing | needs_verification | verify | 20 | 2 | payment_or_data_request | — | 0 |
@@ -56,7 +56,7 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 | h-helpdesk-password | phishing | needs_verification | verify | 66 | 4 | deceptive_link, sender_impersonation, urgency_pressure | — | 0 |
 | h-legit-benefits | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | h-legit-ceo-review | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| h-legit-urgent-cutoff | legit | needs_verification | pay | 24 | 4 | urgency_pressure | — | 0 |
+| h-legit-urgent-cutoff | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | h-legit-vendor-no-change | legit | needs_verification | verify | 20 | 3 | payment_or_data_request | — | 0 |
 | h-ssn-benefits | phishing | needs_verification | verify | 50 | 2 | payment_or_data_request, sender_impersonation | — | 0 |
 | h-thread-hijack | phishing | needs_verification | verify | 20 | 2 | payment_or_data_request | — | 0 |

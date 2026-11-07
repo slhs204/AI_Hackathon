@@ -179,6 +179,7 @@ class AnalyzeResponse(BaseModel):
     payroll_weighted: bool
     scam_type: str
     findings: list[Finding]
+    notes: list[Finding] = Field(default_factory=list)  # weak signs shown as notes, not hook pieces (added)
     recommended_actions: list[str]
     limitations: list[str]
     # engine v3.1 fields read by Albert's v3 extension / Outlook pane

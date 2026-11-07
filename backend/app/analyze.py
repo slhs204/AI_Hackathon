@@ -29,6 +29,9 @@ MAX_MODEL_FINDINGS = 3
 MODEL_POINTS_EACH, MODEL_POINTS_CAP = 8, 16
 
 NO_HOOK_NOTICE = "No warning signs found does not mean the email is safe."
+PRESSURE_ONLY = {"urgency_pressure"}
+PRESSURE_NOTE = ("Only pressure words were found (such as \"urgent\" or \"today\"), with no request to pay, sign in, "
+                 "open a file or send data. They are listed as notes, not warning signs.")
 
 _SCAM_TO_DRILL = {
     "Credential phishing": "credential",
@@ -257,6 +260,20 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
     stages = _stages(rules.get("stages") or [], engine_ids, findings, extras + model_extra)
 
     score = min(100, int(rules["risk_score"]) + extra_points + model_points)
+
+    # Pressure words alone ("urgent", "today", "confidential") with nothing else
+    # are the most common false alarm: real payroll deadlines sound like that too.
+    # Without a request to pay, sign in, open a file or send data, they become a
+    # note instead of a hook piece. Any other sign keeps them as warnings.
+    notes: list[Finding] = []
+    if complete and all_findings and all(f.category in PRESSURE_ONLY for f in all_findings):
+        notes, all_findings, score = all_findings, [], 0
+        moved = {f.id for f in notes}
+        for st in stages:
+            st["flags"] = [fl for fl in st["flags"] if not set(fl.get("finding_ids", [])) <= moved]
+            st["score"] = sum(fl.get("points", 0) for fl in st["flags"])
+        limitations.append(PRESSURE_NOTE)
+
     if not complete:
         assessment = "insufficient_evidence"
     elif all_findings:
@@ -278,6 +295,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
         payroll_weighted=bool(rules["payroll_weighted"]),
         scam_type=rules["scam_type"],
         findings=all_findings,
+        notes=notes,
         recommended_actions=rules["recommended_actions"],
         limitations=limitations,
         verdict=_verdict(score, all_findings, complete),

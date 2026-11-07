@@ -1,11 +1,11 @@
-# Eval report (blind) — 2026-11-07 20:01 UTC
+# Eval report (blind) — 2026-11-07 20:50 UTC
 
-Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy claim.
+Model: `rules-only`, prompt `-`, split `all`. 200 synthetic cases. Counts only; not a real-world accuracy claim.
 
 | metric | full | gmail |
 |---|---|---|
-| phishing_flagged | 34/100 | 18/100 |
-| legit_false_alarms | 5/100 | 5/100 |
+| phishing_flagged | 27/100 | 8/100 |
+| legit_false_alarms | 0/100 | 0/100 |
 | ambiguous_flagged | 0/0 | 0/0 |
 | must_flag_misses | 0 | 0 |
 | incomplete_results | 0 | 0 |
@@ -45,7 +45,7 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-024 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-025 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-026 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-027 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-027 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-028 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-029 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-030 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -62,12 +62,12 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-041 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-042 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-043 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-044 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-044 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-045 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-046 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-047 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-048 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-049 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-049 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-050 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-051 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-052 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -91,12 +91,12 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-070 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-071 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-072 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-073 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-073 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-074 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-075 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-076 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-077 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-078 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-078 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-079 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-080 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-081 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -119,7 +119,7 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-098 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-099 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-100 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0001 | phishing | needs_verification | pay | 16 | 2 | urgency_pressure | — | 0 |
+| phish-0001 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0002 | phishing | needs_verification | verify | 36 | 3 | risky_attachment, urgency_pressure | — | 0 |
 | phish-0003 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0004 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -132,17 +132,17 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | phish-0011 | phishing | needs_verification | verify | 50 | 2 | risky_attachment, sender_impersonation | — | 0 |
 | phish-0012 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0013 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0014 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0014 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0015 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0016 | phishing | needs_verification | verify | 30 | 1 | sender_impersonation | — | 0 |
 | phish-0017 | phishing | needs_verification | pay | 20 | 1 | risky_attachment | — | 0 |
 | phish-0018 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0019 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0020 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0020 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0021 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0022 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0023 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0024 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0024 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0025 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0026 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0027 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -170,18 +170,18 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | phish-0049 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0050 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0051 | phishing | needs_verification | verify | 28 | 2 | payment_or_data_request, urgency_pressure | — | 0 |
-| phish-0052 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0052 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0053 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0054 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0055 | phishing | needs_verification | pay | 20 | 1 | risky_attachment | — | 0 |
 | phish-0056 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0057 | phishing | needs_verification | verify | 20 | 2 | payment_or_data_request | — | 0 |
 | phish-0058 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0059 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0059 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0060 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0061 | phishing | needs_verification | pay | 20 | 1 | risky_attachment | — | 0 |
 | phish-0062 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0063 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0063 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0064 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0065 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0066 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -250,7 +250,7 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-024 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-025 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-026 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-027 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-027 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-028 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-029 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-030 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -267,12 +267,12 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-041 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-042 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-043 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-044 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-044 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-045 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-046 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-047 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-048 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-049 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-049 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-050 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-051 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-052 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -296,12 +296,12 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-070 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-071 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-072 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-073 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-073 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-074 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-075 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-076 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-077 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| legit-078 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-078 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-079 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-080 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-081 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -324,8 +324,8 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | legit-098 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-099 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | legit-100 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0001 | phishing | needs_verification | pay | 16 | 2 | urgency_pressure | — | 0 |
-| phish-0002 | phishing | needs_verification | pay | 16 | 2 | urgency_pressure | — | 0 |
+| phish-0001 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0002 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0003 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0004 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0005 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -337,22 +337,22 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | phish-0011 | phishing | needs_verification | verify | 30 | 1 | sender_impersonation | — | 0 |
 | phish-0012 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0013 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0014 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0014 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0015 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0016 | phishing | needs_verification | verify | 30 | 1 | sender_impersonation | — | 0 |
 | phish-0017 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0018 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0019 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0020 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0020 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0021 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0022 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0023 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0024 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0024 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0025 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0026 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0027 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0028 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0029 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0029 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0030 | phishing | needs_verification | verify | 20 | 1 | payment_or_data_request | — | 0 |
 | phish-0031 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0032 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -375,18 +375,18 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | phish-0049 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0050 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0051 | phishing | needs_verification | verify | 28 | 2 | payment_or_data_request, urgency_pressure | — | 0 |
-| phish-0052 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0052 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0053 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0054 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0055 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0056 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0057 | phishing | needs_verification | verify | 20 | 2 | payment_or_data_request | — | 0 |
 | phish-0058 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0059 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0059 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0060 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0061 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0062 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0063 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0063 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0064 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0065 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0066 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
@@ -402,7 +402,7 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | phish-0076 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0077 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0078 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
-| phish-0079 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0079 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0080 | phishing | needs_verification | verify | 20 | 1 | payment_or_data_request | — | 0 |
 | phish-0081 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
 | phish-0082 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |

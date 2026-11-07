@@ -266,3 +266,27 @@ def test_prompt_version_switch(monkeypatch):
     assert "routine_notification" in system and "confidence" in schema["properties"]["extra_findings"]["items"]["properties"]
     monkeypatch.setenv("PROMPT_VERSION", "v1")
     assert prompts.analyze_prompt()[1] is prompts.ANALYZE_SCHEMA
+
+
+# --- pressure words alone become notes -------------------------------------------
+
+def test_pressure_words_alone_are_notes_not_warnings():
+    r = analyze(load("h-legit-urgent-cutoff"))  # real CFO: "URGENT: payroll cutoff today"
+    assert r.findings == [] and r.notes
+    assert all(n.category == "urgency_pressure" for n in r.notes)
+    assert r.assessment == "no_obvious_indicators" and r.risk_score == 0
+    assert any("pressure words" in x for x in r.limitations)
+    assert all(not st["flags"] and st["score"] == 0 for st in r.stages)
+
+
+def test_pressure_words_with_a_request_stay_warnings():
+    r = analyze(load("vendor-bank-change"))
+    assert any(f.category == "urgency_pressure" for f in r.findings)
+    assert r.notes == []
+
+
+def test_pressure_plus_model_sign_stays_a_warning():
+    reply = json.dumps({"extra_findings": [{"category": "manipulation_cue", "block_id": "b1",
+                        "quote": "payroll closes today at 5pm", "explanation": "x", "next_action": "y"}]})
+    r = analyze(load("h-legit-urgent-cutoff"), fake_model(reply))
+    assert r.findings and r.notes == []
