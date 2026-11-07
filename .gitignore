@@ -1,0 +1,18 @@
+# Secrets and local settings
+.env
+.env.*
+*.pem
+*.key
+
+# Temporary files
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# Private files and local archives
+private/
+*.zip
