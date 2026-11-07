@@ -1,4 +1,4 @@
-# Eval report (blind) — 2026-11-07 19:47 UTC
+# Eval report (blind) — 2026-11-07 20:01 UTC
 
 Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy claim.
 
@@ -11,6 +11,7 @@ Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy
 | incomplete_results | 0 | 0 |
 | model_findings_kept | 0 | 0 |
 | model_findings_discarded | 0 | 0 |
+| model_unavailable | 0 | 0 |
 | latency_ms_median | 0 | 0 |
 | latency_ms_max | 1 | 0 |
 

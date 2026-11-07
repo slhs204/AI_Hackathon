@@ -1,4 +1,4 @@
-# Eval report (core) — 2026-11-07 19:46 UTC
+# Eval report (core) — 2026-11-07 20:01 UTC
 
 Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy claim.
 
@@ -11,14 +11,15 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 | incomplete_results | 0 | 0 |
 | model_findings_kept | 0 | 0 |
 | model_findings_discarded | 0 | 0 |
+| model_unavailable | 0 | 0 |
 | latency_ms_median | 0 | 0 |
-| latency_ms_max | 2 | 0 |
+| latency_ms_max | 3 | 0 |
 
 ## Per case — full
 
 | case | label | assessment | verdict | score | findings | categories | missing | ms |
 |---|---|---|---|---|---|---|---|---|
-| ceo-w2-request | phishing | needs_verification | stop | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 2 |
+| ceo-w2-request | phishing | needs_verification | stop | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 3 |
 | ceo-wire | phishing | needs_verification | stop | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 0 |
 | cfo-gift-cards | phishing | needs_verification | stop | 90 | 6 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
 | fake-docusign | phishing | needs_verification | stop | 100 | 8 | authentication_failure, deceptive_link, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |

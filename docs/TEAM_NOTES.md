@@ -9,8 +9,12 @@ tuned rules to. Rules only: **34/100 phishing flagged when attachment names are 
 (today's extensions don't send attachments); **5/100 legitimate falsely flagged** (all 5 for urgency words).
 Sending attachment names from the extension would catch 16 more (malware attachments: 1/13 → 10/13).
 Most misses are generic fake-Google/Dropbox/bank mail with look-alike domains the directory doesn't know. The rules
-were written for Acme payroll scams, so this mostly measures how much the model has to add. Run the same set with
-`--model` once we have a key.
+were written for Acme payroll scams, so this mostly measures how much the model has to add. With **Claude Sonnet 5.5** (Gmail view, 2026-11-07): **100/100 phishing flagged, 24/100 legitimate falsely
+flagged** (19 of those only because of the model, mostly a single `manipulation_cue` on ordinary account
+notifications such as "Contact support if this wasn't you"). 0 model quotes failed verification; median 2.8 s per
+email. Core set with Sonnet: 14/14 phishing (the compromised-vendor email the rules miss is now caught), 3/7 false
+alarms (rules: 2/7). Trade-off to decide: the model closes the misses but raises false alarms. Proposed fix: tell
+the model to add a sign only when the email asks for a risky action, and show model-only weak signs as "low concern".
 
 ## Models: Haiku for the inbox, Sonnet per email
 

@@ -1,0 +1,911 @@
+{
+  "generated_at": "2026-11-07 20:02 UTC",
+  "fixture_set": "core",
+  "model": "anthropic:claude-sonnet-5-5",
+  "n_cases": 23,
+  "views": [
+    "full",
+    "gmail"
+  ],
+  "summary": {
+    "full": {
+      "phishing_flagged": "14/14",
+      "legit_false_alarms": "3/7",
+      "ambiguous_flagged": "2/2",
+      "must_flag_misses": 0,
+      "incomplete_results": 0,
+      "model_findings_kept": 33,
+      "model_findings_discarded": 0,
+      "model_unavailable": 0,
+      "latency_ms_median": 4312,
+      "latency_ms_max": 8205
+    },
+    "gmail": {
+      "phishing_flagged": "14/14",
+      "legit_false_alarms": "3/7",
+      "ambiguous_flagged": "2/2",
+      "must_flag_misses": 0,
+      "incomplete_results": 0,
+      "model_findings_kept": 32,
+      "model_findings_discarded": 0,
+      "model_unavailable": 0,
+      "latency_ms_median": 3704,
+      "latency_ms_max": 6128
+    }
+  },
+  "rows": {
+    "full": [
+      {
+        "id": "ceo-w2-request",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 15,
+        "categories": [
+          "authentication_failure",
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "reply_to_mismatch",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 6845
+      },
+      {
+        "id": "ceo-wire",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 16,
+        "categories": [
+          "authentication_failure",
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "reply_to_mismatch",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 8205
+      },
+      {
+        "id": "cfo-gift-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 98,
+        "n_findings": 8,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 6762
+      },
+      {
+        "id": "fake-docusign",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 10,
+        "categories": [
+          "authentication_failure",
+          "deceptive_link",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 7052
+      },
+      {
+        "id": "h-apple-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 49,
+        "n_findings": 4,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4312
+      },
+      {
+        "id": "h-compromised-vendor",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 3,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4658
+      },
+      {
+        "id": "h-helpdesk-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 74,
+        "n_findings": 5,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4315
+      },
+      {
+        "id": "h-legit-benefits",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "verdict": "pay",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4673
+      },
+      {
+        "id": "h-legit-ceo-review",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 1827
+      },
+      {
+        "id": "h-legit-urgent-cutoff",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "verdict": "pay",
+        "flagged": true,
+        "score": 24,
+        "n_findings": 4,
+        "categories": [
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 2207
+      },
+      {
+        "id": "h-legit-vendor-no-change",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 3,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 2447
+      },
+      {
+        "id": "h-ssn-benefits",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 66,
+        "n_findings": 4,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4634
+      },
+      {
+        "id": "h-thread-hijack",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 36,
+        "n_findings": 5,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "risky_attachment",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4304
+      },
+      {
+        "id": "legit-cfo-memo",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 1665
+      },
+      {
+        "id": "legit-vendor-invoice",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 2094
+      },
+      {
+        "id": "m365-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 86,
+        "n_findings": 6,
+        "categories": [
+          "deceptive_link",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4447
+      },
+      {
+        "id": "new-supplier-onboarding",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 48,
+        "n_findings": 5,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3675
+      },
+      {
+        "id": "payroll-direct-deposit",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 87,
+        "n_findings": 11,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 5431
+      },
+      {
+        "id": "vendor-bank-change",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 17,
+        "categories": [
+          "authentication_failure",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "reply_to_mismatch",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 5733
+      },
+      {
+        "id": "x-ambiguous-internal-change",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 36,
+        "n_findings": 4,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4224
+      },
+      {
+        "id": "x-code-link",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 58,
+        "n_findings": 4,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3316
+      },
+      {
+        "id": "x-legit-internal-reminder",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 1531
+      },
+      {
+        "id": "x-prompt-injection",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 66,
+        "n_findings": 5,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3968
+      }
+    ],
+    "gmail": [
+      {
+        "id": "ceo-w2-request",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 12,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4191
+      },
+      {
+        "id": "ceo-wire",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 12,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 6128
+      },
+      {
+        "id": "cfo-gift-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 98,
+        "n_findings": 9,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 5533
+      },
+      {
+        "id": "fake-docusign",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 94,
+        "n_findings": 8,
+        "categories": [
+          "deceptive_link",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 5333
+      },
+      {
+        "id": "h-apple-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 49,
+        "n_findings": 5,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 5008
+      },
+      {
+        "id": "h-compromised-vendor",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 3,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 5312
+      },
+      {
+        "id": "h-helpdesk-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 74,
+        "n_findings": 5,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3555
+      },
+      {
+        "id": "h-legit-benefits",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "verdict": "pay",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3704
+      },
+      {
+        "id": "h-legit-ceo-review",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 1760
+      },
+      {
+        "id": "h-legit-urgent-cutoff",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "verdict": "pay",
+        "flagged": true,
+        "score": 24,
+        "n_findings": 4,
+        "categories": [
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 2198
+      },
+      {
+        "id": "h-legit-vendor-no-change",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 3,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 2425
+      },
+      {
+        "id": "h-ssn-benefits",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 58,
+        "n_findings": 3,
+        "categories": [
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3752
+      },
+      {
+        "id": "h-thread-hijack",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 36,
+        "n_findings": 5,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "risky_attachment",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 3,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4436
+      },
+      {
+        "id": "legit-cfo-memo",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 2058
+      },
+      {
+        "id": "legit-vendor-invoice",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 1310
+      },
+      {
+        "id": "m365-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 86,
+        "n_findings": 6,
+        "categories": [
+          "deceptive_link",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3634
+      },
+      {
+        "id": "new-supplier-onboarding",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 28,
+        "n_findings": 4,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3092
+      },
+      {
+        "id": "payroll-direct-deposit",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 87,
+        "n_findings": 10,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3535
+      },
+      {
+        "id": "vendor-bank-change",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 100,
+        "n_findings": 13,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4839
+      },
+      {
+        "id": "x-ambiguous-internal-change",
+        "label": "ambiguous",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 36,
+        "n_findings": 4,
+        "categories": [
+          "manipulation_cue",
+          "payment_or_data_request",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3737
+      },
+      {
+        "id": "x-code-link",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 58,
+        "n_findings": 4,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 3197
+      },
+      {
+        "id": "x-legit-internal-reminder",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "verdict": "pay",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 1176
+      },
+      {
+        "id": "x-prompt-injection",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 66,
+        "n_findings": 5,
+        "categories": [
+          "authority_impersonation",
+          "manipulation_cue",
+          "payment_or_data_request",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "anthropic:claude-sonnet-5-5",
+        "ms": 4142
+      }
+    ]
+  }
+}

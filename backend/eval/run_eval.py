@@ -17,6 +17,7 @@ import json
 import statistics
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -39,34 +40,43 @@ def flagged(r) -> bool:
     return r.assessment != "no_obvious_indicators"
 
 
-def run(fixtures: Path, view: str, model_call) -> list[dict]:
-    rows = []
-    for path in sorted(fixtures.glob("*.json")):
-        case = json.loads(path.read_text())
-        req = dict(case["request"])
-        if view == "gmail":
-            for k in HEADER_FIELDS:
-                req.pop(k, None)
-        t0 = time.monotonic()
-        r = analyze(AnalyzeRequest.model_validate(req), model_call)
-        ms = int((time.monotonic() - t0) * 1000)
-        cats = sorted({f.category for f in r.findings})
-        must = case["expected"].get("must_flag", [])
-        rows.append({
-            "id": case["request"]["email_id"],
-            "label": case["expected"]["label"],
-            "assessment": r.assessment,
-            "verdict": (r.verdict or {}).get("key", ""),
-            "flagged": flagged(r),
-            "score": r.risk_score,
-            "n_findings": len(r.findings),
-            "categories": cats,
-            "must_flag_missing": [c for c in must if c not in cats],
-            "model_findings": sum(f.source == "model" for f in r.findings),
-            "model_discarded": next((int(x.split()[4]) for x in r.limitations if "not in this email" in x), 0),
-            "model": r.model,
-            "ms": ms,
-        })
+def _one(path: Path, view: str, model_call) -> dict:
+    case = json.loads(path.read_text())
+    req = dict(case["request"])
+    if view == "gmail":
+        for k in HEADER_FIELDS:
+            req.pop(k, None)
+    t0 = time.monotonic()
+    r = analyze(AnalyzeRequest.model_validate(req), model_call)
+    ms = int((time.monotonic() - t0) * 1000)
+    cats = sorted({f.category for f in r.findings})
+    must = case["expected"].get("must_flag", [])
+    return {
+        "id": case["request"]["email_id"],
+        "label": case["expected"]["label"],
+        "assessment": r.assessment,
+        "verdict": (r.verdict or {}).get("key", ""),
+        "flagged": flagged(r),
+        "score": r.risk_score,
+        "n_findings": len(r.findings),
+        "categories": cats,
+        "must_flag_missing": [c for c in must if c not in cats],
+        "model_findings": sum(f.source == "model" for f in r.findings),
+        "model_discarded": next((int(x.split()[4]) for x in r.limitations if "not in this email" in x), 0),
+        "model": r.model,
+        "ms": ms,
+    }
+
+
+def run(fixtures: Path, view: str, model_call, workers: int = 1) -> list[dict]:
+    paths = sorted(fixtures.glob("*.json"))
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+        futures = [pool.submit(_one, p, view, model_call) for p in paths]
+        rows = []
+        for i, fut in enumerate(futures, 1):  # keeps fixture order
+            rows.append(fut.result())
+            if model_call is not None and i % 20 == 0:
+                print(f"  {view}: {i}/{len(paths)}", file=sys.stderr, flush=True)
     return rows
 
 
@@ -82,6 +92,7 @@ def summarize(rows: list[dict]) -> dict:
         "incomplete_results": sum(r["assessment"] == "insufficient_evidence" for r in rows),
         "model_findings_kept": sum(r["model_findings"] for r in rows),
         "model_findings_discarded": sum(r["model_discarded"] for r in rows),
+        "model_unavailable": sum("unavailable" in r["model"] for r in rows),
         "latency_ms_median": int(statistics.median(ms)) if ms else 0,
         "latency_ms_max": max(ms) if ms else 0,
     }
@@ -106,14 +117,16 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", action="store_true", help="call the configured model (costs credits)")
     ap.add_argument("--set", choices=sorted(FIXTURE_SETS), default="core", help="which fixtures to run")
+    ap.add_argument("--views", default="full,gmail", help="comma list of views: full, gmail")
+    ap.add_argument("--workers", type=int, default=1, help="parallel requests (model runs only)")
     args = ap.parse_args()
     model_call = llm.default_call("analyze", prompts.ANALYZE_SCHEMA) if args.model else None
     if args.model and model_call is None:
         sys.exit("--model needs MODEL_PROVIDER (tinker or anthropic) and that provider's key/model settings")
 
     # "full" keeps Reply-To / auth results / attachments; "gmail" drops them, as the extensions can't read them yet.
-    views = ["full", "gmail"]
-    rows = {v: run(FIXTURE_SETS[args.set], v, model_call) for v in views}
+    views = [v for v in args.views.split(",") if v in ("full", "gmail")] or ["full", "gmail"]
+    rows = {v: run(FIXTURE_SETS[args.set], v, model_call, args.workers if model_call else 1) for v in views}
     results = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "fixture_set": args.set,

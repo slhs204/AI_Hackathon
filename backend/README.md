@@ -85,7 +85,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 
 ## Not done / not verified
 
-- **No real Tinker or Claude call has been made from this code.** The OpenAI-compatible endpoint is beta, and its docs
+- Claude (Haiku + Sonnet) has been run for real (`eval/results/model*.md`). **No real Tinker call yet.** The OpenAI-compatible endpoint is beta, and its docs
   show checkpoint paths (`tinker://...`) as the model name. Confirm `TINKER_MODEL` with the team's smoke test.
 - 23 fixtures: Albert's 10 samples (his rules were written against them, so optimistic), 4 extra cases,
   and 9 harder cases written to probe false alarms and misses. Rules-only today: 13/14 phishing flagged,
@@ -93,4 +93,5 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
   Blind set (Teddyha, 200 emails, MIT): rules catch 34/100 phishing when attachment names are known, 18/100 in
   the Gmail view (extensions don't send attachments yet); 5/100 false alarms. The rules were written for Acme
   payroll scams, not generic fake-Google/Dropbox mail; that gap is what the model has to close.
+  With Sonnet 5.5 (Gmail view): 100/100 phishing, but 24/100 false alarms; see `eval/results/model-blind.md`.
 - Logging records ids, counts and timing only, never email bodies.

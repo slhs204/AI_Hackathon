@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07 19:46 UTC",
+  "generated_at": "2026-11-07 20:01 UTC",
   "fixture_set": "core",
   "model": "rules-only",
   "n_cases": 23,
@@ -16,8 +16,9 @@
       "incomplete_results": 0,
       "model_findings_kept": 0,
       "model_findings_discarded": 0,
+      "model_unavailable": 0,
       "latency_ms_median": 0,
-      "latency_ms_max": 2
+      "latency_ms_max": 3
     },
     "gmail": {
       "phishing_flagged": "13/14",
@@ -27,6 +28,7 @@
       "incomplete_results": 0,
       "model_findings_kept": 0,
       "model_findings_discarded": 0,
+      "model_unavailable": 0,
       "latency_ms_median": 0,
       "latency_ms_max": 0
     }
@@ -53,7 +55,7 @@
         "model_findings": 0,
         "model_discarded": 0,
         "model": "rules-only",
-        "ms": 2
+        "ms": 3
       },
       {
         "id": "ceo-wire",
