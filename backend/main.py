@@ -15,7 +15,7 @@ from fastapi.responses import JSONResponse
 
 from app import config, llm
 from app.analyze import analyze
-from app.challenge import challenge
+from app.challenge import FindingNotFound, challenge
 from app.schemas import AnalyzeRequest, AnalyzeResponse, ChallengeRequest, ChallengeResponse
 
 MAX_BODY_BYTES = 200_000
@@ -69,4 +69,7 @@ def analyze_route(req: AnalyzeRequest):
 
 @app.post("/challenge", response_model=ChallengeResponse, dependencies=[Depends(require_token)])
 def challenge_route(req: ChallengeRequest):
-    return challenge(req, model_for_request())
+    try:
+        return challenge(req, model_for_request())
+    except FindingNotFound as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc

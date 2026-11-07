@@ -32,8 +32,25 @@ def _fallback(context: str, has_policy: bool) -> tuple[str, str, str]:
             "We still can't tell whether the person you know actually sent this email.")
 
 
+class FindingNotFound(ValueError):
+    pass
+
+
+def _find_again(req: ChallengeRequest):
+    """Hookline sends only finding_id. Re-run the free rules-only analysis
+    (same input -> same ids for rule and tool findings) and pick it out.
+    Model findings can't be re-found this way; the extension must send the
+    whole finding for those."""
+    from .analyze import analyze  # local import avoids a cycle
+
+    found = next((x for x in analyze(req.email).findings if x.id == req.finding_id), None)
+    if found is None:
+        raise FindingNotFound(f"finding {req.finding_id} not found; send the whole finding object")
+    return found
+
+
 def challenge(req: ChallengeRequest, model_call: Optional[llm.ModelCall] = None) -> ChallengeResponse:
-    f = req.finding
+    f = req.finding or _find_again(req)
     quote = f.evidence.quote or f.evidence.value or ""
     policy = lookup_payroll_policy(f.category, quote) or lookup_payroll_policy(
         f.category, email_text(req.email.subject, req.email.blocks))
@@ -62,4 +79,5 @@ def challenge(req: ChallengeRequest, model_call: Optional[llm.ModelCall] = None)
 
     log.info("challenge finding=%s category=%s assessment=%s model=%s", f.id, f.category, assessment, model_name)
     return ChallengeResponse(finding_id=f.id, assessment=assessment, message=message,
-                             still_unresolved=unresolved, next_action=next_action, model=model_name)
+                             still_unresolved=unresolved, next_action=next_action,
+                             explanation=f"{message} {unresolved}".strip(), model=model_name)

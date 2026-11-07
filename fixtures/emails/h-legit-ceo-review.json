@@ -1,0 +1,28 @@
+{
+  "source": "handwritten",
+  "title": "Draft handbook for review",
+  "request": {
+    "email_id": "h-legit-ceo-review",
+    "sender": {
+      "name": "Jane Whitfield",
+      "address": "jane.whitfield@acme-corp.com"
+    },
+    "subject": "Draft handbook for review",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi all, the draft employee handbook is on the shared drive. Comments by next Wednesday, please."
+      },
+      {
+        "id": "b2",
+        "text": "Jane"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": [],
+    "note": ""
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "source": "handwritten",
+  "title": "Invoice GS-21007 remittance",
+  "request": {
+    "email_id": "h-compromised-vendor",
+    "sender": {
+      "name": "Globex Supply AR",
+      "address": "ar@globex-supply.com"
+    },
+    "subject": "Invoice GS-21007 remittance",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi Daniel, attached is invoice GS-21007. Please note we have moved banks;"
+      },
+      {
+        "id": "b2",
+        "text": "kindly send this and future payments to our new account at Harbor Point Bank, routing 011000138, account 5520 1188 0042."
+      },
+      {
+        "id": "b3",
+        "text": "Thank you, Globex Supply"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": [
+      "payment_or_data_request"
+    ],
+    "note": "Real vendor domain (account takeover). Only the request itself gives it away."
+  }
+}

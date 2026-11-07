@@ -1,0 +1,28 @@
+{
+  "source": "handwritten",
+  "title": "URGENT: payroll cutoff today at 5pm",
+  "request": {
+    "email_id": "h-legit-urgent-cutoff",
+    "sender": {
+      "name": "Robert Chen",
+      "address": "robert.chen@acme-corp.com"
+    },
+    "subject": "URGENT: payroll cutoff today at 5pm",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Team, payroll closes today at 5pm. Please submit any missing timesheets immediately in the usual portal."
+      },
+      {
+        "id": "b2",
+        "text": "Nothing else is needed from you. Thanks, Robert"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": [],
+    "note": "Real CFO, urgent wording, no money or data request. Probes urgency false alarms."
+  }
+}

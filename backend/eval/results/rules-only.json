@@ -1,28 +1,28 @@
 {
-  "generated_at": "2026-11-07 16:38 UTC",
+  "generated_at": "2026-11-07 16:50 UTC",
   "model": "rules-only",
-  "n_cases": 14,
+  "n_cases": 23,
   "views": [
     "full",
     "gmail"
   ],
   "summary": {
     "full": {
-      "phishing_flagged": "9/9",
-      "legit_false_alarms": "0/3",
+      "phishing_flagged": "13/14",
+      "legit_false_alarms": "2/7",
       "ambiguous_flagged": "2/2",
-      "must_flag_misses": 0,
+      "must_flag_misses": 1,
       "incomplete_results": 0,
       "model_findings_kept": 0,
       "model_findings_discarded": 0,
       "latency_ms_median": 0,
-      "latency_ms_max": 1
+      "latency_ms_max": 2
     },
     "gmail": {
-      "phishing_flagged": "9/9",
-      "legit_false_alarms": "0/3",
+      "phishing_flagged": "13/14",
+      "legit_false_alarms": "2/7",
       "ambiguous_flagged": "2/2",
-      "must_flag_misses": 0,
+      "must_flag_misses": 1,
       "incomplete_results": 0,
       "model_findings_kept": 0,
       "model_findings_discarded": 0,
@@ -51,7 +51,7 @@
         "model_findings": 0,
         "model_discarded": 0,
         "model": "rules-only",
-        "ms": 1
+        "ms": 2
       },
       {
         "id": "ceo-wire",
@@ -105,6 +105,150 @@
           "payment_or_data_request",
           "sender_impersonation",
           "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-apple-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 33,
+        "n_findings": 2,
+        "categories": [
+          "authority_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-compromised-vendor",
+        "label": "phishing",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [
+          "payment_or_data_request"
+        ],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-helpdesk-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 66,
+        "n_findings": 4,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-benefits",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-ceo-review",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-urgent-cutoff",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 24,
+        "n_findings": 4,
+        "categories": [
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-vendor-no-change",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-ssn-benefits",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 50,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-thread-hijack",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request"
         ],
         "must_flag_missing": [],
         "model_findings": 0,
@@ -266,10 +410,11 @@
         "label": "phishing",
         "assessment": "needs_verification",
         "flagged": true,
-        "score": 20,
-        "n_findings": 1,
+        "score": 50,
+        "n_findings": 2,
         "categories": [
-          "payment_or_data_request"
+          "payment_or_data_request",
+          "sender_impersonation"
         ],
         "must_flag_missing": [],
         "model_findings": 0,
@@ -347,6 +492,150 @@
           "payment_or_data_request",
           "sender_impersonation",
           "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-apple-cards",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 33,
+        "n_findings": 2,
+        "categories": [
+          "authority_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-compromised-vendor",
+        "label": "phishing",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [
+          "payment_or_data_request"
+        ],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-helpdesk-password",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 66,
+        "n_findings": 4,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-benefits",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-ceo-review",
+        "label": "legit",
+        "assessment": "no_obvious_indicators",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-urgent-cutoff",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 24,
+        "n_findings": 4,
+        "categories": [
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-legit-vendor-no-change",
+        "label": "legit",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-ssn-benefits",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 50,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "rules-only",
+        "ms": 0
+      },
+      {
+        "id": "h-thread-hijack",
+        "label": "phishing",
+        "assessment": "needs_verification",
+        "flagged": true,
+        "score": 20,
+        "n_findings": 2,
+        "categories": [
+          "payment_or_data_request"
         ],
         "must_flag_missing": [],
         "model_findings": 0,
@@ -505,10 +794,11 @@
         "label": "phishing",
         "assessment": "needs_verification",
         "flagged": true,
-        "score": 20,
-        "n_findings": 1,
+        "score": 50,
+        "n_findings": 2,
         "categories": [
-          "payment_or_data_request"
+          "payment_or_data_request",
+          "sender_impersonation"
         ],
         "must_flag_missing": [],
         "model_findings": 0,

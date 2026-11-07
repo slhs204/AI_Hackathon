@@ -1,0 +1,30 @@
+{
+  "source": "handwritten",
+  "title": "quick favor",
+  "request": {
+    "email_id": "h-apple-cards",
+    "sender": {
+      "name": "Maria Lopez",
+      "address": "maria.lopez.acme@gmail.com"
+    },
+    "subject": "quick favor",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hi, are you free? I need a few Apple cards for a client gift before noon, $200 each."
+      },
+      {
+        "id": "b2",
+        "text": "Scratch the backs and send me photos of the codes. I'll pay you back Friday."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": [
+      "authority_impersonation"
+    ],
+    "note": "Gift-card scam that never says 'gift card'. Colleague name from a personal address."
+  }
+}

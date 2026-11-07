@@ -119,6 +119,71 @@ EXTRA = [
 ]
 
 
+def _case(email_id, sender, subject, blocks, label, must_flag=(), note="", links=(), reply_to=""):
+    req = {"email_id": email_id, "sender": sender, "subject": subject,
+           "blocks": [{"id": f"b{i}", "text": t} for i, t in enumerate(blocks, 1)], "links": list(links)}
+    if reply_to:
+        req["reply_to"] = reply_to
+    return {"request": req, "expected": {"label": label, "must_flag": list(must_flag), "note": note}}
+
+
+# Harder cases written by Sunday to probe false alarms and misses. Not tuned to
+# make the rules pass: some are expected to FAIL today, and that is the point.
+HARD = [
+    _case("h-legit-urgent-cutoff", {"name": "Robert Chen", "address": "robert.chen@acme-corp.com"},
+          "URGENT: payroll cutoff today at 5pm",
+          ["Team, payroll closes today at 5pm. Please submit any missing timesheets immediately in the usual portal.",
+           "Nothing else is needed from you. Thanks, Robert"],
+          "legit", note="Real CFO, urgent wording, no money or data request. Probes urgency false alarms."),
+    _case("h-legit-vendor-no-change", {"name": "Globex Supply AR", "address": "ar@globex-supply.com"},
+          "Reminder: our bank details have not changed",
+          ["Hello Acme team, a reminder that Globex will never ask you to change bank details by email.",
+           "Our remittance details are unchanged. If anyone asks otherwise, call us at the number in your vendor file.",
+           "Globex Supply, Accounts Receivable"],
+          "legit", note="Anti-fraud notice from the real vendor. Mentions bank details; probes keyword false alarms."),
+    _case("h-compromised-vendor", {"name": "Globex Supply AR", "address": "ar@globex-supply.com"},
+          "Invoice GS-21007 remittance",
+          ["Hi Daniel, attached is invoice GS-21007. Please note we have moved banks;",
+           "kindly send this and future payments to our new account at Harbor Point Bank, routing 011000138, account 5520 1188 0042.",
+           "Thank you, Globex Supply"],
+          "phishing", must_flag=["payment_or_data_request"],
+          note="Real vendor domain (account takeover). Only the request itself gives it away."),
+    _case("h-thread-hijack", {"name": "Initech Billing", "address": "billing@initech.com"},
+          "RE: Invoice 4471",
+          ["As discussed on our call, please update the remittance information on file before the next payment run.",
+           "The new account details are in the attached form. Best, Initech Billing"],
+          "phishing", must_flag=["payment_or_data_request"], note="Reply in an existing thread from a real vendor domain."),
+    _case("h-apple-cards", {"name": "Maria Lopez", "address": "maria.lopez.acme@gmail.com"},
+          "quick favor",
+          ["Hi, are you free? I need a few Apple cards for a client gift before noon, $200 each.",
+           "Scratch the backs and send me photos of the codes. I'll pay you back Friday."],
+          "phishing", must_flag=["authority_impersonation"],
+          note="Gift-card scam that never says 'gift card'. Colleague name from a personal address."),
+    _case("h-helpdesk-password", {"name": "IT Support", "address": "it-support@acme-corp-helpdesk.com"},
+          "Your password expires today",
+          ["Your Acme password expires today. To keep your current password, confirm it below.",
+           "Keep current password"],
+          "phishing", must_flag=["sender_impersonation"],
+          links=[{"id": "l1", "block_id": "b2", "display_text": "Keep current password",
+                  "href": "https://acme-corp-helpdesk.com/keep"}]),
+    _case("h-legit-benefits", {"name": "Acme HR", "address": "hr@acme-corp.com"},
+          "Open enrollment closes Friday",
+          ["Open enrollment for 2027 benefits closes Friday. Review your options on the benefits site.",
+           "Enroll now"],
+          "legit", note="Real HR, external benefits link that isn't in the directory.",
+          links=[{"id": "l1", "block_id": "b2", "display_text": "Enroll now",
+                  "href": "https://enroll.benefits-provider.example/acme"}]),
+    _case("h-legit-ceo-review", {"name": "Jane Whitfield", "address": "jane.whitfield@acme-corp.com"},
+          "Draft handbook for review",
+          ["Hi all, the draft employee handbook is on the shared drive. Comments by next Wednesday, please.", "Jane"],
+          "legit"),
+    _case("h-ssn-benefits", {"name": "HR Benefits Team", "address": "benefits-team@hr-portal-acme.example"},
+          "Action needed to keep your coverage",
+          ["We could not match your record. Reply with your Social Security number and date of birth to keep your coverage active."],
+          "phishing", must_flag=["payment_or_data_request", "sender_impersonation"]),
+]
+
+
 def main(samples_dir: str) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     samples = Path(samples_dir)
@@ -130,7 +195,7 @@ def main(samples_dir: str) -> None:
                 "expected": {"label": LABEL[item["expected"]], "must_flag": []}}
         (OUT / f"{item['id']}.json").write_text(json.dumps(case, indent=2, ensure_ascii=False) + "\n")
         count += 1
-    for case in EXTRA:
+    for case in EXTRA + HARD:
         case = {"source": "handwritten", "title": case["request"]["subject"], **case}
         (OUT / f"{case['request']['email_id']}.json").write_text(json.dumps(case, indent=2, ensure_ascii=False) + "\n")
         count += 1

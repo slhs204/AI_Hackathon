@@ -17,9 +17,10 @@ from typing import Optional
 from phishhook import engine
 
 from . import llm, prompts
-from .evidence import verify
+from .evidence import find_exact, verify
 from .schemas import MODEL_CATEGORIES, AnalyzeRequest, AnalyzeResponse, Evidence, Finding
 from .tools.extra_links import inspect_links_extra
+from .tools.payroll_checks import company_name_in_sender_domain, payroll_request
 from .tools.lookup import email_text, get_training_example, lookup_payroll_policy, policy_next_action
 
 log = logging.getLogger("phishing-coach")
@@ -39,6 +40,35 @@ _SCAM_TO_DRILL = {
     "Fake invoice": "fake_invoice",
     "No known scam pattern": "legit",
 }
+
+
+TITLES = {
+    "sender_impersonation": "Sender imitates someone trusted",
+    "reply_to_mismatch": "Replies go to a different address",
+    "authentication_failure": "Failed sender authentication",
+    "authority_impersonation": "Pretends to be an executive or colleague",
+    "deceptive_link": "Link is not what it says",
+    "risky_attachment": "Dangerous attachment",
+    "urgency_pressure": "Pressure or secrecy",
+    "payment_or_data_request": "Asks for money, bank changes, data or a login",
+    "manipulation_cue": "Manipulation tactic",
+}
+
+
+def _for_extension(f: Finding, email: AnalyzeRequest) -> None:
+    """Give every finding a title and, where possible, a block_id + quote, so
+    Hookline (which highlights only block_id + quote) can show it."""
+    f.title = f.title or TITLES.get(f.category, "Warning sign")
+    ev = f.evidence
+    if ev.kind == "link" and not ev.quote:
+        link = email.link(ev.link_id)
+        block = email.block(link.block_id) if link else None
+        exact = find_exact(block.text, link.display_text) if block and link.display_text else None
+        f.evidence = ev.model_copy(update={"block_id": block.id, "quote": exact} if exact else
+                                   {"quote": (link.display_text or link.href)[:500] if link else None})
+    elif ev.kind == "metadata" and not ev.quote:
+        # No block to highlight; the quote lets the card show the text.
+        f.evidence = ev.model_copy(update={"quote": ev.value})
 
 
 def _level(score: int) -> str:
@@ -66,7 +96,7 @@ def _model_findings(raw: dict, email: AnalyzeRequest) -> tuple[list[Finding], in
             continue
         category = str(item.get("category", ""))
         verified.append(Finding(
-            id="", source="model", evidence=ev,
+            id="", source="model", evidence=ev, title=str(item.get("title", "")).strip()[:80],
             category=category if category in MODEL_CATEGORIES else "manipulation_cue",
             explanation=str(item.get("explanation", "")).strip()[:800] or "The AI flagged this wording as a pressure tactic.",
             next_action=str(item.get("next_action", "")).strip()[:800] or "Check the request through a channel you already trust.",
@@ -96,7 +126,10 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
 
     # 2. Extra deterministic link checks.
     flagged_links = {f.evidence.link_id for f in findings if f.evidence.kind == "link"}
-    extras = inspect_links_extra(email, flagged_links)
+    rule_cats = {f.category for f in findings}
+    extras = (inspect_links_extra(email, flagged_links)
+              + payroll_request(email, rule_cats)
+              + company_name_in_sender_domain(email, rule_cats))
 
     # 3. Optional model pass.
     summary, model_name, model_extra, discarded = "", "rules-only", [], 0
@@ -142,6 +175,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
     used_policies = {}
     for i, f in enumerate(all_findings, 1):
         f.id = f"f{i}"
+        _for_extension(f, email)
         policy = lookup_payroll_policy(f.category, _quote_text(f)) or lookup_payroll_policy(f.category, text)
         if policy:
             f.policy_id = policy.id
