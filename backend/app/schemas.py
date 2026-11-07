@@ -183,7 +183,8 @@ class AnalyzeResponse(BaseModel):
     recommended_actions: list[str]
     limitations: list[str]
     # engine v3.1 fields read by Albert's v3 extension / Outlook pane
-    verdict: Optional[dict[str, str]] = None  # {"key": pay|verify|stop, "label": ...}
+    verdict: Optional[dict[str, str]] = None  # {"key": pay|verify|stop, "label": ..., "rule": ...}
+    dimensions: Optional[list[dict]] = None  # rubric v2: sender / money / pressure / links, each ok|warn
     callback: Optional[dict[str, str]] = None  # who to call, from the directory, never from the email
     hold_scenario: Optional[str] = None
     stages: list[dict[str, Any]] = Field(default_factory=list)  # [{stage: subject|body, score, flags}]

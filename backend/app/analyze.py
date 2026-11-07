@@ -164,8 +164,8 @@ def _stages(engine_stages: list, engine_ids: dict, rule_findings: list[Finding],
     return out
 
 
-def _verdict(score: int, findings: list[Finding], complete: bool) -> dict:
-    """Albert's "Can I pay?" answer, recomputed after our extra findings.
+def _score_verdict(score: int, findings: list[Finding], complete: bool) -> dict:
+    """Albert's score-based "Can I pay?" answer (unchanged from before rubric v2).
     A payment request or an incomplete analysis is never "OK to proceed"."""
     if score >= 70:
         key = "stop"
@@ -174,6 +174,98 @@ def _verdict(score: int, findings: list[Finding], complete: bool) -> dict:
     else:
         key = "pay"
     return {"key": key, "label": engine.VERDICTS[key]}
+
+
+# Rubric v2: four plain-language questions. Each maps to public BEC/payroll fraud patterns
+# (FBI IC3 BEC advisories, IRS W-2 phishing alerts); the agencies publish patterns, not weights.
+DIMENSIONS = (
+    ("sender", "Can you trust the sender?",
+     {"sender_impersonation", "reply_to_mismatch", "authentication_failure", "authority_impersonation"},
+     "The sender looks genuine as far as we can check.",
+     "The sender may not be who they claim to be (look-alike or free-mail address, executive or brand name, Reply-To)."),
+    ("money", "Does it ask for money, bank changes or employee data?",
+     {"payment_or_data_request"},
+     "No request for money, bank details, employee data or passwords.",
+     "It asks to move money, change bank details, or send employee data or a password."),
+    ("pressure", "Is there pressure to skip the normal process?",
+     {"urgency_pressure", "authority_impersonation", "manipulation_cue"},
+     "No pressure, secrecy or executive name-dropping.",
+     "It rushes you, asks for secrecy or leans on an executive's authority."),
+    ("links", "Are the links or attachments risky?",
+     {"deceptive_link", "risky_attachment"},
+     "No disguised links or risky attachments.",
+     "A link or attachment is disguised or dangerous."),
+)
+UNKNOWN_TEXT = "Can't tell: {why}. Verify through a channel you already trust."
+_RANK = {"pay": 0, "verify": 1, "stop": 2}
+
+
+def _unknown_reasons(email: AnalyzeRequest, complete: bool, model_failed: bool) -> dict[str, str]:
+    """Dimensions we could not check. Missing evidence is never shown as a pass."""
+    body = " ".join(b.text for b in email.blocks).strip()
+    why = {}
+    if not body:
+        for key in ("money", "pressure", "links"):
+            why[key] = "the email text is empty or could not be read"
+    if not email.sender.address.strip():
+        why["sender"] = "the sender address is missing"
+    if not complete or model_failed:
+        reason = "the AI review failed" if model_failed else "the analysis is incomplete"
+        for key, *_ in DIMENSIONS:
+            why.setdefault(key, reason)
+    return why
+
+
+def _dimensions(findings: list[Finding], unknown: dict[str, str]) -> list[dict]:
+    out = []
+    for key, question, cats, ok_text, warn_text in DIMENSIONS:
+        hits = [f.id for f in findings if f.category in cats]
+        if hits:
+            status, answer = "warn", warn_text
+        elif key in unknown:
+            status, answer = "unknown", UNKNOWN_TEXT.format(why=unknown[key])
+        else:
+            status, answer = "ok", ok_text
+        out.append({"key": key, "question": question, "status": status, "answer": answer, "finding_ids": hits})
+    return out
+
+
+def _rubric_verdict(dimensions: list[dict]) -> dict:
+    """Red: money asked for with an untrusted sender or pressure, or a risky link/attachment from an untrusted
+    sender. Amber: any single warning, or any question we could not answer. Green: four clear answers."""
+    warn = {d["key"] for d in dimensions if d["status"] == "warn"}
+    unknown = any(d["status"] == "unknown" for d in dimensions)
+    if ("money" in warn and warn & {"sender", "pressure"}) or {"links", "sender"} <= warn:
+        key, rule = "stop", "Asks for money or data (or sends a risky link) and the sender or the pressure is a red flag."
+    elif warn:
+        key, rule = "verify", "A warning sign: check through a channel you already trust."
+    elif unknown:
+        key, rule = "verify", "We could not check everything, so this is not an all-clear."
+    else:
+        key, rule = "pay", "None of the four questions raised a warning. This is not a guarantee."
+    v = {"key": key, "label": engine.VERDICTS[key], "rule": rule}
+    if unknown and not warn:
+        v.update(state="unknown", label="Can't tell - call back first")
+    return v
+
+
+def _stricter(a: dict, b: dict) -> dict:
+    """Invariant: the final answer is the stricter of the two; the rubric can only raise a verdict."""
+    return a if _RANK[a["key"]] >= _RANK[b["key"]] else b
+
+
+def _final_verdict(score: int, findings: list[Finding], complete: bool, dimensions: list[dict]) -> dict:
+    legacy = _score_verdict(score, findings, complete)
+    rubric = _rubric_verdict(dimensions)
+    chosen = _stricter(rubric, legacy)
+    final = dict(chosen)
+    if chosen is legacy and legacy["key"] != rubric["key"]:
+        final["rule"] = f"The risk score ({score}/100) calls for the stricter answer."
+    final["basis"] = "rubric" if final["key"] == rubric["key"] else "score"
+    if rubric.get("state") == "unknown" and final["key"] == "verify":
+        final["state"] = "unknown"
+    assert _RANK[final["key"]] >= max(_RANK[legacy["key"]], _RANK[rubric["key"]])
+    return final
 
 
 def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -> AnalyzeResponse:
@@ -285,6 +377,8 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
     elapsed = int((time.monotonic() - started) * 1000)
     log.info("analyze email_id=%s findings=%d model=%s discarded=%d complete=%s ms=%d",
              email.email_id, len(all_findings), model_name, discarded, complete, elapsed)
+    unknown = _unknown_reasons(email, complete, model_name.endswith("(model unavailable)"))
+    dimensions = _dimensions(all_findings, unknown)
     return AnalyzeResponse(
         analysis_id=rules["analysis_id"],
         email_id=email.email_id,
@@ -298,7 +392,8 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
         notes=notes,
         recommended_actions=rules["recommended_actions"],
         limitations=limitations,
-        verdict=_verdict(score, all_findings, complete),
+        verdict=_final_verdict(score, all_findings, complete, dimensions),
+        dimensions=dimensions,
         callback=rules.get("callback"),
         hold_scenario=rules.get("hold_scenario"),
         stages=stages,
