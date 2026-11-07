@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:phish-0009",
+  "title": "CEO Request: Urgent Wire Transfer",
+  "meta": {
+    "intent": "Financial Scam",
+    "technique": "Business Email Compromise",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0009",
+    "sender": {
+      "name": "",
+      "address": "ceo@company-internal.com"
+    },
+    "subject": "CEO Request: Urgent Wire Transfer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Please process a $10,000 transfer by EOD. Details in attached PDF."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

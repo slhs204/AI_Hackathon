@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0057",
+  "title": "$500 Gift Card Offer",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Reward with Homoglyph",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "phish-0057",
+    "sender": {
+      "name": "",
+      "address": "rewards@amazon-offer.com"
+    },
+    "subject": "$500 Gift Card Offer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Claim your gift card now: https://amaz0n-rewards.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://amaz0n-rewards.com",
+        "href": "https://amaz0n-rewards.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

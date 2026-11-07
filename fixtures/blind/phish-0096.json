@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0096",
+  "title": "Account Review Needed",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "phish-0096",
+    "sender": {
+      "name": "",
+      "address": "security@amazon.com"
+    },
+    "subject": "Account Review Needed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Review account: https://amaz0n-verify.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://amaz0n-verify.com",
+        "href": "https://amaz0n-verify.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

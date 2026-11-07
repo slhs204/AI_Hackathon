@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0076",
+  "title": "Free Cloud Backup",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "phish-0076",
+    "sender": {
+      "name": "",
+      "address": "support@cloudbackup.com"
+    },
+    "subject": "Free Cloud Backup",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Get free backup: https://c1oud-backup.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://c1oud-backup.com",
+        "href": "https://c1oud-backup.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

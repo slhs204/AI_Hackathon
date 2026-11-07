@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-040",
+  "title": "Your Monthly Newsletter",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-040",
+    "sender": {
+      "name": "",
+      "address": "news@nike.com"
+    },
+    "subject": "Your Monthly Newsletter",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Check out our latest products and offers in this month’s newsletter."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-060",
+  "title": "Q3 Goals Review",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-060",
+    "sender": {
+      "name": "",
+      "address": "manager@company.com"
+    },
+    "subject": "Q3 Goals Review",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Please review the Q3 goals document in the team drive."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

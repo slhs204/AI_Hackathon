@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0056",
+  "title": "Account Suspension Alert",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency Alert/Fake Login",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "phish-0056",
+    "sender": {
+      "name": "",
+      "address": "alert@facebook.com"
+    },
+    "subject": "Account Suspension Alert",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your account is at risk. Secure it: https://faceb00k-security.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://faceb00k-security.com",
+        "href": "https://faceb00k-security.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

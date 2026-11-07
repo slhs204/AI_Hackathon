@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0084",
+  "title": "Warranty Extension Offer",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Warranty Offer",
+    "target": "Consumers"
+  },
+  "request": {
+    "email_id": "phish-0084",
+    "sender": {
+      "name": "",
+      "address": "support@warrantypro.com"
+    },
+    "subject": "Warranty Extension Offer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Extend warranty now: https://warranty-plan.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://warranty-plan.com",
+        "href": "https://warranty-plan.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

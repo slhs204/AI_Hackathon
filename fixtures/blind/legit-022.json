@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-022",
+  "title": "Payment Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Payment Service"
+  },
+  "request": {
+    "email_id": "legit-022",
+    "sender": {
+      "name": "",
+      "address": "billing@paypal.com"
+    },
+    "subject": "Payment Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your payment of $99.99 was received. View transaction details online."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-095",
+  "title": "Order Processing #987654",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-095",
+    "sender": {
+      "name": "",
+      "address": "orders@chewy.com"
+    },
+    "subject": "Order Processing #987654",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your order is in progress. Expect delivery by 5/24."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

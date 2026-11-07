@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-087",
+  "title": "System Status Normal",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "legit-087",
+    "sender": {
+      "name": "",
+      "address": "status@company.com"
+    },
+    "subject": "System Status Normal",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "All services are operational. Contact support if needed."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

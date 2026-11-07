@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-050",
+  "title": "Customer Feedback Request",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-050",
+    "sender": {
+      "name": "",
+      "address": "feedback@homedepot.com"
+    },
+    "subject": "Customer Feedback Request",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "We’d love your feedback on your recent purchase. Take our quick survey."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

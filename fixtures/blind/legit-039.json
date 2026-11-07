@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-039",
+  "title": "Account Activity Notice",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "legit-039",
+    "sender": {
+      "name": "",
+      "address": "security@onedrive.com"
+    },
+    "subject": "Account Activity Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Recent login to your account was successful. Review activity in settings."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

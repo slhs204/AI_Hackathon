@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0081",
+  "title": "Business Partner Offer",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Business Opportunity",
+    "target": "SMBs"
+  },
+  "request": {
+    "email_id": "phish-0081",
+    "sender": {
+      "name": "",
+      "address": "partners@businesshub.com"
+    },
+    "subject": "Business Partner Offer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our program: https://partner-scam.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://partner-scam.com",
+        "href": "https://partner-scam.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

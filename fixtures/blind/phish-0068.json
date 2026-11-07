@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0068",
+  "title": "Legal Action Notice",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Legal Threat",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0068",
+    "sender": {
+      "name": "",
+      "address": "clerk@courts.org"
+    },
+    "subject": "Legal Action Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "View your legal notice: https://court-documents.org"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://court-documents.org",
+        "href": "https://court-documents.org"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

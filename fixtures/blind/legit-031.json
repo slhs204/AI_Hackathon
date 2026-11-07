@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-031",
+  "title": "Your Refund Processed",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-031",
+    "sender": {
+      "name": "",
+      "address": "refunds@bestbuy.com"
+    },
+    "subject": "Your Refund Processed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your refund of $29.99 has been processed. Expect funds in 3-5 days."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

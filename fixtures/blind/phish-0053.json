@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0053",
+  "title": "Suspicious Login Attempt",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency Alert/Fake Login with Homoglyph",
+    "target": "Google"
+  },
+  "request": {
+    "email_id": "phish-0053",
+    "sender": {
+      "name": "",
+      "address": "no-reply@g00gle.com"
+    },
+    "subject": "Suspicious Login Attempt",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Login detected from Nigeria. Reset password: https://g00gle-account.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://g00gle-account.com",
+        "href": "https://g00gle-account.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

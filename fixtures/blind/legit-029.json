@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-029",
+  "title": "Your Subscription Details",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Software Service"
+  },
+  "request": {
+    "email_id": "legit-029",
+    "sender": {
+      "name": "",
+      "address": "billing@adobe.com"
+    },
+    "subject": "Your Subscription Details",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Adobe Creative Cloud plan is active. Manage it in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0010",
+  "title": "Your Cloud Storage is Full",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "phish-0010",
+    "sender": {
+      "name": "",
+      "address": "no-reply@dropbox-service.com"
+    },
+    "subject": "Your Cloud Storage is Full",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Free up space or upgrade now: https://dropb0x-upgrade.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://dropb0x-upgrade.com",
+        "href": "https://dropb0x-upgrade.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

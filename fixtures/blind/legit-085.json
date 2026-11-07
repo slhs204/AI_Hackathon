@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-085",
+  "title": "Earned Rewards Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-085",
+    "sender": {
+      "name": "",
+      "address": "rewards@sephora.com"
+    },
+    "subject": "Earned Rewards Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "You’ve earned 200 rewards points. Redeem in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

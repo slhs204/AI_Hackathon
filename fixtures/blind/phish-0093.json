@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0093",
+  "title": "Security Training",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0093",
+    "sender": {
+      "name": "",
+      "address": "compliance@company.com"
+    },
+    "subject": "Security Training",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Complete training: [attachment: training.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "training.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

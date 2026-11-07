@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-093",
+  "title": "Warranty Information",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Consumers"
+  },
+  "request": {
+    "email_id": "legit-093",
+    "sender": {
+      "name": "",
+      "address": "support@lg.com"
+    },
+    "subject": "Warranty Information",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your product warranty is valid until 5/19/2026."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

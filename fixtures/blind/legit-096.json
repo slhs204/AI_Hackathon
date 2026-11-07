@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-096",
+  "title": "Security Policy Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "legit-096",
+    "sender": {
+      "name": "",
+      "address": "security@wellsfargo.com"
+    },
+    "subject": "Security Policy Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Review our updated security policies in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

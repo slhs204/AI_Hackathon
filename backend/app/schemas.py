@@ -1,19 +1,21 @@
 """Request and response shapes for the extension.
 
-Follows the contract already used by Albert's prototype and extension
-(`phishhook.engine.analyze_contract`). Fields marked "added" are extras the
-extension may use or ignore. Limits exist so one request cannot make the
-backend do unbounded work or spend.
+Accepts BOTH extension formats in use on the team:
+  - Albert's prototype:  links = {id, block_id, display_text, href}
+  - Jenessa's Hookline:  links = {id, text, url}, whole body in one block "b1"
+Responses follow Albert's `engine.analyze_contract` and add the fields
+Hookline reads (title, evidence.quote on every finding, disclaimer).
+Limits exist so one request cannot make the backend do unbounded work or spend.
 """
 
-from typing import Literal, Optional
+from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
 
 MAX_BLOCKS = 200
 MAX_LINKS = 50
 MAX_ATTACHMENTS = 20
-MAX_BLOCK_CHARS = 4_000
+MAX_BLOCK_CHARS = 20_000  # Hookline sends the whole body as one block
 MAX_TOTAL_CHARS = 20_000
 MAX_CONTEXT_CHARS = 1_000
 
@@ -55,6 +57,18 @@ class Link(_In):
     display_text: str = Field(default="", max_length=500)
     href: str = Field(default="", max_length=2_000)
 
+    @model_validator(mode="before")
+    @classmethod
+    def _hookline_names(cls, data: Any) -> Any:
+        # Hookline sends {id, text, url}.
+        if isinstance(data, dict):
+            data = dict(data)
+            if "display_text" not in data and "text" in data:
+                data["display_text"] = data.pop("text")
+            if "href" not in data and "url" in data:
+                data["href"] = data.pop("url")
+        return data
+
 
 class Attachment(_In):
     name: str = Field(max_length=255)
@@ -81,6 +95,11 @@ class AnalyzeRequest(_In):
         total = len(self.subject) + sum(len(b.text) for b in self.blocks)
         if total > MAX_TOTAL_CHARS:
             raise ValueError(f"email text is longer than {MAX_TOTAL_CHARS} characters")
+        # Hookline doesn't say which block a link is in: use the first block
+        # whose text contains the link text.
+        for link in self.links:
+            if link.block_id is None and link.display_text:
+                link.block_id = next((b.id for b in self.blocks if link.display_text in b.text), None)
         return self
 
     def block(self, block_id: Optional[str]) -> Optional[Block]:
@@ -122,7 +141,10 @@ class Finding(BaseModel):
     explanation: str = Field(max_length=800)
     next_action: str = Field(max_length=800)
     points: int = 0
+    tag: Optional[str] = None  # short chip text from engine v3.1, e.g. "bank change"
+    ai_explanation: Optional[str] = None  # model's plain-English rewording (Albert v3 field)
     # added
+    title: str = ""
     source: Literal["rules", "tool", "model"] = "rules"
     evidence_verified: bool = True
     policy_id: Optional[str] = None
@@ -157,10 +179,18 @@ class AnalyzeResponse(BaseModel):
     payroll_weighted: bool
     scam_type: str
     findings: list[Finding]
+    notes: list[Finding] = Field(default_factory=list)  # weak signs shown as notes, not hook pieces (added)
     recommended_actions: list[str]
     limitations: list[str]
+    # engine v3.1 fields read by Albert's v3 extension / Outlook pane
+    verdict: Optional[dict[str, str]] = None  # {"key": pay|verify|stop, "label": ...}
+    callback: Optional[dict[str, str]] = None  # who to call, from the directory, never from the email
+    hold_scenario: Optional[str] = None
+    stages: list[dict[str, Any]] = Field(default_factory=list)  # [{stage: subject|body, score, flags}]
+    ai_summary: Optional[str] = None
     # added
     summary: str = ""
+    disclaimer: str = "No warning signs found does not mean the email is safe."
     policies: list[Policy] = Field(default_factory=list)
     practice: Optional[PracticeQuestion] = None
     model: str
@@ -168,9 +198,20 @@ class AnalyzeResponse(BaseModel):
 
 
 class ChallengeRequest(_In):
+    """Either the whole finding (Albert-style) or just its id (Hookline sends
+    {email, finding_id, context}); with only an id the backend finds it again."""
+
     email: AnalyzeRequest
-    finding: Finding
-    user_context: str = Field(min_length=1, max_length=MAX_CONTEXT_CHARS)
+    finding: Optional[Finding] = None
+    finding_id: Optional[str] = Field(default=None, max_length=40)
+    user_context: str = Field(min_length=1, max_length=MAX_CONTEXT_CHARS,
+                              validation_alias=AliasChoices("user_context", "context"))
+
+    @model_validator(mode="after")
+    def _needs_finding(self) -> "ChallengeRequest":
+        if self.finding is None and not self.finding_id:
+            raise ValueError("send finding or finding_id")
+        return self
 
 
 class ChallengeResponse(BaseModel):
@@ -180,4 +221,46 @@ class ChallengeResponse(BaseModel):
     message: str
     still_unresolved: str
     next_action: str
+    explanation: str  # message + still_unresolved, the one text Hookline shows
     model: str
+
+
+# ------------------------------------------------------------------ /triage
+
+MAX_TRIAGE_EMAILS = 50
+MAX_SNIPPET_CHARS = 500
+
+
+class TriageEmail(_In):
+    email_id: str = Field(min_length=1, max_length=200)
+    sender: Sender = Field(default_factory=Sender)
+    subject: str = Field(default="", max_length=500)
+    snippet: str = Field(default="", max_length=MAX_SNIPPET_CHARS)  # the preview line, not the whole body
+
+
+class TriageRequest(_In):
+    emails: list[TriageEmail] = Field(min_length=1, max_length=MAX_TRIAGE_EMAILS)
+
+    @model_validator(mode="after")
+    def _unique_ids(self) -> "TriageRequest":
+        ids = [e.email_id for e in self.emails]
+        if len(set(ids)) != len(ids):
+            raise ValueError("email ids must be unique")
+        return self
+
+
+class TriageItem(BaseModel):
+    email_id: str
+    priority: Literal["high", "medium", "low"]
+    reason: str
+    rule_score: int
+    tags: list[str]
+    source: Literal["rules", "model"]  # who set the final priority
+
+
+class TriageResponse(BaseModel):
+    items: list[TriageItem]  # same order as the request
+    model: str
+    elapsed_ms: int
+    notice: str = ("Triage only looks at the sender, subject and preview. Open an email and run the full "
+                   "check before acting. Low priority does not mean safe.")

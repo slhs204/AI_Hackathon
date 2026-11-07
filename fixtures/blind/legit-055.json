@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-055",
+  "title": "Your Hulu Plan Renewal",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "legit-055",
+    "sender": {
+      "name": "",
+      "address": "billing@hulu.com"
+    },
+    "subject": "Your Hulu Plan Renewal",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Hulu subscription has been renewed. Check billing in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

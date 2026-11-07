@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-094",
+  "title": "Account Verified",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-094",
+    "sender": {
+      "name": "",
+      "address": "support@tiktok.com"
+    },
+    "subject": "Account Verified",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your TikTok account is now verified. Enjoy full access."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

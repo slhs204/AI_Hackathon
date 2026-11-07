@@ -1,0 +1,30 @@
+{
+  "source": "handwritten",
+  "title": "RE: Invoice 4471",
+  "request": {
+    "email_id": "h-thread-hijack",
+    "sender": {
+      "name": "Initech Billing",
+      "address": "billing@initech.com"
+    },
+    "subject": "RE: Invoice 4471",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "As discussed on our call, please update the remittance information on file before the next payment run."
+      },
+      {
+        "id": "b2",
+        "text": "The new account details are in the attached form. Best, Initech Billing"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": [
+      "payment_or_data_request"
+    ],
+    "note": "Reply in an existing thread from a real vendor domain."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0043",
+  "title": "Security Training Required",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0043",
+    "sender": {
+      "name": "",
+      "address": "compliance@company.com"
+    },
+    "subject": "Security Training Required",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Complete mandatory training: [attachment: training_module.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "training_module.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

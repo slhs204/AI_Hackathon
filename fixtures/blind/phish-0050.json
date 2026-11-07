@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0050",
+  "title": "Free Cloud Storage Offer",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "phish-0050",
+    "sender": {
+      "name": "",
+      "address": "support@cloudfree.com"
+    },
+    "subject": "Free Cloud Storage Offer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Get 1TB free storage: https://c1oud-storage.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://c1oud-storage.com",
+        "href": "https://c1oud-storage.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

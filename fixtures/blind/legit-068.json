@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-068",
+  "title": "Recent Account Activity",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Google"
+  },
+  "request": {
+    "email_id": "legit-068",
+    "sender": {
+      "name": "",
+      "address": "no-reply@google.com"
+    },
+    "subject": "Recent Account Activity",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "View your recent login activity in your Google account settings."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

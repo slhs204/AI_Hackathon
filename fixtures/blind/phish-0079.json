@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0079",
+  "title": "System Update Urgent",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Software Update",
+    "target": "General Users"
+  },
+  "request": {
+    "email_id": "phish-0079",
+    "sender": {
+      "name": "",
+      "address": "updates@systemcare.com"
+    },
+    "subject": "System Update Urgent",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Install update now: [attachment: update.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "update.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

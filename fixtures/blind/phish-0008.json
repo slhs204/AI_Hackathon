@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0008",
+  "title": "Healthcare Plan Update",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Service Update",
+    "target": "Healthcare"
+  },
+  "request": {
+    "email_id": "phish-0008",
+    "sender": {
+      "name": "",
+      "address": "support@bluecross-plan.com"
+    },
+    "subject": "Healthcare Plan Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your insurance plan needs renewal. Confirm details: https://healthcare-login.net"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://healthcare-login.net",
+        "href": "https://healthcare-login.net"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

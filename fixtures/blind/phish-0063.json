@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0063",
+  "title": "Charity Donation Urgent",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Charity Appeal",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0063",
+    "sender": {
+      "name": "",
+      "address": "donate@charity.org"
+    },
+    "subject": "Charity Donation Urgent",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Donate to our cause: https://relief-fund.org"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://relief-fund.org",
+        "href": "https://relief-fund.org"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

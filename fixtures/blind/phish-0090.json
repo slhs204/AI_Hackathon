@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0090",
+  "title": "Account Compromised",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "phish-0090",
+    "sender": {
+      "name": "",
+      "address": "security@twitter.com"
+    },
+    "subject": "Account Compromised",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Secure now: https://tw1tter-security.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://tw1tter-security.com",
+        "href": "https://tw1tter-security.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

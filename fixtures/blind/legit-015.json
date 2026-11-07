@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-015",
+  "title": "Your Subscription Receipt",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "legit-015",
+    "sender": {
+      "name": "",
+      "address": "billing@spotify.com"
+    },
+    "subject": "Your Subscription Receipt",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Thank you for your Spotify Premium subscription. Receipt available online."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

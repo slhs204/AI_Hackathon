@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-042",
+  "title": "Training Session Reminder",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-042",
+    "sender": {
+      "name": "",
+      "address": "training@company.com"
+    },
+    "subject": "Training Session Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Mandatory training session on 5/23 at 11 AM. Details in email."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

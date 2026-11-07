@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-027",
+  "title": "Order Delivered #54321",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-027",
+    "sender": {
+      "name": "",
+      "address": "support@ebay.com"
+    },
+    "subject": "Order Delivered #54321",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your order was delivered today. Contact us for any issues."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

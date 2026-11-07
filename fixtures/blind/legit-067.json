@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-067",
+  "title": "Order Delivered #789123",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-067",
+    "sender": {
+      "name": "",
+      "address": "support@target.com"
+    },
+    "subject": "Order Delivered #789123",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your order was delivered on 5/19/2025. Contact us for issues."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0014",
+  "title": "Account Lockout Warning",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "phish-0014",
+    "sender": {
+      "name": "",
+      "address": "security@outlook-notify.com"
+    },
+    "subject": "Account Lockout Warning",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your email account will be disabled. Verify: https://0utlook-security.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://0utlook-security.com",
+        "href": "https://0utlook-security.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

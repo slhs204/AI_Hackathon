@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-083",
+  "title": "Appointment Reminder",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Healthcare"
+  },
+  "request": {
+    "email_id": "legit-083",
+    "sender": {
+      "name": "",
+      "address": "appointments@dentist.com"
+    },
+    "subject": "Appointment Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your dental appointment is on 5/22 at 2 PM."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

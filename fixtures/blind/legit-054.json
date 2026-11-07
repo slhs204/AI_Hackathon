@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-054",
+  "title": "Account Security Update",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "legit-054",
+    "sender": {
+      "name": "",
+      "address": "security@yahoo.com"
+    },
+    "subject": "Account Security Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your account settings were updated. Contact us if this wasn’t you."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

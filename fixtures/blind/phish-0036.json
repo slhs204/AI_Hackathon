@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0036",
+  "title": "Account Upgrade Required",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "phish-0036",
+    "sender": {
+      "name": "",
+      "address": "support@linkedin-notify.com"
+    },
+    "subject": "Account Upgrade Required",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Upgrade your account to avoid suspension: https://1inkedin-upgrade.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://1inkedin-upgrade.com",
+        "href": "https://1inkedin-upgrade.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

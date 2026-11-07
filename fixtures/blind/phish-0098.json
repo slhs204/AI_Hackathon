@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0098",
+  "title": "System Maintenance",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake System Alert",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "phish-0098",
+    "sender": {
+      "name": "",
+      "address": "it@systemsupport.com"
+    },
+    "subject": "System Maintenance",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Run maintenance tool: [attachment: tool.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "tool.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

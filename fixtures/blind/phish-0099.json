@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0099",
+  "title": "Benefits Expiring",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Benefits Alert",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0099",
+    "sender": {
+      "name": "",
+      "address": "hr@benefits.com"
+    },
+    "subject": "Benefits Expiring",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Update benefits: https://benefits-plan.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://benefits-plan.com",
+        "href": "https://benefits-plan.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

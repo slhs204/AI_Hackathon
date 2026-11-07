@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-097",
+  "title": "Event Registration Confirmed",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "legit-097",
+    "sender": {
+      "name": "",
+      "address": "events@meetup.com"
+    },
+    "subject": "Event Registration Confirmed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "You’re registered for our 6/1 seminar. Details in calendar."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

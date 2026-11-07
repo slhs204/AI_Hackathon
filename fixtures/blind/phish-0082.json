@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0082",
+  "title": "Account Flagged",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency Alert/Fake Login",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "phish-0082",
+    "sender": {
+      "name": "",
+      "address": "security@gmail.com"
+    },
+    "subject": "Account Flagged",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Verify identity now: https://secure-id.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://secure-id.com",
+        "href": "https://secure-id.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

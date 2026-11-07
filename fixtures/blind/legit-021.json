@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-021",
+  "title": "Your Benefits Enrollment",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-021",
+    "sender": {
+      "name": "",
+      "address": "hr@company.com"
+    },
+    "subject": "Your Benefits Enrollment",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Open enrollment for 2025 benefits starts 6/1. Log in to choose your plan."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

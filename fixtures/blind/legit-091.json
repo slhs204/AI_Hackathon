@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-091",
+  "title": "Payment Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Payment Service"
+  },
+  "request": {
+    "email_id": "legit-091",
+    "sender": {
+      "name": "",
+      "address": "billing@square.com"
+    },
+    "subject": "Payment Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your $29.99 payment was successful. View receipt online."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

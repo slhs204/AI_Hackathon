@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-051",
+  "title": "Your Subscription Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Software Service"
+  },
+  "request": {
+    "email_id": "legit-051",
+    "sender": {
+      "name": "",
+      "address": "billing@adobe.com"
+    },
+    "subject": "Your Subscription Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your annual subscription to Adobe Acrobat is confirmed. View details online."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

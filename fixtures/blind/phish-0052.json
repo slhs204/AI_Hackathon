@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0052",
+  "title": "Overdue Invoice #7832",
+  "meta": {
+    "intent": "Fake Invoice/Download",
+    "technique": "Attachment with Malicious Payload",
+    "target": "SMBs / Finance"
+  },
+  "request": {
+    "email_id": "phish-0052",
+    "sender": {
+      "name": "",
+      "address": "billing@payvendor.com"
+    },
+    "subject": "Overdue Invoice #7832",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Download your invoice and settle payment: [attachment: invoice.pdf]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "invoice.pdf"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-077",
+  "title": "Order Update #456789",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-077",
+    "sender": {
+      "name": "",
+      "address": "orders@wayfair.com"
+    },
+    "subject": "Order Update #456789",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your order is being processed. Shipping expected by 5/23."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

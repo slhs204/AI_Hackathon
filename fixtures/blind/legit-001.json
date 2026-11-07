@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-001",
+  "title": "Your GitHub Invoice",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "GitHub"
+  },
+  "request": {
+    "email_id": "legit-001",
+    "sender": {
+      "name": "",
+      "address": "billing@github.com"
+    },
+    "subject": "Your GitHub Invoice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Thank you for being a GitHub Pro user. Your monthly invoice is available in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

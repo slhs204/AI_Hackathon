@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-052",
+  "title": "Weekly Project Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-052",
+    "sender": {
+      "name": "",
+      "address": "pm@company.com"
+    },
+    "subject": "Weekly Project Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "The latest project status report is available in the shared folder."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

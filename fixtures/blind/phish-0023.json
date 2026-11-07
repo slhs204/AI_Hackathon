@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0023",
+  "title": "Your Flight is Canceled",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "phish-0023",
+    "sender": {
+      "name": "",
+      "address": "support@united-air.com"
+    },
+    "subject": "Your Flight is Canceled",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Rebook your flight now: https://air1ine-booking.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://air1ine-booking.com",
+        "href": "https://air1ine-booking.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

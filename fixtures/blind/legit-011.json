@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-011",
+  "title": "Your Cloud Storage Plan",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "legit-011",
+    "sender": {
+      "name": "",
+      "address": "support@dropbox.com"
+    },
+    "subject": "Your Cloud Storage Plan",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "You’ve used 80% of your Dropbox storage. Upgrade or manage files."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

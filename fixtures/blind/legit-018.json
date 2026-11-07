@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-018",
+  "title": "Account Activity Summary",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Google"
+  },
+  "request": {
+    "email_id": "legit-018",
+    "sender": {
+      "name": "",
+      "address": "no-reply@google.com"
+    },
+    "subject": "Account Activity Summary",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your recent Google account activity is available for review."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

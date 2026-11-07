@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0039",
+  "title": "Free Trial: Premium Software",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Software Offer",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "phish-0039",
+    "sender": {
+      "name": "",
+      "address": "support@softpremium.com"
+    },
+    "subject": "Free Trial: Premium Software",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Try our software for free: [attachment: premium_trial.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "premium_trial.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

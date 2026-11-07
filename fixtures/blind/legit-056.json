@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-056",
+  "title": "New Product Launch",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-056",
+    "sender": {
+      "name": "",
+      "address": "news@apple.com"
+    },
+    "subject": "New Product Launch",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Explore our latest products in this month’s newsletter."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

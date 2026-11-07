@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-030",
+  "title": "Team Outing Details",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-030",
+    "sender": {
+      "name": "",
+      "address": "events@company.com"
+    },
+    "subject": "Team Outing Details",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join us for the team outing on 6/5. RSVP by 5/28."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

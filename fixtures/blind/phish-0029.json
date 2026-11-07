@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0029",
+  "title": "Critical System Update",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Software Update",
+    "target": "General Users"
+  },
+  "request": {
+    "email_id": "phish-0029",
+    "sender": {
+      "name": "",
+      "address": "updates@device-support.com"
+    },
+    "subject": "Critical System Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your device requires an urgent update: [attachment: system_patch.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "system_patch.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

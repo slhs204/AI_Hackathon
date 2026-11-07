@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0065",
+  "title": "Job Opportunity",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Job Seekers"
+  },
+  "request": {
+    "email_id": "phish-0065",
+    "sender": {
+      "name": "",
+      "address": "hr@workremote.com"
+    },
+    "subject": "Job Opportunity",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Apply now for remote work: [attachment: job_offer.doc]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "job_offer.doc"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

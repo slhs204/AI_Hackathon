@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0048",
+  "title": "System Maintenance Alert",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake System Alert",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "phish-0048",
+    "sender": {
+      "name": "",
+      "address": "it@system-support.com"
+    },
+    "subject": "System Maintenance Alert",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Scheduled maintenance requires action: [attachment: maintenance_tool.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "maintenance_tool.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

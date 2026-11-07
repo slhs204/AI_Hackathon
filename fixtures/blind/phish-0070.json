@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0070",
+  "title": "HR Policy Update",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0070",
+    "sender": {
+      "name": "",
+      "address": "hr@company.com"
+    },
+    "subject": "HR Policy Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Review new policy: [attachment: hr_policy.pdf]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "hr_policy.pdf"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

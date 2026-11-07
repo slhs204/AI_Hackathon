@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-019",
+  "title": "Your Donation Receipt",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Charity"
+  },
+  "request": {
+    "email_id": "legit-019",
+    "sender": {
+      "name": "",
+      "address": "donations@redcross.org"
+    },
+    "subject": "Your Donation Receipt",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Thank you for your $50 donation. Your receipt is attached."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0095",
+  "title": "Device Infected",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Security Software",
+    "target": "General Users"
+  },
+  "request": {
+    "email_id": "phish-0095",
+    "sender": {
+      "name": "",
+      "address": "support@deviceclean.com"
+    },
+    "subject": "Device Infected",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Clean device now: [attachment: cleaner.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "cleaner.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

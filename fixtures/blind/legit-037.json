@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-037",
+  "title": "System Status Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "legit-037",
+    "sender": {
+      "name": "",
+      "address": "status@company.com"
+    },
+    "subject": "System Status Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "All systems are operational. Contact support for any issues."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

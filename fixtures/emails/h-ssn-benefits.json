@@ -1,0 +1,27 @@
+{
+  "source": "handwritten",
+  "title": "Action needed to keep your coverage",
+  "request": {
+    "email_id": "h-ssn-benefits",
+    "sender": {
+      "name": "HR Benefits Team",
+      "address": "benefits-team@hr-portal-acme.example"
+    },
+    "subject": "Action needed to keep your coverage",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "We could not match your record. Reply with your Social Security number and date of birth to keep your coverage active."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": [
+      "payment_or_data_request",
+      "sender_impersonation"
+    ],
+    "note": ""
+  }
+}

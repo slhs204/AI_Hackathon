@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-020",
+  "title": "Software Update Available",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "legit-020",
+    "sender": {
+      "name": "",
+      "address": "updates@apple.com"
+    },
+    "subject": "Software Update Available",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "A new version of your app is ready. Update via the app store."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

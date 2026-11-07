@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0024",
+  "title": "Urgent: Data Breach Alert",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Breach Notification",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0024",
+    "sender": {
+      "name": "",
+      "address": "security@data-protect.com"
+    },
+    "subject": "Urgent: Data Breach Alert",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your data may be compromised. Secure now: https://datasecure-alert.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://datasecure-alert.com",
+        "href": "https://datasecure-alert.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

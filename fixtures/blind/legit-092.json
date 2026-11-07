@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-092",
+  "title": "Compliance Training Reminder",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-092",
+    "sender": {
+      "name": "",
+      "address": "training@company.com"
+    },
+    "subject": "Compliance Training Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Complete your compliance training by 5/25."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

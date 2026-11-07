@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0045",
+  "title": "Your Device is Infected",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Security Software",
+    "target": "General Users"
+  },
+  "request": {
+    "email_id": "phish-0045",
+    "sender": {
+      "name": "",
+      "address": "support@device-clean.com"
+    },
+    "subject": "Your Device is Infected",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Remove malware now: [attachment: cleaner.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "cleaner.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

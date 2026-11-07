@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0058",
+  "title": "Insurance Plan Renewal",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing",
+    "target": "Healthcare"
+  },
+  "request": {
+    "email_id": "phish-0058",
+    "sender": {
+      "name": "",
+      "address": "support@humana.com"
+    },
+    "subject": "Insurance Plan Renewal",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Renew your plan to avoid cancellation: https://heathcare-plan.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://heathcare-plan.com",
+        "href": "https://heathcare-plan.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

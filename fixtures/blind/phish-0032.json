@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0032",
+  "title": "Your Account is Flagged",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Security Alert",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "phish-0032",
+    "sender": {
+      "name": "",
+      "address": "security@outlook-alert.com"
+    },
+    "subject": "Your Account is Flagged",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Suspicious activity detected. Verify identity: https://secure-id-check.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://secure-id-check.com",
+        "href": "https://secure-id-check.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-065",
+  "title": "Your Disney+ Receipt",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "legit-065",
+    "sender": {
+      "name": "",
+      "address": "billing@disneyplus.com"
+    },
+    "subject": "Your Disney+ Receipt",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your monthly Disney+ payment was processed. View receipt online."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

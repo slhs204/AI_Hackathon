@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-058",
+  "title": "Scheduled Maintenance",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "legit-058",
+    "sender": {
+      "name": "",
+      "address": "it@company.com"
+    },
+    "subject": "Scheduled Maintenance",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Our systems will undergo maintenance on 5/22/2025, 2 AM–4 AM."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

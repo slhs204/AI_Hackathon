@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-075",
+  "title": "Profile Update Confirmation",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-075",
+    "sender": {
+      "name": "",
+      "address": "security@instagram.com"
+    },
+    "subject": "Profile Update Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Instagram profile was updated. Contact us if unintended."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

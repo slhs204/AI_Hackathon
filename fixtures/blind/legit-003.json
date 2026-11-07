@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-003",
+  "title": "Order Confirmation #45678",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-003",
+    "sender": {
+      "name": "",
+      "address": "orders@amazon.com"
+    },
+    "subject": "Order Confirmation #45678",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your order has been shipped and will arrive in 3-5 days. Track it in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

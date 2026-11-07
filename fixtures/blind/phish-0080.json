@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0080",
+  "title": "Subscription Verification",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "phish-0080",
+    "sender": {
+      "name": "",
+      "address": "billing@streamnow.com"
+    },
+    "subject": "Subscription Verification",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Verify your account: https://str3am-verify.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://str3am-verify.com",
+        "href": "https://str3am-verify.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0094",
+  "title": "VIP Event Invite",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Event Invite",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0094",
+    "sender": {
+      "name": "",
+      "address": "events@vipclub.com"
+    },
+    "subject": "VIP Event Invite",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our event: https://vip-event.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://vip-event.com",
+        "href": "https://vip-event.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

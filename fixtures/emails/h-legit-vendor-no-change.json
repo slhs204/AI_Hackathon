@@ -1,0 +1,32 @@
+{
+  "source": "handwritten",
+  "title": "Reminder: our bank details have not changed",
+  "request": {
+    "email_id": "h-legit-vendor-no-change",
+    "sender": {
+      "name": "Globex Supply AR",
+      "address": "ar@globex-supply.com"
+    },
+    "subject": "Reminder: our bank details have not changed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Hello Acme team, a reminder that Globex will never ask you to change bank details by email."
+      },
+      {
+        "id": "b2",
+        "text": "Our remittance details are unchanged. If anyone asks otherwise, call us at the number in your vendor file."
+      },
+      {
+        "id": "b3",
+        "text": "Globex Supply, Accounts Receivable"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": [],
+    "note": "Anti-fraud notice from the real vendor. Mentions bank details; probes keyword false alarms."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-064",
+  "title": "Two-Factor Authentication Enabled",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-064",
+    "sender": {
+      "name": "",
+      "address": "security@twitter.com"
+    },
+    "subject": "Two-Factor Authentication Enabled",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "2FA was activated on your account. Contact support if needed."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

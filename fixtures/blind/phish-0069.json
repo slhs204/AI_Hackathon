@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0069",
+  "title": "Loyalty Points Expiring",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Reward Urgency",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "phish-0069",
+    "sender": {
+      "name": "",
+      "address": "rewards@target.com"
+    },
+    "subject": "Loyalty Points Expiring",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Redeem points now: https://rewards-points.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://rewards-points.com",
+        "href": "https://rewards-points.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

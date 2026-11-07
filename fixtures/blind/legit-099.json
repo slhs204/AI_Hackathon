@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-099",
+  "title": "Plan Upgrade Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Software Service"
+  },
+  "request": {
+    "email_id": "legit-099",
+    "sender": {
+      "name": "",
+      "address": "billing@slack.com"
+    },
+    "subject": "Plan Upgrade Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your plan was upgraded. Access new features now."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

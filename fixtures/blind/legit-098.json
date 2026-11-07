@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-098",
+  "title": "Backup Completed",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "legit-098",
+    "sender": {
+      "name": "",
+      "address": "support@icloud.com"
+    },
+    "subject": "Backup Completed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your files were backed up successfully. Check status online."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

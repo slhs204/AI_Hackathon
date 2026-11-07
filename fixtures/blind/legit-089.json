@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-089",
+  "title": "Account Login Notice",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "legit-089",
+    "sender": {
+      "name": "",
+      "address": "security@onedrive.com"
+    },
+    "subject": "Account Login Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "A login to your OneDrive was recorded. Review in settings."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0018",
+  "title": "Legal Notice: Action Required",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Legal Threat",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0018",
+    "sender": {
+      "name": "",
+      "address": "clerk@courtservice.org"
+    },
+    "subject": "Legal Notice: Action Required",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "You are summoned for a legal matter. View details: https://court-notice.org"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://court-notice.org",
+        "href": "https://court-notice.org"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

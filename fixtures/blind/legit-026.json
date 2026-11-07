@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-026",
+  "title": "Your Monthly Report",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-026",
+    "sender": {
+      "name": "",
+      "address": "reports@company.com"
+    },
+    "subject": "Your Monthly Report",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your analytics report for April is ready. Download from the dashboard."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

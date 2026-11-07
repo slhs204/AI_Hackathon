@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0064",
+  "title": "Email Account Lockout",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency Alert/Fake Login with Homoglyph",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "phish-0064",
+    "sender": {
+      "name": "",
+      "address": "security@outlook.com"
+    },
+    "subject": "Email Account Lockout",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Verify your email to avoid deactivation: https://0utlook-verify.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://0utlook-verify.com",
+        "href": "https://0utlook-verify.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

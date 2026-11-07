@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0028",
+  "title": "Survey: Win a Prize",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Survey Scam",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0028",
+    "sender": {
+      "name": "",
+      "address": "rewards@surveyhub.com"
+    },
+    "subject": "Survey: Win a Prize",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Complete our survey for a chance to win: https://survey-rewards.net"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://survey-rewards.net",
+        "href": "https://survey-rewards.net"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

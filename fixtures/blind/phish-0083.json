@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0083",
+  "title": "Free Antivirus Offer",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Software Offer",
+    "target": "General Users"
+  },
+  "request": {
+    "email_id": "phish-0083",
+    "sender": {
+      "name": "",
+      "address": "support@antivirus.com"
+    },
+    "subject": "Free Antivirus Offer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Protect your device: [attachment: antivirus.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "antivirus.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

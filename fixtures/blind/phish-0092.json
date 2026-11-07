@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0092",
+  "title": "Order on Hold",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Transaction Alert",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "phish-0092",
+    "sender": {
+      "name": "",
+      "address": "support@shopify.com"
+    },
+    "subject": "Order on Hold",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Update payment: https://shop-secure.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://shop-secure.com",
+        "href": "https://shop-secure.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-044",
+  "title": "Account Verification Complete",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-044",
+    "sender": {
+      "name": "",
+      "address": "support@instagram.com"
+    },
+    "subject": "Account Verification Complete",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your account is now verified. Start using all features today."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0012",
+  "title": "Your Subscription is Expiring",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "phish-0012",
+    "sender": {
+      "name": "",
+      "address": "billing@netflix-notify.com"
+    },
+    "subject": "Your Subscription is Expiring",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Renew your streaming account now: https://netf1ix-renewal.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://netf1ix-renewal.com",
+        "href": "https://netf1ix-renewal.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

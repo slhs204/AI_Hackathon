@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-082",
+  "title": "Product Feature Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "legit-082",
+    "sender": {
+      "name": "",
+      "address": "updates@autodesk.com"
+    },
+    "subject": "Product Feature Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "New features added to your software. View the changelog."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

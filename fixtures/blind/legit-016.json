@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-016",
+  "title": "Weekly Team Sync",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-016",
+    "sender": {
+      "name": "",
+      "address": "team@company.com"
+    },
+    "subject": "Weekly Team Sync",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Reminder: Weekly sync at 2 PM tomorrow. Agenda shared in Slack."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

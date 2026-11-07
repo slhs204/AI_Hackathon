@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-066",
+  "title": "Team Sync Agenda",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-066",
+    "sender": {
+      "name": "",
+      "address": "team@company.com"
+    },
+    "subject": "Team Sync Agenda",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Agenda for tomorrow’s 11 AM sync is posted in Teams."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0062",
+  "title": "Streaming Account Expiring",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "phish-0062",
+    "sender": {
+      "name": "",
+      "address": "billing@netflix.com"
+    },
+    "subject": "Streaming Account Expiring",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Renew your account: https://netf1ix-login.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://netf1ix-login.com",
+        "href": "https://netf1ix-login.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

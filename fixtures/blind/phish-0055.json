@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0055",
+  "title": "Package Delivery Issue",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Attachment with Malicious Payload",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "phish-0055",
+    "sender": {
+      "name": "",
+      "address": "support@dhl-delivery.com"
+    },
+    "subject": "Package Delivery Issue",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Update your delivery details: [attachment: shipping_form.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "shipping_form.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

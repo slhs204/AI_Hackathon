@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-028",
+  "title": "Security Reminder",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "legit-028",
+    "sender": {
+      "name": "",
+      "address": "security@gmail.com"
+    },
+    "subject": "Security Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Enable 2FA to secure your account. Visit settings to set it up."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

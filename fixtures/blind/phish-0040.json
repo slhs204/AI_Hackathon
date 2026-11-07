@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0040",
+  "title": "Your Account is Compromised",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "phish-0040",
+    "sender": {
+      "name": "",
+      "address": "security@twitter-alert.com"
+    },
+    "subject": "Your Account is Compromised",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Secure your account now: https://tw1tter-security.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://tw1tter-security.com",
+        "href": "https://tw1tter-security.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-002",
+  "title": "Team Meeting Reminder",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-002",
+    "sender": {
+      "name": "",
+      "address": "hr@company.com"
+    },
+    "subject": "Team Meeting Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join us for the weekly team meeting tomorrow at 9 AM. Check the calendar for details."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

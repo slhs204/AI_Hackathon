@@ -1,0 +1,35 @@
+{
+  "source": "handwritten",
+  "title": "Open enrollment closes Friday",
+  "request": {
+    "email_id": "h-legit-benefits",
+    "sender": {
+      "name": "Acme HR",
+      "address": "hr@acme-corp.com"
+    },
+    "subject": "Open enrollment closes Friday",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Open enrollment for 2027 benefits closes Friday. Review your options on the benefits site."
+      },
+      {
+        "id": "b2",
+        "text": "Enroll now"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b2",
+        "display_text": "Enroll now",
+        "href": "https://enroll.benefits-provider.example/acme"
+      }
+    ]
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": [],
+    "note": "Real HR, external benefits link that isn't in the directory."
+  }
+}

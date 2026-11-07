@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0037",
+  "title": "Investment Opportunity",
+  "meta": {
+    "intent": "Financial Scam",
+    "technique": "Fake Investment Offer",
+    "target": "Investors"
+  },
+  "request": {
+    "email_id": "phish-0037",
+    "sender": {
+      "name": "",
+      "address": "info@startupfund.com"
+    },
+    "subject": "Investment Opportunity",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Invest in our startup for high returns: https://invest-scam.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://invest-scam.com",
+        "href": "https://invest-scam.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

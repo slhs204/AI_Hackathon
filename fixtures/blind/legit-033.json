@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-033",
+  "title": "Your Appointment Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Healthcare"
+  },
+  "request": {
+    "email_id": "legit-033",
+    "sender": {
+      "name": "",
+      "address": "appointments@clinic.com"
+    },
+    "subject": "Your Appointment Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your doctor’s appointment is scheduled for 5/21 at 10 AM."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

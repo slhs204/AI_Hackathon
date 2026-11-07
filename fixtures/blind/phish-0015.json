@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0015",
+  "title": "Job Offer: Work From Home",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Job Seekers"
+  },
+  "request": {
+    "email_id": "phish-0015",
+    "sender": {
+      "name": "",
+      "address": "hr@remotejobs.com"
+    },
+    "subject": "Job Offer: Work From Home",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our team! Submit your resume here: [attachment: job_application.doc]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "job_application.doc"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

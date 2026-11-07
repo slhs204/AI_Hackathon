@@ -40,7 +40,7 @@ URGENCY_PATTERNS = [
     r"\bkeep (?:this|it) (?:confidential|between us|quiet)\b", r"\bconfidential\b",
     r"\bdo not (?:call|phone|discuss|tell|share)\b", r"\bcan'?t take (?:any )?calls\b", r"\bdon'?t (?:call|tell|discuss)\b",
     r"\b(?:in|stuck in) (?:a|the) (?:board )?meeting\b", r"\bcan'?t talk\b", r"\btime[- ]sensitive\b",
-    r"\boverdue\b", r"\blate (?:fee|payment) penalt",
+    r"\boverdue\b", r"\blate (?:fee|payment penalty)\b",
 ]
 
 PAYMENT_PATTERNS = [
@@ -485,7 +485,8 @@ def detect_urgency(em):
 
 
 def detect_payment(em):
-    marks = _body_marks(em["body"], PAYMENT_PATTERNS)
+    marks = [_header_mark("subject", m["quote"]) for m in _body_marks(em["subject"], PAYMENT_PATTERNS)]
+    marks += _body_marks(em["body"], PAYMENT_PATTERNS)
     if not marks:
         return None
     is_cred = [bool(re.search(r"password|credential|login|sign in", m["quote"], re.I)) for m in marks]
@@ -596,7 +597,12 @@ def analyze(raw):
     for i, f in enumerate(findings, 1):
         f["n"] = i
     raw_score, total, level, weighted = score(findings, em)
+    stages = build_stages(findings)
+    for f in findings:
+        for m in f["marks"]:
+            m["tag"] = flag_tag(f["category"], m["quote"])
     return {
+        "stages": stages,
         "email": {k: em[k] for k in ("from_name", "from_addr", "reply_to", "return_path", "to", "subject", "date",
                                      "auth_results", "body", "attachments", "has_headers", "links")},
         "findings": [{k: v for k, v in f.items() if k not in ("impersonates", "executive")} for f in findings],
@@ -683,8 +689,21 @@ def analyze_contract(req):
                 evidence = {"kind": "text", "block_id": bid, "quote": m["quote"]}
             first = not any(o["category"] == CONTRACT_CATEGORY[f["category"]] for o in out)
             out.append({"id": f"f{len(out) + 1}", "category": CONTRACT_CATEGORY[f["category"]], "evidence": evidence,
+                        "tag": flag_tag(f["category"], m["quote"]),
                         "explanation": f["why"], "next_action": actions[0], "points": f["points"] if first else 0})
     raw_score, total, level, weighted = score(findings, em)
+    for f in findings:
+        f["n"] = findings.index(f) + 1
+    stages = build_stages(findings)
+    by_cat = {}
+    for o in out:
+        by_cat.setdefault(o["category"], []).append(o)
+    for st in stages:
+        for fl in st["flags"]:
+            ids = [o["id"] for o in by_cat.get(CONTRACT_CATEGORY[fl["category"]], [])
+                   if (o["evidence"]["kind"] == "metadata") == (st["stage"] == "subject")]
+            fl["finding_ids"] = ids
+            fl["category"] = CONTRACT_CATEGORY[fl["category"]]
     assessment = "insufficient_evidence" if not complete else ("needs_verification" if findings else "no_obvious_indicators")
     limitations = ["Displayed sender details do not establish sender authenticity."]
     if not em["auth_results"]:
@@ -694,6 +713,8 @@ def analyze_contract(req):
         "email_id": req.get("email_id"), "assessment": assessment, "analysis_complete": complete,
         "risk_score": total, "risk_level": level, "payroll_weighted": weighted,
         "scam_type": scam_type(findings, em), "findings": out, "recommended_actions": actions,
+        "verdict": verdict(findings, total), "callback": callback_contact(findings, em),
+        "hold_scenario": hold_scenario(findings, em), "stages": stages,
         "limitations": limitations,
     }
 
@@ -833,3 +854,86 @@ def fingerprint(em, findings, total):
         "lookalike_of": (look["domains"][0] if look else None),
         "client_score": total,
     }
+
+
+# ---------------------------------------------------------------- v3.1: two-stage scan (subject line, then body)
+
+SUBJECT_STAGE = {"lookalike", "reply_to", "auth", "exec"}
+TAGS = {"lookalike": "look-alike domain", "reply_to": "Reply-To mismatch", "auth": "SPF/DMARC fail",
+        "exec": "impersonation", "links": "link ≠ text", "attachment": "risky attachment"}
+
+
+def _payment_tag(quote):
+    q = quote.lower()
+    for pat, tag in ((r"w-?2|social security|ssn|employee", "employee data"), (r"gift", "gift cards"),
+                     (r"password|sign in|credential|login", "credentials"), (r"wire", "wire"),
+                     (r"direct deposit", "direct deposit"), (r"approval|verification|call-?back", "skip approval")):
+        if re.search(pat, q):
+            return tag
+    return "bank change"
+
+
+def flag_tag(category, quote):
+    if category == "urgency":
+        return quote.lower()
+    if category == "payment":
+        return _payment_tag(quote)
+    return TAGS.get(category, category)
+
+
+def _is_header(mark):
+    return mark["kind"] == "header"
+
+
+def _stage_split(findings):
+    """Assign each finding's points to the subject stage (sender line + subject) or the body stage."""
+    subject, body = [], []
+    urgency_left = POINTS["urgency_cap"]
+    for f in findings:
+        head = [m for m in f["marks"] if _is_header(m)]
+        rest = [m for m in f["marks"] if not _is_header(m)]
+        if f["category"] == "urgency":
+            ps = min(POINTS["urgency_each"] * len(head), urgency_left)
+            pb = min(POINTS["urgency_each"] * len(rest), urgency_left - ps)
+        elif f["category"] in SUBJECT_STAGE:
+            ps, pb = f["points"], 0
+        elif rest:
+            ps, pb = 0, f["points"]
+        else:
+            ps, pb = f["points"], 0
+        if head:
+            subject.append((f, head, ps))
+        if rest:
+            body.append((f, rest, pb))
+    return subject, body
+
+
+def _stage_flags(items):
+    return [{"n": f["n"], "category": f["category"], "points": pts,
+             "tags": list(dict.fromkeys(flag_tag(f["category"], m["quote"]) for m in marks))}
+            for f, marks, pts in items]
+
+
+def analyze_subject(em):
+    """Stage 1: red flags visible on the subject line and the sender line (From, Reply-To, auth results)."""
+    findings = [f for f in (d(em) for d in DETECTORS) if f]
+    for i, f in enumerate(findings, 1):
+        f["n"] = i
+    return _stage_flags(_stage_split(findings)[0])
+
+
+def analyze_body(em):
+    """Stage 2: red flags in the message body, links and attachments."""
+    findings = [f for f in (d(em) for d in DETECTORS) if f]
+    for i, f in enumerate(findings, 1):
+        f["n"] = i
+    return _stage_flags(_stage_split(findings)[1])
+
+
+def build_stages(findings):
+    subject, body = _stage_split(findings)
+    out = []
+    for name, items in (("subject", subject), ("body", body)):
+        flags = _stage_flags(items)
+        out.append({"stage": name, "score": sum(fl["points"] for fl in flags), "flags": flags})
+    return out

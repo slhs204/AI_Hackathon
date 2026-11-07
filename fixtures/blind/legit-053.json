@@ -1,0 +1,29 @@
+{
+  "source": "teddyha:legit-053",
+  "title": "Order Shipped #123456",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-053",
+    "sender": {
+      "name": "",
+      "address": "orders@zappos.com"
+    },
+    "subject": "Order Shipped #123456",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your package has shipped. Track your order in your account."
+      }
+    ],
+    "links": [],
+    "attachments": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

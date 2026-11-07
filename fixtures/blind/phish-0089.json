@@ -1,0 +1,33 @@
+{
+  "source": "teddyha:phish-0089",
+  "title": "Premium Software Trial",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Software Offer",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "phish-0089",
+    "sender": {
+      "name": "",
+      "address": "support@softwarepro.com"
+    },
+    "subject": "Premium Software Trial",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Try our software: [attachment: trial.exe]"
+      }
+    ],
+    "links": [],
+    "attachments": [
+      {
+        "name": "trial.exe"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

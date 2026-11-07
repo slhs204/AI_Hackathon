@@ -1,0 +1,36 @@
+{
+  "source": "teddyha:phish-0073",
+  "title": "Flight Cancellation",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "phish-0073",
+    "sender": {
+      "name": "",
+      "address": "support@delta.com"
+    },
+    "subject": "Flight Cancellation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Rebook your flight: https://air1ine-reschedule.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://air1ine-reschedule.com",
+        "href": "https://air1ine-reschedule.com"
+      }
+    ],
+    "attachments": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}
