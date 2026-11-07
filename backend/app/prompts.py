@@ -17,11 +17,13 @@ Automatic checks already ran; their findings are listed. Your job:
 2. For each, copy the evidence EXACTLY from one block, character for character, 3 to 120 characters long,
    and give that block's id. If you cannot quote it exactly, leave the sign out.
 3. Write a 1-2 sentence summary of what the email wants the reader to do.
+4. For each category in the automatic findings, one plain-English sentence a payroll clerk understands.
 
 Never say an email is safe. You cannot verify senders, open links, or change anything.
 
 Reply with ONLY this JSON object, no other text:
 {{"summary": "...",
+  "explanations": {{"<category from the automatic findings>": "one plain sentence"}},
   "extra_findings": [{{"category": "one of {', '.join(MODEL_CATEGORIES)}",
                       "block_id": "b1", "quote": "exact text", "explanation": "why it matters, 1-2 sentences",
                       "next_action": "how to check, 1 sentence"}}]}}"""

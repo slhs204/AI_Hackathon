@@ -25,7 +25,7 @@ app = FastAPI(title="Phishing Coach API", version="0.2.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.allowed_origins(),
-    allow_origin_regex=r"chrome-extension://[a-p]{32}",
+    allow_origin_regex=r"^chrome-extension://[a-p]{32}$",
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "X-Demo-Token"],
 )
@@ -40,20 +40,18 @@ async def limit_body(request: Request, call_next):
 
 
 def require_token(x_demo_token: str = Header(default="")) -> None:
-    """Checked before any model call. With no DEMO_API_TOKEN configured, the
-    real model is refused entirely (see model_for_request)."""
+    """Fail closed, same as Albert's v3.1: with no DEMO_API_TOKEN configured the
+    POST routes refuse everything (503); a wrong or missing token gets 401.
+    For local work set any value, e.g. DEMO_API_TOKEN=dev."""
     expected = config.demo_token()
-    if expected and not hmac.compare_digest(x_demo_token.encode(), expected.encode()):
+    if not expected:
+        raise HTTPException(status_code=503, detail="DEMO_API_TOKEN is not configured on the server; /analyze is disabled")
+    if not hmac.compare_digest(x_demo_token.encode(), expected.encode()):
         raise HTTPException(status_code=401, detail="invalid or missing X-Demo-Token")
 
 
 def model_for_request():
-    call = llm.default_call()
-    if call is not None and not config.demo_token():
-        # A paid model must never be reachable without a token.
-        logging.getLogger("phishing-coach").error("MODEL_PROVIDER=tinker but DEMO_API_TOKEN is unset; model disabled")
-        return None
-    return call
+    return llm.default_call()
 
 
 @app.get("/health")

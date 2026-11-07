@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07 16:50 UTC",
+  "generated_at": "2026-11-07 18:11 UTC",
   "model": "rules-only",
   "n_cases": 23,
   "views": [
@@ -38,7 +38,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 100,
-        "n_findings": 12,
+        "n_findings": 13,
         "categories": [
           "authentication_failure",
           "authority_impersonation",
@@ -213,7 +213,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 20,
-        "n_findings": 2,
+        "n_findings": 3,
         "categories": [
           "payment_or_data_request"
         ],
@@ -326,7 +326,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 79,
-        "n_findings": 8,
+        "n_findings": 9,
         "categories": [
           "authority_impersonation",
           "payment_or_data_request",
@@ -344,7 +344,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 100,
-        "n_findings": 14,
+        "n_findings": 15,
         "categories": [
           "authentication_failure",
           "payment_or_data_request",
@@ -411,7 +411,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 50,
-        "n_findings": 2,
+        "n_findings": 3,
         "categories": [
           "payment_or_data_request",
           "sender_impersonation"
@@ -430,7 +430,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 100,
-        "n_findings": 10,
+        "n_findings": 11,
         "categories": [
           "authority_impersonation",
           "payment_or_data_request",
@@ -600,7 +600,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 20,
-        "n_findings": 2,
+        "n_findings": 3,
         "categories": [
           "payment_or_data_request"
         ],
@@ -712,7 +712,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 79,
-        "n_findings": 8,
+        "n_findings": 9,
         "categories": [
           "authority_impersonation",
           "payment_or_data_request",
@@ -730,7 +730,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 96,
-        "n_findings": 10,
+        "n_findings": 11,
         "categories": [
           "payment_or_data_request",
           "sender_impersonation",
@@ -795,7 +795,7 @@
         "assessment": "needs_verification",
         "flagged": true,
         "score": 50,
-        "n_findings": 2,
+        "n_findings": 3,
         "categories": [
           "payment_or_data_request",
           "sender_impersonation"

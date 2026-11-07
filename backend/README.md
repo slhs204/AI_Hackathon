@@ -8,8 +8,8 @@ and adds the model layer, evidence checks, payroll policies, `/challenge`, and t
 ```bash
 cd backend
 uv venv --python 3.11 .venv && uv pip install --python .venv/bin/python -r requirements-dev.txt
-.venv/bin/uvicorn main:app --reload --port 8080      # rules only, no key needed
-.venv/bin/python -m pytest -q                        # 45 tests
+DEMO_API_TOKEN=dev .venv/bin/uvicorn main:app --reload --port 8080   # rules only; send X-Demo-Token: dev
+.venv/bin/python -m pytest -q                        # 50 tests
 .venv/bin/python -m eval.run_eval                    # writes eval/results/rules-only.md
 .venv/bin/python -m eval.smoke_tinker                # first real Tinker call (needs key + model)
 ```
@@ -33,10 +33,10 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `app/tools/payroll_checks.py` | "change my salary account" and company-name-in-domain checks the engine misses |
 | `app/tools/lookup.py` | Payroll policy lookup and practice question from the drill bank |
 | `data/policies.json` | Synthetic Acme payroll procedures (source of `next_action`) |
-| `phishhook/` | Albert's rule engine, copied unchanged |
+| `phishhook/` | Albert's rule engine (v3.1), copied unchanged |
 | `eval/run_eval.py` | Runs all fixtures in "full headers" and "Gmail-visible" views, writes `eval/results/` |
 | `eval/smoke_tinker.py` | One tiny call + one full analysis to prove the Tinker setup works |
-| `tests/` | 45 tests: evidence, pipeline, API/token, Hookline compatibility |
+| `tests/` | 50 tests: evidence, pipeline, API/token, Hookline compatibility |
 | `../fixtures/` | `build_fixtures.py` turns Albert's .eml samples + handwritten cases into requests |
 
 ## Environment
@@ -44,11 +44,11 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | Variable | Meaning |
 |---|---|
 | `MODEL_PROVIDER` | `mock` (default: no model call) or `tinker` |
-| `DEMO_API_TOKEN` | Required header `X-Demo-Token` on POST routes. If unset, the paid model is **disabled** even when `MODEL_PROVIDER=tinker`. |
+| `DEMO_API_TOKEN` | Required header `X-Demo-Token` on POST routes. **Fail closed:** unset → POST routes return 503 (same as Albert's v3.1). |
 | `TINKER_API_KEY` | From Secret Manager. Never in the extension or Git. |
 | `TINKER_MODEL` | The model/checkpoint the team's smoke test proved works (not yet confirmed here) |
 | `TINKER_BASE_URL` | Optional; defaults to Tinker's documented OpenAI-compatible endpoint |
-| `ALLOWED_ORIGINS` | CORS, comma-separated; default `https://mail.google.com`. Chrome extension origins are allowed. |
+| `ALLOWED_ORIGINS` | CORS, comma-separated; default Gmail + Outlook web origins. Chrome extension origins are allowed. |
 | `MODEL_TIMEOUT_S`, `MODEL_MAX_TOKENS` | Defaults 30 s and 1500 tokens |
 
 ## Endpoints

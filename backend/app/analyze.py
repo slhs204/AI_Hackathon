@@ -108,6 +108,59 @@ def _quote_text(f: Finding) -> str:
     return f.evidence.quote or f.evidence.value or ""
 
 
+def _apply_ai_explanations(raw: dict, findings: list[Finding]) -> None:
+    """Model rewording per category (Albert's v3 `ai_explanation`). Text only,
+    no quotes, so nothing to verify; the rules' explanation stays as well."""
+    expl = raw.get("explanations")
+    if not isinstance(expl, dict):
+        return
+    for f in findings:
+        text = expl.get(f.category)
+        if isinstance(text, str) and text.strip():
+            f.ai_explanation = text.strip()[:600]
+
+
+def _extra_tag(f: Finding) -> str:
+    if f.category == "payment_or_data_request":
+        return engine._payment_tag(_quote_text(f))
+    return {"sender_impersonation": "look-alike domain", "deceptive_link": "link ≠ text",
+            "manipulation_cue": "manipulation"}.get(f.category, f.category.replace("_", " "))
+
+
+def _stages(engine_stages: list, engine_ids: dict, rule_findings: list[Finding], added: list[Finding]) -> list:
+    """Engine v3.1 two-stage scan (subject line, then body), with finding ids
+    remapped to our final ids and our extra findings added to the right stage."""
+    new_id = {engine_ids[id(f)]: f.id for f in rule_findings if id(f) in engine_ids}
+    out = []
+    for st in engine_stages:
+        flags = []
+        for fl in st.get("flags", []):
+            ids = [new_id[i] for i in fl.get("finding_ids", []) if i in new_id]
+            flags.append({**fl, "finding_ids": ids})
+        out.append({**st, "flags": flags})
+    if not out:
+        out = [{"stage": "subject", "score": 0, "flags": []}, {"stage": "body", "score": 0, "flags": []}]
+    by_name = {st["stage"]: st for st in out}
+    for f in added:
+        st = by_name["subject" if f.evidence.kind == "metadata" else "body"]
+        st["flags"].append({"n": len(st["flags"]) + 1, "category": f.category, "points": f.points,
+                            "tags": [f.tag] if f.tag else [], "finding_ids": [f.id]})
+        st["score"] = st.get("score", 0) + f.points
+    return out
+
+
+def _verdict(score: int, findings: list[Finding], complete: bool) -> dict:
+    """Albert's "Can I pay?" answer, recomputed after our extra findings.
+    A payment request or an incomplete analysis is never "OK to proceed"."""
+    if score >= 70:
+        key = "stop"
+    elif score >= 30 or not complete or any(f.category == "payment_or_data_request" for f in findings):
+        key = "verify"
+    else:
+        key = "pay"
+    return {"key": key, "label": engine.VERDICTS[key]}
+
+
 def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -> AnalyzeResponse:
     started = time.monotonic()
     rules = engine.analyze_contract(email.model_dump())
@@ -116,13 +169,16 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
 
     # 1. Rule findings, re-checked against the email.
     findings: list[Finding] = []
+    engine_ids: dict[int, str] = {}  # id(finding) -> the engine's own id, for remapping stages
     for f in rules["findings"]:
         finding = Finding.model_validate({**f, "source": "rules"})
         ev = verify(email, finding.evidence)
         if ev is None:
             complete = False
             continue
-        findings.append(finding.model_copy(update={"evidence": ev}))
+        finding = finding.model_copy(update={"evidence": ev})
+        engine_ids[id(finding)] = f["id"]
+        findings.append(finding)
 
     # 2. Extra deterministic link checks.
     flagged_links = {f.evidence.link_id for f in findings if f.evidence.kind == "link"}
@@ -138,6 +194,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
             raw, _ = llm.call_json(model_call, prompts.ANALYZE_SYSTEM, prompts.analyze_user(email, findings + extras))
             model_extra, discarded = _model_findings(raw, email)
             summary = str(raw.get("summary", "")).strip()[:600]
+            _apply_ai_explanations(raw, findings + extras)
             model_name = llm.model_label()
         except llm.ModelUnavailable as exc:
             log.warning("model unavailable: %s", exc)
@@ -182,6 +239,10 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
             f.next_action = policy_next_action(policy.id)
             used_policies[policy.id] = policy
 
+    for f in extras + model_extra:
+        f.tag = f.tag or _extra_tag(f)
+    stages = _stages(rules.get("stages") or [], engine_ids, findings, extras + model_extra)
+
     score = min(100, int(rules["risk_score"]) + extra_points + model_points)
     if not complete:
         assessment = "insufficient_evidence"
@@ -206,6 +267,11 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
         findings=all_findings,
         recommended_actions=rules["recommended_actions"],
         limitations=limitations,
+        verdict=_verdict(score, all_findings, complete),
+        callback=rules.get("callback"),
+        hold_scenario=rules.get("hold_scenario"),
+        stages=stages,
+        ai_summary=summary or None,
         summary=summary,
         policies=list(used_policies.values()),
         practice=get_training_example(_SCAM_TO_DRILL.get(rules["scam_type"], "fake_invoice"), email.email_id or ""),

@@ -1,4 +1,4 @@
-# Eval report — 2026-11-07 16:50 UTC
+# Eval report — 2026-11-07 18:11 UTC
 
 Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy claim.
 
@@ -18,7 +18,7 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 
 | case | label | assessment | score | findings | categories | missing | ms |
 |---|---|---|---|---|---|---|---|
-| ceo-w2-request | phishing | needs_verification | 100 | 12 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 2 |
+| ceo-w2-request | phishing | needs_verification | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 2 |
 | ceo-wire | phishing | needs_verification | 100 | 13 | authentication_failure, authority_impersonation, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 0 |
 | cfo-gift-cards | phishing | needs_verification | 90 | 6 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
 | fake-docusign | phishing | needs_verification | 100 | 8 | authentication_failure, deceptive_link, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
@@ -28,25 +28,25 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 | h-legit-benefits | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | h-legit-ceo-review | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | h-legit-urgent-cutoff | legit | needs_verification | 24 | 4 | urgency_pressure | — | 0 |
-| h-legit-vendor-no-change | legit | needs_verification | 20 | 2 | payment_or_data_request | — | 0 |
+| h-legit-vendor-no-change | legit | needs_verification | 20 | 3 | payment_or_data_request | — | 0 |
 | h-ssn-benefits | phishing | needs_verification | 50 | 2 | payment_or_data_request, sender_impersonation | — | 0 |
 | h-thread-hijack | phishing | needs_verification | 20 | 2 | payment_or_data_request | — | 0 |
 | legit-cfo-memo | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | legit-vendor-invoice | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | m365-password | phishing | needs_verification | 78 | 5 | deceptive_link, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
 | new-supplier-onboarding | ambiguous | needs_verification | 40 | 4 | payment_or_data_request, risky_attachment | — | 0 |
-| payroll-direct-deposit | phishing | needs_verification | 79 | 8 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
-| vendor-bank-change | phishing | needs_verification | 100 | 14 | authentication_failure, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 0 |
+| payroll-direct-deposit | phishing | needs_verification | 79 | 9 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
+| vendor-bank-change | phishing | needs_verification | 100 | 15 | authentication_failure, payment_or_data_request, reply_to_mismatch, sender_impersonation, urgency_pressure | — | 0 |
 | x-ambiguous-internal-change | ambiguous | needs_verification | 20 | 2 | payment_or_data_request | — | 0 |
 | x-code-link | phishing | needs_verification | 50 | 3 | deceptive_link, sender_impersonation | — | 0 |
 | x-legit-internal-reminder | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
-| x-prompt-injection | phishing | needs_verification | 50 | 2 | payment_or_data_request, sender_impersonation | — | 0 |
+| x-prompt-injection | phishing | needs_verification | 50 | 3 | payment_or_data_request, sender_impersonation | — | 0 |
 
 ## Per case — gmail
 
 | case | label | assessment | score | findings | categories | missing | ms |
 |---|---|---|---|---|---|---|---|
-| ceo-w2-request | phishing | needs_verification | 100 | 10 | authority_impersonation, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
+| ceo-w2-request | phishing | needs_verification | 100 | 11 | authority_impersonation, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
 | ceo-wire | phishing | needs_verification | 100 | 9 | authority_impersonation, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
 | cfo-gift-cards | phishing | needs_verification | 90 | 6 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
 | fake-docusign | phishing | needs_verification | 86 | 6 | deceptive_link, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
@@ -56,16 +56,16 @@ Model: `rules-only`. 23 synthetic cases. Counts only; not a real-world accuracy 
 | h-legit-benefits | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | h-legit-ceo-review | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | h-legit-urgent-cutoff | legit | needs_verification | 24 | 4 | urgency_pressure | — | 0 |
-| h-legit-vendor-no-change | legit | needs_verification | 20 | 2 | payment_or_data_request | — | 0 |
+| h-legit-vendor-no-change | legit | needs_verification | 20 | 3 | payment_or_data_request | — | 0 |
 | h-ssn-benefits | phishing | needs_verification | 50 | 2 | payment_or_data_request, sender_impersonation | — | 0 |
 | h-thread-hijack | phishing | needs_verification | 20 | 2 | payment_or_data_request | — | 0 |
 | legit-cfo-memo | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | legit-vendor-invoice | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
 | m365-password | phishing | needs_verification | 78 | 5 | deceptive_link, payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
 | new-supplier-onboarding | ambiguous | needs_verification | 20 | 3 | payment_or_data_request | — | 0 |
-| payroll-direct-deposit | phishing | needs_verification | 79 | 8 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
-| vendor-bank-change | phishing | needs_verification | 96 | 10 | payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
+| payroll-direct-deposit | phishing | needs_verification | 79 | 9 | authority_impersonation, payment_or_data_request, urgency_pressure | — | 0 |
+| vendor-bank-change | phishing | needs_verification | 96 | 11 | payment_or_data_request, sender_impersonation, urgency_pressure | — | 0 |
 | x-ambiguous-internal-change | ambiguous | needs_verification | 20 | 2 | payment_or_data_request | — | 0 |
 | x-code-link | phishing | needs_verification | 50 | 3 | deceptive_link, sender_impersonation | — | 0 |
 | x-legit-internal-reminder | legit | no_obvious_indicators | 0 | 0 | — | — | 0 |
-| x-prompt-injection | phishing | needs_verification | 50 | 2 | payment_or_data_request, sender_impersonation | — | 0 |
+| x-prompt-injection | phishing | needs_verification | 50 | 3 | payment_or_data_request, sender_impersonation | — | 0 |

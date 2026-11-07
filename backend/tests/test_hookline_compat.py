@@ -26,11 +26,11 @@ HOOKLINE_GMAIL = {
 
 @pytest.fixture
 def client(monkeypatch):
-    monkeypatch.delenv("DEMO_API_TOKEN", raising=False)
+    monkeypatch.setenv("DEMO_API_TOKEN", "dev")
     monkeypatch.setenv("MODEL_PROVIDER", "mock")
     import main
 
-    return TestClient(main.app)
+    return TestClient(main.app, headers={"X-Demo-Token": "dev"})
 
 
 def test_link_names_text_url_are_accepted(client):

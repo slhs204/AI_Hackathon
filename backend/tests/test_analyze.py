@@ -177,3 +177,44 @@ def test_company_name_inside_unknown_domain_is_flagged():
 def test_real_company_and_vendor_domains_are_not_flagged_by_name_check():
     for name in ("x-legit-internal-reminder", "legit-vendor-invoice", "legit-cfo-memo"):
         assert not any(f.category == "sender_impersonation" for f in analyze(load(name)).findings), name
+
+
+# --- Albert v3.1 fields (verdict, stages, tags, ai_explanation) -------------------
+
+def test_v31_fields_are_passed_through():
+    r = analyze(load("vendor-bank-change"))
+    assert r.verdict["key"] == "stop"
+    assert r.callback and r.callback["source"] == "vendor master file"
+    assert [s["stage"] for s in r.stages] == ["subject", "body"]
+    assert all(f.tag for f in r.findings)
+
+
+def test_stage_finding_ids_point_at_real_findings():
+    for name in ("vendor-bank-change", "x-prompt-injection", "x-code-link", "ceo-w2-request"):
+        r = analyze(load(name))
+        ids = {f.id for f in r.findings}
+        for st in r.stages:
+            for fl in st["flags"]:
+                assert set(fl["finding_ids"]) <= ids, (name, fl)
+
+
+def test_extra_findings_land_in_the_right_stage():
+    r = analyze(load("x-prompt-injection"))  # company-name domain (subject stage) + engine payment (body)
+    imp = next(f for f in r.findings if f.category == "sender_impersonation")
+    subject = next(s for s in r.stages if s["stage"] == "subject")
+    assert any(imp.id in fl["finding_ids"] for fl in subject["flags"])
+
+
+def test_payment_request_is_never_ok_to_proceed():
+    r = analyze(load("x-ambiguous-internal-change"))  # score 20, internal sender
+    assert r.verdict["key"] == "verify"
+    assert analyze(load("x-legit-internal-reminder")).verdict["key"] == "pay"
+
+
+def test_model_explanations_become_ai_explanation():
+    reply = json.dumps({"summary": "s", "explanations": {"reply_to_mismatch": "Your reply would go to a stranger."},
+                        "extra_findings": []})
+    r = analyze(load("vendor-bank-change"), fake_model(reply))
+    rt = [f for f in r.findings if f.category == "reply_to_mismatch"]
+    assert rt and all(f.ai_explanation == "Your reply would go to a stranger." for f in rt)
+    assert r.ai_summary == "s"

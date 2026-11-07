@@ -141,6 +141,8 @@ class Finding(BaseModel):
     explanation: str = Field(max_length=800)
     next_action: str = Field(max_length=800)
     points: int = 0
+    tag: Optional[str] = None  # short chip text from engine v3.1, e.g. "bank change"
+    ai_explanation: Optional[str] = None  # model's plain-English rewording (Albert v3 field)
     # added
     title: str = ""
     source: Literal["rules", "tool", "model"] = "rules"
@@ -179,6 +181,12 @@ class AnalyzeResponse(BaseModel):
     findings: list[Finding]
     recommended_actions: list[str]
     limitations: list[str]
+    # engine v3.1 fields read by Albert's v3 extension / Outlook pane
+    verdict: Optional[dict[str, str]] = None  # {"key": pay|verify|stop, "label": ...}
+    callback: Optional[dict[str, str]] = None  # who to call, from the directory, never from the email
+    hold_scenario: Optional[str] = None
+    stages: list[dict[str, Any]] = Field(default_factory=list)  # [{stage: subject|body, score, flags}]
+    ai_summary: Optional[str] = None
     # added
     summary: str = ""
     disclaimer: str = "No warning signs found does not mean the email is safe."

@@ -1,12 +1,37 @@
-# Notes from the backend side (Sunday, 2026-11-07)
+# Notes from the backend side (Sunday, updated 2026-11-08)
 
 Things to decide or change together. Numbers come from `backend/eval/results/rules-only.md`.
+
+## For everyone: one backend
+
+Albert's v3.1 now has its own FastAPI `main.py`, and the repo has `backend/` (merged in PR #1). We should deploy
+**one**. Proposal: deploy `backend/`, which already wraps Albert's v3.1 engine unchanged and returns every field his
+v3 extension and Outlook pane read (`verdict`, `callback`, `hold_scenario`, `stages`, `tag`, `ai_explanation`),
+plus what v3.1 doesn't have yet:
+
+| | Albert v3.1 `main.py` | `backend/` |
+|---|---|---|
+| Rules (8 detectors, stages, verdict) | yes | same engine, copied unchanged |
+| AI | rewords explanations only; its extra flags are dropped on the `/analyze` path | rewords explanations **and** adds up to 3 verified extra signs |
+| Checks every AI quote against the email | n/a | yes; unverifiable → "Analysis incomplete" |
+| `/challenge` | no | yes |
+| Payroll policy as `next_action` | no | yes (`data/policies.json`) |
+| Hookline's `{text,url}` links / `finding_id` challenge | no | yes |
+| Fixes for the demo-email misses below | no | yes (`app/tools/payroll_checks.py`) |
+| Token fail closed, CORS for Gmail + Outlook | yes | yes (aligned to v3.1) |
+| Web demo pages, `.eml` upload, `/api/report`, Outlook taskpane files | yes | no: keep serving those from Albert's app |
 
 ## For everyone: one contract
 
 Albert's prototype and Jenessa's Hookline send and expect slightly different JSON. The backend accepts
 both today (see `docs/API_CONTRACT.md`), so nothing is blocked. We should still pick one shape before
 the demo so nobody is surprised.
+
+## For Albert (v3 extension)
+
+Point the v3 extension's backend URL at `backend/` (locally `DEMO_API_TOKEN=dev uvicorn main:app --port 8080`).
+It sends `{blocks, links:{block_id,display_text,href}}` and reads `verdict/callback/stages/tag`, all supported.
+Not tried in a browser yet.
 
 ## For Jenessa (Hookline)
 
@@ -29,7 +54,7 @@ To switch `background.js` from mock to the real backend:
 
 ## For Albert (rule engine / deployment)
 
-Gaps found by the eval. I did **not** edit `engine.py`; the backend patches them in
+Gaps found by the eval, still present in v3.1. I did **not** edit `engine.py`; the backend patches them in
 `backend/app/tools/payroll_checks.py` until you decide.
 
 1. **"Please change my salary account today" is not a payment request** for `PAYMENT_PATTERNS`. That's
@@ -40,8 +65,9 @@ Gaps found by the eval. I did **not** edit `engine.py`; the backend patches them
    ... routing 011000138"). No rule pattern matches; this is the case the model is for.
 4. **False alarms:** a real CFO email saying "URGENT: payroll cutoff today" and the real vendor's
    "our bank details have not changed" notice both get flagged (urgency / keyword match).
-5. The prototype's `/api/analyze` calls the LLM **without checking the demo token**, and the token is
-   compared with `!=` (timing-safe compare is better). The FastAPI backend fixes both.
+5. Fixed in v3.1: `/analyze` now fails closed and uses `hmac.compare_digest`. Still open in v3.1:
+   `/api/analyze` (web demo) calls the LLM without a token when a key is set. Fine on a laptop; don't expose it
+   publicly with a key configured.
 6. Deployment: `backend/Dockerfile` should work with the `gcloud run deploy --source backend` flow in
    DEPLOYMENT.md (not tried yet; I have no GCP access). Secrets needed: `TINKER_API_KEY`, `DEMO_API_TOKEN`; plus env `MODEL_PROVIDER=tinker`,
    `TINKER_MODEL=<value from the smoke test>`.

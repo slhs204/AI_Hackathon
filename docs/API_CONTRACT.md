@@ -1,12 +1,13 @@
 # API contract: extension ↔ backend
 
-Status: **draft for team review** (Sunday, 2026-11-07). The backend in `backend/` implements this today
-and accepts both extension formats currently in the repo (Albert's prototype and Jenessa's Hookline).
+Status: **draft for team review** (Sunday, updated 2026-11-08). The backend in `backend/` implements this today
+and serves all three clients: Albert's v3.1 extension / Outlook pane, Albert's older prototype, and Jenessa's Hookline.
 Run `cd backend && .venv/bin/uvicorn main:app --port 8080` and open `http://localhost:8080/docs`
 for the live schema.
 
-All POST routes need header `X-Demo-Token: <token>` when the server has `DEMO_API_TOKEN` set.
-Without a configured token the server runs rules-only and never calls the paid model.
+All POST routes need header `X-Demo-Token: <token>`. **Fail closed** (same as Albert's v3.1): if the server has no
+`DEMO_API_TOKEN` configured, POST routes return 503; a wrong or missing token returns 401. Locally, start the
+server with `DEMO_API_TOKEN=dev` and send `X-Demo-Token: dev`.
 
 ## `GET /health`
 
@@ -68,9 +69,25 @@ Without a configured token the server runs rules-only and never calls the paid m
   "policies": [{"id": "bank_account_change", "title": "...", "steps": ["..."]}],
   "practice": {"id": "...", "category": "bank_change", "subject": "...", "body": "...", "answer": "report", "lesson": "..."},
   "model": "rules-only",
-  "elapsed_ms": 3
+  "elapsed_ms": 3,
+
+  // engine v3.1 fields, read by Albert's v3 extension and Outlook pane
+  "verdict": {"key": "verify", "label": "Call back first"},      // pay | verify | stop
+  "callback": {"name": "...", "role": "vendor", "phone": "...", "source": "vendor master file"},  // or null
+  "hold_scenario": "bank_change",                                  // or null
+  "stages": [
+    {"stage": "subject", "score": 24, "flags": [{"n": 1, "category": "urgency_pressure", "points": 8, "tags": ["urgent"], "finding_ids": ["f1"]}]},
+    {"stage": "body", "score": 36, "flags": [{"n": 1, "category": "payment_or_data_request", "points": 20, "tags": ["bank change"], "finding_ids": ["f5"]}]}
+  ],
+  "ai_summary": null                                               // = summary when the model ran
 }
 ```
+
+Each finding also carries `tag` (short chip text such as `"bank change"`, `"look-alike domain"`) and, when the
+model ran, `ai_explanation` (a plain-English rewording; the rule's `explanation` stays).
+`stages[].flags[].finding_ids` always point at ids in `findings`. The backend's extra findings are added to the
+right stage. `verdict` is recomputed after the extra findings: a payment request or an incomplete analysis is
+never "OK to proceed".
 
 **Evidence rules (important for highlighting):**
 

@@ -32,6 +32,10 @@ def demo_token() -> str:
     return os.environ.get("DEMO_API_TOKEN", "")
 
 
+DEFAULT_ORIGINS = ("https://mail.google.com,https://outlook.office.com,"
+                   "https://outlook.live.com,https://outlook.office365.com")
+
+
 def allowed_origins() -> list[str]:
-    raw = os.environ.get("ALLOWED_ORIGINS", "https://mail.google.com")
+    raw = os.environ.get("ALLOWED_ORIGINS", DEFAULT_ORIGINS)
     return [o.strip() for o in raw.split(",") if o.strip()]
