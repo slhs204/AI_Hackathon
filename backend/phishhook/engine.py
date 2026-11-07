@@ -233,6 +233,8 @@ def trusted_entities():
 
 def trusted_entity_for(domain):
     reg = registrable(domain)
+    if reg in DIRECTORY["free_mail"]:
+        return None  # anyone can register a free-mail address, so it never vouches for a brand or company
     for ent in trusted_entities():
         if reg in ent["domains"]:
             return ent

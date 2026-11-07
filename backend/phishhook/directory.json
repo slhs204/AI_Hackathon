@@ -86,6 +86,91 @@
       "domains": [
         "ups.com"
       ]
+    },
+    {
+      "name": "Netflix",
+      "domains": [
+        "netflix.com"
+      ]
+    },
+    {
+      "name": "Amazon",
+      "domains": [
+        "amazon.com"
+      ]
+    },
+    {
+      "name": "Apple",
+      "domains": [
+        "apple.com"
+      ]
+    },
+    {
+      "name": "Google",
+      "domains": [
+        "google.com"
+      ]
+    },
+    {
+      "name": "Facebook",
+      "domains": [
+        "facebook.com",
+        "facebookmail.com"
+      ]
+    },
+    {
+      "name": "Instagram",
+      "domains": [
+        "instagram.com"
+      ]
+    },
+    {
+      "name": "LinkedIn",
+      "domains": [
+        "linkedin.com"
+      ]
+    },
+    {
+      "name": "Dropbox",
+      "domains": [
+        "dropbox.com"
+      ]
+    },
+    {
+      "name": "Adobe",
+      "domains": [
+        "adobe.com"
+      ]
+    },
+    {
+      "name": "Chase",
+      "domains": [
+        "chase.com"
+      ]
+    },
+    {
+      "name": "Wells Fargo",
+      "domains": [
+        "wellsfargo.com"
+      ]
+    },
+    {
+      "name": "Bank of America",
+      "domains": [
+        "bankofamerica.com"
+      ]
+    },
+    {
+      "name": "FedEx",
+      "domains": [
+        "fedex.com"
+      ]
+    },
+    {
+      "name": "Coinbase",
+      "domains": [
+        "coinbase.com"
+      ]
     }
   ],
   "free_mail": [
