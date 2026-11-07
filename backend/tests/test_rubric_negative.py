@@ -100,3 +100,40 @@ def test_neg_d_invariant_is_enforced_in_code():
     stricter = analyze_mod._stricter
     assert stricter({"key": "pay"}, {"key": "stop"})["key"] == "stop"
     assert stricter({"key": "verify"}, {"key": "pay"})["key"] == "verify"
+
+
+# --- de63312 alignment: rubric is the quick read / fallback, it must not undo the model's gating -------------
+
+def _model(email_type):
+    def call(system, user):
+        return json.dumps({"email_type": email_type, "summary": "s", "extra_findings": [{
+            "category": "manipulation_cue", "block_id": "b1", "quote": "before Friday's payroll",
+            "explanation": "x", "next_action": "y", "requested_action": "change deposit", "confidence": "high"}]})
+    return call
+
+
+def _ambiguous():
+    return AnalyzeRequest.model_validate(json.loads((FIXTURES / "emails" / "x-ambiguous-internal-change.json").read_text())["request"])
+
+
+def test_routine_notification_with_one_rule_sign_is_at_most_amber():
+    r = analyze(_ambiguous(), _model("routine_notification"))
+    assert dims(r)["money"] == "warn" and dims(r)["pressure"] == "warn"
+    assert r.verdict["key"] == "verify"
+
+
+def test_same_email_without_routine_label_is_red():
+    r = analyze(_ambiguous(), _model("needs_check"))
+    assert r.verdict["key"] == "stop"
+
+
+def test_routine_label_never_lowers_a_score_stop():
+    r = analyze(req(**CEO_EXE), _model("routine_notification"))
+    assert r.risk_score >= 70 and r.verdict["key"] == "stop"
+
+
+def test_pressure_words_alone_stay_a_note_and_green():
+    r = analyze(AnalyzeRequest.model_validate(json.loads((FIXTURES / "emails" / "h-legit-urgent-cutoff.json").read_text())["request"]))
+    assert r.notes and r.findings == []
+    assert dims(r)["pressure"] == "ok" and "note" in next(d["answer"] for d in r.dimensions if d["key"] == "pressure")
+    assert r.verdict["key"] == "pay"

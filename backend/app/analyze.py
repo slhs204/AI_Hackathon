@@ -254,9 +254,18 @@ def _stricter(a: dict, b: dict) -> dict:
     return a if _RANK[a["key"]] >= _RANK[b["key"]] else b
 
 
-def _final_verdict(score: int, findings: list[Finding], complete: bool, dimensions: list[dict]) -> dict:
+def _final_verdict(score: int, findings: list[Finding], complete: bool, dimensions: list[dict],
+                   email_type: Optional[str] = None) -> dict:
+    """The stricter of the score verdict and the rubric. The rubric is the quick first read and the fallback when
+    the AI is off; it must not undo the model's false-alarm gating: when the model calls the email a routine
+    notification and the rules found at most one kind of sign, the rubric alone never makes it red."""
     legacy = _score_verdict(score, findings, complete)
     rubric = _rubric_verdict(dimensions)
+    rule_kinds = {f.category for f in findings if f.source != "model"}
+    if rubric["key"] == "stop" and email_type == "routine_notification" and len(rule_kinds) <= 1:
+        rubric = {"key": "verify", "label": engine.VERDICTS["verify"],
+                  "rule": "The AI reads this as a routine notification and the rules found one kind of sign: check it, "
+                          "but it is not marked red."}
     chosen = _stricter(rubric, legacy)
     final = dict(chosen)
     if chosen is legacy and legacy["key"] != rubric["key"]:
@@ -296,10 +305,12 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
 
     # 3. Optional model pass.
     summary, model_name, model_extra, discarded = "", "rules-only", [], 0
+    email_type: Optional[str] = None
     if model_call is not None:
         try:
             system, _schema = prompts.analyze_prompt()
             raw, _ = llm.call_json(model_call, system, prompts.analyze_user(email, findings + extras))
+            email_type = raw.get("email_type") if isinstance(raw.get("email_type"), str) else None
             model_extra, discarded = _model_findings(raw, email, bool(findings or extras))
             summary = str(raw.get("summary", "")).strip()[:600]
             _apply_ai_explanations(raw, findings + extras)
@@ -379,6 +390,10 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
              email.email_id, len(all_findings), model_name, discarded, complete, elapsed)
     unknown = _unknown_reasons(email, complete, model_name.endswith("(model unavailable)"))
     dimensions = _dimensions(all_findings, unknown)
+    if notes:  # de63312: pressure words alone are notes, not a warning; say so instead of a bare check mark
+        for d in dimensions:
+            if d["key"] == "pressure" and d["status"] == "ok":
+                d["answer"] = "Only pressure words such as \"urgent\" or \"today\" (listed as a note, not a warning sign)."
     return AnalyzeResponse(
         analysis_id=rules["analysis_id"],
         email_id=email.email_id,
@@ -392,7 +407,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
         notes=notes,
         recommended_actions=rules["recommended_actions"],
         limitations=limitations,
-        verdict=_final_verdict(score, all_findings, complete, dimensions),
+        verdict=_final_verdict(score, all_findings, complete, dimensions, email_type),
         dimensions=dimensions,
         callback=rules.get("callback"),
         hold_scenario=rules.get("hold_scenario"),
