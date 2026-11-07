@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0004",
+  "title": "Tax Refund Processing Error",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Government Alert",
+    "target": "Taxpayers"
+  },
+  "request": {
+    "email_id": "phish-0004",
+    "sender": {
+      "name": "",
+      "address": "service@irs-notify.org"
+    },
+    "subject": "Tax Refund Processing Error",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your refund is delayed. Submit details at: https://irs-gov-refund.org"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://irs-gov-refund.org",
+        "href": "https://irs-gov-refund.org"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

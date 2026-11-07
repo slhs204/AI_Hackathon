@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0077",
+  "title": "Account Overdrawn",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Financial Alert",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "phish-0077",
+    "sender": {
+      "name": "",
+      "address": "alert@wellsfargo.com"
+    },
+    "subject": "Account Overdrawn",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Transfer funds now: https://bank-alert.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://bank-alert.com",
+        "href": "https://bank-alert.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

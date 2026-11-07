@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-045",
+  "title": "Your Order Update",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-045",
+    "sender": {
+      "name": "",
+      "address": "orders@etsy.com"
+    },
+    "subject": "Your Order Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your order #78901 is being processed. Expect shipping soon."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

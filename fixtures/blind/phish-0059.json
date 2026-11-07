@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0059",
+  "title": "Urgent CEO Request",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Business Email Compromise",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0059",
+    "sender": {
+      "name": "",
+      "address": "ceo@company.com"
+    },
+    "subject": "Urgent CEO Request",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Transfer $15,000 to new vendor. Details: [attachment: payment.doc]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

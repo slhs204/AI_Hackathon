@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-076",
+  "title": "Monthly Sales Report",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-076",
+    "sender": {
+      "name": "",
+      "address": "reports@company.com"
+    },
+    "subject": "Monthly Sales Report",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your May sales report is ready in the analytics dashboard."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

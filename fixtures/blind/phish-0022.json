@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0022",
+  "title": "Exclusive Beta Access",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Beta Offer",
+    "target": "Tech Enthusiasts"
+  },
+  "request": {
+    "email_id": "phish-0022",
+    "sender": {
+      "name": "",
+      "address": "beta@techinnovate.com"
+    },
+    "subject": "Exclusive Beta Access",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our beta program! Install now: [attachment: beta_app.apk]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

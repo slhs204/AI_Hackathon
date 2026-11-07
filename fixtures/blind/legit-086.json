@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-086",
+  "title": "Tax Document Available",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Taxpayers"
+  },
+  "request": {
+    "email_id": "legit-086",
+    "sender": {
+      "name": "",
+      "address": "documents@hrblock.com"
+    },
+    "subject": "Tax Document Available",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your 2024 tax forms are ready. Download from your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

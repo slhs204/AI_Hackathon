@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-072",
+  "title": "Payment Processed",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Payment Service"
+  },
+  "request": {
+    "email_id": "legit-072",
+    "sender": {
+      "name": "",
+      "address": "billing@venmo.com"
+    },
+    "subject": "Payment Processed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your $79.99 payment was received. Check transaction details."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

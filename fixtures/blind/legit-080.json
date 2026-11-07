@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-080",
+  "title": "Team Event Details",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-080",
+    "sender": {
+      "name": "",
+      "address": "events@company.com"
+    },
+    "subject": "Team Event Details",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "RSVP for the 6/10 team outing by 6/1."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

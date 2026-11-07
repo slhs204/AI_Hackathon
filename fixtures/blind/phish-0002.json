@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0002",
+  "title": "Invoice #3921 Overdue",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "SMBs / Finance"
+  },
+  "request": {
+    "email_id": "phish-0002",
+    "sender": {
+      "name": "",
+      "address": "billing@vendorpay.com"
+    },
+    "subject": "Invoice #3921 Overdue",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your payment is overdue. Download invoice here: [attachment: invoice.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

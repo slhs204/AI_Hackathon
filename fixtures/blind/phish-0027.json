@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0027",
+  "title": "Your Account is Overdrawn",
+  "meta": {
+    "intent": "Financial Scam",
+    "technique": "Fake Financial Alert",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "phish-0027",
+    "sender": {
+      "name": "",
+      "address": "alert@wellsfargo-notify.com"
+    },
+    "subject": "Your Account is Overdrawn",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Avoid fees by transferring funds now: https://bank-secure.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://bank-secure.com",
+        "href": "https://bank-secure.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

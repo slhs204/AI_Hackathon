@@ -13,10 +13,12 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app import config, llm
+from app import config, llm, prompts
 from app.analyze import analyze
 from app.challenge import FindingNotFound, challenge
-from app.schemas import AnalyzeRequest, AnalyzeResponse, ChallengeRequest, ChallengeResponse
+from app.schemas import (AnalyzeRequest, AnalyzeResponse, ChallengeRequest, ChallengeResponse,
+                         TriageRequest, TriageResponse)
+from app.triage import triage
 
 MAX_BODY_BYTES = 200_000
 
@@ -50,24 +52,35 @@ def require_token(x_demo_token: str = Header(default="")) -> None:
         raise HTTPException(status_code=401, detail="invalid or missing X-Demo-Token")
 
 
-def model_for_request():
-    return llm.default_call()
+_SCHEMAS = {"analyze": prompts.ANALYZE_SCHEMA, "challenge": prompts.CHALLENGE_SCHEMA, "triage": prompts.TRIAGE_SCHEMA}
+
+
+def model_for_request(task: str):
+    """Haiku for /triage, Sonnet for /analyze and /challenge (with MODEL_PROVIDER=anthropic)."""
+    return llm.default_call(task, _SCHEMAS[task])
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "phishing-coach", "model": llm.model_label()}
+    return {"status": "ok", "service": "phishing-coach",
+            "model": {t: llm.model_label(t) for t in ("triage", "analyze", "challenge")}}
 
 
 @app.post("/analyze", response_model=AnalyzeResponse, response_model_exclude_none=True,
           dependencies=[Depends(require_token)])
 def analyze_route(req: AnalyzeRequest):
-    return analyze(req, model_for_request())
+    return analyze(req, model_for_request("analyze"))
 
 
 @app.post("/challenge", response_model=ChallengeResponse, dependencies=[Depends(require_token)])
 def challenge_route(req: ChallengeRequest):
     try:
-        return challenge(req, model_for_request())
+        return challenge(req, model_for_request("challenge"))
     except FindingNotFound as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.post("/triage", response_model=TriageResponse, dependencies=[Depends(require_token)])
+def triage_route(req: TriageRequest):
+    """Inbox overview: sender + subject + preview only, on the user's request."""
+    return triage(req, model_for_request("triage"))

@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-062",
+  "title": "Conference Registration Open",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Enthusiasts"
+  },
+  "request": {
+    "email_id": "legit-062",
+    "sender": {
+      "name": "",
+      "address": "events@techsummit.com"
+    },
+    "subject": "Conference Registration Open",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Register for our 2025 tech summit by 6/15."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

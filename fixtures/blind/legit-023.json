@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-023",
+  "title": "Upcoming Webinar",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Enthusiasts"
+  },
+  "request": {
+    "email_id": "legit-023",
+    "sender": {
+      "name": "",
+      "address": "events@techhub.com"
+    },
+    "subject": "Upcoming Webinar",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our webinar on AI trends on 5/25 at 3 PM. Register now."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

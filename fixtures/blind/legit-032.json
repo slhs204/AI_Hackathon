@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-032",
+  "title": "Product Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "legit-032",
+    "sender": {
+      "name": "",
+      "address": "updates@microsoft.com"
+    },
+    "subject": "Product Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "New features added to your software. Check the changelog for details."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

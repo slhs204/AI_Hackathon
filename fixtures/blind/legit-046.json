@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-046",
+  "title": "Security Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "legit-046",
+    "sender": {
+      "name": "",
+      "address": "security@chase.com"
+    },
+    "subject": "Security Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "We’ve updated our security protocols. Review them in your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

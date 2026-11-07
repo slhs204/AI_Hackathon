@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-010",
+  "title": "Project Update",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-010",
+    "sender": {
+      "name": "",
+      "address": "pm@company.com"
+    },
+    "subject": "Project Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "The Q2 project report is available in the shared drive. Review by EOD."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

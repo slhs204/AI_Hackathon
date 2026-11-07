@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0025",
+  "title": "Invoice Dispute Notice",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "SMBs / Finance"
+  },
+  "request": {
+    "email_id": "phish-0025",
+    "sender": {
+      "name": "",
+      "address": "accounts@vendorresolve.com"
+    },
+    "subject": "Invoice Dispute Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Disputed invoice detected. Resolve now: [attachment: dispute_form.doc]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0075",
+  "title": "Invoice Dispute #4567",
+  "meta": {
+    "intent": "Fake Invoice/Download",
+    "technique": "Attachment with Malicious Payload",
+    "target": "SMBs / Finance"
+  },
+  "request": {
+    "email_id": "phish-0075",
+    "sender": {
+      "name": "",
+      "address": "accounts@vendor.com"
+    },
+    "subject": "Invoice Dispute #4567",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Resolve invoice issue: [attachment: dispute.doc]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

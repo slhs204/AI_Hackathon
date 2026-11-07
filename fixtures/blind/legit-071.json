@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-071",
+  "title": "Open Enrollment Reminder",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "legit-071",
+    "sender": {
+      "name": "",
+      "address": "hr@company.com"
+    },
+    "subject": "Open Enrollment Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Benefits enrollment for 2025 closes 6/10. Log in to select."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

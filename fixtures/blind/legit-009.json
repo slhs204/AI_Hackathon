@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-009",
+  "title": "Your Bank Statement",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "legit-009",
+    "sender": {
+      "name": "",
+      "address": "statements@bankofamerica.com"
+    },
+    "subject": "Your Bank Statement",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your monthly statement is ready. Log in to view or download it."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

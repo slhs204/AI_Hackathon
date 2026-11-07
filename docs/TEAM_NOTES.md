@@ -2,6 +2,24 @@
 
 Things to decide or change together. Numbers come from `backend/eval/results/rules-only.md`.
 
+## Blind test (new)
+
+200 emails from the public Teddyha dataset (MIT, `fixtures/external/teddyha`), which nobody on the team wrote or
+tuned rules to. Rules only: **18/100 phishing flagged, 5/100 legitimate falsely flagged** (all 5 for urgency words).
+Most misses are generic fake-Google/Dropbox/bank mail with look-alike domains the directory doesn't know. The rules
+were written for Acme payroll scams, so this mostly measures how much the model has to add. Run the same set with
+`--model` once we have a key.
+
+## Models: Haiku for the inbox, Sonnet per email
+
+As discussed with Albert: `MODEL_PROVIDER=anthropic` uses **Claude Haiku 5.5** for `POST /triage` (sort the inbox by
+risk using sender, subject and preview) and **Claude Sonnet 5.5** for `/analyze` and `/challenge`. Model names can be
+changed with env vars. Tinker stays available with `MODEL_PROVIDER=tinker` (sponsor credits). Note: I couldn't find
+this plan in Albert's v3.1 files, so please confirm.
+
+Privacy: v3.1 chose "scan only on request". Triage should follow the same rule: run it only when the user clicks
+something like "Check inbox", and send only sender, subject and the preview line.
+
 ## For everyone: one backend
 
 Albert's v3.1 now has its own FastAPI `main.py`, and the repo has `backend/` (merged in PR #1). We should deploy

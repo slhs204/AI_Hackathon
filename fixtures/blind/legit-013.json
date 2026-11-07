@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-013",
+  "title": "Your Insurance Policy Update",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Healthcare"
+  },
+  "request": {
+    "email_id": "legit-013",
+    "sender": {
+      "name": "",
+      "address": "support@bluecross.com"
+    },
+    "subject": "Your Insurance Policy Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your policy details have been updated. Review them in your portal."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-061",
+  "title": "Storage Usage Alert",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "legit-061",
+    "sender": {
+      "name": "",
+      "address": "support@google.com"
+    },
+    "subject": "Storage Usage Alert",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Google Drive is at 90% capacity. Manage files or upgrade."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

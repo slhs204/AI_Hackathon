@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-074",
+  "title": "Travel Insurance Active",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "legit-074",
+    "sender": {
+      "name": "",
+      "address": "support@travelguard.com"
+    },
+    "subject": "Travel Insurance Active",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your travel insurance is active for your 6/1 trip."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

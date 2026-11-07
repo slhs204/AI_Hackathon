@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-012",
+  "title": "Event Invitation: Annual Conference",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "legit-012",
+    "sender": {
+      "name": "",
+      "address": "events@industryconf.com"
+    },
+    "subject": "Event Invitation: Annual Conference",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join us for our 2025 conference on 6/10. RSVP by 5/30."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

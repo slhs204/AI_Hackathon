@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-059",
+  "title": "Your Credit Card Statement",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "legit-059",
+    "sender": {
+      "name": "",
+      "address": "statements@chase.com"
+    },
+    "subject": "Your Credit Card Statement",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your June statement is available. Log in to review."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

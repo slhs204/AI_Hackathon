@@ -23,11 +23,14 @@ from pathlib import Path
 BACKEND = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BACKEND))
 
-from app import llm  # noqa: E402
+from app import llm, prompts  # noqa: E402
 from app.analyze import analyze  # noqa: E402
 from app.schemas import AnalyzeRequest  # noqa: E402
 
-FIXTURES = BACKEND.parent / "fixtures" / "emails"
+FIXTURE_SETS = {
+    "core": BACKEND.parent / "fixtures" / "emails",   # Albert's samples + handwritten cases
+    "blind": BACKEND.parent / "fixtures" / "blind",   # Teddyha dataset (MIT), nobody tuned rules to it
+}
 RESULTS = BACKEND / "eval" / "results"
 HEADER_FIELDS = ("reply_to", "authentication_results", "attachments")
 
@@ -36,9 +39,9 @@ def flagged(r) -> bool:
     return r.assessment != "no_obvious_indicators"
 
 
-def run(view: str, model_call) -> list[dict]:
+def run(fixtures: Path, view: str, model_call) -> list[dict]:
     rows = []
-    for path in sorted(FIXTURES.glob("*.json")):
+    for path in sorted(fixtures.glob("*.json")):
         case = json.loads(path.read_text())
         req = dict(case["request"])
         if view == "gmail":
@@ -53,6 +56,7 @@ def run(view: str, model_call) -> list[dict]:
             "id": case["request"]["email_id"],
             "label": case["expected"]["label"],
             "assessment": r.assessment,
+            "verdict": (r.verdict or {}).get("key", ""),
             "flagged": flagged(r),
             "score": r.risk_score,
             "n_findings": len(r.findings),
@@ -84,16 +88,16 @@ def summarize(rows: list[dict]) -> dict:
 
 
 def to_markdown(results: dict) -> str:
-    out = [f"# Eval report — {results['generated_at']}", "", f"Model: `{results['model']}`. "
+    out = [f"# Eval report ({results['fixture_set']}) — {results['generated_at']}", "", f"Model: `{results['model']}`. "
            f"{results['n_cases']} synthetic cases. Counts only; not a real-world accuracy claim.", ""]
     out += ["| metric | " + " | ".join(results["views"]) + " |", "|---|" + "---|" * len(results["views"])]
     for key in next(iter(results["summary"].values())):
         out.append(f"| {key} | " + " | ".join(str(results["summary"][v][key]) for v in results["views"]) + " |")
     for view in results["views"]:
-        out += ["", f"## Per case — {view}", "", "| case | label | assessment | score | findings | categories | missing | ms |",
-                "|---|---|---|---|---|---|---|---|"]
+        out += ["", f"## Per case — {view}", "", "| case | label | assessment | verdict | score | findings | categories | missing | ms |",
+                "|---|---|---|---|---|---|---|---|---|"]
         for r in results["rows"][view]:
-            out.append(f"| {r['id']} | {r['label']} | {r['assessment']} | {r['score']} | {r['n_findings']} | "
+            out.append(f"| {r['id']} | {r['label']} | {r['assessment']} | {r['verdict']} | {r['score']} | {r['n_findings']} | "
                        f"{', '.join(r['categories']) or '—'} | {', '.join(r['must_flag_missing']) or '—'} | {r['ms']} |")
     return "\n".join(out) + "\n"
 
@@ -101,23 +105,26 @@ def to_markdown(results: dict) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", action="store_true", help="call the configured model (costs credits)")
+    ap.add_argument("--set", choices=sorted(FIXTURE_SETS), default="core", help="which fixtures to run")
     args = ap.parse_args()
-    model_call = llm.default_call() if args.model else None
+    model_call = llm.default_call("analyze", prompts.ANALYZE_SCHEMA) if args.model else None
     if args.model and model_call is None:
-        sys.exit("--model needs MODEL_PROVIDER=tinker plus TINKER_API_KEY and TINKER_MODEL")
+        sys.exit("--model needs MODEL_PROVIDER (tinker or anthropic) and that provider's key/model settings")
 
-    views = ["full", "gmail"]
-    rows = {v: run(v, model_call) for v in views}
+    # The blind set has no headers, so only the Gmail-visible view makes sense.
+    views = ["full", "gmail"] if args.set == "core" else ["gmail"]
+    rows = {v: run(FIXTURE_SETS[args.set], v, model_call) for v in views}
     results = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        "model": llm.model_label() if model_call else "rules-only",
-        "n_cases": len(rows["full"]),
+        "fixture_set": args.set,
+        "model": llm.model_label("analyze") if model_call else "rules-only",
+        "n_cases": len(rows[views[0]]),
         "views": views,
         "summary": {v: summarize(rows[v]) for v in views},
         "rows": rows,
     }
     RESULTS.mkdir(parents=True, exist_ok=True)
-    stem = "model" if model_call else "rules-only"
+    stem = ("model" if model_call else "rules-only") + ("" if args.set == "core" else f"-{args.set}")
     (RESULTS / f"{stem}.json").write_text(json.dumps(results, indent=2) + "\n")
     (RESULTS / f"{stem}.md").write_text(to_markdown(results))
     print(to_markdown(results))

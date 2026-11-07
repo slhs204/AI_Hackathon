@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0007",
+  "title": "Exclusive Offer: Free Gift Card",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Reward with Homoglyph",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "phish-0007",
+    "sender": {
+      "name": "",
+      "address": "rewards@amazon-offer.com"
+    },
+    "subject": "Exclusive Offer: Free Gift Card",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Claim your $200 Amazon gift card: https://amaz0n-rewards.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://amaz0n-rewards.com",
+        "href": "https://amaz0n-rewards.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

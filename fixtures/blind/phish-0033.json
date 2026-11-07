@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0033",
+  "title": "Free Antivirus Protection",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Software Offer",
+    "target": "General Users"
+  },
+  "request": {
+    "email_id": "phish-0033",
+    "sender": {
+      "name": "",
+      "address": "support@antivirus-free.com"
+    },
+    "subject": "Free Antivirus Protection",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Protect your device now: [attachment: antivirus_install.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

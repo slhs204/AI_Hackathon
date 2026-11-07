@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-024",
+  "title": "Your Travel Insurance",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "legit-024",
+    "sender": {
+      "name": "",
+      "address": "support@allianz.com"
+    },
+    "subject": "Your Travel Insurance",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your travel insurance policy is active. View coverage details."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

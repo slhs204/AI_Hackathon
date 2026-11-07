@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-078",
+  "title": "Enable 2FA Today",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "legit-078",
+    "sender": {
+      "name": "",
+      "address": "security@protonmail.com"
+    },
+    "subject": "Enable 2FA Today",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Secure your account with two-factor authentication. Set it up now."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0031",
+  "title": "Partner Program Enrollment",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Business Opportunity",
+    "target": "SMBs"
+  },
+  "request": {
+    "email_id": "phish-0031",
+    "sender": {
+      "name": "",
+      "address": "partners@businessgrow.com"
+    },
+    "subject": "Partner Program Enrollment",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our exclusive partner program: https://partner-scam.org"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://partner-scam.org",
+        "href": "https://partner-scam.org"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

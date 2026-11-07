@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-057",
+  "title": "Flight Check-In Reminder",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "legit-057",
+    "sender": {
+      "name": "",
+      "address": "reservations@britishairways.com"
+    },
+    "subject": "Flight Check-In Reminder",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Check in for your flight to London, departing 5/21/2025."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

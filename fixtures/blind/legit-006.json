@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-006",
+  "title": "Welcome to Our Newsletter",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-006",
+    "sender": {
+      "name": "",
+      "address": "news@target.com"
+    },
+    "subject": "Welcome to Our Newsletter",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Thanks for subscribing! Expect weekly updates on our products and offers."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

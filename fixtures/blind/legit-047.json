@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-047",
+  "title": "Event Registration Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "legit-047",
+    "sender": {
+      "name": "",
+      "address": "events@eventbrite.com"
+    },
+    "subject": "Event Registration Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "You’re registered for our 5/30 workshop. Details sent to your calendar."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

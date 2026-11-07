@@ -106,6 +106,25 @@ Show one hook piece per finding with `points > 0`, or one per finding. That's a 
 **Categories:** `sender_impersonation`, `reply_to_mismatch`, `authentication_failure`, `authority_impersonation`,
 `deceptive_link`, `risky_attachment`, `urgency_pressure`, `payment_or_data_request`, `manipulation_cue` (model only).
 
+## `POST /triage`
+
+Inbox overview: decide which emails to open first. Only runs when the user asks (e.g. a "Check inbox" button),
+and only sees sender, subject and the preview line.
+
+```json
+{"emails": [{"email_id": "m1", "sender": {"name": "Jane Whitfield", "address": "jane@gmail.com"},
+             "subject": "Wire needed today", "snippet": "Process a wire of $9,000 today."}]}
+```
+Max 50 emails, snippet max 500 characters.
+
+```json
+{"items": [{"email_id": "m1", "priority": "high", "reason": "Automatic checks: impersonation, today, keep this confidential",
+            "rule_score": 90, "tags": ["impersonation", "today", "keep this confidential", "wire"], "source": "rules"}],
+ "model": "anthropic:claude-haiku-5-5", "elapsed_ms": 900,
+ "notice": "Triage only looks at the sender, subject and preview. ... Low priority does not mean safe."}
+```
+Rules decide first; the triage model (Haiku) may raise a priority but never lower one.
+
 ## `POST /challenge`
 
 ### Request (either form)

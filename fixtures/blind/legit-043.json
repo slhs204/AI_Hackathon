@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-043",
+  "title": "Your Warranty Details",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Consumers"
+  },
+  "request": {
+    "email_id": "legit-043",
+    "sender": {
+      "name": "",
+      "address": "support@samsung.com"
+    },
+    "subject": "Your Warranty Details",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your product warranty is active until 5/19/2026. View terms online."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

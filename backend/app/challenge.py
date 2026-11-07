@@ -68,7 +68,7 @@ def challenge(req: ChallengeRequest, model_call: Optional[llm.ModelCall] = None)
                 assessment = a
                 message = str(raw.get("message", "")).strip()[:600] or message
                 unresolved = str(raw.get("still_unresolved", "")).strip()[:600] or unresolved
-                model_name = llm.model_label()
+                model_name = llm.model_label("challenge")
         except llm.ModelUnavailable as exc:
             log.warning("model unavailable in challenge: %s", exc)
             model_name = "rules-only (model unavailable)"

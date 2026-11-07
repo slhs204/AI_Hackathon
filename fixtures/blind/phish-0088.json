@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0088",
+  "title": "Card Blocked Alert",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency Alert/Fake Login",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "phish-0088",
+    "sender": {
+      "name": "",
+      "address": "security@visa.com"
+    },
+    "subject": "Card Blocked Alert",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Unlock your card: https://visa-secure.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://visa-secure.com",
+        "href": "https://visa-secure.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

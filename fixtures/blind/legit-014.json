@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-014",
+  "title": "Security Settings Updated",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-014",
+    "sender": {
+      "name": "",
+      "address": "security@facebook.com"
+    },
+    "subject": "Security Settings Updated",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Two-factor authentication was enabled on your account. Contact us if needed."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

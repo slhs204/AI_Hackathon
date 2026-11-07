@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-063",
+  "title": "Your Health Plan Details",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Healthcare"
+  },
+  "request": {
+    "email_id": "legit-063",
+    "sender": {
+      "name": "",
+      "address": "support@cigna.com"
+    },
+    "subject": "Your Health Plan Details",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your updated health plan is available in your portal."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

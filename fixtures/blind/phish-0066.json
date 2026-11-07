@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0066",
+  "title": "Payment Account Issue",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Homoglyph",
+    "target": "Payment Service"
+  },
+  "request": {
+    "email_id": "phish-0066",
+    "sender": {
+      "name": "",
+      "address": "security@paypal.com"
+    },
+    "subject": "Payment Account Issue",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Secure your account: https://paypa1-secure.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://paypa1-secure.com",
+        "href": "https://paypa1-secure.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

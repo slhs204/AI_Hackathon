@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0021",
+  "title": "Password Policy Violation",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Policy Alert",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0021",
+    "sender": {
+      "name": "",
+      "address": "it@company-security.com"
+    },
+    "subject": "Password Policy Violation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your password does not meet requirements. Update: https://secure-login-verify.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://secure-login-verify.com",
+        "href": "https://secure-login-verify.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

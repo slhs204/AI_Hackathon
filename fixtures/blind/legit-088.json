@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-088",
+  "title": "Hotel Booking Confirmed",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "legit-088",
+    "sender": {
+      "name": "",
+      "address": "reservations@marriott.com"
+    },
+    "subject": "Hotel Booking Confirmed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your 6/5-6/7 hotel stay is confirmed. View details online."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

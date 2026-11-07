@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-007",
+  "title": "Your Flight Itinerary",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "legit-007",
+    "sender": {
+      "name": "",
+      "address": "reservations@united.com"
+    },
+    "subject": "Your Flight Itinerary",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your flight to New York is confirmed. Check-in opens 24 hours before departure."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

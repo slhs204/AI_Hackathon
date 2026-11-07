@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0020",
+  "title": "Critical HR Update",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0020",
+    "sender": {
+      "name": "",
+      "address": "hr@company.com"
+    },
+    "subject": "Critical HR Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "New company policy effective immediately. Review: [attachment: policy_update.pdf]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

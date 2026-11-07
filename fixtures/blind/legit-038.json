@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-038",
+  "title": "Your Booking Confirmation",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Travel"
+  },
+  "request": {
+    "email_id": "legit-038",
+    "sender": {
+      "name": "",
+      "address": "reservations@booking.com"
+    },
+    "subject": "Your Booking Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your hotel booking for 6/1-6/3 is confirmed. View details online."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

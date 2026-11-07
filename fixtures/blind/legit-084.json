@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-084",
+  "title": "Password Change Notice",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-084",
+    "sender": {
+      "name": "",
+      "address": "security@facebook.com"
+    },
+    "subject": "Password Change Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Facebook password was changed. Contact us if not you."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

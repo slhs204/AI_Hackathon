@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0078",
+  "title": "Win a Free Trip",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Reward",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0078",
+    "sender": {
+      "name": "",
+      "address": "promotions@travelclub.com"
+    },
+    "subject": "Win a Free Trip",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Enter our travel giveaway: https://travel-prize.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://travel-prize.com",
+        "href": "https://travel-prize.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

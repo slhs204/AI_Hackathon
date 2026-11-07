@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0019",
+  "title": "Your Loyalty Points Expire Soon",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Reward Urgency",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "phish-0019",
+    "sender": {
+      "name": "",
+      "address": "rewards@target-offers.com"
+    },
+    "subject": "Your Loyalty Points Expire Soon",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Redeem your points now: https://rewardspoints.net"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://rewardspoints.net",
+        "href": "https://rewardspoints.net"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0038",
+  "title": "Your Card is Blocked",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Financial Alert",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "phish-0038",
+    "sender": {
+      "name": "",
+      "address": "security@visa-alert.com"
+    },
+    "subject": "Your Card is Blocked",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your credit card is locked. Unlock now: https://card-secure.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://card-secure.com",
+        "href": "https://card-secure.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

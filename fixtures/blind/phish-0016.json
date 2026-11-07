@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0016",
+  "title": "Your Account Needs Attention",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Payment Service"
+  },
+  "request": {
+    "email_id": "phish-0016",
+    "sender": {
+      "name": "",
+      "address": "security@paypal-alert.com"
+    },
+    "subject": "Your Account Needs Attention",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Unusual activity detected. Secure your account: https://paypa1-login.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://paypa1-login.com",
+        "href": "https://paypa1-login.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

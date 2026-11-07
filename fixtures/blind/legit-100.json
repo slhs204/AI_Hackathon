@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-100",
+  "title": "Customer Survey",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-100",
+    "sender": {
+      "name": "",
+      "address": "feedback@lowes.com"
+    },
+    "subject": "Customer Survey",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Share feedback on your recent purchase. Take our survey."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

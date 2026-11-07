@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0091",
+  "title": "Tax Audit Notice",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Government Alert",
+    "target": "Taxpayers"
+  },
+  "request": {
+    "email_id": "phish-0091",
+    "sender": {
+      "name": "",
+      "address": "audit@irs.gov"
+    },
+    "subject": "Tax Audit Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Submit audit details: https://tax-audit.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://tax-audit.com",
+        "href": "https://tax-audit.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

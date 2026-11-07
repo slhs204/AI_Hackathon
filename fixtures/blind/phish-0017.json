@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0017",
+  "title": "Free VPN Trial",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Software Offer",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "phish-0017",
+    "sender": {
+      "name": "",
+      "address": "support@securevpn.com"
+    },
+    "subject": "Free VPN Trial",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Try our premium VPN for free! Install now: [attachment: vpn_setup.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

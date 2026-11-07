@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0072",
+  "title": "Beta Software Access",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Beta Offer",
+    "target": "Tech Enthusiasts"
+  },
+  "request": {
+    "email_id": "phish-0072",
+    "sender": {
+      "name": "",
+      "address": "beta@techcompany.com"
+    },
+    "subject": "Beta Software Access",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our beta test: [attachment: beta_app.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

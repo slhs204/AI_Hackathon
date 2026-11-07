@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0044",
+  "title": "Exclusive Event Invitation",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Event Invite",
+    "target": "General Public"
+  },
+  "request": {
+    "email_id": "phish-0044",
+    "sender": {
+      "name": "",
+      "address": "events@vipclub.com"
+    },
+    "subject": "Exclusive Event Invitation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our VIP event: https://event-scam.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://event-scam.com",
+        "href": "https://event-scam.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

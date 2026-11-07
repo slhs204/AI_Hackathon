@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0042",
+  "title": "Your Order is On Hold",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Fake Transaction Alert",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "phish-0042",
+    "sender": {
+      "name": "",
+      "address": "support@shopnow.com"
+    },
+    "subject": "Your Order is On Hold",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Update payment details to release order: https://shop-secure.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://shop-secure.com",
+        "href": "https://shop-secure.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

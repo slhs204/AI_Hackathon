@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-034",
+  "title": "Password Change Confirmation",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-034",
+    "sender": {
+      "name": "",
+      "address": "security@twitter.com"
+    },
+    "subject": "Password Change Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Twitter password was changed. Contact us if this wasn’t you."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

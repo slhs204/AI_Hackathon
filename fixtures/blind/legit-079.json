@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-079",
+  "title": "Your Software Subscription",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Software Service"
+  },
+  "request": {
+    "email_id": "legit-079",
+    "sender": {
+      "name": "",
+      "address": "billing@microsoft.com"
+    },
+    "subject": "Your Software Subscription",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Microsoft 365 plan is active. Manage in your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

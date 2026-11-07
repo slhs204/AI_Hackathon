@@ -222,3 +222,44 @@ class ChallengeResponse(BaseModel):
     next_action: str
     explanation: str  # message + still_unresolved, the one text Hookline shows
     model: str
+
+
+# ------------------------------------------------------------------ /triage
+
+MAX_TRIAGE_EMAILS = 50
+MAX_SNIPPET_CHARS = 500
+
+
+class TriageEmail(_In):
+    email_id: str = Field(min_length=1, max_length=200)
+    sender: Sender = Field(default_factory=Sender)
+    subject: str = Field(default="", max_length=500)
+    snippet: str = Field(default="", max_length=MAX_SNIPPET_CHARS)  # the preview line, not the whole body
+
+
+class TriageRequest(_In):
+    emails: list[TriageEmail] = Field(min_length=1, max_length=MAX_TRIAGE_EMAILS)
+
+    @model_validator(mode="after")
+    def _unique_ids(self) -> "TriageRequest":
+        ids = [e.email_id for e in self.emails]
+        if len(set(ids)) != len(ids):
+            raise ValueError("email ids must be unique")
+        return self
+
+
+class TriageItem(BaseModel):
+    email_id: str
+    priority: Literal["high", "medium", "low"]
+    reason: str
+    rule_score: int
+    tags: list[str]
+    source: Literal["rules", "model"]  # who set the final priority
+
+
+class TriageResponse(BaseModel):
+    items: list[TriageItem]  # same order as the request
+    model: str
+    elapsed_ms: int
+    notice: str = ("Triage only looks at the sender, subject and preview. Open an email and run the full "
+                   "check before acting. Low priority does not mean safe.")

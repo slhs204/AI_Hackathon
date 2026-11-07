@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0047",
+  "title": "Your Loan is Approved",
+  "meta": {
+    "intent": "Financial Scam",
+    "technique": "Fake Loan Offer",
+    "target": "Consumers"
+  },
+  "request": {
+    "email_id": "phish-0047",
+    "sender": {
+      "name": "",
+      "address": "loans@financehub.com"
+    },
+    "subject": "Your Loan is Approved",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Claim your loan funds now: https://loan-scam.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://loan-scam.com",
+        "href": "https://loan-scam.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

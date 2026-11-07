@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-008",
+  "title": "System Maintenance Notice",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "legit-008",
+    "sender": {
+      "name": "",
+      "address": "it@company.com"
+    },
+    "subject": "System Maintenance Notice",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Scheduled maintenance on 5/20/2025 from 1 AM to 3 AM. Expect brief downtime."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

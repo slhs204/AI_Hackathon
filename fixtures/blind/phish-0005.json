@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0005",
+  "title": "Your Package Awaits!",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "phish-0005",
+    "sender": {
+      "name": "",
+      "address": "support@fedex-delivery.com"
+    },
+    "subject": "Your Package Awaits!",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Delivery issue detected. Update address via: [attachment: shipping_update.zip]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

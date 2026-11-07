@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-025",
+  "title": "Account Settings Updated",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "legit-025",
+    "sender": {
+      "name": "",
+      "address": "security@linkedin.com"
+    },
+    "subject": "Account Settings Updated",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your profile was updated. Contact support if you didn’t make this change."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

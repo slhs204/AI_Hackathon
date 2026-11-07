@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-036",
+  "title": "Your Tax Documents",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Taxpayers"
+  },
+  "request": {
+    "email_id": "legit-036",
+    "sender": {
+      "name": "",
+      "address": "documents@turbotax.com"
+    },
+    "subject": "Your Tax Documents",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your 2024 tax documents are ready. Access them in your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

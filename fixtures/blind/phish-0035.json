@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0035",
+  "title": "Employee Benefits Update",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Attachment with Malicious Payload",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0035",
+    "sender": {
+      "name": "",
+      "address": "hr@company-benefits.com"
+    },
+    "subject": "Employee Benefits Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Review your new benefits package: [attachment: benefits.doc]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

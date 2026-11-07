@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-081",
+  "title": "Refund Processed",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-081",
+    "sender": {
+      "name": "",
+      "address": "refunds@overstock.com"
+    },
+    "subject": "Refund Processed",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your $59.99 refund was processed. Funds arrive in 5-7 days."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

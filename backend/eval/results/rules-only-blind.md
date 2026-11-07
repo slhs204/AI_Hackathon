@@ -1,0 +1,220 @@
+# Eval report (blind) — 2026-11-07 19:28 UTC
+
+Model: `rules-only`. 200 synthetic cases. Counts only; not a real-world accuracy claim.
+
+| metric | gmail |
+|---|---|
+| phishing_flagged | 18/100 |
+| legit_false_alarms | 5/100 |
+| ambiguous_flagged | 0/0 |
+| must_flag_misses | 0 |
+| incomplete_results | 0 |
+| model_findings_kept | 0 |
+| model_findings_discarded | 0 |
+| latency_ms_median | 0 |
+| latency_ms_max | 1 |
+
+## Per case — gmail
+
+| case | label | assessment | verdict | score | findings | categories | missing | ms |
+|---|---|---|---|---|---|---|---|---|
+| legit-001 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 1 |
+| legit-002 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-003 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-004 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-005 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-006 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-007 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-008 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-009 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-010 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-011 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-012 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-013 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-014 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-015 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-016 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-017 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-018 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-019 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-020 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-021 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-022 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-023 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-024 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-025 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-026 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-027 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-028 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-029 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-030 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-031 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-032 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-033 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-034 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-035 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-036 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-037 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-038 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-039 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-040 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-041 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-042 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-043 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-044 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-045 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-046 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-047 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-048 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-049 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-050 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-051 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-052 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-053 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-054 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-055 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-056 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-057 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-058 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-059 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-060 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-061 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-062 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-063 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-064 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-065 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-066 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-067 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-068 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-069 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-070 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-071 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-072 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-073 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-074 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-075 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-076 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-077 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-078 | legit | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| legit-079 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-080 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-081 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-082 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-083 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-084 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-085 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-086 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-087 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-088 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-089 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-090 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-091 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-092 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-093 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-094 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-095 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-096 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-097 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-098 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-099 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| legit-100 | legit | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0001 | phishing | needs_verification | pay | 16 | 2 | urgency_pressure | — | 0 |
+| phish-0002 | phishing | needs_verification | pay | 16 | 2 | urgency_pressure | — | 0 |
+| phish-0003 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0004 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0005 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0006 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0007 | phishing | needs_verification | verify | 20 | 2 | payment_or_data_request | — | 0 |
+| phish-0008 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0009 | phishing | needs_verification | verify | 28 | 2 | payment_or_data_request, urgency_pressure | — | 0 |
+| phish-0010 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0011 | phishing | needs_verification | verify | 30 | 1 | sender_impersonation | — | 0 |
+| phish-0012 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0013 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0014 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0015 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0016 | phishing | needs_verification | verify | 30 | 1 | sender_impersonation | — | 0 |
+| phish-0017 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0018 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0019 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0020 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0021 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0022 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0023 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0024 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0025 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0026 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0027 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0028 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0029 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0030 | phishing | needs_verification | verify | 20 | 1 | payment_or_data_request | — | 0 |
+| phish-0031 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0032 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0033 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0034 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0035 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0036 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0037 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0038 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0039 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0040 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0041 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0042 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0043 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0044 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0045 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0046 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0047 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0048 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0049 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0050 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0051 | phishing | needs_verification | verify | 28 | 2 | payment_or_data_request, urgency_pressure | — | 0 |
+| phish-0052 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0053 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0054 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0055 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0056 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0057 | phishing | needs_verification | verify | 20 | 2 | payment_or_data_request | — | 0 |
+| phish-0058 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0059 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0060 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0061 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0062 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0063 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0064 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0065 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0066 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0067 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0068 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0069 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0070 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0071 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0072 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0073 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0074 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0075 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0076 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0077 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0078 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0079 | phishing | needs_verification | pay | 8 | 1 | urgency_pressure | — | 0 |
+| phish-0080 | phishing | needs_verification | verify | 20 | 1 | payment_or_data_request | — | 0 |
+| phish-0081 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0082 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0083 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0084 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0085 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0086 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0087 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0088 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0089 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0090 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0091 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0092 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0093 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0094 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0095 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0096 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0097 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0098 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0099 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |
+| phish-0100 | phishing | no_obvious_indicators | pay | 0 | 0 | — | — | 0 |

@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0071",
+  "title": "Password Policy Violation",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency Alert/Fake Login",
+    "target": "Corporate"
+  },
+  "request": {
+    "email_id": "phish-0071",
+    "sender": {
+      "name": "",
+      "address": "it@company.com"
+    },
+    "subject": "Password Policy Violation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Update password now: https://secure-pass.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://secure-pass.com",
+        "href": "https://secure-pass.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

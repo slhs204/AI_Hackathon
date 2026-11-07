@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0087",
+  "title": "Investment Offer",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Investment Offer",
+    "target": "Investors"
+  },
+  "request": {
+    "email_id": "phish-0087",
+    "sender": {
+      "name": "",
+      "address": "info@investmentfirm.com"
+    },
+    "subject": "Investment Offer",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Invest for high returns: https://invest-now.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://invest-now.com",
+        "href": "https://invest-now.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

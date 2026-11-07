@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-035",
+  "title": "Your Loyalty Points",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-035",
+    "sender": {
+      "name": "",
+      "address": "rewards@starbucks.com"
+    },
+    "subject": "Your Loyalty Points",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "You’ve earned 100 points! Redeem them in your rewards portal."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

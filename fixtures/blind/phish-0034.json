@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0034",
+  "title": "Your Warranty is Expiring",
+  "meta": {
+    "intent": "Financial Scam",
+    "technique": "Fake Warranty Offer",
+    "target": "Consumers"
+  },
+  "request": {
+    "email_id": "phish-0034",
+    "sender": {
+      "name": "",
+      "address": "support@warranty-service.com"
+    },
+    "subject": "Your Warranty is Expiring",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Extend your warranty now: https://warranty-extend.net"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://warranty-extend.net",
+        "href": "https://warranty-extend.net"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

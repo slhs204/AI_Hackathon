@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0051",
+  "title": "Verify Your Account Now",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Urgency",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "phish-0051",
+    "sender": {
+      "name": "",
+      "address": "security@bankofamerica.com"
+    },
+    "subject": "Verify Your Account Now",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your account will be disabled in 12 hours. Verify at: https://secure-1ogin.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://secure-1ogin.com",
+        "href": "https://secure-1ogin.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

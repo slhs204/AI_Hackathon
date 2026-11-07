@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-069",
+  "title": "Your Charity Contribution",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Charity"
+  },
+  "request": {
+    "email_id": "legit-069",
+    "sender": {
+      "name": "",
+      "address": "donations@salvationarmy.org"
+    },
+    "subject": "Your Charity Contribution",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Thank you for your $100 donation. Receipt available online."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

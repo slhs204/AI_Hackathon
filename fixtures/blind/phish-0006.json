@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0006",
+  "title": "Security Alert: Account Compromised",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Urgency & Fake Security Alert",
+    "target": "Social Media"
+  },
+  "request": {
+    "email_id": "phish-0006",
+    "sender": {
+      "name": "",
+      "address": "alert@facebook-notify.com"
+    },
+    "subject": "Security Alert: Account Compromised",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your social media account was accessed from China. Secure it: https://fb-security.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://fb-security.com",
+        "href": "https://fb-security.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

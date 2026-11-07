@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-005",
+  "title": "Your Subscription Renewal",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Streaming Service"
+  },
+  "request": {
+    "email_id": "legit-005",
+    "sender": {
+      "name": "",
+      "address": "billing@netflix.com"
+    },
+    "subject": "Your Subscription Renewal",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your Netflix plan has been renewed. View billing details in your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

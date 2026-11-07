@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-070",
+  "title": "App Update Available",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "legit-070",
+    "sender": {
+      "name": "",
+      "address": "updates@samsung.com"
+    },
+    "subject": "App Update Available",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Update your app to the latest version in the app store."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

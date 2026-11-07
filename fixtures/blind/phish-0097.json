@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0097",
+  "title": "Loan Approved",
+  "meta": {
+    "intent": "HR/Scam/Reward",
+    "technique": "Fake Loan Offer",
+    "target": "Consumers"
+  },
+  "request": {
+    "email_id": "phish-0097",
+    "sender": {
+      "name": "",
+      "address": "loans@financepro.com"
+    },
+    "subject": "Loan Approved",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Claim loan funds: https://loan-offer.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://loan-offer.com",
+        "href": "https://loan-offer.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

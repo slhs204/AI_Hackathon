@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-073",
+  "title": "Upcoming Workshop",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Tech Enthusiasts"
+  },
+  "request": {
+    "email_id": "legit-073",
+    "sender": {
+      "name": "",
+      "address": "events@cyberconf.com"
+    },
+    "subject": "Upcoming Workshop",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Join our 5/28 workshop on cybersecurity. Register today."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

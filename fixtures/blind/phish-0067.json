@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0067",
+  "title": "Free VPN Software",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Software Offer",
+    "target": "Tech Users"
+  },
+  "request": {
+    "email_id": "phish-0067",
+    "sender": {
+      "name": "",
+      "address": "support@vpnsecure.com"
+    },
+    "subject": "Free VPN Software",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Install our free VPN: [attachment: vpn_install.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

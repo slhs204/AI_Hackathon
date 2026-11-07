@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0003",
+  "title": "Unusual Activity Detected",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Homoglyph Link Spoofing",
+    "target": "Google"
+  },
+  "request": {
+    "email_id": "phish-0003",
+    "sender": {
+      "name": "",
+      "address": "no-reply@g00gle.com"
+    },
+    "subject": "Unusual Activity Detected",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Suspicious login from Russia. Reset password now: https://g00gle-security.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://g00gle-security.com",
+        "href": "https://g00gle-security.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

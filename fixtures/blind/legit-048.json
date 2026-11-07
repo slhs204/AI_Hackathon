@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-048",
+  "title": "Your Cloud Backup Status",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Cloud Storage"
+  },
+  "request": {
+    "email_id": "legit-048",
+    "sender": {
+      "name": "",
+      "address": "support@google-drive.com"
+    },
+    "subject": "Your Cloud Backup Status",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your files were backed up successfully. View status in your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

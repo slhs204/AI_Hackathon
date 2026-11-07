@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-017",
+  "title": "Order Shipped #98765",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "E-commerce"
+  },
+  "request": {
+    "email_id": "legit-017",
+    "sender": {
+      "name": "",
+      "address": "orders@walmart.com"
+    },
+    "subject": "Order Shipped #98765",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your package is on its way. Expected delivery: 5/22/2025."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

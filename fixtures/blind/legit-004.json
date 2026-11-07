@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-004",
+  "title": "Password Reset Confirmation",
+  "meta": {
+    "intent": "Security Notification",
+    "technique": "None",
+    "target": "Email Service"
+  },
+  "request": {
+    "email_id": "legit-004",
+    "sender": {
+      "name": "",
+      "address": "security@outlook.com"
+    },
+    "subject": "Password Reset Confirmation",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your password was successfully reset. Contact support if this wasn’t you."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

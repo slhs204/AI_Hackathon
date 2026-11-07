@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0001",
+  "title": "Urgent: Account Verification Required",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Urgency",
+    "target": "Banking"
+  },
+  "request": {
+    "email_id": "phish-0001",
+    "sender": {
+      "name": "",
+      "address": "security@bankofamerica-alert.com"
+    },
+    "subject": "Urgent: Account Verification Required",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your account will be locked in 24 hours. Verify now at: https://secure-login-verify.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://secure-login-verify.com",
+        "href": "https://secure-login-verify.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

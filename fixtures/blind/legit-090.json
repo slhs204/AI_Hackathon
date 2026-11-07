@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-090",
+  "title": "Exclusive Offers Newsletter",
+  "meta": {
+    "intent": "Informational",
+    "technique": "None",
+    "target": "Retail"
+  },
+  "request": {
+    "email_id": "legit-090",
+    "sender": {
+      "name": "",
+      "address": "news@adidas.com"
+    },
+    "subject": "Exclusive Offers Newsletter",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Check out exclusive deals in our latest newsletter."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

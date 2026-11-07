@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0011",
+  "title": "Security Patch Required",
+  "meta": {
+    "intent": "Malware Delivery",
+    "technique": "Fake Software Update",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "phish-0011",
+    "sender": {
+      "name": "",
+      "address": "updates@microsoft-support.com"
+    },
+    "subject": "Security Patch Required",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Install this critical update to avoid system failure: [attachment: patch.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-041",
+  "title": "Payment Received",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Payment Service"
+  },
+  "request": {
+    "email_id": "legit-041",
+    "sender": {
+      "name": "",
+      "address": "billing@stripe.com"
+    },
+    "subject": "Payment Received",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your payment of $49.99 was successful. Receipt available in your account."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

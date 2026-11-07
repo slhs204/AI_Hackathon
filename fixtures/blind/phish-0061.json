@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:phish-0061",
+  "title": "Critical Update Required",
+  "meta": {
+    "intent": "Malware Attachment",
+    "technique": "Fake Software Update",
+    "target": "IT Users"
+  },
+  "request": {
+    "email_id": "phish-0061",
+    "sender": {
+      "name": "",
+      "address": "updates@microsoft.com"
+    },
+    "subject": "Critical Update Required",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Install this update to avoid crashes: [attachment: system_patch.exe]"
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

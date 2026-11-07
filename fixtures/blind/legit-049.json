@@ -1,0 +1,28 @@
+{
+  "source": "teddyha:legit-049",
+  "title": "Your Subscription Update",
+  "meta": {
+    "intent": "Transactional",
+    "technique": "None",
+    "target": "Software Service"
+  },
+  "request": {
+    "email_id": "legit-049",
+    "sender": {
+      "name": "",
+      "address": "billing@zoom.us"
+    },
+    "subject": "Your Subscription Update",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your plan has been upgraded. Enjoy new features starting today."
+      }
+    ],
+    "links": []
+  },
+  "expected": {
+    "label": "legit",
+    "must_flag": []
+  }
+}

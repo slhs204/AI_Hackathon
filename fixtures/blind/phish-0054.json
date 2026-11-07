@@ -1,0 +1,35 @@
+{
+  "source": "teddyha:phish-0054",
+  "title": "Tax Return Error",
+  "meta": {
+    "intent": "Credential Harvesting",
+    "technique": "Link Spoofing with Fake Government Alert",
+    "target": "Taxpayers"
+  },
+  "request": {
+    "email_id": "phish-0054",
+    "sender": {
+      "name": "",
+      "address": "support@irs-service.com"
+    },
+    "subject": "Tax Return Error",
+    "blocks": [
+      {
+        "id": "b1",
+        "text": "Your tax return has issues. Correct now: https://irs-g0v.com"
+      }
+    ],
+    "links": [
+      {
+        "id": "l1",
+        "block_id": "b1",
+        "display_text": "https://irs-g0v.com",
+        "href": "https://irs-g0v.com"
+      }
+    ]
+  },
+  "expected": {
+    "label": "phishing",
+    "must_flag": []
+  }
+}

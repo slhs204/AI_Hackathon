@@ -112,6 +112,8 @@ def _apply_ai_explanations(raw: dict, findings: list[Finding]) -> None:
     """Model rewording per category (Albert's v3 `ai_explanation`). Text only,
     no quotes, so nothing to verify; the rules' explanation stays as well."""
     expl = raw.get("explanations")
+    if isinstance(expl, list):  # [{"category": ..., "text": ...}] (structured-output form)
+        expl = {e.get("category"): e.get("text") for e in expl if isinstance(e, dict)}
     if not isinstance(expl, dict):
         return
     for f in findings:
@@ -195,7 +197,7 @@ def analyze(email: AnalyzeRequest, model_call: Optional[llm.ModelCall] = None) -
             model_extra, discarded = _model_findings(raw, email)
             summary = str(raw.get("summary", "")).strip()[:600]
             _apply_ai_explanations(raw, findings + extras)
-            model_name = llm.model_label()
+            model_name = llm.model_label("analyze")
         except llm.ModelUnavailable as exc:
             log.warning("model unavailable: %s", exc)
             model_name = "rules-only (model unavailable)"
