@@ -2,7 +2,7 @@
 
 This guide is for the already-created `phish-staging` service in `lateral-nomad-514001-c7`, `us-central1`. It does not create secrets, accounts, IAM grants or public access. The root `DEPLOYMENT.md` is a historical health-only example and must not be used to update this application.
 
-Use Google Cloud Shell with your existing authorized account. Pin `EXPECTED_SHA` to the tested PR commit supplied with this release. Do not deploy from a dirty or unrelated folder.
+Use Google Cloud Shell with your existing authorized account. Pin `EXPECTED_SHA` to the tested commit supplied with this release (PR #5 is merged, so its commits are on `main`). Do not deploy from a dirty or unrelated folder.
 
 ```bash
 set -euo pipefail
@@ -12,7 +12,7 @@ SERVICE=phish-staging
 read -r -p 'Exact tested PR commit SHA: ' EXPECTED_SHA
 [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'Use the full 40-character tested SHA.'; exit 1; }
 WORK=$(mktemp -d "$HOME/phish-staging-update.XXXXXX")
-git clone --branch fix/fix-v4-review-20261107 --single-branch https://github.com/slhs204/AI_Hackathon.git "$WORK"
+git clone --branch main --single-branch https://github.com/slhs204/AI_Hackathon.git "$WORK"
 cd "$WORK"
 git checkout --detach "$EXPECTED_SHA"
 test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
