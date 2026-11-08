@@ -1,5 +1,7 @@
 # Notes from the backend side (Sunday, updated 2026-11-08)
 
+These are historical handoff observations and proposals. Current Qwen results are in [the P1 evaluation](QWEN_EVALUATION.md), current deployment is in [private staging](PRIVATE_STAGING.md), and live evaluation commands are in [backend instructions](../backend/README.md#reproducing-evaluation). The old model/cost questions below are not current measurements.
+
 Things to decide or change together. Numbers come from `backend/eval/results/rules-only.md`.
 
 ## Blind test (new)

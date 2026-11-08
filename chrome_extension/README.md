@@ -73,7 +73,7 @@ node --check chrome_extension/inbox-panel.js
 
 Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, finite body-scan completion, fast/slow backend responses, reduced motion, cancellation/retry, lost animation events/acknowledgments, late results, retained title selection, rapid A→B→A switching, heading-only loading guards, account/tab invalidation and stale-response suppression. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
-Current verification: 99 extension tests and 195 backend tests pass, with 1 backend test skipped; Windows PowerShell 5.1 launcher checks pass. Real Chrome with version 0.3.6 passed synthetic T23 Analyze and Challenge through the cloud connector, flagged partial extraction, and blocked analysis after AI consent was revoked. This covers those specific browser paths; the broader checklist below is not claimed complete.
+Current verification: 238 backend tests passed with 1 skipped. Passing evidence for the unchanged 99 extension tests and Windows PowerShell 5.1 launcher checks is reused. Real Chrome with version 0.3.6 passed synthetic T23 Analyze and Challenge through the cloud connector, flagged partial extraction, and blocked analysis after AI consent was revoked. This covers those specific browser paths; the broader checklist below is not claimed complete.
 
 Broader manual acceptance checklist (proxy/rules-only items apply only to legacy staging):
 
@@ -93,7 +93,7 @@ Broader manual acceptance checklist (proxy/rules-only items apply only to legacy
 Gmail DOM selectors are unstable and require actual-browser validation. Sender matching and a low risk score are not proof of authenticity. Do not test with sensitive real inbox data in public demos.
 
 
-P0 synthetic acceptance: 13 actual Gmail extractions returned cloud AI HTTP 200 without provider fallback, but routine-content semantic false alarms remain. Quote verification is not semantic correctness. The P1 held-out run has not been performed. See [case results](../docs/P0_ACCEPTANCE.md).
+P1 Qwen-assisted evaluation is complete: the frozen test run warned on 49/50 phishing-labelled and 2/50 legitimate-labelled public inputs. All 100 analyses remained incomplete under Gmail extraction limits. Known routine-content errors were repaired on development cases; remaining errors and historical test exposure are disclosed in the [evaluation report](../docs/QWEN_EVALUATION.md). The [P0 acceptance record](../docs/P0_ACCEPTANCE.md) remains historical integration evidence.
 
 
 The cloud app token is used only by the connector and is never pasted into the extension. Paste only the temporary loopback token displayed by the launcher.

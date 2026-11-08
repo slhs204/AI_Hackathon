@@ -1,6 +1,6 @@
 # Dobby’s Catch — Devpost copy and demo
 
-Dobby’s Catch helps payroll staff inspect warning signs in an open Gmail message. The Chrome extension shows evidence and explanations, while a private backend checks the evidence and suggests payroll verification steps. The copy below describes the demonstrated prototype; it makes no detection-accuracy claim.
+Dobby’s Catch helps payroll staff inspect warning signs in an open Gmail message. The Chrome extension shows evidence and explanations, while a private backend checks the evidence and suggests payroll verification steps. The copy below describes the demonstrated prototype; it makes no real-world accuracy claim. Benchmark figures come from one small public dataset with historical test exposure.
 
 ## Submission timing
 
@@ -36,7 +36,7 @@ The team’s early clients used different request and response formats. We align
 
 ## Accomplishments that we’re proud of
 
-Extension 0.3.6 completed a synthetic T23 analysis and challenge flow in real Chrome against the private Cloud Run AI backend. Partial extraction was flagged, and revoking consent blocked further analysis. These checks establish a working integration; they do not establish detection accuracy. Separately, 13 synthetic Gmail requests returned cloud AI HTTP 200 without provider fallback, but routine-content false alarms remain. The P1 held-out evaluation has not been run; see [acceptance details](P0_ACCEPTANCE.md).
+On the earlier A003 revision, extension 0.3.6 completed a synthetic T23 analysis and challenge flow in real Chrome; partial extraction was flagged and revoking consent blocked further analysis. The P1 browser check used the T10 canary result: routine-content interpretation and deadline notes were corrected while the sender-identity warning remained. These checks establish integration, not detection accuracy. Separately, the frozen Qwen-assisted test warned on 49/50 phishing-labelled and 2/50 legitimate-labelled public inputs, with no provider failures. All 100 remained incomplete under Gmail extraction limits. The existing test had historical Anthropic/rule exposure; this is one small dataset, not real-world accuracy. See [metrics and remaining errors](QWEN_EVALUATION.md) and the historical [P0 acceptance](P0_ACCEPTANCE.md).
 
 ## What we learned
 
@@ -44,7 +44,7 @@ An explanation is useful only when it points to evidence the user can inspect. W
 
 ## What’s next
 
-Evaluate the demonstrated Qwen3-8B path on a held-out set, measure false alarms and missed cases, and test whether payroll users understand the explanations and choose the appropriate verification step.
+Evaluate broader fresh datasets and malicious-attachment coverage, and test whether payroll users understand the explanations and choose the appropriate verification step. Preserve the frozen test result without tuning from its errors.
 
 ## Built with
 
@@ -52,12 +52,12 @@ Chrome Extensions, JavaScript, Python, FastAPI, Google Cloud Run, Tinker, Qwen3-
 
 ## Demo script — 45–60 seconds
 
-Before recording, double-click `Start-Demo.cmd` and keep its single terminal open. In extension 0.3.6, choose the one-click connection, paste the temporary loopback token into the password field and explicitly enable Tinker. Open the synthetic T23 email in Gmail. Keep tokens and account details outside the recording. Run once beforehand to check inference time; the narration below is approximately 55 seconds, excluding model waits.
+Before recording, double-click `Start-Demo.cmd` and keep its single terminal open. In extension 0.3.6, choose the one-click connection, paste the temporary loopback token into the password field and explicitly enable Tinker. Open the synthetic T23 email in Gmail. Keep tokens and account details outside the recording. Run a fresh T23 analysis and challenge through the current one-click backend before recording to check inference time; the narration below is approximately 55 seconds, excluding model waits.
 
 1. **0–10 seconds:** “This is Dobby’s Catch, a phishing coach for payroll staff. We’re using a synthetic Gmail message, extension 0.3.6 and a private Cloud Run backend.”
 2. **10–25 seconds:** Click analysis, then select a finding to show its evidence. “When I request a check, Qwen3-8B through Tinker helps explain the warning signs. Selecting a finding shows the exact evidence and the payroll verification step.”
 3. **25–40 seconds:** Submit a short challenge using synthetic context. “I can add context and challenge the finding. The response reconsiders that context while keeping the company’s verification procedure in view.”
-4. **40–55 seconds:** Show the extraction notice or limitations text. “This working flow passed our synthetic Chrome check. Gmail extraction is partial, and we haven’t established Qwen detection accuracy. No warning signs does not mean safe, and this tool never authorizes a payment.”
+4. **40–55 seconds:** Show the extraction notice or limitations text. “Gmail extraction is partial. Our small public-data test does not establish real-world accuracy. No warning signs does not mean safe, and this tool never authorizes a payment.”
 
 ## Fields still requiring owner input
 
@@ -73,7 +73,7 @@ Before recording, double-click `Start-Demo.cmd` and keep its single terminal ope
 - [Official submission dates](https://triangle-ai-hackathon-2026.devpost.com/details/dates) and [organizer schedule](https://triangle-ai-hackathon-site.vercel.app/schedule): deadline and hacking-end distinction, checked November 8, 2026.
 
 
-[Current synthetic T23 cloud AI screenshot](assets/demo-ai.png) is available for the demo and presentation.
+[A003 T23 cloud AI screenshot](assets/demo-ai.png) is a pre-P1 UI illustration, not evidence of the current P1 assessment.
 
 
 The cloud app token is used only by the connector and is never pasted into the extension. Paste only the temporary loopback token displayed by the launcher.

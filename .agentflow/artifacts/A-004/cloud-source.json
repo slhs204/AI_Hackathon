@@ -1,0 +1,34 @@
+{
+  "baseline": "d08fe1b",
+  "runtime_overrides": [
+    "backend/app/prompts.py",
+    "backend/app/analyze.py",
+    "backend/phishhook/engine.py"
+  ],
+  "files": {
+    "backend/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/app/analyze.py": "220b3bce5050131faa27c2ed091ff3d97d19ab1aec85724f238540072418939a",
+    "backend/app/challenge.py": "c6287ae31d47818fbbf53334e0065c34b3d86a914a78273d0944e8c2ff408fc3",
+    "backend/app/config.py": "aa90131913745b17c1acb8cf2eee7d2ed1288845bd6118747e9b12635e9ba48f",
+    "backend/app/evidence.py": "c7909ffbeb9cc733532d723b56b6bd29d9fba883e1ca1188a2962eccbb8ec11b",
+    "backend/app/llm.py": "5322e678135b1f1b0f867f9b72f84faad9eeede5a3d73300f9bac58a98dd500d",
+    "backend/app/prompts.py": "73f0aa27331b20c63630b1d74755a6217bc771901c618e0fbf51ef884ee42af4",
+    "backend/app/schemas.py": "739fefa340427623770d9cd503e60067da19c58f17a8a241e68e05aef479dbe7",
+    "backend/app/tools/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/app/tools/extra_links.py": "f641ba9f03cf4e975fe54f296d6e2aaee99a9c8637d6cd9b891386bd35af7bb4",
+    "backend/app/tools/lookup.py": "77229b49e54f4a7bdfd86967cbeebf0891a979387ebb6e1dee0b9b8885c2c925",
+    "backend/app/tools/payroll_checks.py": "0287894de441c0b51dd1d3ef11d718b947de94e79f9dbac23101c3372407e5f5",
+    "backend/app/triage.py": "bd8c514dba5f454de709c1513cc5118baac4fc86c50b4972b77ce72e3bfee043",
+    "backend/data/policies.json": "2f9bd592e14cbe52b84e372c97f303b8f7a62007878920742d69f0f5178b3257",
+    "backend/phishhook/README.md": "52c92d3495923781a39543b788f81146ec972667b76d6c0f1c7fbbc1ae52bcfd",
+    "backend/phishhook/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/phishhook/directory.json": "2dfa96bdcf4f274ca905f931721f656276e00c4045ef0384779943a71353c6fb",
+    "backend/phishhook/drill_bank.json": "4752328a9c2bd8496724539b0b76dca4ca3191cd61aebe506abe47edd945414b",
+    "backend/phishhook/engine.py": "16f3fa0180d9c10a59cdbb844632e34dd4b5178edd28cee06d81d3f81c441db7",
+    "backend/Dockerfile": "12c90a9d7a59e00395eabd084732e1c7410349c6c2a92909bf60102efdd5e63d",
+    "backend/.dockerignore": "0916fede259e822d3feda042390af13a8b29359a4bef98fdb82f5076458f402a",
+    "backend/.gcloudignore": "0916fede259e822d3feda042390af13a8b29359a4bef98fdb82f5076458f402a",
+    "backend/requirements.txt": "bc3b75d891606ebf6f2b0111a9d22867948b4e9bf1c4c97c0915fef2fc0a6344",
+    "backend/main.py": "9359dd6acda2af551647e0cd8a9e519ef703a3882a74f6e1f5ed416f962b6657"
+  }
+}

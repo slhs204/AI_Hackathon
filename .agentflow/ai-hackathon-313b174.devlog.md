@@ -8,11 +8,11 @@ Checkout: C:\Users\pc297\.codex\worktrees\tinker-demo\AI_Hackathon-313b174
 
 Branch: detached HEAD — local task commits
 
-Current: A-004 — awaiting the next request; completed [P0 tracker](artifacts/A-003/tracker.md).
+Current: A-005 — awaiting the next request; completed [Qwen evaluation](artifacts/A-004/tracker.md).
 
-Proven: remaining P0 browser, synthetic and materials work completed; private A003 AI revision at100% traffic. [Evidence](artifacts/A-003/verification.json).
+Proven: Qwen-assisted evaluation completed and known semantic errors repaired; private P1 revision at100% traffic. [Evidence](artifacts/A-004/verification.json).
 
-Next: owner fills Devpost team/video/prize fields and submits; await the next development request. Detached HEAD keeps Git delivery local.
+Next: await the next request. Git delivery stays local until a branch is specified; future accuracy evaluation needs fresh data.
 
 Archived eras: none.
 
@@ -173,3 +173,58 @@ Empty registry scaffold created; no accepted SYS-INV IDs. Existing product guara
 ---
 
 # → Ask / A-004
+
++ [$agentflow](C:\Users\pc297\.agents\skills\agentflow\SKILL.md) 接著完成 P1 的 Qwen 準確率評估，並修正目前發現的語意誤報
+
+
+## [WIP-001] Checkpoint — 2026-11-08 05:06:14 -0500 (A-004)
+
+**Finished:** evaluation accounting and current development baseline; first semantic regression run completed.
+
+**Running now:** native semantic repair worker addressing the reproduced positive-control miss and score accounting.
+
+**Still to do:** candidate comparison, frozen test, independent review and current demo deployment/delivery.
+
+**Next work action:** follow [tracker](artifacts/A-004/tracker.md); final test has not started.
+
+
+## [WIP-002] Checkpoint — 2026-11-08 05:20:00 -0500 (A-004)
+
+**Finished:** development comparison, frozen final evaluation, canary and actual Chrome acceptance; reviewed candidate promoted.
+
+**Running now:** runtime audit and documentation/bundle workers; task connector56515/PID9220.
+
+**Still to do:** final result review, delivery checks and cleanup/local commit.
+
+**Next work action:** follow [tracker](artifacts/A-004/tracker.md); do not retune from final-test errors.
+
+
+# → Reply / A-004
+
+* _2026-11-08 05:26:44 -0500_
+
+1. **接著完成 P1 的 Qwen 準確率評估，並修正目前發現的語意誤報**
+
+   Completed the evaluation and repaired the original routine-content false alarms. The frozen100-message test matched97labels:49/50phishing-labelled messages warned,2/50legitimate-labelled messages falsely warned, and1phishing-labelled message had no warning. Recall98%,false-positive rate4%,precision96.1%. These measure the combined rules+Qwen product on an existing public-data partition with historical exposure, not Qwen alone or real-world safety. All100provider calls succeeded; all analyses remained partial under Gmail extraction limits.
+
+   On the development set, false alarms fell44/50to0/50 while warned phishing cases fell50/50to49/50. The old handbook/timesheet/deadline/unchanged-bank interpretations were corrected; actualbank changes, credential/secrecy controls and senderidentity warnings remain. The finaltest errors were retained without retuning.
+
+   Revisionphish-staging-p1-d08fe1b-a004 now serves100%privateCloudRuntraffic. The one-window launcher and matching demo bundle use the repaired defaultTinker-v3 path; previousrollbacktags remain. The cloudapp token staysinside the connector and only the temporaryloopback token goesinto the extension.
+
+   The finaltest contains2falsealarms and1miss, including attachment-content limits. It is one stochastic run from one historically exposed dataset, not a freshblind or realmail validation. Sourcechanges are committedlocally afterthis record; detachedHEAD blocksautomaticpush and no branchwasguessed.
+
+   **Key Records — read these first**
+
+   - [Qwen evaluation](../docs/QWEN_EVALUATION.md) explains metrics, confidence intervals, the known repairs, remainingerrors and reproducible provenance.
+
+   - [Current deployment](../docs/PRIVATE_STAGING.md) distinguishes canaryinference from promotedbasechecks and documents retainedprivateaccess/rollback.
+
+   - [Completed tracker](artifacts/A-004/tracker.md), [safe verification](artifacts/A-004/verification.json) and [review disposition](artifacts/A-004/review.md) retain the checkedresult andlimits.
+
+## Questions (batched — each with a suggested default)
+
+- None.
+
+---
+
+# → Ask / A-005

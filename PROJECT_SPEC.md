@@ -15,7 +15,7 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | Part | Status |
 |---|---|
 | Google Cloud project and billing | Set up |
-| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-p0-6515a54-a003` serves 100% traffic; base-route session, analysis, challenge and access-denial checks passed. Runtime account, IAM and limits preserved; see `docs/PRIVATE_STAGING.md` |
+| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-p1-d08fe1b-a004` serves 100% traffic; P1 canary checks passed before promotion; base-route session/guards and the 57-assertion runtime audit passed separately; see `docs/PRIVATE_STAGING.md` |
 | `GET /health`, `GET /session` | Built |
 | `POST /analyze` (rules, extra checks, optional model, evidence check, payroll policy) | Built |
 | `POST /triage` (inbox priority from sender, subject, preview) | Built |
@@ -23,7 +23,7 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | Claude integration (Haiku 5.5 triage, Sonnet 5.5 analysis) | Built and evaluated offline; not enabled on staging |
 | Browser extension (Gmail, 0.3.6) | Built: simple result view, evidence highlights, challenge, practice question, local inbox-title check, local demo and explicit session AI permission |
 | Evidence highlighting and scan animation | Built |
-| Automated tests | 195 backend pass, 1 skip; 99 extension pass; Windows PowerShell 5.1 launcher checks pass |
+| Automated tests | 238 backend pass, 1 skip; 99 extension pass; Windows PowerShell 5.1 launcher checks pass |
 | Real Chrome/Gmail acceptance test | Synthetic T23 analysis and challenge passed; partial extraction correctly flagged; revoked consent blocked analysis. Broader checklist remains in `chrome_extension/README.md` |
 
 ## 3. The user experience
@@ -68,11 +68,11 @@ A matching domain does not prove that the sender is trustworthy. An account can 
 ## 5. Model plan and results
 
 - Claude Haiku 5.5 (`claude-haiku-5-5`) for `/triage` and Claude Sonnet 5.5 (`claude-sonnet-5-5`) for `/analyze` and `/challenge` remain supported and evaluated offline.
-- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed real private Cloud Run A003 base-route analysis (5,219 ms) and challenge (1,750 ms), without an expiring sampler. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent review passed; the AI revision serves 100% traffic and retains private IAM and a rules-only rollback tag. These results do not establish model accuracy.
+- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed P1 private Cloud Run canary analysis (7,266 ms) and challenge (2,484 ms), without an expiring sampler. Traffic readback then confirmed revision `phish-staging-p1-d08fe1b-a004` at 100%; the paid checks were on its tagged canary, not repeated at the promoted base URL. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent review passed; the AI revision serves 100% traffic and retains private IAM and a rules-only rollback tag. These results do not establish model accuracy.
 - `Start-Demo.cmd -Local` retains the earlier direct-local sampler fallback. Its checkpoint still expires and requires separate renewal.
 - GPT-6.1 Sol was a comparison candidate and has not been tested.
 
-Offline results on a 200-email public blind set (Gmail view): rules only flag 18/100 phishing with 5/100 false alarms; Sonnet 5.5 flags 100/100 phishing with 24/100 false alarms; Haiku 5.5 with prompt v2 and the pressure-words rule flags 48/50 phishing with 0/50 false alarms on the tuning half. The held-out test half still needs one run. Details are in `backend/eval/results/`.
+The frozen Qwen-assisted Gmail-view test warned on 49/50 phishing-labelled and 2/50 legitimate-labelled inputs (97/100 matching labels). Every analysis remained incomplete, and the existing test partition had historical Anthropic/rule exposure. Development and rules-only comparisons, Wilson intervals and remaining errors are in the [Qwen evaluation report](docs/QWEN_EVALUATION.md). Historical Claude figures remain in `backend/eval/results/`. These sample results do not establish payroll-specific or real-world accuracy.
 
 No model fine-tuning or reinforcement learning has been done. User corrections are not automatically trusted training labels.
 
@@ -134,4 +134,4 @@ Testers paste only the temporary loopback token shown by the launcher into the e
 Attachment scanning, automatic blocking, multiple email platforms, dashboards, and model training are outside the first version. Full-inbox scanning is limited to a local keyword check of visible subject lines.
 
 
-P0 synthetic acceptance: 13 actual Gmail extractions returned cloud AI HTTP 200 without provider fallback, but routine-content semantic false alarms remain. Quote verification is not semantic correctness. The P1 held-out run has not been performed. See [case results](docs/P0_ACCEPTANCE.md).
+P1 Qwen-assisted evaluation is complete: the frozen test run warned on 49/50 phishing-labelled and 2/50 legitimate-labelled public inputs. All 100 analyses remained incomplete under Gmail extraction limits. Known routine-content errors were repaired on development cases; remaining errors and historical test exposure are disclosed in the [evaluation report](docs/QWEN_EVALUATION.md). The [P0 acceptance record](docs/P0_ACCEPTANCE.md) remains historical integration evidence.

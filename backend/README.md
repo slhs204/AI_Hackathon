@@ -1,11 +1,11 @@
 # Phishing Coach backend (FastAPI)
 
-Owner: Sunday (AI, tools & evaluation). Wraps Albert's rule engine (`phishhook/`, copied unchanged)
+Owner: Sunday (AI, tools & evaluation). Wraps Albert's rule engine (`phishhook/`, with bounded bank-negation/redirection repairs)
 and adds the model layer, evidence checks, payroll policies, `/challenge`, and the eval.
 
-The prepared Windows demo now defaults to a one-window authenticated connector on loopback 8081, reaching IAM-private Cloud Run with Tinker base model `Qwen/Qwen3-8B`; no local sampler is needed. The repaired revision `phish-staging-p0-6515a54-a003` now serves 100% traffic; base-route session, analysis, challenge and access-denial checks passed. Existing runtime account, IAM and limits are preserved. See [startup](../scripts/README.md) and [deployment status](../docs/PRIVATE_STAGING.md).
+The prepared Windows demo now defaults to a one-window authenticated connector on loopback 8081, reaching IAM-private Cloud Run with Tinker base model `Qwen/Qwen3-8B`; no local sampler is needed. The repaired revision `phish-staging-p1-d08fe1b-a004` now serves 100% traffic; P1 canary checks passed before promotion. Promoted-base session/guard checks and the 57-assertion runtime audit passed separately. See [startup](../scripts/README.md) and [deployment status](../docs/PRIVATE_STAGING.md).
 
-Current verification: 195 backend tests passed with 1 skipped, 99 extension tests passed, and Windows PowerShell 5.1 launcher checks passed. Real Chrome with extension 0.3.6 passed synthetic T23 analysis and challenge, correctly flagged partial extraction, and blocked analysis after consent revocation.
+Current verification: 238 backend tests passed with 1 skipped. Passing evidence for the unchanged 99 extension tests and Windows PowerShell 5.1 launcher checks is reused. Real Chrome with extension 0.3.6 passed synthetic T23 analysis and challenge, correctly flagged partial extraction, and blocked analysis after consent revocation.
 
 ## Run locally
 
@@ -15,7 +15,7 @@ uv venv --python 3.11 .venv && uv pip install --python .venv/bin/python -r requi
 DEMO_API_TOKEN=dev .venv/bin/uvicorn main:app --reload --port 8080   # rules only; send X-Demo-Token: dev
 .venv/bin/python -m pytest -q                        # backend tests
 .venv/bin/python -m eval.run_eval                    # writes eval/results/rules-only.md
-.venv/bin/python -m eval.run_eval --set blind        # 200 emails from a public MIT dataset nobody tuned to
+.venv/bin/python -m eval.run_eval --set blind        # 200 public MIT examples; existing test has historical exposure
 .venv/bin/python -m eval.smoke_tinker --preflight    # configuration only; no inference
 .venv/bin/python -m eval.smoke_tinker --allow-paid   # explicit tiny JSON + synthetic analysis
 .venv/bin/python -m eval.smoke_anthropic             # first real Haiku + Sonnet calls (needs ANTHROPIC_API_KEY)
@@ -42,11 +42,11 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `app/tools/payroll_checks.py` | "change my salary account" and company-name-in-domain checks the engine misses |
 | `app/tools/lookup.py` | Payroll policy lookup and practice question from the drill bank |
 | `data/policies.json` | Synthetic Acme payroll procedures (source of `next_action`) |
-| `phishhook/` | Albert's rule engine (v3.1), copied unchanged |
+| `phishhook/` | Albert's rule engine (v3.1), with bounded bank-negation/redirection repairs |
 | `eval/run_eval.py` | Runs all fixtures in "full headers" and "Gmail-visible" views, writes `eval/results/` |
 | `eval/smoke_tinker.py` | One tiny call + one full analysis to prove the Tinker setup works |
 | `eval/smoke_anthropic.py` | Haiku triage of a 3-email inbox + one Sonnet analysis |
-| `tests/` | Evidence, pipeline, API/token, fail-closed, rubric, connector, Hookline compatibility and container permissions; 195 pass, 1 skip |
+| `tests/` | Evidence, pipeline, API/token, fail-closed, rubric, connector, Hookline compatibility and container permissions; 238 pass, 1 skip |
 | `../fixtures/` | `build_fixtures.py` (core set) and `convert_teddyha.py` (blind set from `external/teddyha`, MIT) |
 
 ## Environment
@@ -89,18 +89,11 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 6. `next_action` comes from `data/policies.json` (bank change, employee data, payments, passwords);
    a practice question comes from `phishhook/drill_bank.json`.
 
-## Not done / not verified
+## Evaluation and verification limits
 
-- Claude (Haiku + Sonnet) has been evaluated (`eval/results/model*.md`). Tinker base model `Qwen/Qwen3-8B` passed private Cloud Run canary analysis and challenge, without a sampler. These are connectivity and integration proofs, not an accuracy evaluation. The retained `-Local` fallback alone uses the earlier expiring sampler and requires separate renewal. See [Windows startup](../scripts/README.md).
-- 23 fixtures: Albert's 10 samples (his rules were written against them, so optimistic), 4 extra cases,
-  and 9 harder cases written to probe false alarms and misses. Rules-only today: 13/14 phishing flagged,
-  2/7 legitimate emails falsely flagged, 1 miss (a real vendor account asking to move banks).
-  Blind set (Teddyha, 200 emails, MIT): rules catch 34/100 phishing when attachment names are known, 18/100 in
-  the Gmail view (extensions don't send attachments yet); 5/100 false alarms. The rules were written for Acme
-  payroll scams, not generic fake-Google/Dropbox mail; that gap is what the model has to close.
-  With Sonnet 5.5 (Gmail view): 100/100 phishing, but 24/100 false alarms; see `eval/results/model-blind.md`.
-  Haiku 5.5 + prompt v2 + pressure-words-as-notes (tuning half, recomputed offline): 48/50 phishing, 0/50 false
-  alarms. Not yet confirmed on the test half.
+- The frozen Qwen-assisted Gmail test warned on 49/50 phishing-labelled and 2/50 legitimate-labelled inputs. Rules alone warned on 12/50 and 1/50 respectively. Every input remained incomplete. The [evaluation report](../docs/QWEN_EVALUATION.md) owns current results, method, confidence intervals, paid-call accounting and remaining errors; historical Claude/core results remain in `eval/results/`.
+- Tinker defaults analysis to prompt v3; other providers retain their existing default. Explicit `--prompt` selects v1/v2/v3 for evaluation. No model-only, sender-authentication, malware-inspection or payment-approval claim follows from the figures.
+- The retained `-Local` fallback alone uses the earlier expiring sampler and requires separate renewal; see [Windows startup](../scripts/README.md).
 - Logging records ids, counts and timing only, never email bodies.
 
 ## Fail-closed staging contract
@@ -118,8 +111,17 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
   rubric therefore does not grant `pay` merely because rules found no signs.
 - Valid JSON with a malformed analysis/challenge/triage shape retries once, then preserves
   rules-only results with the model-unavailable label. No provider calls are made by tests.
-- Pressure-only findings become notes only when extracted content is complete and no link,
-  attachment or risky action wording is present. This is deliberately conservative.
+- Pressure findings can become notes when visible text has no risky action and no links or known attachments, including partial extraction and retained identity warnings. Limitations state the visible scope; partial results remain incomplete and never authorize payment.
 
 
-P0 synthetic acceptance: 13 actual Gmail extractions returned cloud AI HTTP 200 without provider fallback, but routine-content semantic false alarms remain. Quote verification is not semantic correctness. The P1 held-out run has not been performed. See [case results](../docs/P0_ACCEPTANCE.md).
+P1 Qwen-assisted evaluation is complete: the frozen test run warned on 49/50 phishing-labelled and 2/50 legitimate-labelled public inputs. All 100 analyses remained incomplete under Gmail extraction limits. Known routine-content errors were repaired on development cases; remaining errors and historical test exposure are disclosed in the [evaluation report](../docs/QWEN_EVALUATION.md). The [P0 acceptance record](../docs/P0_ACCEPTANCE.md) remains historical integration evidence.
+
+## Reproducing evaluation
+
+Paid evaluation requires an explicit journal path; use a unique tag to preserve previous reports. This example is a recipe, not authorization to repeat the recorded final test:
+
+```bash
+MODEL_PROVIDER=tinker TINKER_MODEL=Qwen/Qwen3-8B .venv/bin/python -m eval.run_eval --model --set blind --split tune --views gmail --workers 3 --prompt v3 --tag my-development-run --journal ../work/my-development-run.jsonl
+```
+
+Supply the provider key through the existing process environment. The runner validates split IDs, fingerprints source/data/prompt/configuration, records attempts before transmission and flushes completions immediately. Reusing a matching journal skips completed cases; configuration mismatches or uncertain attempts block automatic replay. An interrupted final test must be reported inconclusive rather than rerun. Journals belong outside the source distribution and contain only public/synthetic evaluation content, never provider credentials or raw model replies.

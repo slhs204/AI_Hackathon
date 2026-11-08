@@ -44,6 +44,7 @@ URGENCY_PATTERNS = [
 ]
 
 PAYMENT_PATTERNS = [
+    r"\b(?:send|remit|direct|route) (?:[a-z]+ ){0,5}payments? to (?:our|my|the|a) new (?:bank )?account\b",
     r"\b(?:new|updated|changed?|different) (?:bank(?:ing)?|account|remittance|payment) (?:details|information|info|account|instructions)\b",
     r"\bchanged? (?:our|my) bank(?:ing)?\b", r"\bnew bank(?:ing)? (?:account|details)\b", r"\bbank(?:ing)? details\b",
     r"\bremittance (?:details|information|instructions)\b",
@@ -486,9 +487,22 @@ def detect_urgency(em):
     }
 
 
+def _payment_marks(text):
+    # Suppress only the bank phrase inside an explicit negative statement, not its neighbors.
+    bank = r"(?:bank(?:ing)?|remittance) (?:details|information|instructions)"
+    negative = re.compile(
+        rf"\b{bank}\s+(?:(?:have|has) not changed|(?:are|remain) unchanged)\b"
+        rf"|\b(?:will never|never|do not|don't) ask (?:you )?to change (?:your |our |the )?{bank}\b",
+        re.I,
+    )
+    spans = [m.span() for m in negative.finditer(text)]
+    return [m for m in _body_marks(text, PAYMENT_PATTERNS, limit=None)
+            if not any(start <= m["start"] and m["end"] <= end for start, end in spans)][:6]
+
+
 def detect_payment(em):
-    marks = [_header_mark("subject", m["quote"]) for m in _body_marks(em["subject"], PAYMENT_PATTERNS)]
-    marks += _body_marks(em["body"], PAYMENT_PATTERNS)
+    marks = [_header_mark("subject", m["quote"]) for m in _payment_marks(em["subject"])]
+    marks += _payment_marks(em["body"])
     if not marks:
         return None
     is_cred = [bool(re.search(r"password|credential|login|sign in", m["quote"], re.I)) for m in marks]

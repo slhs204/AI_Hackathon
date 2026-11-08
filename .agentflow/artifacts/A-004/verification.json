@@ -1,0 +1,724 @@
+{
+  "round": "A-004",
+  "baseline": "d08fe1b",
+  "backend_tests": {
+    "passed": 238,
+    "skipped": 1
+  },
+  "unchanged_extension_evidence_reused": 99,
+  "phases": {
+    "baseline": {
+      "result_path": "backend\\eval\\results\\model-blind-tune-qwen-p1-baseline.json",
+      "sha256": "43e68a06445514cfdcbaccf6085ae939f5429135824018d2fcc40ae9debfa0c5",
+      "model": "tinker:Qwen/Qwen3-8B",
+      "prompt": "v1",
+      "views": [
+        "gmail"
+      ],
+      "summary": {
+        "phishing_flagged": "50/50",
+        "legit_false_alarms": "44/50",
+        "ambiguous_flagged": "0/0",
+        "must_flag_misses": 0,
+        "incomplete_results": 100,
+        "model_findings_kept": 165,
+        "model_findings_discarded": 53,
+        "model_unavailable": 0,
+        "all_input_warnings": {
+          "n": 100,
+          "tp": 50,
+          "fp": 44,
+          "tn": 6,
+          "fn": 0,
+          "precision": {
+            "numerator": 50,
+            "denominator": 94,
+            "rate": 0.5319148936170213,
+            "wilson95": [
+              0.4317826374815637,
+              0.6295410597764227
+            ]
+          },
+          "recall": {
+            "numerator": 50,
+            "denominator": 50,
+            "rate": 1.0,
+            "wilson95": [
+              0.9286524008666414,
+              1.0
+            ]
+          },
+          "false_positive_rate": {
+            "numerator": 44,
+            "denominator": 50,
+            "rate": 0.88,
+            "wilson95": [
+              0.7619518261679701,
+              0.9438239984906773
+            ]
+          }
+        },
+        "provider_success_warnings": {
+          "n": 100,
+          "tp": 50,
+          "fp": 44,
+          "tn": 6,
+          "fn": 0,
+          "precision": {
+            "numerator": 50,
+            "denominator": 94,
+            "rate": 0.5319148936170213,
+            "wilson95": [
+              0.4317826374815637,
+              0.6295410597764227
+            ]
+          },
+          "recall": {
+            "numerator": 50,
+            "denominator": 50,
+            "rate": 1.0,
+            "wilson95": [
+              0.9286524008666414,
+              1.0
+            ]
+          },
+          "false_positive_rate": {
+            "numerator": 44,
+            "denominator": 50,
+            "rate": 0.88,
+            "wilson95": [
+              0.7619518261679701,
+              0.9438239984906773
+            ]
+          }
+        },
+        "complete_only_warnings": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "recall": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "false_positive_rate": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          }
+        },
+        "completion_coverage": {
+          "numerator": 0,
+          "denominator": 100,
+          "rate": 0.0,
+          "wilson95": [
+            3.469446951953614e-18,
+            0.03699349820698568
+          ]
+        },
+        "provider_success_coverage": {
+          "numerator": 100,
+          "denominator": 100,
+          "rate": 1.0,
+          "wilson95": [
+            0.9630065017930143,
+            1.0
+          ]
+        },
+        "outcomes_by_label": {
+          "phishing": {
+            "n": 50,
+            "warnings": 50,
+            "no_findings": 0,
+            "incomplete": 50,
+            "unfinished_no_findings": 0,
+            "provider_failures": 0
+          },
+          "legit": {
+            "n": 50,
+            "warnings": 44,
+            "no_findings": 6,
+            "incomplete": 50,
+            "unfinished_no_findings": 6,
+            "provider_failures": 0
+          },
+          "ambiguous": {
+            "n": 0,
+            "warnings": 0,
+            "no_findings": 0,
+            "incomplete": 0,
+            "unfinished_no_findings": 0,
+            "provider_failures": 0
+          }
+        },
+        "model_calls": 105,
+        "corrections": 5,
+        "latency_ms_median": 3999,
+        "latency_ms_max": 15266
+      },
+      "journal_settled": true
+    },
+    "candidate": {
+      "result_path": "backend\\eval\\results\\model-blind-tune-qwen-p1-candidate.json",
+      "sha256": "3382ba22cdf46030c232ab2ca1ce5d671f208e7a191ece2eb012cb64c6a3e5a5",
+      "model": "tinker:Qwen/Qwen3-8B",
+      "prompt": "v3",
+      "views": [
+        "gmail"
+      ],
+      "summary": {
+        "phishing_flagged": "49/50",
+        "legit_false_alarms": "0/50",
+        "ambiguous_flagged": "0/0",
+        "must_flag_misses": 0,
+        "incomplete_results": 100,
+        "model_findings_kept": 58,
+        "model_findings_discarded": 6,
+        "model_unavailable": 0,
+        "all_input_warnings": {
+          "n": 100,
+          "tp": 49,
+          "fp": 0,
+          "tn": 50,
+          "fn": 1,
+          "precision": {
+            "numerator": 49,
+            "denominator": 49,
+            "rate": 1.0,
+            "wilson95": [
+              0.9273021807795035,
+              0.9999999999999999
+            ]
+          },
+          "recall": {
+            "numerator": 49,
+            "denominator": 50,
+            "rate": 0.98,
+            "wilson95": [
+              0.8950455641036219,
+              0.9964607407283539
+            ]
+          },
+          "false_positive_rate": {
+            "numerator": 0,
+            "denominator": 50,
+            "rate": 0.0,
+            "wilson95": [
+              6.938893903907228e-18,
+              0.07134759913335872
+            ]
+          }
+        },
+        "provider_success_warnings": {
+          "n": 100,
+          "tp": 49,
+          "fp": 0,
+          "tn": 50,
+          "fn": 1,
+          "precision": {
+            "numerator": 49,
+            "denominator": 49,
+            "rate": 1.0,
+            "wilson95": [
+              0.9273021807795035,
+              0.9999999999999999
+            ]
+          },
+          "recall": {
+            "numerator": 49,
+            "denominator": 50,
+            "rate": 0.98,
+            "wilson95": [
+              0.8950455641036219,
+              0.9964607407283539
+            ]
+          },
+          "false_positive_rate": {
+            "numerator": 0,
+            "denominator": 50,
+            "rate": 0.0,
+            "wilson95": [
+              6.938893903907228e-18,
+              0.07134759913335872
+            ]
+          }
+        },
+        "complete_only_warnings": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "recall": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "false_positive_rate": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          }
+        },
+        "completion_coverage": {
+          "numerator": 0,
+          "denominator": 100,
+          "rate": 0.0,
+          "wilson95": [
+            3.469446951953614e-18,
+            0.03699349820698568
+          ]
+        },
+        "provider_success_coverage": {
+          "numerator": 100,
+          "denominator": 100,
+          "rate": 1.0,
+          "wilson95": [
+            0.9630065017930143,
+            1.0
+          ]
+        },
+        "outcomes_by_label": {
+          "phishing": {
+            "n": 50,
+            "warnings": 49,
+            "no_findings": 1,
+            "incomplete": 50,
+            "unfinished_no_findings": 1,
+            "provider_failures": 0
+          },
+          "legit": {
+            "n": 50,
+            "warnings": 0,
+            "no_findings": 50,
+            "incomplete": 50,
+            "unfinished_no_findings": 50,
+            "provider_failures": 0
+          },
+          "ambiguous": {
+            "n": 0,
+            "warnings": 0,
+            "no_findings": 0,
+            "incomplete": 0,
+            "unfinished_no_findings": 0,
+            "provider_failures": 0
+          }
+        },
+        "model_calls": 100,
+        "corrections": 0,
+        "latency_ms_median": 1889,
+        "latency_ms_max": 5625
+      },
+      "journal_settled": true
+    },
+    "test": {
+      "result_path": "backend\\eval\\results\\model-blind-test-qwen-p1-test.json",
+      "sha256": "453e1170693e7c80715e29a78e1898eb3e3c16c8c8a20c68ac2eb7cba03a74aa",
+      "model": "tinker:Qwen/Qwen3-8B",
+      "prompt": "v3",
+      "views": [
+        "gmail"
+      ],
+      "summary": {
+        "phishing_flagged": "49/50",
+        "legit_false_alarms": "2/50",
+        "ambiguous_flagged": "0/0",
+        "must_flag_misses": 0,
+        "incomplete_results": 100,
+        "model_findings_kept": 54,
+        "model_findings_discarded": 3,
+        "model_unavailable": 0,
+        "all_input_warnings": {
+          "n": 100,
+          "tp": 49,
+          "fp": 2,
+          "tn": 48,
+          "fn": 1,
+          "precision": {
+            "numerator": 49,
+            "denominator": 51,
+            "rate": 0.9607843137254902,
+            "wilson95": [
+              0.8678369434463774,
+              0.9891789166471329
+            ]
+          },
+          "recall": {
+            "numerator": 49,
+            "denominator": 50,
+            "rate": 0.98,
+            "wilson95": [
+              0.8950455641036219,
+              0.9964607407283539
+            ]
+          },
+          "false_positive_rate": {
+            "numerator": 2,
+            "denominator": 50,
+            "rate": 0.04,
+            "wilson95": [
+              0.011038884327619805,
+              0.1346009068750702
+            ]
+          }
+        },
+        "provider_success_warnings": {
+          "n": 100,
+          "tp": 49,
+          "fp": 2,
+          "tn": 48,
+          "fn": 1,
+          "precision": {
+            "numerator": 49,
+            "denominator": 51,
+            "rate": 0.9607843137254902,
+            "wilson95": [
+              0.8678369434463774,
+              0.9891789166471329
+            ]
+          },
+          "recall": {
+            "numerator": 49,
+            "denominator": 50,
+            "rate": 0.98,
+            "wilson95": [
+              0.8950455641036219,
+              0.9964607407283539
+            ]
+          },
+          "false_positive_rate": {
+            "numerator": 2,
+            "denominator": 50,
+            "rate": 0.04,
+            "wilson95": [
+              0.011038884327619805,
+              0.1346009068750702
+            ]
+          }
+        },
+        "complete_only_warnings": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "recall": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "false_positive_rate": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          }
+        },
+        "completion_coverage": {
+          "numerator": 0,
+          "denominator": 100,
+          "rate": 0.0,
+          "wilson95": [
+            3.469446951953614e-18,
+            0.03699349820698568
+          ]
+        },
+        "provider_success_coverage": {
+          "numerator": 100,
+          "denominator": 100,
+          "rate": 1.0,
+          "wilson95": [
+            0.9630065017930143,
+            1.0
+          ]
+        },
+        "outcomes_by_label": {
+          "phishing": {
+            "n": 50,
+            "warnings": 49,
+            "no_findings": 1,
+            "incomplete": 50,
+            "unfinished_no_findings": 1,
+            "provider_failures": 0
+          },
+          "legit": {
+            "n": 50,
+            "warnings": 2,
+            "no_findings": 48,
+            "incomplete": 50,
+            "unfinished_no_findings": 48,
+            "provider_failures": 0
+          },
+          "ambiguous": {
+            "n": 0,
+            "warnings": 0,
+            "no_findings": 0,
+            "incomplete": 0,
+            "unfinished_no_findings": 0,
+            "provider_failures": 0
+          }
+        },
+        "model_calls": 100,
+        "corrections": 0,
+        "latency_ms_median": 1812,
+        "latency_ms_max": 5516
+      },
+      "journal_settled": true
+    }
+  },
+  "final_source_continuity": true,
+  "no_test_driven_tuning": true,
+  "cloud_revision": "phish-staging-p1-d08fe1b-a004",
+  "traffic_percent": 100,
+  "cloud_canary": {
+    "anonymous": {
+      "status": 403,
+      "ms": 266
+    },
+    "wrong_app_token": {
+      "status": 401,
+      "ms": 172
+    },
+    "missing_ai_guard": {
+      "status": 409,
+      "ms": 125
+    },
+    "rules_guard": {
+      "status": 409,
+      "ms": 390
+    },
+    "session": {
+      "status": 200,
+      "ms": 94,
+      "model": {
+        "triage": "tinker:Qwen/Qwen3-8B",
+        "analyze": "tinker:Qwen/Qwen3-8B",
+        "challenge": "tinker:Qwen/Qwen3-8B"
+      }
+    },
+    "analyze": {
+      "status": 200,
+      "ms": 7266,
+      "complete": true,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "findings": 16
+    },
+    "challenge": {
+      "status": 200,
+      "ms": 2484,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "assessment": "still_concerning"
+    }
+  },
+  "runtime_audit": {
+    "assertions": {
+      "serviceAccountName_unchanged": true,
+      "containerConcurrency_unchanged": true,
+      "timeoutSeconds_unchanged": true,
+      "sandboxes_unchanged": true,
+      "container_env_unchanged": true,
+      "container_resources_unchanged": true,
+      "container_ports_unchanged": true,
+      "container_startupProbe_unchanged": true,
+      "container_volumeMounts_unchanged": true,
+      "container_command_unchanged": true,
+      "container_args_unchanged": true,
+      "volumes_unchanged": true,
+      "scaling_annotations_unchanged": true,
+      "service_scaling_annotations_unchanged": true,
+      "no_public_iam_members": true,
+      "iam_bindings_equal_immediate_before": true,
+      "manifest_contains_24_files": true,
+      "backend/app/__init__.py_matches_deployed_manifest": true,
+      "backend/app/analyze.py_matches_deployed_manifest": true,
+      "backend/app/challenge.py_matches_deployed_manifest": true,
+      "backend/app/config.py_matches_deployed_manifest": true,
+      "backend/app/evidence.py_matches_deployed_manifest": true,
+      "backend/app/llm.py_matches_deployed_manifest": true,
+      "backend/app/prompts.py_matches_deployed_manifest": true,
+      "backend/app/schemas.py_matches_deployed_manifest": true,
+      "backend/app/tools/__init__.py_matches_deployed_manifest": true,
+      "backend/app/tools/extra_links.py_matches_deployed_manifest": true,
+      "backend/app/tools/lookup.py_matches_deployed_manifest": true,
+      "backend/app/tools/payroll_checks.py_matches_deployed_manifest": true,
+      "backend/app/triage.py_matches_deployed_manifest": true,
+      "backend/data/policies.json_matches_deployed_manifest": true,
+      "backend/phishhook/README.md_matches_deployed_manifest": true,
+      "backend/phishhook/__init__.py_matches_deployed_manifest": true,
+      "backend/phishhook/directory.json_matches_deployed_manifest": true,
+      "backend/phishhook/drill_bank.json_matches_deployed_manifest": true,
+      "backend/phishhook/engine.py_matches_deployed_manifest": true,
+      "backend/Dockerfile_matches_deployed_manifest": true,
+      "backend/.dockerignore_matches_deployed_manifest": true,
+      "backend/.gcloudignore_matches_deployed_manifest": true,
+      "backend/requirements.txt_matches_deployed_manifest": true,
+      "backend/main.py_matches_deployed_manifest": true,
+      "frozen_runtime_sources_match_manifest": true,
+      "staged_source_matches_manifest": true,
+      "tinker_provider": true,
+      "v3_prompt_default": true,
+      "qwen_base_model": true,
+      "old_tags_preserved": true,
+      "A004_100_percent": true,
+      "rules_only_tag_preserved": true,
+      "base_tinker_status": true,
+      "base_tinker_models": true,
+      "anonymous_status": true,
+      "wrong_app_token_status": true,
+      "base_requires_tinker_permission_status": true,
+      "base_rules_guard_status": true,
+      "retained_rules_status": true,
+      "retained_rules_models": true
+    },
+    "sessions": {
+      "base_tinker": {
+        "status": 200,
+        "model": {
+          "triage": "tinker:Qwen/Qwen3-8B",
+          "analyze": "tinker:Qwen/Qwen3-8B",
+          "challenge": "tinker:Qwen/Qwen3-8B"
+        }
+      },
+      "anonymous": {
+        "status": 403
+      },
+      "wrong_app_token": {
+        "status": 401
+      },
+      "base_requires_tinker_permission": {
+        "status": 409
+      },
+      "base_rules_guard": {
+        "status": 409
+      },
+      "retained_rules": {
+        "status": 200,
+        "model": {
+          "triage": "rules-only",
+          "analyze": "rules-only",
+          "challenge": "rules-only"
+        }
+      },
+      "rules_tinker_guard": {
+        "status": 200
+      }
+    },
+    "all_assertions_passed": true,
+    "limitations": [
+      "Snapshots are immediate before/after service and IAM exports; source equality proves local/staged/manifest identity, not runtime container extraction.",
+      "The historical rules-only revision returns 200 rules-only for X-Require-Tinker; this extra observation is outside the required P1 guard checks.",
+      "No model call or cloud mutation was performed by this audit."
+    ],
+    "exploratory_checks": {
+      "historical_rules_tag_honors_tinker_guard": false
+    }
+  },
+  "known_cloud_checks": [
+    {
+      "code": "T06",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "verdict": "verify",
+      "ms": 3000
+    },
+    {
+      "code": "T09",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "verdict": "verify",
+      "ms": 1609
+    },
+    {
+      "code": "T10",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "verdict": "verify",
+      "ms": 4907
+    },
+    {
+      "code": "T11",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "verdict": "verify",
+      "ms": 2687
+    },
+    {
+      "code": "T14",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "verdict": "verify",
+      "ms": 1844
+    },
+    {
+      "code": "T22",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "verdict": "verify",
+      "ms": 2531
+    }
+  ],
+  "browser": {
+    "actual_Chrome_T10_on_p1_tag": true,
+    "one_identity_warning_retained": true,
+    "routine_AI_summary_and_deadline_notes_observed": true,
+    "partial_extraction_and_no_payment_clearance": true,
+    "old_authority_warning_still_feeds_pressure_dimension": true
+  },
+  "cleanup": {
+    "task_8081_stopped": true,
+    "foreign_8080_preserved": true
+  },
+  "limits": [
+    "Combined rules+Qwen warnings, not Qwen-only or true safety classification.",
+    "Existing historically exposed test partition; one dataset, one stochastic run.",
+    "Two finalfalsepositives and one missedwarning retained, not tuned against test.",
+    "Gmail partial extraction gives0 complete analyses; no attachment-content/authentication proof.",
+    "No runtime container extraction; local/staged/manifest hashes and deployment provenance checked."
+  ],
+  "bundle": {
+    "owned_source_files": 332,
+    "source_and_manifest_match": true,
+    "output_files_secret_scanned": 335,
+    "secret_matches": 0,
+    "git_or_venv_included": false
+  },
+  "review": {
+    "route": "counterpart CLI, tools disabled",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "source_session": "32154, exit0",
+    "final_session": "74449, exit0",
+    "verdict": "PASS; three final Devpost wording conditions applied and checked"
+  }
+}

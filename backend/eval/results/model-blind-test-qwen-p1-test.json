@@ -1,0 +1,3916 @@
+{
+  "generated_at": "2026-11-08 10:13 UTC",
+  "fixture_set": "blind",
+  "model": "tinker:Qwen/Qwen3-8B",
+  "prompt": "v3",
+  "split": "test",
+  "n_cases": 100,
+  "views": [
+    "gmail"
+  ],
+  "summary": {
+    "gmail": {
+      "phishing_flagged": "49/50",
+      "legit_false_alarms": "2/50",
+      "ambiguous_flagged": "0/0",
+      "must_flag_misses": 0,
+      "incomplete_results": 100,
+      "model_findings_kept": 54,
+      "model_findings_discarded": 3,
+      "model_unavailable": 0,
+      "all_input_warnings": {
+        "n": 100,
+        "tp": 49,
+        "fp": 2,
+        "tn": 48,
+        "fn": 1,
+        "precision": {
+          "numerator": 49,
+          "denominator": 51,
+          "rate": 0.9607843137254902,
+          "wilson95": [
+            0.8678369434463774,
+            0.9891789166471329
+          ]
+        },
+        "recall": {
+          "numerator": 49,
+          "denominator": 50,
+          "rate": 0.98,
+          "wilson95": [
+            0.8950455641036219,
+            0.9964607407283539
+          ]
+        },
+        "false_positive_rate": {
+          "numerator": 2,
+          "denominator": 50,
+          "rate": 0.04,
+          "wilson95": [
+            0.011038884327619805,
+            0.1346009068750702
+          ]
+        }
+      },
+      "provider_success_warnings": {
+        "n": 100,
+        "tp": 49,
+        "fp": 2,
+        "tn": 48,
+        "fn": 1,
+        "precision": {
+          "numerator": 49,
+          "denominator": 51,
+          "rate": 0.9607843137254902,
+          "wilson95": [
+            0.8678369434463774,
+            0.9891789166471329
+          ]
+        },
+        "recall": {
+          "numerator": 49,
+          "denominator": 50,
+          "rate": 0.98,
+          "wilson95": [
+            0.8950455641036219,
+            0.9964607407283539
+          ]
+        },
+        "false_positive_rate": {
+          "numerator": 2,
+          "denominator": 50,
+          "rate": 0.04,
+          "wilson95": [
+            0.011038884327619805,
+            0.1346009068750702
+          ]
+        }
+      },
+      "complete_only_warnings": {
+        "n": 0,
+        "tp": 0,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0,
+        "precision": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null,
+          "wilson95": null
+        },
+        "recall": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null,
+          "wilson95": null
+        },
+        "false_positive_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null,
+          "wilson95": null
+        }
+      },
+      "completion_coverage": {
+        "numerator": 0,
+        "denominator": 100,
+        "rate": 0.0,
+        "wilson95": [
+          3.469446951953614e-18,
+          0.03699349820698568
+        ]
+      },
+      "provider_success_coverage": {
+        "numerator": 100,
+        "denominator": 100,
+        "rate": 1.0,
+        "wilson95": [
+          0.9630065017930143,
+          1.0
+        ]
+      },
+      "outcomes_by_label": {
+        "phishing": {
+          "n": 50,
+          "warnings": 49,
+          "no_findings": 1,
+          "incomplete": 50,
+          "unfinished_no_findings": 1,
+          "provider_failures": 0
+        },
+        "legit": {
+          "n": 50,
+          "warnings": 2,
+          "no_findings": 48,
+          "incomplete": 50,
+          "unfinished_no_findings": 48,
+          "provider_failures": 0
+        },
+        "ambiguous": {
+          "n": 0,
+          "warnings": 0,
+          "no_findings": 0,
+          "incomplete": 0,
+          "unfinished_no_findings": 0,
+          "provider_failures": 0
+        }
+      },
+      "model_calls": 100,
+      "corrections": 0,
+      "latency_ms_median": 1812,
+      "latency_ms_max": 5516
+    }
+  },
+  "rows": {
+    "gmail": [
+      {
+        "id": "legit-002",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2811
+      },
+      {
+        "id": "legit-004",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3250
+      },
+      {
+        "id": "legit-006",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2781
+      },
+      {
+        "id": "legit-008",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1500
+      },
+      {
+        "id": "legit-010",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1672
+      },
+      {
+        "id": "legit-012",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1391
+      },
+      {
+        "id": "legit-014",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1953
+      },
+      {
+        "id": "legit-016",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1781
+      },
+      {
+        "id": "legit-018",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1687
+      },
+      {
+        "id": "legit-020",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2281
+      },
+      {
+        "id": "legit-022",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2328
+      },
+      {
+        "id": "legit-024",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1812
+      },
+      {
+        "id": "legit-026",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3389
+      },
+      {
+        "id": "legit-028",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "sender_impersonation",
+            "quote": "Enable 2FA to secure your account. Visit settings to set it up.",
+            "explanation": "The sender uses a generic email address (security@gmail.com) that doesn't match official company domains, which is a common phishing tactic to mimic legitimate security alerts."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2827
+      },
+      {
+        "id": "legit-030",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1593
+      },
+      {
+        "id": "legit-032",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1641
+      },
+      {
+        "id": "legit-034",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2906
+      },
+      {
+        "id": "legit-036",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2938
+      },
+      {
+        "id": "legit-038",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1546
+      },
+      {
+        "id": "legit-040",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1500
+      },
+      {
+        "id": "legit-042",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1827
+      },
+      {
+        "id": "legit-044",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "today",
+            "explanation": "Words like \u201ctoday\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          }
+        ],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "Only pressure words were found in the visible text (such as \"urgent\" or \"today\"), with no request to pay, sign in, open a file or send data. They are listed as notes, not warning signs.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3078
+      },
+      {
+        "id": "legit-046",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3812
+      },
+      {
+        "id": "legit-048",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 30,
+        "n_findings": 1,
+        "categories": [
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "google-drive.com",
+            "explanation": "\u201cgoogle-drive.com\u201d is not \u201cgoogle.com\u201d. It wraps the real name \u201cgoogle\u201d inside a different domain. Criminals register domains like this so a quick glance reads as Google."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2016
+      },
+      {
+        "id": "legit-050",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1687
+      },
+      {
+        "id": "legit-052",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1406
+      },
+      {
+        "id": "legit-054",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1733
+      },
+      {
+        "id": "legit-056",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1313
+      },
+      {
+        "id": "legit-058",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1327
+      },
+      {
+        "id": "legit-060",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1640
+      },
+      {
+        "id": "legit-062",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1641
+      },
+      {
+        "id": "legit-064",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1485
+      },
+      {
+        "id": "legit-066",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1875
+      },
+      {
+        "id": "legit-068",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2312
+      },
+      {
+        "id": "legit-070",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1844
+      },
+      {
+        "id": "legit-072",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1687
+      },
+      {
+        "id": "legit-074",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1515
+      },
+      {
+        "id": "legit-076",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1281
+      },
+      {
+        "id": "legit-078",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 1,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "Today",
+            "explanation": "Words like \u201cToday\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          }
+        ],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "The AI pointed to 1 piece(s) of text that are not in this email. Those claims were discarded; verify this email manually.",
+          "Only pressure words were found in the visible text (such as \"urgent\" or \"today\"), with no request to pay, sign in, open a file or send data. They are listed as notes, not warning signs.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2796
+      },
+      {
+        "id": "legit-080",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1203
+      },
+      {
+        "id": "legit-082",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1516
+      },
+      {
+        "id": "legit-084",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2391
+      },
+      {
+        "id": "legit-086",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2343
+      },
+      {
+        "id": "legit-088",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1562
+      },
+      {
+        "id": "legit-090",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1093
+      },
+      {
+        "id": "legit-092",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2093
+      },
+      {
+        "id": "legit-094",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1296
+      },
+      {
+        "id": "legit-096",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2093
+      },
+      {
+        "id": "legit-098",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1514
+      },
+      {
+        "id": "legit-100",
+        "label": "legit",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1812
+      },
+      {
+        "id": "phish-0002",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 24,
+        "n_findings": 3,
+        "categories": [
+          "risky_attachment",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "Overdue",
+            "explanation": "Words like \u201cOverdue\u201d, \u201coverdue\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          },
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "overdue",
+            "explanation": "Words like \u201cOverdue\u201d, \u201coverdue\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          },
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "Download invoice here: [attachment: invoice.exe]",
+            "explanation": "The attachment is a .exe file, which is a common format for malicious software. Executable files can harm systems without user knowledge."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2281
+      },
+      {
+        "id": "phish-0004",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Submit details at: https://irs-gov-refund.org",
+            "explanation": "The link mimics the official IRS website but uses a fake domain name to trick users into sharing sensitive data."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1875
+      },
+      {
+        "id": "phish-0006",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 38,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "facebook-notify.com",
+            "explanation": "\u201cfacebook-notify.com\u201d is not \u201cfacebook.com\u201d. It wraps the real name \u201cfacebook\u201d inside a different domain. Criminals register domains like this so a quick glance reads as Facebook."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure it: https://fb-security.com",
+            "explanation": "The link's domain 'fb-security.com' is not a trusted Facebook service and mimics a legitimate security page to trick users."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3500
+      },
+      {
+        "id": "phish-0008",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Confirm details: https://healthcare-login.net",
+            "explanation": "The link's domain (healthcare-login.net) does not match the sender's domain (bluecross-plan.com), which is a common phishing tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2218
+      },
+      {
+        "id": "phish-0010",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 38,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "dropbox-service.com",
+            "explanation": "\u201cdropbox-service.com\u201d is not \u201cdropbox.com\u201d. It wraps the real name \u201cdropbox\u201d inside a different domain. Criminals register domains like this so a quick glance reads as Dropbox."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Free up space or upgrade now: https://dropb0x-upgrade.com",
+            "explanation": "The link uses a misspelled domain name ('dropb0x-upgrade.com') designed to mimic Dropbox's real domain, which is a common tactic in phishing attacks."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2343
+      },
+      {
+        "id": "phish-0012",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 38,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "netflix-notify.com",
+            "explanation": "\u201cnetflix-notify.com\u201d is not \u201cnetflix.com\u201d. It wraps the real name \u201cnetflix\u201d inside a different domain. Criminals register domains like this so a quick glance reads as Netflix."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Renew your streaming account now: https://netf1ix-renewal.com",
+            "explanation": "The link uses a domain name that closely resembles Netflix's official domain but is designed to trick users into visiting a fake site."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1983
+      },
+      {
+        "id": "phish-0014",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 1,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "will be disabled",
+            "explanation": "Words like \u201cwill be disabled\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify: https://0utlook-security.com",
+            "explanation": "The link contains a typo ('0utlook' with a zero) and uses a suspicious domain name that mimics Microsoft's security site."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "The AI pointed to 1 piece(s) of text that are not in this email. Those claims were discarded; verify this email manually.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2250
+      },
+      {
+        "id": "phish-0016",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 38,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "paypal-alert.com",
+            "explanation": "\u201cpaypal-alert.com\u201d is not \u201cpaypal.com\u201d. It wraps the real name \u201cpaypal\u201d inside a different domain. Criminals register domains like this so a quick glance reads as PayPal."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure your account: https://paypa1-login.com",
+            "explanation": "The link uses a misspelled domain ('paypa1-login.com') designed to mimic PayPal's official login page, which is a common phishing tactic."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1811
+      },
+      {
+        "id": "phish-0018",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "View details: https://court-notice.org",
+            "explanation": "The link uses a generic domain name that may not be legitimate, and the sender's email address does not match official court contact information."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2641
+      },
+      {
+        "id": "phish-0020",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 24,
+        "n_findings": 3,
+        "categories": [
+          "reply_to_mismatch",
+          "risky_attachment",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "immediately",
+            "explanation": "Words like \u201cimmediately\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          },
+          {
+            "source": "model",
+            "category": "reply_to_mismatch",
+            "quote": "Review: [attachment: policy_update.pdf]",
+            "explanation": "The email lacks a reply-to address, which is unusual for official communications and may indicate a spoofed sender."
+          },
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "Review: [attachment: policy_update.pdf]",
+            "explanation": "Attachments can contain malware or malicious links, especially when paired with urgent language."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3547
+      },
+      {
+        "id": "phish-0022",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "Install now: [attachment: beta_app.apk]",
+            "explanation": "APK files are executable software that can install malware or steal data if from an unknown source. Payroll teams should never download attachments from untrusted emails."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1718
+      },
+      {
+        "id": "phish-0024",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "Urgent",
+            "explanation": "Words like \u201cUrgent\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure now: https://datasecure-alert.com",
+            "explanation": "The link's domain (datasecure-alert.com) is a suspiciously similar name to the sender's domain (data-protect.com), which is a common phishing tactic to trick users into clicking malicious links."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1766
+      },
+      {
+        "id": "phish-0026",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure your files with our free backup: https://c1oud-backup.com",
+            "explanation": "The domain name has a typo ('c1oud-backup.com' instead of 'cloud-backup.com'), which is a common phishing tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2093
+      },
+      {
+        "id": "phish-0028",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Complete our survey for a chance to win: https://survey-rewards.net",
+            "explanation": "The link uses a suspicious domain name that mimics a legitimate reward site but is not verified as safe. Phishing emails often use fake prizes to trick users into clicking malicious links."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2062
+      },
+      {
+        "id": "phish-0030",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 28,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "payment_or_data_request",
+            "quote": "Verify your account",
+            "explanation": "This email asks you to send money, change where pay is deposited, share employee data or skip approval. This is the action that turns a phishing email into a real loss \u2014 it must always be verified through a channel you already trust."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify your account to continue: https://str3am-verify.com",
+            "explanation": "The link's domain name is a deliberate misspelling of a legitimate service (e.g., 'str3am' instead of 'stream'), which is a common tactic to mimic trusted sites and trick users into revealing sensitive information."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2156
+      },
+      {
+        "id": "phish-0032",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify identity: https://secure-id-check.com",
+            "explanation": "The link directs to a suspicious domain that does not match the company's official website or security portal."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3031
+      },
+      {
+        "id": "phish-0034",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Extend your warranty now: https://warranty-extend.net",
+            "explanation": "The link appears to be a fake website designed to steal personal or financial information."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1781
+      },
+      {
+        "id": "phish-0036",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 38,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "linkedin-notify.com",
+            "explanation": "\u201clinkedin-notify.com\u201d is not \u201clinkedin.com\u201d. It wraps the real name \u201clinkedin\u201d inside a different domain. Criminals register domains like this so a quick glance reads as LinkedIn."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Upgrade your account to avoid suspension: https://1inkedin-upgrade.com",
+            "explanation": "The link contains a typo in the domain name (1inkedin instead of linkedin), which is a common phishing tactic to mimic legitimate URLs."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1937
+      },
+      {
+        "id": "phish-0038",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "sender_impersonation",
+            "quote": "Your credit card is locked. Unlock now: https://card-secure.com",
+            "explanation": "The sender pretends to be a legitimate security team, which is a common phishing tactic."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2547
+      },
+      {
+        "id": "phish-0040",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure your account now: https://tw1tter-security.com",
+            "explanation": "The link's domain name is a fake imitation of Twitter's official security site, using a misspelled domain ('tw1tter' instead of 'twitter') to trick users into visiting a malicious site."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2062
+      },
+      {
+        "id": "phish-0042",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Update payment details to release order: https://shop-secure.com",
+            "explanation": "The link claims to update payment details but uses a domain that may mimic a legitimate site."
+          },
+          {
+            "source": "model",
+            "category": "payment_or_data_request",
+            "quote": "Update payment details to release order: https://shop-secure.com",
+            "explanation": "The email requests sensitive payment information through an unverified link, which is a common phishing tactic."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1467
+      },
+      {
+        "id": "phish-0044",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Join our VIP event: https://event-scam.com",
+            "explanation": "The link uses a suspicious domain name ('event-scam.com') that mimics a legitimate event organizer but is likely a phishing site designed to steal information."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1343
+      },
+      {
+        "id": "phish-0046",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 38,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "sender_impersonation",
+            "quote": "amazon-notify.com",
+            "explanation": "\u201camazon-notify.com\u201d is not \u201camazon.com\u201d. It wraps the real name \u201camazon\u201d inside a different domain. Criminals register domains like this so a quick glance reads as Amazon."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify: https://amaz0n-account.com",
+            "explanation": "The link uses a misspelled domain ('amaz0n' instead of 'amazon') and a suspicious subdomain structure, which is a common tactic to mimic legitimate services."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1592
+      },
+      {
+        "id": "phish-0048",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "[attachment: maintenance_tool.exe]",
+            "explanation": "The attachment has an .exe file extension, which is executable and could install malware on the user's device."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1516
+      },
+      {
+        "id": "phish-0050",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Get 1TB free storage: https://c1oud-storage.com",
+            "explanation": "The link uses a misspelled domain ('c1oud-storage.com') resembling a legitimate service but is designed to mimic a trusted source."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1657
+      },
+      {
+        "id": "phish-0052",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "risky_attachment",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "urgency_pressure",
+            "quote": "Overdue",
+            "explanation": "Words like \u201cOverdue\u201d are designed to rush you past your normal checks. Real partners can wait 10 minutes for a call-back."
+          },
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "Download your invoice and settle payment: [attachment: invoice.pdf]",
+            "explanation": "Attachments in emails can contain malware or be used to steal sensitive information."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1562
+      },
+      {
+        "id": "phish-0054",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Correct now: https://irs-g0v.com",
+            "explanation": "The link mimics the IRS website but uses a suspicious domain name ('irs-g0v.com' instead of 'irs.gov'), which is a common phishing tactic."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1485
+      },
+      {
+        "id": "phish-0056",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure it: https://faceb00k-security.com",
+            "explanation": "The link domain 'faceb00k-security.com' is a deliberate misspelling of Facebook's official domain, mimicking their name to trick users into phishing sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1514
+      },
+      {
+        "id": "phish-0058",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Renew your plan to avoid cancellation: https://heathcare-plan.com",
+            "explanation": "The link's domain name 'heathcare-plan.com' is misspelled and does not match the sender's email domain 'humana.com', which is a common tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1625
+      },
+      {
+        "id": "phish-0060",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Upgrade your storage now: https://dr0pbox-upgrade.com",
+            "explanation": "The link uses a domain name similar to Dropbox but with a misspelled subdomain ('dr0pbox' instead of 'dropbox'), which is a classic phishing tactic to mimic legitimate services."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1656
+      },
+      {
+        "id": "phish-0062",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Renew your account: https://netf1ix-login.com",
+            "explanation": "The domain name has a deliberate typo ('netf1ix' instead of 'netflix') which is a common phishing tactic to mimic legitimate sites"
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1406
+      },
+      {
+        "id": "phish-0064",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "urgency_pressure"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify your email to avoid deactivation: https://0utlook-verify.com",
+            "explanation": "The link uses a misspelled domain ('0utlook-verify.com') that mimics Microsoft's official domain but is clearly fake."
+          },
+          {
+            "source": "model",
+            "category": "urgency_pressure",
+            "quote": "Verify your email to avoid deactivation",
+            "explanation": "The email creates urgency by threatening account deactivation if action isn't taken immediately."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2436
+      },
+      {
+        "id": "phish-0066",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure your account: https://paypa1-secure.com",
+            "explanation": "The link's domain name is misspelled (paypa1-secure.com vs. paypal.com) and uses a number instead of the letter 'l', which is a common phishing tactic."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1453
+      },
+      {
+        "id": "phish-0068",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "View your legal notice: https://court-documents.org",
+            "explanation": "The link may mimic a legitimate court document portal but could redirect to a phishing site. Always verify links through official channels."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 3125
+      },
+      {
+        "id": "phish-0070",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": false,
+        "score": 0,
+        "n_findings": 0,
+        "categories": [],
+        "must_flag_missing": [],
+        "model_findings": 0,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2296
+      },
+      {
+        "id": "phish-0072",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "Join our beta test: [attachment: beta_app.exe]",
+            "explanation": "Downloading an .exe file from an unverified source is risky as it could contain malware. Payroll teams rarely handle beta software requests."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1610
+      },
+      {
+        "id": "phish-0074",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure your data: https://datasecure-alert.com",
+            "explanation": "The link's domain name is nearly identical to the sender's email domain, which is a common phishing tactic to mimic legitimate security alerts."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1500
+      },
+      {
+        "id": "phish-0076",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Get free backup: https://c1oud-backup.com",
+            "explanation": "The domain name has a typo ('c1oud' instead of 'cloud'), which is a common phishing tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1297
+      },
+      {
+        "id": "phish-0078",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Enter our travel giveaway: https://travel-prize.com",
+            "explanation": "The link mimics a legitimate contest but could direct to a malicious site to steal information."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1532
+      },
+      {
+        "id": "phish-0080",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 28,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "payment_or_data_request"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "rules",
+            "category": "payment_or_data_request",
+            "quote": "Verify your account",
+            "explanation": "This email asks you to send money, change where pay is deposited, share employee data or skip approval. This is the action that turns a phishing email into a real loss \u2014 it must always be verified through a channel you already trust."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify your account: https://str3am-verify.com",
+            "explanation": "The link's domain name is a deliberate misspelling of 'streamnow.com' (str3am-verify.com), a common phishing tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1717
+      },
+      {
+        "id": "phish-0082",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "stop",
+        "flagged": true,
+        "score": 16,
+        "n_findings": 2,
+        "categories": [
+          "deceptive_link",
+          "sender_impersonation"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 2,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "sender_impersonation",
+            "quote": "Verify identity now: https://secure-id.com",
+            "explanation": "The sender uses a generic 'security@gmail.com' address, which is commonly impersonated in phishing emails."
+          },
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Verify identity now: https://secure-id.com",
+            "explanation": "The link appears legitimate but could redirect to a fake site to steal credentials."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1688
+      },
+      {
+        "id": "phish-0084",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Extend warranty now: https://warranty-plan.com",
+            "explanation": "The link's domain (warranty-plan.com) doesn't match the sender's email domain (warrantypro.com), which is a common tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1608
+      },
+      {
+        "id": "phish-0086",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Upgrade now: https://1inkedin-upgrade.com",
+            "explanation": "The link's domain name is misspelled and does not match LinkedIn's official website, which is a clear sign of a phishing attempt."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1812
+      },
+      {
+        "id": "phish-0088",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "reply_to_mismatch"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "reply_to_mismatch",
+            "quote": "Unlock your card: https://visa-secure.com",
+            "explanation": "The email claims to be from Visa security but has no reply address, making it hard to verify legitimacy. Phishing emails often omit a reply-to field to hide their true origin."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2936
+      },
+      {
+        "id": "phish-0090",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Secure now: https://tw1tter-security.com",
+            "explanation": "The link's domain name is a deliberate misspelling of Twitter's official security site, which is a common phishing tactic to trick users into visiting fake pages."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1812
+      },
+      {
+        "id": "phish-0092",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 1,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Update payment: https://shop-secure.com",
+            "explanation": "The link domain 'shop-secure.com' is not Shopify's official domain, which is a common phishing tactic to mimic trusted sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "The AI pointed to 1 piece(s) of text that are not in this email. Those claims were discarded; verify this email manually.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 4515
+      },
+      {
+        "id": "phish-0094",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Join our event: https://vip-event.com",
+            "explanation": "The link appears to be a direct invitation but lacks verification of its legitimacy. Payroll teams should not click links for event invitations unless confirmed through official channels."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 5516
+      },
+      {
+        "id": "phish-0096",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Review account: https://amaz0n-verify.com",
+            "explanation": "The link uses a misspelled domain ('amaz0n-verify.com' vs. official 'amazon.com') to mimic a legitimate site."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 1953
+      },
+      {
+        "id": "phish-0098",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "risky_attachment"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "risky_attachment",
+            "quote": "Run maintenance tool: [attachment: tool.exe]",
+            "explanation": "The email includes an executable file attachment (.exe), which is a common vector for malware. Executable files can harm systems without user knowledge."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2453
+      },
+      {
+        "id": "phish-0100",
+        "label": "phishing",
+        "assessment": "insufficient_evidence",
+        "verdict": "verify",
+        "flagged": true,
+        "score": 8,
+        "n_findings": 1,
+        "categories": [
+          "deceptive_link"
+        ],
+        "must_flag_missing": [],
+        "model_findings": 1,
+        "model_discarded": 0,
+        "model": "tinker:Qwen/Qwen3-8B",
+        "analysis_complete": false,
+        "provider_success": true,
+        "model_calls": 1,
+        "corrections": 0,
+        "findings": [
+          {
+            "source": "model",
+            "category": "deceptive_link",
+            "quote": "Get 1TB free: https://c1oud-storage.com",
+            "explanation": "The link's domain (c1oud-storage.com) is similar to the sender's domain (cloudfree.com) but has a typo, which is a common phishing tactic to mimic legitimate sites."
+          }
+        ],
+        "notes": [],
+        "limitations": [
+          "Displayed sender details do not establish sender authenticity.",
+          "No Authentication-Results provided; SPF/DKIM/DMARC were not evaluated.",
+          "Gmail view omits raw authentication headers, Reply-To and attachment contents; only visible message content is evaluated.",
+          "The email extraction is partial; unextracted content was not checked.",
+          "No warning signs found does not mean the email is safe."
+        ],
+        "ms": 2141
+      }
+    ]
+  },
+  "provenance": {
+    "git_revision": "d08fe1bd1d7a3887922aa753bc2fa5945342ed86",
+    "model": "tinker:Qwen/Qwen3-8B",
+    "views": [
+      "gmail"
+    ],
+    "source_hashes": {
+      "app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/analyze.py": "220b3bce5050131faa27c2ed091ff3d97d19ab1aec85724f238540072418939a",
+      "app/challenge.py": "c6287ae31d47818fbbf53334e0065c34b3d86a914a78273d0944e8c2ff408fc3",
+      "app/config.py": "aa90131913745b17c1acb8cf2eee7d2ed1288845bd6118747e9b12635e9ba48f",
+      "app/evidence.py": "c7909ffbeb9cc733532d723b56b6bd29d9fba883e1ca1188a2962eccbb8ec11b",
+      "app/llm.py": "5322e678135b1f1b0f867f9b72f84faad9eeede5a3d73300f9bac58a98dd500d",
+      "app/prompts.py": "73f0aa27331b20c63630b1d74755a6217bc771901c618e0fbf51ef884ee42af4",
+      "app/schemas.py": "739fefa340427623770d9cd503e60067da19c58f17a8a241e68e05aef479dbe7",
+      "app/tools/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/tools/extra_links.py": "f641ba9f03cf4e975fe54f296d6e2aaee99a9c8637d6cd9b891386bd35af7bb4",
+      "app/tools/lookup.py": "77229b49e54f4a7bdfd86967cbeebf0891a979387ebb6e1dee0b9b8885c2c925",
+      "app/tools/payroll_checks.py": "0287894de441c0b51dd1d3ef11d718b947de94e79f9dbac23101c3372407e5f5",
+      "app/triage.py": "bd8c514dba5f454de709c1513cc5118baac4fc86c50b4972b77ce72e3bfee043",
+      "data/policies.json": "2f9bd592e14cbe52b84e372c97f303b8f7a62007878920742d69f0f5178b3257",
+      "eval/run_eval.py": "e0f8d6fb707628a4816882148ca8b90d8400f1f724a9884ec08e5defb4cc1137",
+      "phishhook/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "phishhook/directory.json": "2dfa96bdcf4f274ca905f931721f656276e00c4045ef0384779943a71353c6fb",
+      "phishhook/drill_bank.json": "4752328a9c2bd8496724539b0b76dca4ca3191cd61aebe506abe47edd945414b",
+      "phishhook/engine.py": "16f3fa0180d9c10a59cdbb844632e34dd4b5178edd28cee06d81d3f81c441db7"
+    },
+    "fixture_hashes": {
+      "legit-001": "e6302847c3232e36fe2fd2b1dc6a4e3a01084fd500051629a0dfaba4b280c356",
+      "legit-002": "b6bedc5bebab7a4894203bcae3aa99c0881fe5221378e56dbe50bd2116e8335c",
+      "legit-003": "4befed04037026651087c74b4cf04c1020ad64cc96f9adbbf67f3de68388befe",
+      "legit-004": "39c9354562054ffcc9b094ae2ef2a747ef09388fa86fa5782dffed399adb56df",
+      "legit-005": "e22acd020ac7bbfb10cf6554a67656f0584eaeb209fa1d26986318a5a3e1bb7a",
+      "legit-006": "725fdaf532695e535f5f8f54037e0f8f565fc3a059a5d60ce380b230d1e93be8",
+      "legit-007": "6684b60448b5e869955b99c0422752f25dbf1fd5dcd4d7454ec17693bb8a0783",
+      "legit-008": "f0a9cd18e1b9c9f0cec8ae4fd90bbb53005cfacacd1c711f655750351e649ced",
+      "legit-009": "073128baa164b15f09b9a21e14099ff5312cf7134476aa692f37ffaf8c9d20d9",
+      "legit-010": "9e83d7ab01d69bb233da674acf72f8d72e6816a33d9451485617f90ef7e1b748",
+      "legit-011": "b77de095b7be9bbd47030503fe122ce5772191cfd018202006d1de261cb0f215",
+      "legit-012": "52b359c5813d2bc2a3f58044fe5a16a4942f3faaa740cffe833605225b1672e5",
+      "legit-013": "cb9ed8c9acbd487ba348ad04e1c0f83b56e01d35c52367e43f8f6d7001d6efa8",
+      "legit-014": "3ffc4d13233d66bf9e3772461cea1a79508b7a9c1846fb090cf6bd503293cc6b",
+      "legit-015": "c1991409961531a9a22bb50ee3cb973a24d4e806c05b26c06c5e078af642c24f",
+      "legit-016": "0a1b796e3c19f974c47dcbdb8ee682c9a1814dded8a6ba3b4a5de185e4f28079",
+      "legit-017": "49dac55f56a56829de3f5997f95ff34c4ea9aa75586a1d8775f1fb1910d0e8f5",
+      "legit-018": "a581465444aed561333d64dd683c217a44678b16aa36d18f375b88ccb393ed3e",
+      "legit-019": "0732dd5c85b8c97af0f35ef1bf680aad9a376bf8970f23e5116906b393b8df2f",
+      "legit-020": "3f7e428f2e3309274381701a435dd378064c221b9fd25c6e68c7ebca0b265856",
+      "legit-021": "983c9f5cb4824033dce1c1c648b7cb41c8d5850b1cac9020cf5feb9d4b8922a3",
+      "legit-022": "64b6d47fbbc05f488233feb86f60c7a09ad978bdb0e8e9313ea268b4575d423b",
+      "legit-023": "3074ac67e4cb4883a4f0a55dd68487dc0293cf712e8c52f0f786aad5d08c218f",
+      "legit-024": "76011a8c959e631d9db9045ef0fd27dcefb6ca937dbb2643538a48732c7dbc98",
+      "legit-025": "4217f4ceb8a361739de25f5999322456c4667bad064f2b569051c2f794c40ce1",
+      "legit-026": "b7e20c38316d56e144a6250bdc6a8ce1ac707a8661b635094454ca432f8f4832",
+      "legit-027": "1b11ed0f65481be3e92f43521838c7731f1094135487a982d002b4cd269839de",
+      "legit-028": "8a235de5455195f45506fed7eb7c17923498be8e7984772b0195e64e889cc492",
+      "legit-029": "e73d669f844930a2413bbe63908ab50331cb07cf6a7c5af95b3d1205f17fe85b",
+      "legit-030": "8fe4b237afbcd58e1f7de80039555a80f8698ab37958bbce11c0e84c5fc96e27",
+      "legit-031": "e3b8362ca3763319e723608093b7a8d4e9c1ca0ce0e3be45a3b6026caccff9c5",
+      "legit-032": "5c32d5a9c912fcf2a4df7cb4f69801a353d8d543bafa0c031f0830b6e672a898",
+      "legit-033": "58fe15c6c8256649240c44971f3ee84841657af3f3508a843883d93595f0788b",
+      "legit-034": "9964d84093a023b23cfe05a836b485e446c621866fe629e764400d47dfcc8d7e",
+      "legit-035": "07dcdaa34cd618679a8995247d25f5565b9b170f2fa9441345ebd0af5ef2cc34",
+      "legit-036": "27b15554bf91e68c5c6c1f4f2fafa00d1c70ae58188a14ecc645231d5f90c6d8",
+      "legit-037": "87b8a3c2a781c1f99e1007fc36fa1a9a3a71cfb8b1afcb67c0b4012304e78724",
+      "legit-038": "8ba123578450e6c236050421dddee38192aced4e1e5f6009651eeccf0cd971a4",
+      "legit-039": "fdbcb48c674cfaed8459f1a4bd9d4b2d3552254c0f42d3b789206f5d58589d4c",
+      "legit-040": "78980becaf70bf4c704d9699d5fdb89edebfad42f150ec98c23e047fcbb99596",
+      "legit-041": "5380ab10b4b380ab6dc9a7c5c263cf951a071a95f97e91e9353b68c9105fd523",
+      "legit-042": "a57b05af5779516ed85cf57c5678ddecdb8af42ebdbc8086abf6369c458c01fd",
+      "legit-043": "03c163627580177cde757ac403b55215fd1ab3dd71756e9dc357bf7095a92202",
+      "legit-044": "05ff378b2e2d8b5396ae323e1f7ebb52869f5570b02a39ab93873fd16a5ccfb7",
+      "legit-045": "35cbad51a3b3960b6db65d7a897c8dbd16050fb645ad7871ca27bb4409ef7a82",
+      "legit-046": "2ce98af9a4257b85382cd1429a1e6c07ed0ee4cd3a81c4ddc33a57e249412308",
+      "legit-047": "e21d0f138b0397a13ba80ae72220f5f43820dade89852b771a1c3c25d5dd8a91",
+      "legit-048": "f1aa22610c2d9819fc90a79e1e859ba4facdbccb774029ec164e677c7951b866",
+      "legit-049": "81b4edb2d0467fb972964e70efc18909ca3d079ea3f9abe27eac45e5767f3091",
+      "legit-050": "3230c65dccc387dcfd44006efff47f877cde6e17a9e99eddd2606eab1904058f",
+      "legit-051": "d2b809656316895b5eb85da5252c2583789d635d055e833f440557ea80764187",
+      "legit-052": "92129cd3263c0ef1f281e63b7f00f4c51f2f91dcfb4d915695e6ff416cf3fc2b",
+      "legit-053": "c6fd6704b48b50b9e39a6d5a8def5594c7ddc60492fb94c2f9646d89f0ff372c",
+      "legit-054": "99b3ac8283e7b9521db755b72a8617f74c650a478f15f68f4c143f67cf4421cf",
+      "legit-055": "676a4d2a960a1d74b874ca53550d9445c85192b779284af2b071f218aee5a8fc",
+      "legit-056": "1e2e0147bbd7f830161c38c064bb4814156bdc89f72b96b55689a54fd50bb882",
+      "legit-057": "f71f71551d177806282daa40be94e86da7d6d6a5becc69de8493c9ddebe8a775",
+      "legit-058": "2b657c5b320809fab5739aa6f883feec53dcbbd44e61a1c01e1084398fea168a",
+      "legit-059": "2a77f0a01000f89999df44fc9f14ee1fe02cd364aea6e82869629d8c48b7777a",
+      "legit-060": "7e052b702ce416977fff881f4854afe222379f447e0a84ea1c6931f45ba08e92",
+      "legit-061": "3fb38c787d325d712d221c3dde448e05f2d03ac4c1bebc2b3e4132b9d335cbcb",
+      "legit-062": "97046f0bde9fb3eecee5909aa86b40da900c0e0bab47c93e4527e92712a1d50c",
+      "legit-063": "6ca0d6dd47c296a802f8831910b9d699b5a6228dcee4897037a9088ee067d2bd",
+      "legit-064": "9689dab82d81d6ac5b6c72df12fd61b5429e6496d3a4a8e07e02a7952d102361",
+      "legit-065": "025d9223b0290e91a2ed7b6dcc91aedaa0beb8ce15e6026c57821091d56c27ba",
+      "legit-066": "347340e759c20c0edbe67dec34c74e81ba4453185f1d356ee479d0b0cee3064b",
+      "legit-067": "5af9083e0313e751457e4d4433022aff221d8acbb35a2194af636aa0e24f4b84",
+      "legit-068": "9230f1a7019cbbe7d6fc7da9be1c47334c9713ded0b1573c5a233f599b67ebf4",
+      "legit-069": "4637d0f5769bf18c954e095941a2d4eeca302aa1033e9e754acc8b3ee5d5dedf",
+      "legit-070": "f47dd303ab5a19ce64700d574392229af01ae54a100717d781ddf2131475e6f7",
+      "legit-071": "a02252b71ef1ef4bb7ed83d1a419c473a1cac964be2c8c5242bb0bd063a7bc24",
+      "legit-072": "37b70705147aa849f4ba41ea351a8ab0db49389605ea20cf4caccebf637f8aba",
+      "legit-073": "6434bf73503cbbd5cff3be41347331b3fc3b473dc94a53cf55353cae0da0ef71",
+      "legit-074": "87d2a95c993129e202064a44fe0b82ae0cf9263ccfbb82373d600a1900a59cdd",
+      "legit-075": "cfca50672f4dfaf15d440425702f59126f2ac4bfbbf9330741354ea12dab9cce",
+      "legit-076": "ab60238c61ec78803704154833f1a85337f11a5be5660e5ebd96f2456a6e204a",
+      "legit-077": "06d44d8a1d9740d9dbddcba9ce14a69535f21b21dec41830d9e4271a7b737639",
+      "legit-078": "41f21c48229e9f87a59fc637697e21eda517941a0234db18c3c8dc6a8a9926c3",
+      "legit-079": "8e0f64313386c1050a07272785844aee3ce66868865715b612d2ff18f203ce4b",
+      "legit-080": "a655cdd1cfc8d758b0785d939764ded7be671661628e92cdcdac6760a4b79bc0",
+      "legit-081": "dc5b9e6fe40c72936662646ce76b1470209d601c3310a13f6bffb7a3385c186c",
+      "legit-082": "381a411bfdc5c94812acd20ce80cdae00fa0b28f40f862a403f9f3f09ea01791",
+      "legit-083": "a9c3a4bbccfdd0932c928e176f0362a3129024b26a1c33ad56ddea8381ff46d4",
+      "legit-084": "f5f88bbf0c252715ead55fec8b49ec5b22c10a211095cc07e9ed3dbbfd3ec38d",
+      "legit-085": "52498db84000f96abffe8db672468428fc712bf3b14200dfef47fd70926e3efd",
+      "legit-086": "f0958a0352220ec971db483526c9d81c36399b3891a648cbfefaedd9f058c4cc",
+      "legit-087": "ddf7615ce6a68c9cf274ae47cf63c3a70d6c3189f4888c86f4b711f7a1984271",
+      "legit-088": "768ef9ccd3d97baa1ce1ef6552181f18615bd896f6121234cb55f2c3606c5f96",
+      "legit-089": "4ef6719d68fb49ca83f0840c8627f60d0488d6cddc931b84be93da3f22adcc36",
+      "legit-090": "52a6a68b11cbb6cb809c118795d5b27c9da0ac289e810a21c358f376c2e04f94",
+      "legit-091": "b4adb15c4d303ccc97d738f4b80057c6ebc008034a59cc7fc8e7cab957528bed",
+      "legit-092": "500a5605b31b5e592ce7d2ec9a8114e5c0d0d1cfbe5024b76a6bd670c1d78276",
+      "legit-093": "6d8dfda0a2570b2f87cff5994d85d9b8d1051aaab259d5677c931702770cda21",
+      "legit-094": "8f3d03f36c9f080a9b08662315d1efbe732fa0838b3c47b639cc7cdc7dd1ab06",
+      "legit-095": "207bc671f1829929e4d15846952a7b641cee527a813d201b1e37109a19636843",
+      "legit-096": "f8b502a1ba932f27993d286b4b8b8ca691d30918447e093461b0ae7767de0c09",
+      "legit-097": "805658e5c7d41acda70eb888f124e25ea9b1d6d42ea993c9c1d57c674ebc6f94",
+      "legit-098": "08b28441ef1893ab306fafb41db21f19e05e71bc304f950d948c2cf63e6df615",
+      "legit-099": "91da1b260f250341b98ecb9fb78441fd3184b1a27020aee5ecb1e22a4f8ca772",
+      "legit-100": "efd04b6a7a7e61666d7e19a8ca7f351ba710c20764d3b08e377cee42dbbde4c5",
+      "phish-0001": "31bbffaf44920a7ec1ae3797e84084d9e8e6dadf4f68bd95a1a61b672eca7955",
+      "phish-0002": "9529211270abd8354ddab24c711dc1b6f96140739a18d252c4fa8488456ac0ed",
+      "phish-0003": "2afc7424b4dbe9b4bad3c83ecd895578750527d3ac89edb3122f6a71bf910112",
+      "phish-0004": "9233f0e01606efe8b0ae5bece1d78e29c7b085666142dd16624b387ff965cc28",
+      "phish-0005": "fe0d8d9a96ffbf211365f47658d590dd91aea1728833d54130cc21143a0cf7e5",
+      "phish-0006": "09e36677c0d4fbfbf791b8d0c2328801518cf0d741d7cdf44b555034b80e771d",
+      "phish-0007": "23fd59172fa093c80192fa4b5caa47f87179181d58e1f3391e8c2f4f8184af8e",
+      "phish-0008": "f96e65dc26775578e0cd9e10edeead4da685584ee7215f7771f3c20e892321d3",
+      "phish-0009": "3df91a1a886fa2e3bb0f64fab09312b2c2859694ecbe4dc8e5f2fd63eac1ed74",
+      "phish-0010": "d4ddf3fe013def814ddb11d9ae69c3ecb2df8e8e17f130ad860e868d04c8e913",
+      "phish-0011": "e29c8c18d319b9efc3a8e36dd7a28ae2d54971f41170683a0028a90bfc248907",
+      "phish-0012": "bfcc52d9aa789fec19c513398cf707780386d46726789dc96d7f603f6da6f8a8",
+      "phish-0013": "2bd5e3ebc29f3a7d8cfcac64190f3be1c9d6cdba98ac2e6ae05da941de65103f",
+      "phish-0014": "da80955900a16d2db5db8d868478dfb3d3a306dce3e1bbf0cf8abaf6c122b754",
+      "phish-0015": "1b02eb344233767d335c3375dd19be01828b4ab8a4706563ab8d91d5b47c0907",
+      "phish-0016": "c70dea2f708bf92e741b50c56a9efd7ee4867fc1d550007f0e8f86103837f59c",
+      "phish-0017": "f0a56404c2837fef09f3b31c8a70aee611fe02e77c7bf78140c9eefb0934568d",
+      "phish-0018": "637db01aa12ab1dae7b384a0c6981736b8a2c854ec029e932c90da6b13aeb7de",
+      "phish-0019": "555dc6ec34eebedcf6a62894b1bed4ab5c326d662206d8ccb5591c4bfc6ae724",
+      "phish-0020": "337a7e8b5a1599554320e5232354fe828577451b88557ac9256ccc53d760927e",
+      "phish-0021": "1236210d2db21f552a48c1667185ad0802d9d8aa893a3d36362589627548d099",
+      "phish-0022": "6b983248fdd6f67171a4666df47422da30359f6f0a022f3632b3121a42050abf",
+      "phish-0023": "9a3082cccb61ffa2fd25f2861f74b404ce78488db609f814afd61c129e9d7016",
+      "phish-0024": "3182eae45bce9dd893d23e0257cfddd897a6dc2422288c8871c9b7320140183d",
+      "phish-0025": "6a58b462de96fca14e6617fc1735b0c1883a0dfd5878bce3542c96468c0321a8",
+      "phish-0026": "f04f7a66e1b59309b533b1e1dcadb3fa3b981974717d49eb94c14d4c081b59e6",
+      "phish-0027": "cb71e4c9f22ce01b8ee4cc87977af9b7ebf2e4fb67ac711554de355de2eb4c9c",
+      "phish-0028": "669fd0f82103296944dc4c5aca0d265a2f2e1d4800b0de3e6aa7434c4afda3ee",
+      "phish-0029": "48efaf443252a409fc7b38374b2f7d8db113f2e1fc358f21232724c408ee11ce",
+      "phish-0030": "87110718306ba0ed2fa07d6a83824c4cf6d8bccbff9b24dee0b358854faa348e",
+      "phish-0031": "379f46ecdb7691641209e8f93c259392c5db187e488bdf10d2bcbc4126a83d1d",
+      "phish-0032": "c6df849c6f9cbbb83fa6b2e23c24784a641898c036a081f79fe151e32af95020",
+      "phish-0033": "6bdb17062faef50bad144dcc1ebc3f3c55825b001d497113876d91959d52fdae",
+      "phish-0034": "230b826a2399853065b89b2bd1a94fe484e434ee59a3b3d670cc5ae9c6b90af3",
+      "phish-0035": "abeb144d053472dad67b8b3855d36e04d5866edd6839099d50b092759549b0d7",
+      "phish-0036": "bf4638535f790c8c30d74e7d790aaa4e3f58d754e4e677e70c579e384ea33243",
+      "phish-0037": "271e1cecbb9b2c48917bb6f6b500e6dc7d92c37786bda304636907cc5e3c7e2f",
+      "phish-0038": "8f1c3b93023ff6ccf435d5517783daec5b1ee852745395b3bbeb89afeca7eafa",
+      "phish-0039": "b64487f8b7df5db6af2df035e91d96521c02df9233fc2d93edb393d954a0115b",
+      "phish-0040": "c56be417a91888e2d48e14be875bb1d5fd4aeab18f76fd64181a7fea51c7ba60",
+      "phish-0041": "57b7202c9b7b3763fbcdc8d8260e0459421c49004f20c3ec4ea8c01640682aa5",
+      "phish-0042": "a4ee9561584da176e2d905ef2e13549eff44fceffe6b6b2642e31c38d8e95fec",
+      "phish-0043": "7318caf575799e6185dac08d49422d5a319535eff69a8f69c0e9ec8310d3e35b",
+      "phish-0044": "ac3bded6f26f43e262ee5bc367b35235fa1e1ce1f270b409c5eff65dc523acbd",
+      "phish-0045": "0e0e0ee76194b44d4e52154ef3d7fcde314dd78a7448878a5e315eaa0cf3c9e0",
+      "phish-0046": "85815abf22b9426260f3632717e81f5893d5941a8f266eb12c8c62aa95ea4498",
+      "phish-0047": "e30e36a18239a5ad23a5e25d4315474d686ba4c6eef99b95793ac07607ce5aec",
+      "phish-0048": "2958800cb9099903831913aa7b1084aaaad8994ee3f6f93bb171e9089e3d82d0",
+      "phish-0049": "7e64c9ce242ba088a0bfc9d16f0e0c33ff75f22b79a3a79b7f5b64c22fcf2d4a",
+      "phish-0050": "7ac4421a840e6e0fb8b1426ec1c672260af75080ac30a79ff11bd87991342325",
+      "phish-0051": "fd7329d9c32f1391f3ca45bf6ea5999529c5bc123284cbc338c922232b885966",
+      "phish-0052": "35dfd910fa3866359e18729af2be933d93d92001086c60f3dc78140705055a4d",
+      "phish-0053": "37c475ddf715b948927e990e0f52452ee5f00a80ccbf732ca0baffbd8e4c37a6",
+      "phish-0054": "0f2375c1294b497864b1893993dfa42a85096d1115c83c3a01e1d6f0eafe9817",
+      "phish-0055": "a3846949e14aa98ff05fe58a93017ebc3f49efb9e46922fcb4478c3e46529cff",
+      "phish-0056": "263f790888a715a123d5dde621a0a18b9a278f23dadc211558e34bcc11766906",
+      "phish-0057": "8228fd249ce149b66e529926f5dcb91318f637b23771da4c2869cec8fe59aaf9",
+      "phish-0058": "5c6da301634f1d4496840b1d8fc26a63fbfb5cdcdba2fd6d1f07a5d98158956b",
+      "phish-0059": "fd3e65afddc7ec977644a3fe620f54c5adc11a9ed9ccb081f2e34dc8d0fdfd19",
+      "phish-0060": "70955cb1fcf08a414882901cc4270af86744dccffba0ea90fb0e599af2e4f845",
+      "phish-0061": "a70e28bba4b8f8084c7a9022e5191010b98d35f9b6f731ac2fc56e5a887c1be0",
+      "phish-0062": "d99494bdb37ab6be7b56d88b24f723f4244f0f7c9b1f80370904f30a834798cc",
+      "phish-0063": "2b4bb15a02740d4defe6527fa7ef1a3b0d3d954d2b62751b294748d7cf4c451e",
+      "phish-0064": "ea62897bf006ee7828f51b75a642bd9a7756a18feb62f0cffa0836445609ee8d",
+      "phish-0065": "46acc20a0c6f776351a49ccb6a748285af36cef656631e06e4e56f69a730ee8b",
+      "phish-0066": "14696aad65d2511edef12605d6f6db2e5b98c8df0033c875738284e0b9b4a50f",
+      "phish-0067": "a75f461177d2540fb22c161289a21f18ad0f160884f85015d4f75ad3c2f28b3c",
+      "phish-0068": "323a86e25f35d30b98049fb26d887ea07187f05b7288f4d10089d152ca59e2fe",
+      "phish-0069": "a944cf1e1d441fe80c512ae2f6ceaba9871730753023b7d8d17411b7085673c7",
+      "phish-0070": "c317e78dec5ad58b4c94adffb8bc89b1a227cf9025bf3fa5e0a5a0ff8e6927c1",
+      "phish-0071": "4d614954727c15682e39ca5dd77fbb249e1822bd729fb0119472bd80a58719af",
+      "phish-0072": "bc7b6058625b35f5a3bec2dbb9bdfb42824b429de0edb810723b06ffc71f97ab",
+      "phish-0073": "b2555dd3be85272f6bec0ca8401a7d9e71c1a7c778df687697f474f2a140051f",
+      "phish-0074": "e0a6c7ff1ef90d8e569d51facfc0324f9dd59e2c6cb80650ac620b804963f33b",
+      "phish-0075": "9fdcc5c1c8d06f0512e4d1a4f2e1a92af605c4c085b32119611003e6882307e7",
+      "phish-0076": "6caeee5e97b86be129db4dab395f3e2b805d06ce18638312890bce5280235124",
+      "phish-0077": "fc730f5f3bbd2d10b5a3b52a6122387ea3e08d707d9809e53e7fa390769e7087",
+      "phish-0078": "368859c46b3fb611b1453e662cfe91c3c45d04ffa3b0f30d768962fa677894d9",
+      "phish-0079": "df00d0e84ac56f0ee5957aca620b2d106638d0439839f96fcde2f009c98427b8",
+      "phish-0080": "36c6a35b74e213f6d6d3c5327b86afa587ce3fb8b5bfd6f41dc66fada7662c82",
+      "phish-0081": "cd15e0b82c671eec2180f42dec7b8412b6089b64a741e34a8d324b40c713575f",
+      "phish-0082": "db6a4592c6f7cfdc7d31124a6aabe71165f986fde95afec92f0c141f5959add0",
+      "phish-0083": "74a8937e9a90bca7258f661ade267bb199107995063b0e3683584d4d6c802e63",
+      "phish-0084": "1c292628a3d3393f9836ef8d4db2ea37c93738603600aaf64b5b19ace15997ac",
+      "phish-0085": "926bb0eb04f8f508e1edf3d5c1d1d74823555a3b73e66dc8846fbb05293b2032",
+      "phish-0086": "d89203982ecad75053eedf9b40d3079bd8b9578754ba39fea8ac99cbfae8dc23",
+      "phish-0087": "05970eafa6cfae3f14a9fc27698ca36e3ce8c0568deed47cf32db250c669b26b",
+      "phish-0088": "0103fa202d10f74f94a1e9bcb1d8d6628802e78f897b04c952e64553f137a13d",
+      "phish-0089": "57bc7044a208ffafde92f3c47016c410a53a7d74c999ccedcbcf1134ec2ab34a",
+      "phish-0090": "2abffa1d391cd369e175269b7a2b1c3fed30b52888815ee9957442a572e08452",
+      "phish-0091": "cdd4ca176ce2bca6507ba92a6bd1be2d484922b4cd1ba23a8df2d251c3da178e",
+      "phish-0092": "7d773035d492d5f4774368c32be3501b708b568331617e44151ce6ae7c63a6db",
+      "phish-0093": "e96067922a6aa154d71f3558211987d747ddd1674b42acc056a0b61d3dad4c51",
+      "phish-0094": "830a5f84712ed8f2f4e5ab03809d0459c657a06ef7fbcc0db107ce605811fb3c",
+      "phish-0095": "a2267cae85f667df108af4ddbf1f89383469d44e2b34a709791b5f83a1c8d843",
+      "phish-0096": "18a9db6132435de7283ed1cf1ee93a69bf6b152e861e5f41f166ebf1d13b6ec5",
+      "phish-0097": "190a68e5bd087e883cc3043d3a63ec02ed341b9e0116a11348516bc629bfd253",
+      "phish-0098": "b2df2162f5b6de860f88fb3c2614bb6f687a6cbbb2b398345adfab019f7417ec",
+      "phish-0099": "01e436efa19ba767ef25392cdf0c0e4d4046e35262aa3474dc8017c987b145eb",
+      "phish-0100": "df259aefb28738d22482483037003406c7702e67911213666e71c3ba7face85e"
+    },
+    "input_hashes": {
+      "gmail/legit-002": "2a7ec502fde17467c76e4f62f5158fd7e3f2b3352b8287f6a4044109a2f5f977",
+      "gmail/legit-004": "cc89ea1a7b55ecce8594f13e7b0972e919092b1fb789b3f95bb15f94b0cfb94e",
+      "gmail/legit-006": "e31c82dae54c770081315da5bad8dac17edeb3573efcafb1d872e0c529de6abb",
+      "gmail/legit-008": "b1e12a49ac48005c5708942388c491f73d4c8268973052913738ecb1714b4b41",
+      "gmail/legit-010": "476ef13fa4698d36a2ea26b1e7aacb881a004ab5d8278f776de841745ff93418",
+      "gmail/legit-012": "5f3d177bfd395bf4f22f9d4f0a8f3e6b4a87c66de7d31f7852acf09914265fdd",
+      "gmail/legit-014": "b3dd06c1ee6c6d0f796433f1b7bd42a4054422c33a5e6297d6459e78bb32ec9d",
+      "gmail/legit-016": "920eb7c79f7844ac4b74c9c87cddc53e5184faa6cf880f889b0bc814ed58f438",
+      "gmail/legit-018": "20e053dd54cfdebe3135afa891dbc7dbbe69f33778532b3690579f36ed924cfd",
+      "gmail/legit-020": "d2a9f9eec251e375e46adea543eed7d824ff6b58912544d6d4f21254ac2591c0",
+      "gmail/legit-022": "3f81d7108b1b7033728084c9a5912a44a52a766913453457f439adc6b41c72fb",
+      "gmail/legit-024": "64f9f523fe97696bec14ff018f115d09f8ef90d1cb623a851e6daf7259cbff07",
+      "gmail/legit-026": "65cc21a9240520dc0d51480a1fccbe74e9a753b0d9151cc0bd4fe532bfc6ec58",
+      "gmail/legit-028": "00b89c0e046689217fe664e5524df98eadb19bb0389d278be8315d37ee35bfc9",
+      "gmail/legit-030": "c12c220be4f211f0c215d6710bdcc6726d143fc344ddae2c18b7516f12fa53bc",
+      "gmail/legit-032": "b3e2a604f3cd405195f603edcef86bbf2e07bfc0ba308e057dfd977df9ae3fbe",
+      "gmail/legit-034": "151deac5c40e521d27b8127ed1d28c0b238fd49055fcbbfc9fd8511da1542e56",
+      "gmail/legit-036": "dec5d33169ef904a2abe19a059420a9524fc45a9729e0033e1465044461eefcc",
+      "gmail/legit-038": "c8762673f393ca98c8e3787a2aa64c9573cc66c83a357cdc9b753a29d60e0df9",
+      "gmail/legit-040": "c76c59648577a141c06e98ddb0281635d6249a8c8cc4c85d9125ebeebfafb65c",
+      "gmail/legit-042": "825df76d6570b20eb8c8f819e935a49e1f3786b2cacb6841bf81d72887585ec9",
+      "gmail/legit-044": "b249f86761513709d76f3d81b17054a9a60bbf5a09805b2b1d5014a9ed8e0083",
+      "gmail/legit-046": "e71fe2f5bb2437ca94581974575dcfe488997cb3658522dbe0e4cff5efd308ff",
+      "gmail/legit-048": "e09488e7e89833d2476198739a53ac4eabae32bb989e834b2413862b13e3ca5b",
+      "gmail/legit-050": "d77a0e7990e31ec0fc3c8a00d54e08da2218751a1141dccc30677b36cafe7fc2",
+      "gmail/legit-052": "951c840cf25843a3f41b7743c9d02da20e7455d7bc4e147134f0cd6c3066e4ed",
+      "gmail/legit-054": "e5a07d0b9e2e8823d6fbbb68689d6b6184dabf4a7296e865e95fca19287449e1",
+      "gmail/legit-056": "89665ffa5428f5ed272707e784bf946eff46521338a4d5f52cb040fe457e47ae",
+      "gmail/legit-058": "81782a0f90408fd9ce0fab29ee3ed9d8bf688515f7eef020e39339c4873d24bd",
+      "gmail/legit-060": "aa7d2d0e3ded960249e726e474b18c7697c72d4b329937f21120905b09fcca42",
+      "gmail/legit-062": "e1a33fa7cee56e536a39478a3f0d02c0c7e6d5263bb1e9f536cc733d9198c71f",
+      "gmail/legit-064": "a3ca0b48d13413b7e5f2205b52bd20060b6b31b9717f82d1a6be1f6ca70ffc05",
+      "gmail/legit-066": "aed9dd3ad9e534aec9ad03681c8a3ca3f9b3981d6d653cd1749710a39d19e0df",
+      "gmail/legit-068": "9b2f87b203aa538bca9cb192f4ef0456b9412c4103eaa602f9f12ffbe8f502d0",
+      "gmail/legit-070": "be736ad01c59bcf9f3cd0031a6b7a9925fcc5ea2529b0273fa80f911fae06af6",
+      "gmail/legit-072": "ed00ad5cf23adb77db12a3131d4f49adbbc01fbc27041e701d64516b383bded8",
+      "gmail/legit-074": "52349d30e1c595ba09f82f03f9bc13d0ab0427befaa5262e1a6140f4c7a6068d",
+      "gmail/legit-076": "ebbef39f90cd1a6b94c26ae0cadc4da8743d977dec8f398506e741491b4d48b3",
+      "gmail/legit-078": "0994dfdf82ff3aea22260d52420b2d1cb61703f52bb10977d4c8259fc8e12152",
+      "gmail/legit-080": "646cbfbcb1ffb311796568a9c1a37d6926f6d565fbc71f0a04a6396af3cb453d",
+      "gmail/legit-082": "e1ba9ec01ff5e4d4ae5dabcfe3f500b8585abc4e42671994cc66ce057757706a",
+      "gmail/legit-084": "fb276de6723bf8ee4f94626663c7d057c956b52051475123dd5b5a6db8fe8309",
+      "gmail/legit-086": "8c57e9832446bb19ffafe0ab0c30f696195718af8353de2d1795291b9476cf87",
+      "gmail/legit-088": "1c338e9dfc575ce2d080e707067044d19651381dea74626532658a8b5567660f",
+      "gmail/legit-090": "ff4e37c5dad217d8f29eb65f0a6fa3d11003095ace4387aeef974a464e507aec",
+      "gmail/legit-092": "829eac0fa23a465f37ba2c83b90c2acf3aae441bab4c42c05d1db8267410dc3f",
+      "gmail/legit-094": "3b74ec4d2541d08b256033ec96edca4946b5a4e107ac61f8bb7c3b4f32b473dd",
+      "gmail/legit-096": "51c60904ff7487c72b4c081612b70c7edd41615b214580ad9b950198dfbfb42f",
+      "gmail/legit-098": "5607d46ad85ce1eaa3d29b37fd214163572d18f82520d67092f467352f453eba",
+      "gmail/legit-100": "567ec988759029a19931ba28d4fe29fb0ab134d625c3c3840009ed2acc41385f",
+      "gmail/phish-0002": "da868c311c5f0ca7054108e8426f29696a3a2c6fbfe1936527e3943149740b7c",
+      "gmail/phish-0004": "1e348dcd0c34c099cb8fdb696f8c7a4e7d5eea4d157d5786f15d7a14562217f5",
+      "gmail/phish-0006": "288409c55eb09eb8db3c82ec9ec5911f6a8204105c47414cbdb2ef6671b98d5d",
+      "gmail/phish-0008": "e14a230e4f6bbae832d7e8a62a6f6d9d0868a4ada937822b78e6aea236faa80a",
+      "gmail/phish-0010": "c52ee03f42a77a374973b76d920fd051ce4831e248bd28b8b1eb587a8ab9d358",
+      "gmail/phish-0012": "c43e6df729731bc22a0eb0578747e45baf055cbacca187de8d31b9b07e097bb7",
+      "gmail/phish-0014": "84a5b8aff05e22398561b400b9b7c3b2d9ca1de8a7f457aeebea42ad226148f1",
+      "gmail/phish-0016": "49751fbd61325e30eff3854c601d0a193fb64b1c888eb0ab9dc4833b148e55c1",
+      "gmail/phish-0018": "0fa2c9790be979db8eefef1329e663fb0dbc848b17252966b1920763606d78ab",
+      "gmail/phish-0020": "6cb414b15c14287761b258dbd4d784961690fffd3b19aa1d4fe1fe76f667377d",
+      "gmail/phish-0022": "a32adad4a877f778f653a32f7f6770366a50c62fe1ee810804b6596f25e1aeec",
+      "gmail/phish-0024": "2b40de8158f42fa0ed5afc113739ad2c0c500bccbdc04470253fe26c3872f0b6",
+      "gmail/phish-0026": "fdf9565034d9c026101dc4d96a4c9b957266c821f9f4729920d06f6db389f196",
+      "gmail/phish-0028": "4220a58fc04acd3f492a8b4ab3addbf97c0ce1e0b1c57a41b6e0940385fabc94",
+      "gmail/phish-0030": "5b898f63ad86b371bfdf3891297c9e833c88fec7636d287a13b2313aa828530a",
+      "gmail/phish-0032": "99635c786335cdc95c580277fcefe0bd54afc23b4e2745f5333be0f561f71c94",
+      "gmail/phish-0034": "8b9790472e7d1b4e110403e52fea2966bec171fb1802617f8511d4e992fb5fc2",
+      "gmail/phish-0036": "085e0a03e386b47cfc2fa788ec8b4154cadc655be91b27695cca9bffdd6c2fa6",
+      "gmail/phish-0038": "bdf55a62aae7c7c527b630bbcab386b7b4d09b9c494a1991588dacc3f06a905f",
+      "gmail/phish-0040": "3ba102c2ce972da4eb25cb38fb19564878185efe68e277890fbb6095d3932602",
+      "gmail/phish-0042": "465c1c2da9572f33db00c0a274404ec2592b3340951b25cde54ce4ba0f50eb44",
+      "gmail/phish-0044": "4b2e3dfd225396782e389eb6c953371d8c9fe902b35e2db3fc64b9fe093e74e4",
+      "gmail/phish-0046": "0adae4b150797adbfc9195f74be11a9a469711de2cb918b94d07b7f7e29d24eb",
+      "gmail/phish-0048": "e1512e0781f0012db4b3a70fd165b4b444568cf8f13917154cac0b87b8c53e5e",
+      "gmail/phish-0050": "89c713fa0e8fad8ff8d96a1cca7b8dfbbab9ddf2072eb68bb5b91572e52d6b4d",
+      "gmail/phish-0052": "d5e38d47cebefc0332bbbb886e515e9ecf97b224632d0dd14f7417f0123f220b",
+      "gmail/phish-0054": "120d848eca2b8bf7b3315169dba36d7ae372289045af87b1e8ae443d7cc25d2c",
+      "gmail/phish-0056": "e32d9cbbd3b5981f0da9c3dccf55986ad0e277b9c3af37ea1f33fc6bbd2d64db",
+      "gmail/phish-0058": "8723387a156205ec9e349f1ee86a08178450b885abc196bf456e03db231c47a3",
+      "gmail/phish-0060": "bb17b7daab3e3d3aa9d4f52a2091552e69a381aedf84edaf747acbacddee875e",
+      "gmail/phish-0062": "bd5773d64ccc3e6ec943e432d644f7fafc0c47150acebb39f2a05db2a0b412a5",
+      "gmail/phish-0064": "f9f89b4a54cf2bbfd5a70794aef2f9419b0d6858251b6d4b4a49ac5a1f8a8b3c",
+      "gmail/phish-0066": "89838d00be25fc762be3e7b836df912e3b339f78a7274ecce23f161e5602bada",
+      "gmail/phish-0068": "3d1f2e426256157d0af64620bdc0cd7e699bc7f545a2cac42c495de8387d51b5",
+      "gmail/phish-0070": "3db6ddc4aa67c30e75b9e7fdc168c34167cb7c5440dd099e1cf5a859d3e1bdb8",
+      "gmail/phish-0072": "224fae387ed49169fa06d65bdbf9de3d667f021006916bc7f5c64a8584225124",
+      "gmail/phish-0074": "b05ade265f2d5724f7ae670003b92ae85bccc35094a371789d9c2e4db4963f13",
+      "gmail/phish-0076": "f57a313872bb9870fa0f0673ed9519381e275fd1c8691b7e29669a1f5d50d779",
+      "gmail/phish-0078": "4f9d9d9aec1fb1cec620236beb253f7d4fd8b5ee8122a7757c26ff16eba6f5a0",
+      "gmail/phish-0080": "4d35cd5094aa495e6705a1cd04b4d7173209aad5636f1d63d308c7e8faac7cca",
+      "gmail/phish-0082": "e2ffdd55b4fb526b762b629ec025f4b8c6b92530d765c46f71097d692a8f2e2f",
+      "gmail/phish-0084": "ddb1006592e1d94c094fd1c1a8654fd44c6d0f0f97ef65f9915a18ee8fe1a64d",
+      "gmail/phish-0086": "33552f581c2bdffb2932157ad35e01a7fb65ca2103cac4b0c2d1a3b244e01048",
+      "gmail/phish-0088": "32cb484ee6ebc9052f3f065d3bdfcd070cd4501983c7af98b2f61e24701e8080",
+      "gmail/phish-0090": "fd4582af8121aba864da1c7122060329d9763c586aa69243d2e4f16469d3dbdc",
+      "gmail/phish-0092": "43c226b43456ce88a5ae1f840ce31196c4d6a582dbf08d5296d6c9ba7b9441f2",
+      "gmail/phish-0094": "151eb3894811e802d9f2af672b288a0e03611c14c1ebfa278f7228c83fceca1e",
+      "gmail/phish-0096": "e418c644a73f8b2372231d420e7f8b8efe260e8026ec0a5b706e483803c44d2a",
+      "gmail/phish-0098": "f0884737c1afeabbaeede2de02c30bc59b69a5d89ce0a8e1eda0577eac486163",
+      "gmail/phish-0100": "97f40b69676f9d03e9df02d7b856fafc98372fb3e236549a93ec1e40be061e01"
+    },
+    "split_hash": "29f1ed1cd6f5f196ae83413851850a164a5b89b3268094a42e2fa56de108963d",
+    "prompt_version": "v3",
+    "prompt_hash": "1beeb3a6c6bacf7cf11d1a7d498b38a2ba0b340711cebee37bafb68458ad41d3",
+    "schema_hash": "44cf68eadef6593496d41cec966d2e49251e1451070e940012c8129b375244c0",
+    "generation": {
+      "temperature": 0.2,
+      "max_output_tokens": 4000,
+      "timeout_s": 30.0,
+      "validation_corrections_max": 1,
+      "tinker_transport_retries": 0,
+      "endpoint_hash": "c67e70af0cdf55db33ffddaeb76e6ff409732b1417108ab978bc370cbcc149ec"
+    }
+  },
+  "config_fingerprint": "374016ed605f355dedfa6ffffb244b9381f5ac98324a4d7f26f41f00987a388c"
+}
