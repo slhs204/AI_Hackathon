@@ -13,22 +13,30 @@ class El {
   focus() { this.focused = true; }
 }
 const result = {
-  ok: true, snapshot_id: 'inbox-1', checked: 3, visible_total: 3, missing_subjects: 0,
+  ok: true, completed: true, snapshot_id: 'inbox-1', checked: 3, visible_total: 3, missing_subjects: 0,
   flagged: [{ row_id: 'inbox-1-0', subject: '<img src=x> Urgent', signals: ['Time pressure'] }]
 };
+result.items = result.flagged;
 const tick = () => new Promise(resolve => setImmediate(resolve));
-function panel(send = async () => result) {
-  const elements = {}, calls = [], events = {};
-  let tabId = 1;
+function panel(send = async () => result, finishSweep = async value => value) {
+  const elements = {}, calls = [], events = {}, timers = new Map();
+  let timerId=0;
+  let tabId = 1, checked;
   const get = id => elements[id] ||= new El();
   const ctx = {
+    setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,ms});return id},clearTimeout:id=>timers.delete(id),
     document: { getElementById: get, createElement: () => new El() },
     window: { addEventListener: (name, fn) => events[name] = fn, dispatchEvent: event => { (events.dispatched ||= []).push(event); } },
     CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } },
     chrome: {
       tabs: {
         query: async () => [{ id: tabId }],
-        sendMessage: async (id, message) => { calls.push({ id, ...message }); return send(message); },
+        sendMessage: async (id, message) => { calls.push({ id, ...message });
+          if(message.type === 'FINISH_INBOX_SCAN') return finishSweep(checked);
+          const response = await send(message);
+          if(message.type === 'PRECHECK_INBOX') checked = response;
+          return response;
+        },
         onActivated: { addListener: fn => events.tab = fn }
       },
       runtime: { onMessage: { addListener: fn => events.message = fn } }
@@ -36,7 +44,7 @@ function panel(send = async () => result) {
   };
   vm.createContext(ctx);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'inbox-panel.js'), 'utf8'), ctx);
-  return { get, calls, events, changeTab: id => { tabId = id; events.tab({ tabId: id }); } };
+  return { get, calls, events, timers, changeTab: id => { tabId = id; events.tab({ tabId: id }); } };
 }
 
 test('title list is explicit, text-only, local and separately opens a captured row', async () => {
@@ -54,7 +62,7 @@ test('title list is explicit, text-only, local and separately opens a captured r
   assert.equal(button.attrs['aria-current'], 'true');
   assert.equal(p.events.dispatched[0].type, 'hookline:inbox-opening');
   assert.equal(p.get('analyze').focused, true);
-  assert.ok(p.calls.every(call => ['PRECHECK_INBOX', 'OPEN_INBOX_ROW', 'CLEAR_INBOX_MARKS'].includes(call.type)));
+  assert.ok(p.calls.every(call => ['PRECHECK_INBOX', 'FINISH_INBOX_SCAN', 'OPEN_INBOX_ROW', 'CLEAR_INBOX_MARKS'].includes(call.type)));
 });
 
 test('zero matches and incomplete visible coverage never claim safety', async () => {
@@ -73,7 +81,7 @@ test('tab change discards a pending title response and clears only its marks', a
   await tick(); p.changeTab(2); finish(result); await pending;
   assert.equal(p.get('inbox-list').children.length, 0);
   assert.equal(p.get('inbox-check').disabled, false);
-  const clear = p.calls.find(call => call.type === 'CLEAR_INBOX_MARKS');
+  const clear = p.calls.find(call => call.type === 'CLEAR_INBOX_MARKS' && call.snapshot_id === 'inbox-1');
   assert.equal(clear.id, 1); assert.equal(clear.snapshot_id, 'inbox-1');
 });
 
@@ -122,6 +130,7 @@ test('failed or malformed responses re-enable the title check without results', 
 
 test('retained titles can be selected repeatedly without clearing marks or sending a body', async () => {
   const response = { ...result, flagged: [...result.flagged, { row_id: 'inbox-1-1', subject: 'New bank details', signals: ['Bank change'] }] };
+  response.items = response.flagged;
   const p = panel(async message => message.type === 'PRECHECK_INBOX' ? response : { ok: true });
   await p.get('inbox-check').handlers.click();
   const buttons = p.get('inbox-list').children.map(li => li.children[0]);
@@ -140,6 +149,7 @@ test('retained titles can be selected repeatedly without clearing marks or sendi
 test('late older selection failure cannot overwrite a newer successful selection', async () => {
   let failOld;
   const response = { ...result, flagged: [...result.flagged, { row_id: 'inbox-1-1', subject: 'New bank details', signals: ['Bank change'] }] };
+  response.items = response.flagged;
   const p = panel(message => message.type === 'PRECHECK_INBOX' ? response :
     message.row_id === 'inbox-1-0' ? new Promise(resolve => failOld = resolve) : { ok: true });
   await p.get('inbox-check').handlers.click();
@@ -162,4 +172,25 @@ test('tab change clears retained titles and ignores delayed opening response', a
   assert.equal(p.get('inbox-list').children.length, 0);
   assert.match(p.get('inbox-status').textContent, /Tab changed/);
   assert.equal(p.get('analyze').focused, undefined);
+});
+
+test('all checked subjects are selectable after sweep acknowledgement', async()=>{
+ const all={...result,items:[...result.flagged,{row_id:'normal',subject:'Team lunch',signals:[]}]};
+ let acknowledge;const p=panel(async()=>all,()=>new Promise(r=>acknowledge=r));
+ const pending=p.get('inbox-check').handlers.click();await tick();assert.equal(p.get('inbox-list').children.length,0);
+ acknowledge(all);await pending;assert.equal(p.get('inbox-list').children.length,2);
+ assert.match(p.get('inbox-list').children[1].children[0].children[1].textContent,/Body not checked/);
+});
+
+test('mismatched title acknowledgement never displays results', async()=>{
+ const p=panel(async()=>result,async()=>({...result,snapshot_id:'other'}));await p.get('inbox-check').handlers.click();
+ assert.equal(p.get('inbox-list').children.length,0);assert.match(p.get('inbox-status').textContent,/did not match/);
+});
+
+test('lost title acknowledgement restores controls and clears matching snapshot', async()=>{
+ let finish;const p=panel(async()=>result,()=>new Promise(r=>finish=r));const checking=p.get('inbox-check').handlers.click();await tick();
+ const watchdog=[...p.timers.values()].find(t=>t.ms===2500);assert.ok(watchdog);watchdog.fn();await checking;
+ assert.equal(p.get('inbox-check').disabled,false);assert.equal(p.get('inbox-list').children.length,0);
+ assert.ok(p.calls.some(c=>c.type==='CLEAR_INBOX_MARKS'&&c.snapshot_id==='inbox-1'));
+ finish(result);await tick();assert.equal(p.get('inbox-list').children.length,0);
 });

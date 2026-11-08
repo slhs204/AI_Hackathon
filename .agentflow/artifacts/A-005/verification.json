@@ -1,0 +1,22 @@
+{
+  "extension_tests": 110,
+  "extension_failures": 0,
+  "powershell51": "passed",
+  "stock_launcher_cloud_session": 200,
+  "startup_inference": false,
+  "chrome_version": "0.3.7",
+  "browser_observed": [
+    "actual_subject_overlays_before_results",
+    "14_all_titles_3_clues",
+    "T06_T11_unflagged_selectable",
+    "T23_selected_body_no_autoAI"
+  ],
+  "final_edge_repairs_browser_retested": false,
+  "installed_source_synchronized": true,
+  "app_secret_version": "2",
+  "old_version": "DISABLED",
+  "provider_key_rotated": false,
+  "new_paid_inference": false,
+  "system_registry_unchanged": true,
+  "push": "blocked_detached_head"
+}

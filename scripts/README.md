@@ -1,6 +1,6 @@
 Double-click `Start-Demo.cmd` from the repository root. One terminal prepares the local Python environment, reads the existing cloud app token through your Google Cloud sign-in, and runs an authenticated connection to private Cloud Run at `http://127.0.0.1:8081`. Keep this single window open; Ctrl+C stops it. No separately managed proxy or extra terminal is needed.
 
-The default uses Cloud Run AI with the Tinker base model `Qwen/Qwen3-8B`. It needs no local sampler, checkpoint file or Tinker provider key. The provider key stays in Cloud Run. The connector checks the remote session at startup without running inference. Your signed-in Google account needs access to the private service and `phish-demo-token:1` in Secret Manager.
+The default uses Cloud Run AI with the Tinker base model `Qwen/Qwen3-8B`. It needs no local sampler, checkpoint file or Tinker provider key. The provider key stays in Cloud Run. The connector checks the remote session at startup without running inference. Your signed-in Google account needs access to the private service and `phish-demo-token:latest` (currently version `2`; Cloud Run revisions pin numeric version `2`) in Secret Manager.
 
 Paste the displayed temporary loopback token into the extension password field, choose the one-click connection, and explicitly enable Tinker. Each launch generates a new temporary loopback token. Analyzing a selected email can incur inference charges. A request that times out in the client may still consume credits, and correction retries can incur additional charges.
 
@@ -13,4 +13,4 @@ Offline cloud prerequisite check: `powershell.exe -NoProfile -File scripts/start
 Cloud upstream is fixed to `https://phish-staging-az465uxmla-uc.a.run.app`. For deployment verification only, `CLOUD_RUN_URL` may select an HTTPS tagged hostname of this same service; paths, ports, credentials and other hosts are refused. The launcher restores inherited environment values and the working directory when the server exits.
 
 
-The cloud app token is used only by the connector and is never pasted into the extension. Paste only the temporary loopback token displayed by the launcher.
+The cloud app token is used only by the connector and is never pasted into the extension. Paste only the temporary loopback token displayed by the launcher. After the P2 rotation, stop any cached connector, restart the launcher and reconnect with its new temporary token. Version `1` is disabled. The stock Windows PowerShell 5.1 launcher returned session 200 against version `2` without inference. See [post-demo operations](../docs/POST_DEMO.md).

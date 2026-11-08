@@ -168,8 +168,8 @@
       (view.messageId && view.messageId !== pending.before.messageId);
     // Prefer Gmail-owned thread metadata. Without it, require a newly loaded body
     // (not just a heading/text change), or an exact previously resolved target view.
-    if (view.body && view.subject === pending.subject && (view.threadId
-      ? view.threadId === pending.threadId : alreadyLoaded || bodyReplaced)) {
+    if (view.body && (!pending.subject || view.subject === pending.subject) && (view.threadId
+      ? view.threadId === pending.threadId : pending.subject ? alreadyLoaded || bodyReplaced : bodyReplaced)) {
       loadedInboxViews.set(pending.threadId, view);
       inboxNavigation = null;
       return false;
@@ -191,12 +191,13 @@
     if (!previous) return;
     inboxSnapshot = null;
     loadedInboxViews.clear();
+    previous.cancelSweep?.();
     previous.rows.forEach(item => item.mark?.remove());
     if (notify) chrome.runtime.sendMessage({ type: "INBOX_CHANGED", snapshot_id: previous.id }).catch(() => {});
   }
 
   function inboxUnchanged() {
-    if (!inboxSnapshot || location.hash !== inboxSnapshot.hash) return false;
+    if (!inboxSnapshot || inboxScope() !== inboxSnapshot.scope || location.hash !== inboxSnapshot.hash) return false;
     const rows = visibleInboxRows();
     return rows.length === inboxSnapshot.total && inboxSnapshot.rows.every((item, index) =>
       rows[index] === item.element && rowSubject(item.element) === item.subject);
@@ -213,35 +214,92 @@
       const subject = rowSubject(element);
       return { id: `${id}-${index}`, element, subject, threadId: rowThreadId(element), signals: subjectSignals(subject) };
     });
-    for (const item of rows) {
-      if (!item.signals.length) continue;
-      const title = item.element.querySelector("span.bog");
-      const mark = document.createElement("span");
-      mark.className = "hookline-title-flag";
-      mark.textContent = "⚠ Check title";
-      mark.title = `Local subject-only clue: ${item.signals.join("; ")}. Not a phishing verdict or safety check.`;
-      mark.setAttribute("aria-label", mark.title);
-      title.after(mark);
-      item.mark = mark;
-    }
-    inboxSnapshot = { id, hash: location.hash, scope: inboxScope(), rows, total: allRows.length };
-    return {
-      ok: true, snapshot_id: id, checked: rows.length, visible_total: allRows.length,
-      missing_subjects: rows.filter(item => !item.subject).length,
-      flagged: rows.filter(item => item.signals.length).map(({ id: row_id, subject, signals }) => ({ row_id, subject, signals }))
+    inboxSnapshot = { id, hash: location.hash, scope: inboxScope(), rows, total: allRows.length, ready: false };
+    const target = inboxSnapshot;
+    const overlays = [];
+    const motion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    let settled = false, timer, resolveSweep;
+    target.sweepDone = new Promise(resolve => { resolveSweep = resolve; });
+    const position = () => {
+      if (!inboxUnchanged()) { clearInbox(true); return; }
+      overlays.forEach(({ overlay, title }) => {
+        const rect = title.getBoundingClientRect();
+        const left = Math.max(0, rect.left), top = Math.max(0, rect.top);
+        const width = Math.max(0, Math.min(window.innerWidth, rect.right) - left);
+        const height = Math.max(0, Math.min(window.innerHeight, rect.bottom) - top);
+        overlay.style.left = left + "px"; overlay.style.top = top + "px";
+        overlay.style.width = width + "px"; overlay.style.height = height + "px";
+        overlay.hidden = !width || !height;
+        overlay.style.setProperty("--hookline-scan-height", (height + 55) + "px");
+      });
     };
+    const settle = completed => {
+      if (settled) return;
+      settled = true; clearTimeout(timer);
+      overlays.forEach(({overlay}) => overlay.remove());
+      window.removeEventListener("scroll", position, true);
+      window.removeEventListener("resize", position);
+      motion?.removeEventListener("change", onMotionChange);
+      resolveSweep(completed);
+    };
+    const onMotionChange = event => { if (event.matches) settle(true); };
+    target.cancelSweep = () => settle(false);
+    for (const item of rows) {
+      const title = item.element.querySelector("span.bog");
+      if (!title) continue;
+      const overlay = document.createElement("div"), line = document.createElement("div");
+      overlay.className = "hookline-body-scan"; overlay.setAttribute("aria-hidden", "true");
+      line.className = "hookline-body-scan-line"; overlay.append(line);
+      const entry = {overlay, title, ended:false}; overlays.push(entry);
+      line.addEventListener("animationend", event => {
+        if (event.target !== line || event.animationName !== "hookline-body-sweep") return;
+        entry.ended = true;
+        if (overlays.every(entry => entry.ended)) settle(true);
+      });
+      document.body.append(overlay);
+    }
+    motion?.addEventListener("change", onMotionChange);
+    window.addEventListener("scroll", position, true); window.addEventListener("resize", position);
+    position();
+    if (motion?.matches || !overlays.length) settle(true);
+    else timer = setTimeout(() => settle(true), BODY_SWEEP_FALLBACK_MS);
+    return {ok:true, snapshot_id:id};
+  }
+
+  async function finishInboxScan(id) {
+    const target = inboxSnapshot;
+    if (!target || target.id !== id) return {ok:false, error:"Title check expired. Check again."};
+    const completed = await target.sweepDone;
+    if (!completed || inboxSnapshot !== target || !inboxUnchanged() || document.visibilityState === "hidden" || findMessageBody()) {
+      if (inboxSnapshot === target) clearInbox(true);
+      return {ok:false, error:"The Gmail list changed. Check titles again."};
+    }
+    if (!target.ready) for (const item of target.rows) {
+      if (!item.signals.length) continue;
+      const mark = document.createElement("span");
+      mark.className = "hookline-title-flag"; mark.textContent = "⚠ Check title";
+      mark.title = "Local subject-only clue: " + item.signals.join("; ") + ". Not a phishing verdict or safety check.";
+      mark.setAttribute("aria-label", mark.title);
+      item.element.querySelector("span.bog").after(mark); item.mark = mark;
+    }
+    target.ready = true;
+    const items = target.rows.map(({id:row_id,subject,signals}) => ({row_id,subject,signals}));
+    return {ok:true, completed:true, snapshot_id:id, checked:items.length, visible_total:target.total,
+      missing_subjects:items.filter(item => !item.subject).length, items,
+      flagged:items.filter(item => item.signals.length)};
   }
 
   function openInboxRow(snapshotId, rowId) {
-    if (!inboxSnapshot || inboxSnapshot.id !== snapshotId) {
+    if (!inboxSnapshot || !inboxSnapshot.ready || inboxSnapshot.id !== snapshotId) {
       return { ok: false, error: "This title-check result expired. Run the check again." };
     }
     if (inboxScope() !== inboxSnapshot.scope) {
       clearInbox(true);
       return { ok: false, error: "The Gmail account changed. Run the title check again." };
     }
-    const item = inboxSnapshot.rows.find(row => row.id === rowId && row.signals.length);
+    const item = inboxSnapshot.rows.find(row => row.id === rowId);
     if (!item) return { ok: false, error: "This row is not part of the current title check." };
+    if (!item.subject && !item.threadId) return {ok:false, error:"This title has no readable subject or stable Gmail identifier. Open it in Gmail directly."};
     if (item.threadId) {
       // A captured thread ID remains usable after Gmail detaches/reorders inbox rows.
       // Change only the hash in the same Gmail account, never an email-supplied URL.
@@ -405,12 +463,16 @@
   }
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (["START_BODY_SCAN", "FINISH_BODY_SCAN", "STOP_BODY_SCAN", "PRECHECK_INBOX", "CLEAR_INBOX_MARKS", "OPEN_INBOX_ROW"].includes(message?.type)) {
+    if (["START_BODY_SCAN", "FINISH_BODY_SCAN", "STOP_BODY_SCAN", "PRECHECK_INBOX", "FINISH_INBOX_SCAN", "CLEAR_INBOX_MARKS", "OPEN_INBOX_ROW"].includes(message?.type)) {
       if (sender?.id !== chrome.runtime.id || sender.tab || sender.url !== chrome.runtime.getURL("sidepanel.html")) {
         sendResponse({ ok: false, error: "Use the Dobby’s Catch side panel for this action." });
         return;
       }
       try {
+        if (message.type === "FINISH_INBOX_SCAN") {
+          finishInboxScan(message.snapshot_id).then(sendResponse, () => sendResponse({ok:false, error:"Title scan failed. Check again."}));
+          return true;
+        }
         if (message.type === "FINISH_BODY_SCAN") {
           finishBodyScan(message.email_id, message.scan_id).then(sendResponse, () => sendResponse({ ok: false, error: "Could not finish the message scan. Analyze again." }));
           return true; // Keep this Chrome response channel open until the sweep ends.
@@ -439,7 +501,13 @@
   });
 
   function checkEmailChange() {
-    if (inboxSnapshot && inboxScope() !== inboxSnapshot.scope) clearInbox(true);
+    // Gmail reuses rows; remove obsolete clues while retaining captured thread navigation.
+    if (inboxSnapshot?.ready) for (const item of inboxSnapshot.rows) {
+      if (item.mark && (!item.element.isConnected || rowSubject(item.element) !== item.subject || rowThreadId(item.element) !== item.threadId)) {
+        item.mark.remove(); item.mark = null;
+      }
+    }
+    if (inboxSnapshot && (inboxScope() !== inboxSnapshot.scope || !inboxSnapshot.ready && !inboxUnchanged())) clearInbox(true);
     let now;
     try { now = extractEmail()?.email_id || null; }
     catch { now = null; }
@@ -458,7 +526,7 @@
     stopBodyScan();
     checkEmailChange();
   });
-  document.addEventListener?.("visibilitychange", () => { if (document.visibilityState === "hidden") stopBodyScan(); });
+  document.addEventListener?.("visibilitychange", () => { if (document.visibilityState === "hidden") { stopBodyScan(); if (inboxSnapshot && !inboxSnapshot.ready) clearInbox(true); } });
   window.addEventListener("pagehide", () => { stopBodyScan(); clearInbox(); });
   checkEmailChange();
 })();

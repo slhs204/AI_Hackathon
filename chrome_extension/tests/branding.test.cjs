@@ -9,7 +9,7 @@ const manifest = JSON.parse(read('manifest.json'));
 
 test('extension and side panel use the exact requested display name', () => {
   assert.equal(manifest.name, 'Dobby’s Catch');
-  assert.equal(manifest.version, '0.3.6');
+  assert.equal(manifest.version, '0.3.7');
   assert.equal(manifest.action.default_title, 'Open Dobby’s Catch');
   assert.match(read('sidepanel.html'), /<title>Dobby’s Catch<\/title>/);
   assert.match(read('sidepanel.html'), /<strong>Dobby’s Catch<\/strong>/);
@@ -50,7 +50,7 @@ test('branding keeps the existing permissions and session-storage identity', () 
 });
 
 
-test('Selected email and Suspicious titles stay outside the hidden home view and connection is last', () => {
+test('Selected email and checked titles stay outside the hidden home view and connection is last', () => {
   const html = read('sidepanel.html');
   const home = html.slice(html.indexOf('<div id="home-view">'), html.indexOf('<div class="section-label">Selected email</div>'));
   assert.match(home, /<\/div>\s*<section class="panel">\s*$/);

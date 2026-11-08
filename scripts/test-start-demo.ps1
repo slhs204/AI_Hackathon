@@ -121,7 +121,7 @@ try {
     $oldCloud = @{}
     foreach ($name in $cloudNames) { $oldCloud[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
     Set-Item "Function:$fakeCloud" {
-        Assert ($args[3] -eq '1' -and $args[4] -eq '--secret=phish-demo-token') 'Cloud fetched wrong secret/version'
+        Assert ($args[3] -eq 'latest' -and $args[4] -eq '--secret=phish-demo-token') 'Cloud fetched wrong secret/version'
         $global:LASTEXITCODE = 0
         'fake-cloud-app-token'
     }

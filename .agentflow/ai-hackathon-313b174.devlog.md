@@ -8,11 +8,11 @@ Checkout: C:\Users\pc297\.codex\worktrees\tinker-demo\AI_Hackathon-313b174
 
 Branch: detached HEAD — local task commits
 
-Current: A-005 — awaiting the next request; completed [Qwen evaluation](artifacts/A-004/tracker.md).
+Current: A-006 — awaiting owner input. [Completed A-005 and local-only delivery](artifacts/A-005/tracker.md).
 
-Proven: Qwen-assisted evaluation completed and known semantic errors repaired; private P1 revision at100% traffic. [Evidence](artifacts/A-004/verification.json).
+Proven: Token rotation and one-window restart verified; title flow observed in Chrome,110 extension tests pass; live-demo script delivered. [Evidence](artifacts/A-005/verification.json).
 
-Next: await the next request. Git delivery stays local until a branch is specified; future accuracy evaluation needs fresh data.
+Next: Rehearse with synthetic-only Gmail after reloading the extension; choose a branch before any push. Billing balance/final invoice remain unavailable.
 
 Archived eras: none.
 
@@ -228,3 +228,64 @@ Empty registry scaffold created; no accepted SYS-INV IDs. Existing product guara
 ---
 
 # → Ask / A-005
+
+
++ [$agentflow](C:\Users\pc297\.agents\skills\agentflow\SKILL.md) 完成P2**demo 後輪替 token、檢查費用**
+
+
+## [WIP-001] Checkpoint — 2026-11-08 07:05:33 -0500 (A-005)
+
+**Finished:** launcher repair/test and verified cloud token cutover; old token disabled and stale routes removed.
+
+**Running now:** host cost-console verification; no cloud mutation is running.
+
+**Still to do:** actual launcher restart verification, final cost attribution/balance, independent review and delivery.
+
+**Next work action:** follow [tracker](artifacts/A-005/tracker.md); never recreate the new secret version.
+
+
++ Owner correction: Check inbox titles should replace manual Gmail searches and play a complete subject-targeted scan before results.
+
++ [$agentflow] 接續先前的task;產生該專案live demo的2-3分鐘重點講稿
+
+## [WIP-002] Checkpoint — 2026-11-08 07:35:00 -0500 (A-005)
+
+**Finished:** cloud rotation/revocation and actual launcher restart; costs documented with reporting gaps; title implementation passes106 extension tests; live-demo script drafted.
+
+**Running now:** host source/bundle/browser verification; no cloud mutation or native writer remains.
+
+**Still to do:** independent source/script review, real Chrome title-flow check, matching bundle and closeout.
+
+**Next work action:** follow [tracker](artifacts/A-005/tracker.md); do not repeat token rotation or paid evaluation.
+
+# → Reply / A-005
+
+* _2026-11-08 07:38:20 -0500_
+
+1. **完成P2 demo 後輪替 token、檢查費用**
+
+   Cloud app token version2 is active; version1 is disabled and old routes removed. Restart the one-window launcher and reconnect using its new temporary loopback token. Actual startup/session passed without inference. Tinker usage estimates exclude laterP1calls; Google project net was covered by credits in the observed report, with reporting delay. Balance/finalinvoice are unavailable. Financial details are kept only in the private local output report, not public source. See [post-demo operations](../docs/POST_DEMO.md).
+
+2. **Check inbox titles should replace manual Gmail searches and finish a full title scan before results.**
+
+   Version0.3.7 scans subjects locally and shows all checked titles after the sweep. Chrome showed14titles/3clues; unflaggedT06/T11remainselectable and selectingT23openeditsbodywithoutAI. Analyze remains explicit.110tests pass, including final empty-subject/stale-mark/timeout repairs. Reload the extension and refresh Gmail before rehearsal; those final edge repairs were not repeated in Chrome. No new paid AI run was performed.
+
+3. **接續先前的task;產生該專案live demo的2-3分鐘重點講稿**
+
+   The full TraditionalChinese timed [live-demo script](../docs/DEMO_SCRIPT_ZH_TW.md) is ready, about2minutes40seconds including short UI actions. It follows title scan→selectT23→explicitAnalyze→evidence→Reconsider, and includes truthful benchmark limits and a slow-response fallback. Use a dedicated synthetic-only Gmail account. The script is also in the local demo bundle.
+
+   **Key Records — read these first**
+
+   - [Demo script](../docs/DEMO_SCRIPT_ZH_TW.md) provides spoken text and click cues.
+
+   - [Post-demo operations](../docs/POST_DEMO.md) explains restart, rotation and cost coverage limits.
+
+   - [Acceptance and review](artifacts/A-005/review.md) records checks and remaining proof limits. Source is committed locally under configured delivery; detachedHEAD prevents push and no remote branch was guessed.
+
+## Questions (batched — each with a suggested default)
+
+- None.
+
+---
+
+# → Ask / A-006

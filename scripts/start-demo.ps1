@@ -114,7 +114,7 @@ function Start-Demo {
         }
         $savedErrorAction = $ErrorActionPreference
         $secretName = 'phish-demo-token'
-        $secretVersion = '1'
+        $secretVersion = 'latest'
         if ($Local) { $secretName = 'phish-tinker-key'; $secretVersion = 'latest' }
         try {
             $ErrorActionPreference = 'Continue'

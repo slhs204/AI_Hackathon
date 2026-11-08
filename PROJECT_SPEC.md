@@ -15,7 +15,7 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | Part | Status |
 |---|---|
 | Google Cloud project and billing | Set up |
-| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-p1-d08fe1b-a004` serves 100% traffic; P1 canary checks passed before promotion; base-route session/guards and the 57-assertion runtime audit passed separately; see `docs/PRIVATE_STAGING.md` |
+| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-p2-ai-b3b3e19-a005` serves 100% traffic after app-token rotation; unchanged P1 image and historical evaluation retained; current session and token checks passed without inference; see `docs/PRIVATE_STAGING.md` |
 | `GET /health`, `GET /session` | Built |
 | `POST /analyze` (rules, extra checks, optional model, evidence check, payroll policy) | Built |
 | `POST /triage` (inbox priority from sender, subject, preview) | Built |
@@ -68,7 +68,7 @@ A matching domain does not prove that the sender is trustworthy. An account can 
 ## 5. Model plan and results
 
 - Claude Haiku 5.5 (`claude-haiku-5-5`) for `/triage` and Claude Sonnet 5.5 (`claude-sonnet-5-5`) for `/analyze` and `/challenge` remain supported and evaluated offline.
-- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed P1 private Cloud Run canary analysis (7,266 ms) and challenge (2,484 ms), without an expiring sampler. Traffic readback then confirmed revision `phish-staging-p1-d08fe1b-a004` at 100%; the paid checks were on its tagged canary, not repeated at the promoted base URL. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent review passed; the AI revision serves 100% traffic and retains private IAM and a rules-only rollback tag. These results do not establish model accuracy.
+- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed P1 private Cloud Run canary analysis (7,266 ms) and challenge (2,484 ms), without an expiring sampler. Historical P1 traffic readback then confirmed revision `phish-staging-p1-d08fe1b-a004` at 100%; the paid checks were on its tagged canary, not repeated at the promoted base URL. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent P1 review passed. Current P2 revision `phish-staging-p2-ai-b3b3e19-a005` serves 100% traffic with the unchanged P1 image, private IAM and a rotated-token rules-only backup. These results do not establish model accuracy.
 - `Start-Demo.cmd -Local` retains the earlier direct-local sampler fallback. Its checkpoint still expires and requires separate renewal.
 - GPT-6.1 Sol was a comparison candidate and has not been tested.
 
@@ -107,7 +107,7 @@ All POST endpoints check `X-Demo-Token` before any model call and fail closed wh
 - Clear old results when the user selects another email.
 - Use readable text, keyboard access, and reduced motion. Do not rely on color alone.
 
-Testers paste only the temporary loopback token shown by the launcher into the extension; it is regenerated each launch. The cloud app token is read by the connector and is never pasted into the extension. Rotate the cloud app token after the demo. Neither token replaces production login or server-side usage limits.
+Testers paste only the temporary loopback token shown by the launcher into the extension; it is regenerated each launch. The cloud app token is read by the connector and is never pasted into the extension. P2 rotated the cloud app token to numeric secret version `2` and disabled version `1`; the launcher reads `latest`. Restart cached connectors and reconnect with a fresh temporary loopback token. See [post-demo operations](docs/POST_DEMO.md). Neither token replaces production login or server-side usage limits.
 
 ## 8. Remaining work
 
