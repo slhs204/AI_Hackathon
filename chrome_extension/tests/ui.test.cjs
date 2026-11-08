@@ -6,9 +6,10 @@ class El {
 const finding={id:'f1',category:'payment_or_data_request',evidence:{kind:'text',block_id:'b1',quote:'Transfer'},explanation:'Money request',next_action:'Verify through existing process'};
 const email={email_id:'synthetic',sender:{address:'unknown'},subject:'Test',blocks:[{id:'b1',text:'Transfer money today.'}],links:[]};
 const result={email_id:'synthetic',model:'rules-only',findings:[finding],analysis_complete:false,limitations:['Missing headers'],notes:[],verdict:{key:'verify',state:'unknown',label:'Verify'},dimensions:[{key:'sender',status:'unknown',question:'Sender?',answer:'Cannot tell'}]};
+const scanReply = m => ({success:true,ok:true,...(m.type==='FINISH_BODY_SCAN'?{completed:true,scan_id:m.scan_id,email_id:m.email_id}:{})});
 function panel(send) {
   const els={};let focused=null;const get=id=>{if(!els[id]) {els[id]=new El();els[id].focus=()=>{focused=id};}return els[id]};const messages=[];const events={};
-  const ctx={document:{getElementById:get,createElement:()=>new El()},chrome:{runtime:{sendMessage:async m=>{messages.push(m);return m.type==='CONNECTION_STATUS'?{ok:true,connected:true}:send(m)},onMessage:{addListener:fn=>events.email=fn}},tabs:{query:async()=>[{id:1}],sendMessage:async()=>({success:true,ok:true}),onActivated:{addListener:fn=>events.tab=fn}}}};
+  const ctx={setTimeout,clearTimeout,window:{addEventListener:(type,fn)=>events[type]=fn},document:{getElementById:get,createElement:()=>new El()},chrome:{runtime:{sendMessage:async m=>{messages.push(m);return m.type==='CONNECTION_STATUS'?{ok:true,connected:true}:send(m)},onMessage:{addListener:fn=>events.email=fn}},tabs:{query:async()=>[{id:1}],sendMessage:async(_,m)=>scanReply(m),onActivated:{addListener:fn=>events.tab=fn}}}};
   vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(__dirname,'..','sidepanel.js'),'utf8'),ctx);
   ctx.email=email;ctx.result=result;ctx.finding=finding;return {els,get,ctx,messages,events,focused:()=>focused};
 }
@@ -113,7 +114,7 @@ test('Call, Reply and Tell IT are local-only guidance with no email data copied'
 });
 test('Back closes guidance first, then clears result and Gmail highlight',async()=>{
   const p=panel(async()=>({ok:true,data:result,mocked:false}));const tabCalls=[];
-  p.ctx.chrome.tabs.sendMessage=async(id,m)=>{tabCalls.push(m);return {success:true,ok:true}};
+  p.ctx.chrome.tabs.sendMessage=async(id,m)=>{tabCalls.push(m);return scanReply(m)};
   await p.ctx.analyzeEmail(email,'gmail',1);p.get('simple-reply').handlers.click();
   await p.get('back').handlers.click();assert.equal(p.get('simple-view').hidden,false);
   await p.get('back').handlers.click();assert.equal(p.get('home-view').hidden,false);assert.equal(p.get('simple-view').hidden,true);
@@ -191,4 +192,69 @@ test('backend failures always stop the matching body scan and restore controls',
   assert.equal(calls[0].type,'START_BODY_SCAN');assert.equal(calls.at(-1).type,'STOP_BODY_SCAN');
   assert.equal(calls[0].scan_id,calls.at(-1).scan_id);
   assert.equal(p.get('analyze').disabled,false);assert.match(p.get('status').textContent,/Backend unavailable/);
+});
+
+
+test('fast backend response stays hidden and busy until the scan completion acknowledgment',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));let finish;const calls=[];
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return m.type==='FINISH_BODY_SCAN'?new Promise(r=>finish=()=>r(scanReply(m))):scanReply(m)};
+  const pending=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));
+  assert.equal(p.messages.filter(m=>m.type==='ANALYZE').length,1);
+  assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('results').hidden,true);
+  assert.equal(p.get('analyze').disabled,true);assert.equal(p.get('analyze').attrs['aria-busy'],'true');assert.equal(p.get('cancel-check').hidden,false);
+  assert.match(p.get('status').textContent,/Backend response received/);assert.notEqual(p.focused(),'simple-title');
+  finish();await pending;
+  assert.equal(p.get('simple-view').hidden,false);assert.equal(p.focused(),'simple-title');
+  assert.equal(p.get('analyze').attrs['aria-busy'],'false');assert.equal(p.get('cancel-check').hidden,true);
+});
+test('animation readiness alone cannot reveal a result while the backend is pending',async()=>{
+  let finish;const p=panel(()=>new Promise(r=>finish=r));const calls=[];
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return scanReply(m)};
+  const pending=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));
+  assert.equal(p.get('results').hidden,true);assert.equal(calls.some(m=>m.type==='FINISH_BODY_SCAN'),false);
+  finish({ok:true,data:result,mocked:false});await pending;assert.equal(p.get('simple-view').hidden,false);
+});
+test('navigation, cancel, disconnect and panel closure during finish discard late completion',async()=>{
+  for(const cancel of [
+    p=>p.events.email({type:'EMAIL_CHANGED',email_id:'new'},{tab:{id:1}}),
+    p=>p.events.tab({tabId:2}),
+    p=>p.get('cancel-check').handlers.click(),
+    p=>p.get('disconnect').handlers.click(),
+    p=>p.events.pagehide()
+  ]) {
+    const p=panel(async()=>({ok:true,data:result,mocked:false}));let finish;
+    p.ctx.chrome.tabs.sendMessage=async(_,m)=>m.type==='FINISH_BODY_SCAN'?new Promise(r=>finish=()=>r(scanReply(m))):scanReply(m);
+    const pending=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));
+    await cancel(p);finish();await pending;
+    assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('results').hidden,true);
+  }
+});
+test('missing or mismatched completion acknowledgment fails closed and restores controls',async()=>{
+  for(const response of [{ok:true},{ok:false,error:'Message changed'}, {ok:true,completed:true,scan_id:'old',email_id:email.email_id}]) {
+    const p=panel(async()=>({ok:true,data:result,mocked:false}));
+    p.ctx.chrome.tabs.sendMessage=async(_,m)=>m.type==='FINISH_BODY_SCAN'?response:scanReply(m);
+    await p.ctx.analyzeEmail(email,'gmail',1);
+    assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('analyze').disabled,false);assert.match(p.get('status').textContent,/Analysis failed/);
+  }
+});
+test('lost completion response has a bounded timeout, clears the scan and permits retry',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));let timeout;const calls=[];
+  p.ctx.setTimeout=(fn,ms)=>{assert.equal(ms,2500);timeout=fn;return 1};p.ctx.clearTimeout=()=>{};
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return m.type==='FINISH_BODY_SCAN'?new Promise(()=>{}):scanReply(m)};
+  const pending=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));timeout();await pending;
+  assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('analyze').disabled,false);
+  assert.equal(calls.at(-1).type,'STOP_BODY_SCAN');assert.match(p.get('status').textContent,/Refresh Gmail/);
+});
+test('an old canceled scan cannot stop or overwrite a newer scan result',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));const completions=[],calls=[];
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return m.type==='FINISH_BODY_SCAN'?new Promise(r=>completions.push(()=>r(scanReply(m)))):scanReply(m)};
+  const old=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));p.get('cancel-check').handlers.click();
+  const newer=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));
+  completions[1]();await newer;completions[0]();await old;
+  assert.equal(p.get('simple-view').hidden,false);assert.equal(p.get('analyze').disabled,false);
+  const starts=calls.filter(m=>m.type==='START_BODY_SCAN');assert.notEqual(starts[0].scan_id,starts[1].scan_id);
+});
+test('final active-tab validation rejects a switch even before the tab event arrives',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));p.ctx.chrome.tabs.query=async()=>[{id:2}];
+  await p.ctx.analyzeEmail(email,'gmail',1);assert.equal(p.get('simple-view').hidden,true);assert.match(p.get('status').textContent,/Tab changed/);
 });

@@ -5,7 +5,10 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 class El {
-  constructor(text = '') { this.textContent = text; this.children = []; this.attrs = {}; this.style = {setProperty(k,v){this[k]=v}}; this.isConnected = true; this.hidden = false; }
+  constructor(text = '') { this.textContent = text; this.children = []; this.attrs = {}; this.style = {setProperty(k,v){this[k]=v}}; this.isConnected = true; this.hidden = false; this.events = {}; }
+  addEventListener(type, fn) { (this.events[type] ||= new Set()).add(fn); }
+  removeEventListener(type, fn) { this.events[type]?.delete(fn); }
+  emit(type, extra = {}) { for (const fn of this.events[type] || []) fn({target:this, ...extra}); }
   append(...nodes) { for (const node of nodes) { this.children.push(node); node.parent = this; } }
   after(node) { this.parent.append(node); }
   remove() { if (this.parent) this.parent.children = this.parent.children.filter(x => x !== this); this.isConnected = false; }
@@ -13,7 +16,7 @@ class El {
   setAttribute(k,v) { this.attrs[k] = v; }
   getBoundingClientRect() { return {left:30,top:60,right:630,bottom:1000}; }
 }
-function fixture(subjects = []) {
+function fixture(subjects = [], reducedMotion = false) {
   const rows = subjects.map(text => {
     const row = new El(); const subject = new El(text); row.append(subject);
     row.querySelector = s => s === 'span.bog' ? subject : null;
@@ -24,13 +27,15 @@ function fixture(subjects = []) {
   body.closest = () => ({querySelector:()=>null}); body.querySelectorAll = () => [];
   const root = new El(), head = new El(); let bodyVisible = false; let messageListener;
   const sent = [], timers = new Map(), events = {}; let clock = 0;
+  const motion = {matches:reducedMotion, events:new Set(), addEventListener:(_, fn)=>motion.events.add(fn), removeEventListener:(_, fn)=>motion.events.delete(fn)};
   const document = {
+    visibilityState:'visible', addEventListener:(type,fn)=>{(events[type] ||= new Set()).add(fn)},
     head, body:root, documentElement:root,
     getElementById:id=>head.children.find(x=>x.id===id), createElement:()=>new El(),
     querySelectorAll:s=>s === 'tr.zA' ? rows : s === '.a3s' && bodyVisible ? [body] : [],
     querySelector:()=>({textContent:'Test subject'})
   };
-  const ctx = {document,location:{hash:'#inbox'},window:{innerWidth:900,innerHeight:700,getSelection:()=>null,
+  const ctx = {document,location:{hash:'#inbox'},window:{innerWidth:900,innerHeight:700,getSelection:()=>null,matchMedia:()=>motion,
     addEventListener:(type,fn)=>{(events[type] ||= new Set()).add(fn)},removeEventListener:(type,fn)=>events[type]?.delete(fn)},
     chrome:{runtime:{id:'hookline',getURL:p=>'chrome-extension://hookline/'+p,
       onMessage:{addListener:fn=>messageListener=fn},sendMessage:async m=>sent.push(m)}},
@@ -40,7 +45,8 @@ function fixture(subjects = []) {
   vm.runInContext(code, ctx);
   const trusted = {id:'hookline',url:'chrome-extension://hookline/sidepanel.html'};
   const message = (m,sender=trusted) => { let result;messageListener(m,sender,r=>result=r);return result };
-  return {ctx,rows,body,head,root,sent,timers,events,message,showBody:()=>bodyVisible=true};
+  const messageAsync = m => new Promise(resolve => { assert.equal(messageListener(m,trusted,resolve),true); });
+  return {ctx,rows,body,head,root,sent,timers,events,motion,message,messageAsync,showBody:()=>bodyVisible=true};
 }
 test('subject precheck runs only on request, flags English and Chinese clues, sends no data out',()=>{
   const f=fixture(['Team lunch','URGENT: verify your account','變更銀行帳戶通知']);
@@ -116,4 +122,66 @@ test('navigation and animation timeout remove overlays without retaining message
   [...f.events.hashchange][0]();assert.equal(f.root.children.length,0);
   f.message({type:'START_BODY_SCAN',email_id:f.ctx.testAPI.extractEmail().email_id,scan_id:'b'});
   [...f.timers.values()].find(x=>x.ms===46000).fn();assert.equal(f.root.children.length,0);
+});
+
+const start = f => {
+  f.showBody();const email = f.ctx.testAPI.extractEmail();
+  assert.equal(f.message({type:'START_BODY_SCAN',email_id:email.email_id,scan_id:'a'}).ok,true);
+  return {type:'FINISH_BODY_SCAN',email_id:email.email_id,scan_id:'a'};
+};
+const tick = () => new Promise(resolve => setImmediate(resolve));
+const endSweep = f => f.root.children[0].children[0].emit('animationend',{animationName:'hookline-body-sweep'});
+test('fast backend completion waits for the actual finite sweep before removing overlay',async()=>{
+  const f=fixture(),request=start(f);let done=false;
+  const pending=f.messageAsync(request).then(r=>{done=true;return r});await tick();
+  assert.equal(done,false);assert.equal(f.root.children.length,1);
+  // Unrelated/bubbled animation events must not complete the sweep.
+  f.root.children[0].children[0].emit('animationend',{animationName:'other'});await tick();assert.equal(done,false);
+  endSweep(f);const r=await pending;
+  assert.equal(r.completed,true);assert.equal(r.email_id,request.email_id);assert.equal(r.scan_id,'a');
+  assert.equal(f.root.children.length,0);assert.equal(f.timers.size,0);assert.equal(f.motion.events.size,0);
+  assert.match(f.head.children[0].textContent,/1600ms linear 1 forwards/);
+  assert.doesNotMatch(f.head.children[0].textContent,/linear infinite/);
+});
+test('slow backend keeps a static indicator after one sweep and completes without another delay',async()=>{
+  const f=fixture(),request=start(f);endSweep(f);
+  assert.equal(f.root.children.length,1);assert.equal(f.root.children[0].children[0].hidden,true);
+  assert.equal((await f.messageAsync(request)).completed,true);assert.equal(f.root.children.length,0);
+});
+test('missing animation event terminates the visual at the 1900ms fallback before success',async()=>{
+  const f=fixture(),request=start(f);const line=f.root.children[0].children[0];const pending=f.messageAsync(request);
+  [...f.timers.values()].find(x=>x.ms===1900).fn();assert.equal(line.hidden,true);assert.equal(line.style.animation,'none');
+  assert.equal((await pending).completed,true);assert.equal(f.timers.size,0);
+});
+test('reduced motion skips the presentation delay and preference changes end it immediately',async()=>{
+  for(const initiallyReduced of [true,false]) {
+    const f=fixture([],initiallyReduced),request=start(f);const pending=f.messageAsync(request);
+    if(!initiallyReduced) for(const fn of [...f.motion.events]) fn({matches:true});
+    assert.equal((await pending).completed,true);assert.equal(f.root.children.length,0);assert.equal(f.timers.size,0);
+  }
+});
+test('cancel, replacement, pagehide, hidden tab and timeout settle pending finish without a result',async()=>{
+  for(const cancel of [
+    f=>f.message({type:'STOP_BODY_SCAN',scan_id:'a'}),
+    f=>f.message({type:'START_BODY_SCAN',email_id:f.ctx.testAPI.extractEmail().email_id,scan_id:'b'}),
+    f=>[...f.events.pagehide][0](),
+    f=>{f.ctx.document.visibilityState='hidden';[...f.events.visibilitychange][0]()},
+    f=>[...f.timers.values()].find(x=>x.ms===46000).fn()
+  ]) {
+    const f=fixture(),request=start(f);const pending=f.messageAsync(request);cancel(f);
+    assert.equal((await pending).ok,false);
+    f.message({type:'STOP_BODY_SCAN'});assert.equal(f.root.children.length,0);assert.equal(f.timers.size,0);
+  }
+});
+test('same-route body changes are rejected before the debounced EMAIL_CHANGED notification',async()=>{
+  const f=fixture(),request=start(f);const pending=f.messageAsync(request);
+  f.body.innerText='A different message';endSweep(f);
+  assert.equal((await pending).ok,false);assert.equal(f.root.children.length,0);
+});
+test('finish is scoped to the scan and email and requires a trusted side panel sender',async()=>{
+  const f=fixture(),request=start(f);
+  assert.equal((await f.messageAsync({...request,scan_id:'wrong'})).ok,false);
+  assert.equal((await f.messageAsync({...request,email_id:'wrong'})).ok,false);
+  assert.equal(f.message(request,{}).ok,false);assert.equal(f.root.children.length,1);
+  f.message({type:'STOP_BODY_SCAN'});
 });

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "dobby’s catch",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Simple, evidence-linked Gmail phishing training with explicit unknown states and local verification guidance.",
   "minimum_chrome_version": "116",
   "permissions": [

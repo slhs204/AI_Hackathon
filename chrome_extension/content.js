@@ -11,6 +11,8 @@
   let inboxSnapshot = null;
   let inboxRevision = 0;
   const ROW_LIMIT = 100;
+  const BODY_SWEEP_MS = 1600;
+  const BODY_SWEEP_FALLBACK_MS = BODY_SWEEP_MS + 300;
   const ATTENTION_STYLE_ID = "hookline-attention-style";
 
   function ensureAttentionStyle() {
@@ -19,7 +21,7 @@
     style.id = ATTENTION_STYLE_ID;
     style.textContent = `
       .hookline-body-scan { position:fixed; z-index:2147483645; pointer-events:none; overflow:hidden; border:1px solid #1a73e866; border-radius:4px; box-sizing:border-box; }
-      .hookline-body-scan-line { position:absolute; left:0; right:0; height:55px; top:-55px; border-bottom:2px solid #1a73e8; background:linear-gradient(180deg,transparent,#1a73e830); animation:hookline-body-sweep 1.6s linear infinite; }
+      .hookline-body-scan-line { position:absolute; left:0; right:0; height:55px; top:-55px; border-bottom:2px solid #1a73e8; background:linear-gradient(180deg,transparent,#1a73e830); animation:hookline-body-sweep ${BODY_SWEEP_MS}ms linear 1 forwards; }
       @keyframes hookline-body-sweep { from { transform:translateY(0); } to { transform:translateY(var(--hookline-scan-height)); } }
       .hookline-title-flag { display:inline-block; margin-left:6px; padding:1px 5px; border:1px solid #b75e0a; border-radius:8px; color:#7a3d00; background:#fff4d5; font:11px/1.5 sans-serif; vertical-align:middle; }
       @media (prefers-reduced-motion:reduce) { .hookline-body-scan-line { animation:none; display:none; } }
@@ -30,6 +32,7 @@
   function stopBodyScan(scanId) {
     if (!scan || (scanId && scan.id !== scanId)) return;
     clearTimeout(scan.timer);
+    scan.settleSweep(false);
     scan.overlay.remove();
     window.removeEventListener("scroll", scan.position, true);
     window.removeEventListener("resize", scan.position);
@@ -41,6 +44,7 @@
     if (!email || email.email_id !== emailId || typeof scanId !== "string" || scanId.length > 100) {
       return { ok: false, error: "The selected message changed. Click Analyze again." };
     }
+    if (document.visibilityState === "hidden") return { ok: false, error: "Return to the Gmail tab and analyze again." };
     stopBodyScan();
     ensureAttentionStyle();
     const body = findMessageBody();
@@ -64,12 +68,55 @@
       overlay.style.height = `${height}px`;
       overlay.style.setProperty("--hookline-scan-height", `${height + 55}px`);
     };
-    scan = { id: scanId, overlay, position, timer: setTimeout(() => stopBodyScan(scanId), 46000) };
+    // One finite sweep, concurrent with the real check. Its end is presentation only,
+    // never a claim that the backend checked every word or that the message is safe.
+    const motion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    let settled = false, fallbackTimer, resolveSweep;
+    const sweepDone = new Promise(resolve => { resolveSweep = resolve; });
+    const settleSweep = (completed) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(fallbackTimer);
+      line.removeEventListener("animationend", onAnimationEnd);
+      motion?.removeEventListener("change", onMotionChange);
+      // Also terminate a suppressed or stalled animation before acknowledging it.
+      line.style.animation = "none";
+      line.hidden = true;
+      resolveSweep(completed);
+    };
+    const onAnimationEnd = event => {
+      if (event.target === line && event.animationName === "hookline-body-sweep") settleSweep(true);
+    };
+    const onMotionChange = event => { if (event.matches) settleSweep(true); };
+    line.addEventListener("animationend", onAnimationEnd);
+    motion?.addEventListener("change", onMotionChange);
+    scan = { id: scanId, emailId, overlay, position, sweepDone, settleSweep,
+      timer: setTimeout(() => stopBodyScan(scanId), 46000) };
     document.body.append(overlay);
+    if (motion?.matches) settleSweep(true);
+    else fallbackTimer = setTimeout(() => settleSweep(true), BODY_SWEEP_FALLBACK_MS);
     window.addEventListener("scroll", position, true);
     window.addEventListener("resize", position);
     position();
     return { ok: true };
+  }
+
+  async function finishBodyScan(emailId, scanId) {
+    const target = scan;
+    if (!target || target.id !== scanId || target.emailId !== emailId) {
+      return { ok: false, error: "The scan was canceled or replaced. Analyze the current message again." };
+    }
+    const completed = await target.sweepDone;
+    // Re-extract here, not only in the debounced observer: Gmail may have changed
+    // during the final sweep, before EMAIL_CHANGED reaches the side panel.
+    let matches = false;
+    try { matches = extractEmail()?.email_id === emailId; } catch { /* fail closed */ }
+    if (!completed || scan !== target || !matches || document.visibilityState === "hidden") {
+      stopBodyScan(scanId);
+      return { ok: false, error: "The selected message changed or the scan was canceled. Analyze again." };
+    }
+    stopBodyScan(scanId);
+    return { ok: true, completed: true, scan_id: scanId, email_id: emailId };
   }
 
   function visibleInboxRows() {
@@ -287,12 +334,16 @@
   }
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (["START_BODY_SCAN", "STOP_BODY_SCAN", "PRECHECK_INBOX", "CLEAR_INBOX_MARKS", "OPEN_INBOX_ROW"].includes(message?.type)) {
+    if (["START_BODY_SCAN", "FINISH_BODY_SCAN", "STOP_BODY_SCAN", "PRECHECK_INBOX", "CLEAR_INBOX_MARKS", "OPEN_INBOX_ROW"].includes(message?.type)) {
       if (sender?.id !== chrome.runtime.id || sender.tab || sender.url !== chrome.runtime.getURL("sidepanel.html")) {
         sendResponse({ ok: false, error: "Use the dobby’s catch side panel for this action." });
         return;
       }
       try {
+        if (message.type === "FINISH_BODY_SCAN") {
+          finishBodyScan(message.email_id, message.scan_id).then(sendResponse, () => sendResponse({ ok: false, error: "Could not finish the message scan. Analyze again." }));
+          return true; // Keep this Chrome response channel open until the sweep ends.
+        }
         if (message.type === "START_BODY_SCAN") sendResponse(startBodyScan(message.email_id, message.scan_id));
         if (message.type === "STOP_BODY_SCAN") { stopBodyScan(message.scan_id); sendResponse({ ok: true }); }
         if (message.type === "PRECHECK_INBOX") sendResponse(precheckInbox());
@@ -337,6 +388,7 @@
     clearInbox(true);
     checkEmailChange();
   });
+  document.addEventListener?.("visibilitychange", () => { if (document.visibilityState === "hidden") stopBodyScan(); });
   window.addEventListener("pagehide", () => { stopBodyScan(); clearInbox(); });
   checkEmailChange();
 })();

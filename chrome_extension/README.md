@@ -1,6 +1,8 @@
-# dobby’s catch 0.3.3: refreshed name and cat icon
+# dobby’s catch 0.3.4: synchronized scan and results
 
-Version 0.3.3 replaces the former Hookline display name with **dobby’s catch** and uses the supplied cat-and-fish artwork in the toolbar, extension list and side-panel header. The packaged PNG icons preserve the full artwork at 16, 32, 48 and 128 pixels. The header wraps its controls on narrow panels. Internal message, session-storage and DOM identifiers remain unchanged. Chrome may clear session storage when reloading or updating an extension; reconnect if needed.
+Version 0.3.4 waits for both the backend response and the visual scan to finish before showing a result. Fast responses finish the current sweep; slow responses do not start another sweep or add a fresh delay. **Cancel check** clears the pending view and discards its eventual response, but cannot recall a backend request already sent.
+
+Version 0.3.3 replaced the former Hookline display name with **dobby’s catch** and uses the supplied cat-and-fish artwork in the toolbar, extension list and side-panel header. The packaged PNG icons preserve the full artwork at 16, 32, 48 and 128 pixels. The header wraps its controls on narrow panels. Internal message, session-storage and DOM identifiers remain unchanged. Chrome may clear session storage when reloading or updating an extension; reconnect if needed.
 
 This unpacked Chrome extension has two distinct modes:
 
@@ -24,13 +26,13 @@ Simple is on by default. After Analyze or Try demo, the shield gives a short res
 
 ## Body scan and suspicious-title list
 
-When you choose **Analyze open email**, a pointer-transparent scan line moves over the visible message body while the check is pending. It is an activity indicator, not proof that every word or attachment was checked. The overlay stays outside the email DOM and is removed after success, failure, navigation, panel closure or a 46-second fallback timeout. Reduced-motion settings disable the moving line. Selecting an exact body-evidence clue highlights it temporarily for eight seconds without rewriting the message.
+When you choose **Analyze open email**, a pointer-transparent scan line makes one 1.6-second pass over the visible message body while the backend runs concurrently. The line then stops; a static border and the side-panel status remain while waiting for the backend. Results stay hidden until both are ready, and the overlay is removed before the result appears. It is an activity indicator, not proof that every word or attachment was checked. The overlay stays outside the email DOM and is removed after success, failure, navigation, panel closure or a 46-second fallback timeout. Reduced-motion settings disable the moving line and skip the visual wait. If the animation event is suppressed, a 1.9-second fallback explicitly ends the visual; a lost completion acknowledgment fails visibly after 2.5 seconds rather than hanging. Errors and cancellation do not wait for an animation. Changing the email or active tab discards pending results, and the selected message is checked again just before completion. Selecting an exact body-evidence clue highlights it temporarily for eight seconds without rewriting the message.
 
 On the home screen, **Check inbox titles** checks up to the first 100 visible Gmail rows locally. English and Traditional Chinese rules look for time pressure, account/password requests and payment/bank-change wording. Matching subjects receive amber **Check title** marks and appear in the side panel. The title check does not send email content to the backend or read previews, senders or message bodies. It is a narrow keyword check, not a phishing classification, and an unmarked message is not an all-clear.
 
 Select a listed subject to open that captured Gmail row. Body analysis is still a separate **Analyze open email** action. **Clear marks**, changing tabs, navigating, or changing the list clears the results. Stale rows are checked before opening, and late responses cannot restore an old list. Titles and optional local guidance are not saved.
 
-To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **dobby’s catch**, the cat icon appears, and the version is **0.3.3**. Do not remove and reinstall it just to update the branding. Reconnect the staging demo token if the session was cleared. Version 0.3.3 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
+To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **dobby’s catch**, the cat icon appears, and the version is **0.3.4**. Do not remove and reinstall it just to update the branding. Reconnect the staging demo token if the session was cleared. Version 0.3.4 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
 
 ## Connect securely
 
@@ -59,7 +61,7 @@ node --check chrome_extension/sidepanel.js
 node --check chrome_extension/inbox-panel.js
 ```
 
-Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, body-scan lifecycle and subject-list invalidation. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
+Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, finite body-scan completion, fast/slow backend responses, reduced motion, cancellation/retry, lost animation events/acknowledgments, late results, and subject-list invalidation. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
 Manual acceptance checklist, still required:
 
@@ -72,6 +74,10 @@ Manual acceptance checklist, still required:
 - Disconnect clears the token; Gmail analysis then fails until reconnecting.
 - Stop the proxy: request fails visibly, not as a clean assessment.
 - Check titles in a synthetic inbox: only matching visible subjects are marked and listed, and no backend request occurs. Repeat the check, clear marks, change tabs and change the inbox list; old results must not reopen the wrong message.
-- Open a listed message, then Analyze separately: the body scan ends on result, error or navigation, does not capture clicks, and honors reduced motion.
+- Open a listed message, then Analyze separately. With a fast backend, the one-pass animation must finish and disappear before the result appears. With a slow backend, it must stop after one pass while the text status keeps waiting; backend completion must not restart a delay.
+- Enable reduced motion: no sweep and no artificial visual wait. Cancel during the sweep, retry, switch messages/tabs, disconnect, and close the panel: no late result or leftover overlay should appear. Errors must appear promptly and re-enable controls.
+- The scan remains pointer-transparent and only indicates activity, never scan coverage or an all-clear.
 
 Gmail DOM selectors are unstable and require actual-browser validation. Sender matching and a low risk score are not proof of authenticity. Do not test with sensitive real inbox data in public demos.
+
+Version 0.3.4 verification: 75 Node transport/DOM-stub tests and 133 backend tests pass. Real Chrome/Gmail E2E remains required. A synthetic headless Chromium check was attempted in this workspace but Chromium could not start because the environment disallowed its process socket; no rendered-browser pass is claimed.

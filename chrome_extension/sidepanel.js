@@ -21,24 +21,51 @@ let simpleMode = true;
 let activeAction = null;
 let actionOpener = null;
 let activeBodyScan = null;
+const scanSession = globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2);
 
 async function endBodyScan(target = activeBodyScan) {
   if (!target) return;
+  target.cancelFinish?.();
   if (activeBodyScan === target) activeBodyScan = null;
   await chrome.tabs.sendMessage(target.tabId, { type: "STOP_BODY_SCAN", scan_id: target.id }).catch(() => {});
 }
 
 async function beginBodyScan(email, tabId, request) {
-  const target = { tabId, id: `scan-${request}` };
+  const target = { tabId, id: `${scanSession}-${request}`, request };
   activeBodyScan = target;
   const response = await chrome.tabs.sendMessage(tabId, { type: "START_BODY_SCAN", email_id: email.email_id, scan_id: target.id });
   if (!response?.ok) throw new Error(response?.error || "Could not confirm the selected Gmail message. Refresh Gmail and try again.");
   return target;
 }
 
+async function finishBodyScan(target, email) {
+  // Content owns actual animation completion. A lost response must not leave the
+  // panel waiting forever or allow results alongside an unfinished overlay.
+  let timer;
+  const interrupted = new Promise((_, reject) => {
+    target.cancelFinish = () => reject(new Error("Check canceled."));
+    timer = setTimeout(() => reject(new Error("Could not finish the scan display. Refresh Gmail and try again.")), 2500);
+  });
+  try {
+    const response = await Promise.race([
+      chrome.tabs.sendMessage(target.tabId, { type: "FINISH_BODY_SCAN", email_id: email.email_id, scan_id: target.id }),
+      interrupted
+    ]);
+    if (!response?.ok || response.completed !== true || response.scan_id !== target.id || response.email_id !== email.email_id) {
+      throw new Error(response?.error || "The scan was interrupted. Refresh Gmail and analyze again.");
+    }
+    if (activeBodyScan === target) activeBodyScan = null;
+  } finally {
+    clearTimeout(timer);
+    target.cancelFinish = null;
+  }
+}
+
 function setBusy(busy) {
   $("analyze").disabled = busy;
   $("demo").disabled = busy;
+  $("analyze").setAttribute("aria-busy", String(busy));
+  $("cancel-check").hidden = !busy;
 }
 
 function modeLabel(analysis, mocked) {
@@ -133,6 +160,17 @@ async function analyzeEmail(email, mode, tabId = null) {
     if (!response?.ok) throw new Error(response?.error || "No analysis returned.");
     const analysis = response.data;
     if (analysis.email_id !== email.email_id) throw new Error("Backend response email ID does not match the selected email.");
+    if (scanTarget) {
+      const tab = await activeTab();
+      if (myRequest !== requestNumber) return;
+      if (tab?.id !== tabId) {
+        clearResults("Tab changed. Analyze the email in your active tab.");
+        return;
+      }
+      setStatus("Backend response received. Finishing the visual indicator before showing results…");
+      await finishBodyScan(scanTarget, email);
+      if (myRequest !== requestNumber) return;
+    }
     currentFindings = Array.isArray(analysis.findings) ? analysis.findings : [];
     renderResults(analysis, response.mocked);
     setStatus(response.mocked ? "Local demo complete. No email was sent and no AI was called." :
@@ -141,7 +179,7 @@ async function analyzeEmail(email, mode, tabId = null) {
   } catch (error) {
     if (myRequest === requestNumber) setStatus(`Analysis failed: ${error.message}`, true);
   } finally {
-    await endBodyScan(scanTarget || (activeBodyScan?.id === `scan-${myRequest}` ? activeBodyScan : null));
+    await endBodyScan(scanTarget || (activeBodyScan?.request === myRequest ? activeBodyScan : null));
     if (myRequest === requestNumber) setBusy(false);
   }
 }
@@ -364,6 +402,11 @@ $("analyze").addEventListener("click", async () => {
   }
 });
 
+$("cancel-check").addEventListener("click", () => {
+  clearResults("Check canceled. A request already sent may still finish; its result will not be shown.");
+  $("analyze").focus?.();
+});
+
 $("demo").addEventListener("click", () => analyzeEmail(DEMO_EMAIL, "demo"));
 
 $("challenge").addEventListener("click", async () => {
@@ -583,4 +626,8 @@ $("simple-reviewed").addEventListener("click", () => {
 updateView();
 
 // Closing the panel should not leave an activity overlay in Gmail. The content script also has a timeout.
-globalThis.window?.addEventListener("pagehide", () => { void endBodyScan(); });
+globalThis.window?.addEventListener("pagehide", () => {
+  requestNumber++;
+  challengeNumber++;
+  void endBodyScan();
+});
