@@ -127,7 +127,12 @@ def _anthropic_request(model: str, schema: Optional[dict], system: str, user: st
 def default_call(task: str = "analyze", schema: Optional[dict] = None) -> Optional[ModelCall]:
     provider = config.model_provider()
     if provider == "tinker":
-        return _tinker_call
+        if schema is None:
+            return _tinker_call
+        def call(system: str, user: str) -> str:
+            return _tinker_call(system + "\n\nReturn one JSON object matching this JSON schema:\n"
+                                + json.dumps(schema), user)
+        return call
     if provider == "anthropic":
         return _anthropic_call(task, schema)
     return None
@@ -157,13 +162,15 @@ def parse_json_object(text: str) -> dict:
 
 def call_json(call: ModelCall, system: str, user: str, retries: int = 1,
               validate: Optional[Callable[[dict], None]] = None) -> tuple[dict, int]:
-    """Call the model and parse a JSON object. Retries once only when the
-    answer was not valid JSON; any other failure is raised at once.
+    """Call the model and parse a JSON object. Retries once only for invalid
+    JSON or schema validation; any other failure is raised at once.
     Returns (object, elapsed_ms)."""
     started = time.monotonic()
     last: Exception = ModelUnavailable("no attempt")
     for attempt in range(retries + 1):
-        prompt = user if attempt == 0 else user + "\n\nYour last reply was not one valid JSON object. Reply with ONLY the JSON object."
+        prompt = user if attempt == 0 else user + (
+            "\n\nYour last reply failed validation: " + str(last)
+            + ". Correct it and reply with ONLY one JSON object matching the required schema.")
         try:
             obj = parse_json_object(call(system, prompt))
             if validate is not None:

@@ -1,0 +1,233 @@
+{
+  "round": "A-003",
+  "baseline": "6515a54",
+  "backend_tests": {
+    "passed": 195,
+    "skipped": 1
+  },
+  "extension_tests": {
+    "passed": 99,
+    "reused_unchanged_source": true
+  },
+  "cloud_base": {
+    "anonymous": {
+      "status": 403,
+      "ms": 203
+    },
+    "wrong_app_token": {
+      "status": 401,
+      "ms": 109
+    },
+    "missing_ai_guard": {
+      "status": 409,
+      "ms": 110
+    },
+    "rules_guard": {
+      "status": 409,
+      "ms": 156
+    },
+    "session": {
+      "status": 200,
+      "ms": 94,
+      "model": {
+        "triage": "tinker:Qwen/Qwen3-8B",
+        "analyze": "tinker:Qwen/Qwen3-8B",
+        "challenge": "tinker:Qwen/Qwen3-8B"
+      }
+    },
+    "analyze": {
+      "status": 200,
+      "ms": 5219,
+      "complete": true,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "findings": 16
+    },
+    "challenge": {
+      "status": 200,
+      "ms": 1750,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "assessment": "still_concerning"
+    }
+  },
+  "runtime": {
+    "assertions": {
+      "serviceAccountName_unchanged": true,
+      "containerConcurrency_unchanged": true,
+      "timeoutSeconds_unchanged": true,
+      "sandboxes_unchanged": true,
+      "container_env_unchanged": true,
+      "container_resources_unchanged": true,
+      "container_ports_unchanged": true,
+      "container_startupProbe_unchanged": true,
+      "container_volumeMounts_unchanged": true,
+      "container_command_unchanged": true,
+      "container_args_unchanged": true,
+      "volumes_unchanged": true,
+      "scaling_annotations_unchanged": true,
+      "service_scaling_annotations_unchanged": true,
+      "no_public_iam_members": true,
+      "iam_bindings_equal_previous_A002_after": true,
+      "backend/app/llm.py_matches_deployed_manifest": true,
+      "backend/app/analyze.py_matches_deployed_manifest": true,
+      "A003_100_percent": true,
+      "rules_only_tag_preserved": true,
+      "rules_only_session_200": true,
+      "rules_only_session_models": true
+    },
+    "rules_only_session": {
+      "status": 200,
+      "model": {
+        "triage": "rules-only",
+        "analyze": "rules-only",
+        "challenge": "rules-only"
+      }
+    },
+    "all_assertions_passed": true,
+    "limitations": [
+      "IAM comparison uses prior A002 after snapshot; no immediate A003-before IAM snapshot.",
+      "Source hash comparison proves equality to deployment manifest, not runtime container extraction.",
+      "No model call or cloud mutation was performed by this audit."
+    ]
+  },
+  "bundle": {
+    "owned_source_files": 317,
+    "source_and_manifest_match": true,
+    "output_files_secret_scanned": 320,
+    "secret_matches": 0,
+    "git_or_venv_included": false
+  },
+  "synthetic_cases": [
+    {
+      "subject": "[T18] Change of direct deposit before payroll",
+      "input_sha256": "f4d25a2c3ae31a94eaef660cf6bacbac89751dc2f1e07647673d9d5b47d135a3",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 11031
+    },
+    {
+      "subject": "[T06] Invoice GS-21007 remittance",
+      "input_sha256": "d042942c4240155416208b32418c5934ec683854fd5ea300ab52bbd0042cd105",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 8687
+    },
+    {
+      "subject": "[T09] Draft handbook for review",
+      "input_sha256": "af0f9036c312ee4b4a71a553ed8feaef1946d012e3e7e370662e214e4c5b8e87",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 14563
+    },
+    {
+      "subject": "[T10] URGENT: payroll cutoff today at 5pm",
+      "input_sha256": "27ff11bbcd06912a846b024e6e41f8899ac87fc1296982f49080e6a57bbb3d96",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 5719
+    },
+    {
+      "subject": "[T11] Reminder: our bank details have not changed",
+      "input_sha256": "82d9dbdbdf96c6c68b120af6d6d994e4e51c78cc3991124fe0ec85c6c0ac6503",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 5812
+    },
+    {
+      "subject": "[T12] Action needed to keep your coverage",
+      "input_sha256": "b576dc0962cf442cb1b5fced5a1fcb6520442c9f3e9c39557def73cec6b255ae",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 6891
+    },
+    {
+      "subject": "[T13] RE: Invoice 4471",
+      "input_sha256": "58219cfd2ce802eaf346cb6a50f91e2e30f1a4e0b04d0bbcc90570756206922b",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 8656
+    },
+    {
+      "subject": "[T14] October close timeline",
+      "input_sha256": "e2b5dc70ee0f626f0c72da38067d563f42a978ccc0105e397f7afd7444b2e173",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 10984
+    },
+    {
+      "subject": "[T19] URGENT: Updated banking details for invoice #GS-20931",
+      "input_sha256": "df0f4c66a10b15a6ee35b8fcfb98652ef8592680c9eb68f46e4fcd4559455fb1",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 3859
+    },
+    {
+      "subject": "[T20] Quick favor before Friday",
+      "input_sha256": "6d92403b9826c336eb0415ec8450e32bff8c6cc66bfa2603d20441a37cab497c",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 3656
+    },
+    {
+      "subject": "[T21] Mailbox quota",
+      "input_sha256": "cbc113b5b1d9fe13a10e199715a69cd609b849f97bd7d0f42eee29681cf69dc4",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 5203
+    },
+    {
+      "subject": "[T22] Reminder: timesheets due Thursday",
+      "input_sha256": "83725cd33c7c65566651de63ae8af1b4638386c8beff467101d6fbd81c0699a2",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 5688
+    },
+    {
+      "subject": "[T23] Updated remittance details",
+      "input_sha256": "5132beb879c1be71f9741bb01a1f54a4dfb71169387021e8aebc99348ec683da",
+      "status": 200,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "analysis_complete": false,
+      "latency_ms": 2671
+    }
+  ],
+  "browser": {
+    "extension": "0.3.6",
+    "title_list_select_analyze_next": true,
+    "rapid_selection_no_auto_post": true,
+    "fast_response_visual_gate": true,
+    "slow_cancel_late_response_suppressed": true,
+    "navigation_tab_panel_cleanup": true,
+    "reduced_motion_restored": true,
+    "actual_AI_T23_render": true
+  },
+  "presentation": {
+    "id": "1CCrNSYTw5kX93Awoa7PGRrvDzMnl8iXTW_qNm_IOvPs",
+    "slide": "p2",
+    "image": "h3caeae0402c09b6d_2_1",
+    "other_element_geometry_unchanged": true,
+    "fresh_thumbnail_inspected": true,
+    "specific_comment_reply_verified_resolved": true
+  },
+  "limits": [
+    "Semantic false alarms remain; API success is not semantic accuracy.",
+    "P1 held-out Qwen evaluation unrun.",
+    "Whole clean-machine installation unrun; unchanged launcher proof reused.",
+    "No final Devpost submission; team/video/prize fields need owner."
+  ],
+  "runtime_cleanup": {
+    "task_8081_stopped": true,
+    "foreign_8080_preserved": true
+  }
+}

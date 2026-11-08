@@ -188,6 +188,20 @@ def test_bad_json_is_retried_once():
     assert len(calls) == 2
 
 
+@pytest.mark.parametrize("schema", [prompts.ANALYZE_SCHEMA, prompts.ANALYZE_SCHEMA_V2,
+                                   prompts.TRIAGE_SCHEMA, prompts.CHALLENGE_SCHEMA])
+def test_tinker_receives_selected_schema_in_system_prompt(monkeypatch, schema):
+    monkeypatch.setenv("MODEL_PROVIDER", "tinker")
+    calls = []
+    monkeypatch.setattr(llm, "_tinker_call", lambda s, u: calls.append((s, u)) or "{}")
+    assert llm.default_call("analyze", schema)("system", "user") == "{}"
+    system, user = calls[0]
+    assert system.startswith("system\n\n")
+    assert json.loads(system.split("JSON schema:\n", 1)[1]) == schema
+    assert user == "user"
+    assert llm.default_call("analyze") is llm._tinker_call
+
+
 def test_post_without_content_length_is_refused(monkeypatch):
     monkeypatch.setenv("DEMO_API_TOKEN", "dev")
     import main

@@ -13,10 +13,10 @@ It never says an email is safe and never authorizes a payment. “No warning sig
 | Rule engine (`backend/phishhook/`) | Built. 8 detectors plus payroll-specific checks |
 | Evidence checks | Built. Every quote shown to the user is checked against the email; unverifiable output becomes “Analysis incomplete” |
 | Claude integration | Built and evaluated offline: Claude Haiku 5.5 for inbox triage, Claude Sonnet 5.5 for per-email analysis |
-| Private staging on Cloud Run | IAM-protected Tinker revision `phish-staging-ai-3ec6847-a002` serves 100% traffic; post-promotion session and anonymous-denial checks passed. Runtime account, IAM and resource limits preserved |
+| Private staging on Cloud Run | IAM-protected Tinker revision `phish-staging-p0-6515a54-a003` serves 100% traffic; base-route session, analysis, challenge and access-denial checks passed. Runtime account, IAM and resource limits preserved |
 | Tinker | Stable base model `Qwen/Qwen3-8B` passed real Cloud Run analysis and challenge without an expiring sampler. This proves connectivity, not accuracy |
 | Windows demo | Double-click `Start-Demo.cmd`: one-window cloud connector on loopback 8081, no separately managed proxy. `-Local` retains the sampler-backed fallback; see [startup guide](scripts/README.md) |
-| Tests | 187 backend tests pass, 1 is skipped; 99 extension tests and Windows PowerShell 5.1 launcher checks pass |
+| Tests | 195 backend tests pass, 1 is skipped; 99 extension tests and Windows PowerShell 5.1 launcher checks pass |
 | Chrome/Gmail acceptance | Synthetic T23 analysis and challenge passed; partial extraction correctly flagged. Revoking consent blocked further analysis |
 
 ## Evaluation (summary)
@@ -43,7 +43,7 @@ Details: [`backend/eval/results/`](backend/eval/results/) and [`docs/PROGRESS_RE
 
 ## Run it locally
 
-For the prepared Windows demo, use [Start-Demo.cmd](Start-Demo.cmd). It starts a connector in one window using your Google Cloud sign-in and the existing cloud app token. The provider key stays in private Cloud Run; the default cloud base model needs no sampler or local checkpoint. Choose the one-click connection in the extension, explicitly allow Tinker, and paste the temporary app token displayed in the window. Startup checks the remote session without inference. Use synthetic emails only; API inference uses credits. The independently reviewed AI revision now serves 100% traffic; see [deployment status](docs/PRIVATE_STAGING.md).
+For the prepared Windows demo, use [Start-Demo.cmd](Start-Demo.cmd). It starts a connector in one window using your Google Cloud sign-in and the existing cloud app token. The provider key stays in private Cloud Run; the default cloud base model needs no sampler or local checkpoint. Choose the one-click connection in the extension, explicitly allow Tinker, and paste the temporary loopback token displayed in the window. Startup checks the remote session without inference. Use synthetic emails only; API inference uses credits. The independently reviewed AI revision now serves 100% traffic; see [deployment status](docs/PRIVATE_STAGING.md).
 
 Use `Start-Demo.cmd -Local` only for the previous direct-local fallback. That mode still needs its valid, expiring sampler; it does not renew it automatically.
 
@@ -68,3 +68,9 @@ To try the extension, load `chrome_extension/` with **Load unpacked** at `chrome
 ## Limits
 
 This is a prototype. It does not prove that an email is safe, authenticate a sender, replace company approval rules, or authorize payments. Gmail extraction is partial (no raw headers or attachment contents). Use synthetic emails for demos. Keep model API keys on the backend, never in the extension or in Git.
+
+
+P0 synthetic acceptance: 13 actual Gmail extractions returned cloud AI HTTP 200 without provider fallback, but routine-content semantic false alarms remain. Quote verification is not semantic correctness. The P1 held-out run has not been performed. See [case results](docs/P0_ACCEPTANCE.md).
+
+
+The cloud app token is used only by the connector and is never pasted into the extension. Paste only the temporary loopback token displayed by the launcher.

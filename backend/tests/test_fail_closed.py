@@ -152,6 +152,34 @@ def test_explicit_v1_schema_does_not_require_v2_fields(monkeypatch):
     assert result.analysis_complete
     assert result.model == "rules-only"  # fake provider, no paid calls
 
+
+@pytest.mark.parametrize("field,bad,expected", [
+    ("confidence", "PRIVATE_MODEL_VALUE", "expected one of low, medium, high"),
+    ("quote", {"PRIVATE_MODEL_VALUE": 1}, "expected string"),
+])
+@pytest.mark.parametrize("correct_retry", [True, False])
+def test_analysis_retry_reports_safe_schema_path(monkeypatch, caplog, field, bad, expected, correct_retry):
+    monkeypatch.setenv("PROMPT_VERSION", "v2")
+    item = {"category": "manipulation_cue", "block_id": "b1", "quote": "A routine update",
+            "explanation": "Check", "next_action": "Check independently",
+            "requested_action": "Open a link", "confidence": "high"}
+    payload = {"email_type": "needs_check", "summary": "Update", "explanations": [],
+               "extra_findings": [{**item, field: bad}]}
+    calls = []
+    def fake(system, user):
+        calls.append(user)
+        if len(calls) == 2 and correct_retry:
+            return json.dumps({**payload, "extra_findings": [item]})
+        return json.dumps(payload)
+    result = analyze(email(), fake)
+    assert len(calls) == 2
+    assert f"analysis.extra_findings[0].{field}: {expected}" in calls[1]
+    assert "PRIVATE_MODEL_VALUE" not in calls[1] + caplog.text
+    assert result.analysis_complete is correct_retry
+    if not correct_retry:
+        assert result.model == "rules-only (model unavailable)"
+        assert result.verdict["key"] != "pay"
+
 @pytest.mark.parametrize('provider', ['mock', 'anthropic'])
 @pytest.mark.parametrize('route', ['/session', '/analyze'])
 def test_tinker_permission_blocks_other_providers_before_selection(monkeypatch, provider, route):

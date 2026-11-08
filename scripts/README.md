@@ -2,7 +2,7 @@ Double-click `Start-Demo.cmd` from the repository root. One terminal prepares th
 
 The default uses Cloud Run AI with the Tinker base model `Qwen/Qwen3-8B`. It needs no local sampler, checkpoint file or Tinker provider key. The provider key stays in Cloud Run. The connector checks the remote session at startup without running inference. Your signed-in Google account needs access to the private service and `phish-demo-token:1` in Secret Manager.
 
-Paste the displayed temporary demo token into the extension password field, choose the one-click connection, and explicitly enable Tinker. Each launch generates a new demo token. Analyzing a selected email can incur inference charges. A request that times out in the client may still consume credits, and correction retries can incur additional charges.
+Paste the displayed temporary loopback token into the extension password field, choose the one-click connection, and explicitly enable Tinker. Each launch generates a new temporary loopback token. Analyzing a selected email can incur inference charges. A request that times out in the client may still consume credits, and correction retries can incur additional charges.
 
 For the previous direct-local fallback, run `Start-Demo.cmd -Local`. Only this mode requires a valid sampler recorded in `private/tinker-model.json` with `model` and an ISO `expires_at` including timezone. The first sampler expires **November 9, 2026 at 05:19:36 UTC** (November 9 at 00:19:36 EST). After expiry, repeat the controlled sampler setup before using this fallback. Startup refuses missing, invalid or expired checkpoints; it never creates a sampler or runs a paid smoke test. Local mode reads the Tinker key into the server environment and fixes the provider URL to the official Tinker endpoint.
 
@@ -11,3 +11,6 @@ Python selection tries `DOBBY_PYTHON`, local `.venv`, `python`, then `%USERPROFI
 Offline cloud prerequisite check: `powershell.exe -NoProfile -File scripts/start-demo.ps1 -CheckOnly`. Add `-Local` to check the local sampler too. Neither check reads secrets or contacts the model. Offline launcher tests: `powershell.exe -NoProfile -File scripts/test-start-demo.ps1`.
 
 Cloud upstream is fixed to `https://phish-staging-az465uxmla-uc.a.run.app`. For deployment verification only, `CLOUD_RUN_URL` may select an HTTPS tagged hostname of this same service; paths, ports, credentials and other hosts are refused. The launcher restores inherited environment values and the working directory when the server exits.
+
+
+The cloud app token is used only by the connector and is never pasted into the extension. Paste only the temporary loopback token displayed by the launcher.

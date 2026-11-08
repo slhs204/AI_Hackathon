@@ -3,9 +3,9 @@
 Owner: Sunday (AI, tools & evaluation). Wraps Albert's rule engine (`phishhook/`, copied unchanged)
 and adds the model layer, evidence checks, payroll policies, `/challenge`, and the eval.
 
-The prepared Windows demo now defaults to a one-window authenticated connector on loopback 8081, reaching IAM-private Cloud Run with Tinker base model `Qwen/Qwen3-8B`; no local sampler is needed. Canary `phish-staging-ai-3ec6847-a002` passed synthetic analysis (7,922 ms) and challenge (1,453 ms), and now serves 100% traffic after independent review. The default base URL launcher session passed after promotion. Existing runtime account, IAM and limits are preserved. See [startup](../scripts/README.md) and [deployment status](../docs/PRIVATE_STAGING.md).
+The prepared Windows demo now defaults to a one-window authenticated connector on loopback 8081, reaching IAM-private Cloud Run with Tinker base model `Qwen/Qwen3-8B`; no local sampler is needed. The repaired revision `phish-staging-p0-6515a54-a003` now serves 100% traffic; base-route session, analysis, challenge and access-denial checks passed. Existing runtime account, IAM and limits are preserved. See [startup](../scripts/README.md) and [deployment status](../docs/PRIVATE_STAGING.md).
 
-Current verification: 187 backend tests passed with 1 skipped, 99 extension tests passed, and Windows PowerShell 5.1 launcher checks passed. Real Chrome with extension 0.3.6 passed synthetic T23 analysis and challenge, correctly flagged partial extraction, and blocked analysis after consent revocation.
+Current verification: 195 backend tests passed with 1 skipped, 99 extension tests passed, and Windows PowerShell 5.1 launcher checks passed. Real Chrome with extension 0.3.6 passed synthetic T23 analysis and challenge, correctly flagged partial extraction, and blocked analysis after consent revocation.
 
 ## Run locally
 
@@ -46,7 +46,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `eval/run_eval.py` | Runs all fixtures in "full headers" and "Gmail-visible" views, writes `eval/results/` |
 | `eval/smoke_tinker.py` | One tiny call + one full analysis to prove the Tinker setup works |
 | `eval/smoke_anthropic.py` | Haiku triage of a 3-email inbox + one Sonnet analysis |
-| `tests/` | Evidence, pipeline, API/token, fail-closed, rubric, connector, Hookline compatibility and container permissions; 177 pass, 1 skip |
+| `tests/` | Evidence, pipeline, API/token, fail-closed, rubric, connector, Hookline compatibility and container permissions; 195 pass, 1 skip |
 | `../fixtures/` | `build_fixtures.py` (core set) and `convert_teddyha.py` (blind set from `external/teddyha`, MIT) |
 
 ## Environment
@@ -120,3 +120,6 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
   rules-only results with the model-unavailable label. No provider calls are made by tests.
 - Pressure-only findings become notes only when extracted content is complete and no link,
   attachment or risky action wording is present. This is deliberately conservative.
+
+
+P0 synthetic acceptance: 13 actual Gmail extractions returned cloud AI HTTP 200 without provider fallback, but routine-content semantic false alarms remain. Quote verification is not semantic correctness. The P1 held-out run has not been performed. See [case results](../docs/P0_ACCEPTANCE.md).

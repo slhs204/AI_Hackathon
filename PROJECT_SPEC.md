@@ -15,7 +15,7 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | Part | Status |
 |---|---|
 | Google Cloud project and billing | Set up |
-| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-ai-3ec6847-a002` serves 100% traffic; base URL verified. Runtime account, IAM and limits preserved; see `docs/PRIVATE_STAGING.md` |
+| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-p0-6515a54-a003` serves 100% traffic; base-route session, analysis, challenge and access-denial checks passed. Runtime account, IAM and limits preserved; see `docs/PRIVATE_STAGING.md` |
 | `GET /health`, `GET /session` | Built |
 | `POST /analyze` (rules, extra checks, optional model, evidence check, payroll policy) | Built |
 | `POST /triage` (inbox priority from sender, subject, preview) | Built |
@@ -23,7 +23,7 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | Claude integration (Haiku 5.5 triage, Sonnet 5.5 analysis) | Built and evaluated offline; not enabled on staging |
 | Browser extension (Gmail, 0.3.6) | Built: simple result view, evidence highlights, challenge, practice question, local inbox-title check, local demo and explicit session AI permission |
 | Evidence highlighting and scan animation | Built |
-| Automated tests | 187 backend pass, 1 skip; 99 extension pass; Windows PowerShell 5.1 launcher checks pass |
+| Automated tests | 195 backend pass, 1 skip; 99 extension pass; Windows PowerShell 5.1 launcher checks pass |
 | Real Chrome/Gmail acceptance test | Synthetic T23 analysis and challenge passed; partial extraction correctly flagged; revoked consent blocked analysis. Broader checklist remains in `chrome_extension/README.md` |
 
 ## 3. The user experience
@@ -68,7 +68,7 @@ A matching domain does not prove that the sender is trustworthy. An account can 
 ## 5. Model plan and results
 
 - Claude Haiku 5.5 (`claude-haiku-5-5`) for `/triage` and Claude Sonnet 5.5 (`claude-sonnet-5-5`) for `/analyze` and `/challenge` remain supported and evaluated offline.
-- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed real private Cloud Run canary analysis (7,922 ms) and challenge (1,453 ms), without an expiring sampler. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent review passed; the AI revision serves 100% traffic and retains private IAM and a rules-only rollback tag. These results do not establish model accuracy.
+- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed real private Cloud Run A003 base-route analysis (5,219 ms) and challenge (1,750 ms), without an expiring sampler. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent review passed; the AI revision serves 100% traffic and retains private IAM and a rules-only rollback tag. These results do not establish model accuracy.
 - `Start-Demo.cmd -Local` retains the earlier direct-local sampler fallback. Its checkpoint still expires and requires separate renewal.
 - GPT-6.1 Sol was a comparison candidate and has not been tested.
 
@@ -107,7 +107,7 @@ All POST endpoints check `X-Demo-Token` before any model call and fail closed wh
 - Clear old results when the user selects another email.
 - Use readable text, keyboard access, and reduced motion. Do not rely on color alone.
 
-The team lead gives testers the demo token privately. Testers enter it in the extension. Keep it only for that session and rotate it after the demo. It is not a substitute for production login or server-side usage limits.
+Testers paste only the temporary loopback token shown by the launcher into the extension; it is regenerated each launch. The cloud app token is read by the connector and is never pasted into the extension. Rotate the cloud app token after the demo. Neither token replaces production login or server-side usage limits.
 
 ## 8. Remaining work
 
@@ -132,3 +132,6 @@ The team lead gives testers the demo token privately. Testers enter it in the ex
 | Test results and limits are written down | Done: `backend/eval/results/`, `docs/PROGRESS_REPORT.zh-TW.md` |
 
 Attachment scanning, automatic blocking, multiple email platforms, dashboards, and model training are outside the first version. Full-inbox scanning is limited to a local keyword check of visible subject lines.
+
+
+P0 synthetic acceptance: 13 actual Gmail extractions returned cloud AI HTTP 200 without provider fallback, but routine-content semantic false alarms remain. Quote verification is not semantic correctness. The P1 held-out run has not been performed. See [case results](docs/P0_ACCEPTANCE.md).

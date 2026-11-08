@@ -81,21 +81,26 @@ def _level(score: int) -> str:
 
 def _validate_model_analysis(raw: dict, schema: dict) -> None:
     """JSON syntax is not a successful review. Reject malformed structures before use."""
-    def required_fields(value, shape):
+    def required_fields(value, shape, path="analysis"):
         if shape.get("type") == "object":
-            if not isinstance(value, dict) or any(key not in value for key in shape.get("required", [])):
-                raise llm.ModelOutputInvalid("analysis is missing required schema fields")
+            if not isinstance(value, dict):
+                raise llm.ModelOutputInvalid(f"{path}: expected object")
+            for key in shape.get("required", []):
+                if key not in value:
+                    raise llm.ModelOutputInvalid(f"{path}.{key}: required field")
             for key, nested in shape.get("properties", {}).items():
                 if key in value:
-                    required_fields(value[key], nested)
+                    required_fields(value[key], nested, f"{path}.{key}")
         elif shape.get("type") == "array":
             if not isinstance(value, list):
-                raise llm.ModelOutputInvalid("analysis field must be an array")
-            for item in value:
-                required_fields(item, shape["items"])
+                raise llm.ModelOutputInvalid(f"{path}: expected array")
+            for index, item in enumerate(value):
+                required_fields(item, shape["items"], f"{path}[{index}]")
         elif shape.get("type") == "string":
-            if not isinstance(value, str) or ("enum" in shape and value not in shape["enum"]):
-                raise llm.ModelOutputInvalid("invalid analysis text field")
+            if not isinstance(value, str):
+                raise llm.ModelOutputInvalid(f"{path}: expected string")
+            if "enum" in shape and value not in shape["enum"]:
+                raise llm.ModelOutputInvalid(f"{path}: expected one of {', '.join(shape['enum'])}")
     required_fields(raw, schema)
     if not isinstance(raw.get("extra_findings"), list):
         raise llm.ModelOutputInvalid("analysis requires an extra_findings array")
