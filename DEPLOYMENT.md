@@ -1,3 +1,5 @@
+> **Historical health-only demo. Do not run these public-access commands against the real staging app.** For the existing private analysis service, use [docs/PRIVATE_STAGING.md](docs/PRIVATE_STAGING.md).
+
 # Deploy the Backend: Simple Guide
 
 This guide creates a small FastAPI service with one endpoint: `GET /health`.

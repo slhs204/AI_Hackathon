@@ -35,6 +35,15 @@ def _rule_pass(e) -> tuple[int, str, list[str]]:
     return score, priority, tags
 
 
+def _validate_model_triage(raw: dict) -> None:
+    if not isinstance(raw.get("items"), list):
+        raise llm.ModelOutputInvalid("triage requires an items array")
+    for item in raw["items"]:
+        if not isinstance(item, dict) or not isinstance(item.get("email_id"), str) or not isinstance(
+                item.get("priority"), str) or item["priority"] not in RANK or not isinstance(item.get("reason"), str):
+            raise llm.ModelOutputInvalid("invalid triage item")
+
+
 def triage(req: TriageRequest, model_call: Optional[llm.ModelCall] = None) -> TriageResponse:
     started = time.monotonic()
     items = []
@@ -49,7 +58,8 @@ def triage(req: TriageRequest, model_call: Optional[llm.ModelCall] = None) -> Tr
         rows = [{"email_id": e.email_id, "from": f"{e.sender.name} <{e.sender.address}>", "subject": e.subject,
                  "preview": e.snippet, "automatic_signs": it.tags} for e, it in zip(req.emails, items)]
         try:
-            raw, _ = llm.call_json(model_call, prompts.TRIAGE_SYSTEM, prompts.triage_user(rows))
+            raw, _ = llm.call_json(model_call, prompts.TRIAGE_SYSTEM, prompts.triage_user(rows),
+                                   validate=_validate_model_triage)
             by_id = {it.email_id: it for it in items}
             for m in raw.get("items") or []:
                 if not isinstance(m, dict):

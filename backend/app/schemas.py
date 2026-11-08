@@ -84,8 +84,14 @@ class AnalyzeRequest(_In):
     authentication_results: str = Field(default="", max_length=2_000)
     attachments: list[Attachment] = Field(default_factory=list, max_length=MAX_ATTACHMENTS)
 
+    # Whether the submitted visible content was fully extracted, not a claim of authenticity.
+    extraction_complete: bool = True
+    extraction_limitations: list[str] = Field(default_factory=list, max_length=10)
+
     @model_validator(mode="after")
     def _check_ids_and_size(self) -> "AnalyzeRequest":
+        if any(len(note) > 300 for note in self.extraction_limitations):
+            raise ValueError("extraction limitation is longer than 300 characters")
         block_ids = [b.id for b in self.blocks]
         if len(set(block_ids)) != len(block_ids):
             raise ValueError("block ids must be unique")
@@ -183,7 +189,8 @@ class AnalyzeResponse(BaseModel):
     recommended_actions: list[str]
     limitations: list[str]
     # engine v3.1 fields read by Albert's v3 extension / Outlook pane
-    verdict: Optional[dict[str, str]] = None  # {"key": pay|verify|stop, "label": ...}
+    verdict: Optional[dict[str, str]] = None  # {"key": pay|verify|stop, "label": ..., "rule": ...}
+    dimensions: Optional[list[dict]] = None  # rubric v2: sender / money / pressure / links, each ok|warn
     callback: Optional[dict[str, str]] = None  # who to call, from the directory, never from the email
     hold_scenario: Optional[str] = None
     stages: list[dict[str, Any]] = Field(default_factory=list)  # [{stage: subject|body, score, flags}]

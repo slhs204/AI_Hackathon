@@ -29,7 +29,7 @@ app.add_middleware(
     allow_origins=config.allowed_origins(),
     allow_origin_regex=r"^chrome-extension://[a-p]{32}$",
     allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type", "X-Demo-Token"],
+    allow_headers=["Content-Type", "X-Demo-Token", "X-Require-Rules-Only"],
 )
 
 
@@ -45,7 +45,8 @@ async def limit_body(request: Request, call_next):
     return await call_next(request)
 
 
-def require_token(x_demo_token: str = Header(default="")) -> None:
+def require_token(x_demo_token: str = Header(default=""),
+                  x_require_rules_only: str = Header(default="")) -> None:
     """Fail closed, same as Albert's v3.1: with no DEMO_API_TOKEN configured the
     POST routes refuse everything (503); a wrong or missing token gets 401.
     For local work set any value, e.g. DEMO_API_TOKEN=dev."""
@@ -54,6 +55,9 @@ def require_token(x_demo_token: str = Header(default="")) -> None:
         raise HTTPException(status_code=503, detail="DEMO_API_TOKEN is not configured on the server; /analyze is disabled")
     if not hmac.compare_digest(x_demo_token.encode(), expected.encode()):
         raise HTTPException(status_code=401, detail="invalid or missing X-Demo-Token")
+
+    if x_require_rules_only == "1" and config.model_provider() != "mock":
+        raise HTTPException(status_code=409, detail="This client requires rules-only mode; model calls are disabled for this request")
 
 
 def model_for_request(task: str):
@@ -67,6 +71,12 @@ def model_for_request(task: str):
 def health():
     return {"status": "ok", "service": "phishing-coach",
             "model": {t: llm.model_label(t) for t in ("triage", "analyze", "challenge")}}
+
+
+@app.get("/session", dependencies=[Depends(require_token)])
+def session():
+    """Validate staging access before the client sends any email content."""
+    return health()
 
 
 @app.post("/analyze", response_model=AnalyzeResponse, response_model_exclude_none=True,
