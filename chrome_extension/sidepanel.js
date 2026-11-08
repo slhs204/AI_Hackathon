@@ -260,7 +260,7 @@ async function selectFinding(finding) {
   $("hook-detail-check").textContent = `How to check: ${finding.next_action || "Use a trusted, separate channel."}`;
   $("hook-detail").hidden = false;
   $("hook-instruction").textContent = currentMode === "gmail"
-    ? "Selected clue. dobby’s catch is locating its exact text in Gmail."
+    ? "Selected clue. Dobby’s Catch is locating its exact text in Gmail."
     : "Demo clue selected. Analyze an email in Gmail to see the exact highlight.";
   $("challenge-result").textContent = "";
   await highlightFinding(finding);
@@ -397,7 +397,7 @@ $("analyze").addEventListener("click", async () => {
     clearResults();
     const missingReceiver = /Receiving end does not exist|Could not establish connection/i.test(String(error?.message || ""));
     setStatus(missingReceiver
-      ? "dobby’s catch could not connect to Gmail. Make sure Gmail is active, refresh the Gmail tab, and try again."
+      ? "Dobby’s Catch could not connect to Gmail. Make sure Gmail is active, refresh the Gmail tab, and try again."
       : `Could not read the message: ${error.message}`, true);
   }
 });
@@ -444,6 +444,13 @@ $("unsafe-answer").addEventListener("click", () => {
 });
 $("safe-answer").addEventListener("click", () => {
   $("practice-feedback").textContent = "Correct. Verify through your existing payroll or payment approval process.";
+});
+
+window.addEventListener("hookline:inbox-opening", event => {
+  // Cancel old body checks before navigation, including repeated selection of one title.
+  clearResults("Wait for Gmail to show the selected message, then choose Analyze open email.");
+  $("subject").textContent = event.detail.subject;
+  $("sender").textContent = "Review this message in Gmail before analyzing. Sender has not been checked.";
 });
 
 chrome.runtime.onMessage.addListener((message, sender) => {

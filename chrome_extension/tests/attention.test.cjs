@@ -14,11 +14,12 @@ class El {
   remove() { if (this.parent) this.parent.children = this.parent.children.filter(x => x !== this); this.isConnected = false; }
   getClientRects() { return this.hidden || !this.isConnected ? [] : [1]; }
   setAttribute(k,v) { this.attrs[k] = v; }
+  getAttribute(k) { return this.attrs[k] || null; }
   getBoundingClientRect() { return {left:30,top:60,right:630,bottom:1000}; }
 }
-function fixture(subjects = [], reducedMotion = false) {
-  const rows = subjects.map(text => {
-    const row = new El(); const subject = new El(text); row.append(subject);
+function fixture(subjects = [], reducedMotion = false, stableIds = false) {
+  const rows = subjects.map((text, index) => {
+    const row = new El(); if (stableIds) row.setAttribute('data-legacy-thread-id', (0x123456789abcdef0n + BigInt(index)).toString(16)); const subject = new El(text); row.append(subject);
     row.querySelector = s => s === 'span.bog' ? subject : null;
     row.click = () => row.clicked = true;
     return row;
@@ -72,12 +73,12 @@ test('only a current flagged row opens, with no backend request',()=>{
   assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok,true);
   assert.equal(f.rows[0].clicked,true);assert.equal(f.sent.length,0);
 });
-test('changed subject, row order or route invalidates marks before opening',()=>{
+test('rows without stable IDs reject changed subject, order or route without guessing',()=>{
   for (const change of [f=>f.rows[0].children[0].textContent='Other', f=>f.rows.reverse(),f=>f.ctx.location.hash='#sent']) {
     const f=fixture(['Urgent','Normal']);const r=f.message({type:'PRECHECK_INBOX'});change(f);
     assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok,false);
-    assert.ok(f.rows.every(row=>!row.clicked && row.children.length===1));
-    assert.equal(f.sent.at(-1).type,'INBOX_CHANGED');
+    assert.ok(f.rows.every(row=>!row.clicked && row.children.length===2 || !row.clicked && row.children.length===1));
+    assert.equal(f.sent.some(m=>m.type==='INBOX_CHANGED'),false);
   }
 });
 test('subject content stays text and limits/missing subjects are explicit',()=>{
@@ -184,4 +185,102 @@ test('finish is scoped to the scan and email and requires a trusted side panel s
   assert.equal((await f.messageAsync({...request,email_id:'wrong'})).ok,false);
   assert.equal(f.message(request,{}).ok,false);assert.equal(f.root.children.length,1);
   f.message({type:'STOP_BODY_SCAN'});
+});
+
+
+test('stable captured thread IDs survive navigation, detached rows and reordered inboxes', () => {
+  const f = fixture(['Urgent: first', 'Password: second'], false, true);
+  const r = f.message({type:'PRECHECK_INBOX'});
+  const open = index => f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[index].row_id});
+  assert.equal(open(0).ok, true);
+  assert.equal(f.ctx.location.hash, '#all/123456789abcdef0');
+  [...f.events.hashchange][0]();
+  f.rows.forEach(row => row.isConnected = false); f.rows.reverse();
+  f.ctx.testAPI.checkEmailChange();
+  assert.equal(open(1).ok, true);
+  assert.equal(f.ctx.location.hash, '#all/123456789abcdef1');
+  [...f.events.hashchange][0]();
+  assert.equal(open(0).ok, true);
+  assert.equal(f.ctx.location.hash, '#all/123456789abcdef0');
+  assert.equal(f.sent.some(m => m.type === 'INBOX_CHANGED'), false);
+  assert.ok(f.rows.every(row => !row.clicked));
+});
+
+test('Gmail account scope changes clear retained snapshots instead of opening another account', () => {
+  const f = fixture(['Urgent'], false, true); f.ctx.location.pathname = '/mail/u/0/';
+  const r = f.message({type:'PRECHECK_INBOX'}); f.ctx.location.pathname = '/mail/u/1/';
+  assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok, false);
+  assert.equal(f.ctx.location.hash, '#inbox');
+  assert.equal(f.sent.at(-1).type, 'INBOX_CHANGED');
+});
+
+test('modern decimal Gmail thread metadata is converted without precision loss', () => {
+  const f = fixture(['Urgent']); f.rows[0].setAttribute('data-thread-id', '#thread-f:1781234567890123456');
+  const r = f.message({type:'PRECHECK_INBOX'});
+  assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok, true);
+  assert.equal(f.ctx.location.hash, '#all/' + BigInt('1781234567890123456').toString(16));
+});
+
+test('untrusted thread IDs are not interpreted as URLs or script', () => {
+  for (const id of ['https://evil.test/', 'javascript:alert(1)', '../other', 'abc#sent', '123456789abcdef0?x=1']) {
+    const f = fixture(['Urgent']); f.rows[0].setAttribute('data-legacy-thread-id', id);
+    const r = f.message({type:'PRECHECK_INBOX'}); f.rows[0].isConnected = false;
+    assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok, false);
+    assert.equal(f.ctx.location.hash, '#inbox');
+  }
+});
+
+test('selecting a new title blocks extraction of the previous body during Gmail navigation', () => {
+  const f = fixture(['Urgent: new'], false, true);
+  const r = f.message({type:'PRECHECK_INBOX'}); f.showBody();
+  f.ctx.document.querySelector = () => ({textContent:'Previous message'});
+  assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok, true);
+  assert.match(f.message({type:'EXTRACT_EMAIL'}).error, /still opening/);
+  f.ctx.document.querySelector = () => ({textContent:'Urgent: new'});
+  f.body.innerText = 'New message body';
+  f.body.closest = () => ({querySelector:()=>null,getAttribute:key=>key==='data-message-id'?'new-message':null});
+  assert.equal(f.message({type:'EXTRACT_EMAIL'}).ok, true);
+  assert.equal(f.message({type:'EXTRACT_EMAIL'}).email.subject, 'Urgent: new');
+});
+
+test('clear marks invalidates retained row tokens even while a message is open', () => {
+  const f = fixture(['Urgent'], false, true); const r = f.message({type:'PRECHECK_INBOX'});
+  f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id});
+  f.message({type:'CLEAR_INBOX_MARKS',snapshot_id:r.snapshot_id});
+  assert.equal(f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id}).ok, false);
+});
+
+
+test('heading-only and text-only rendering changes cannot release the previous body', () => {
+  const f = fixture(['Urgent: new'], false, true); const r = f.message({type:'PRECHECK_INBOX'}); f.showBody();
+  f.ctx.document.querySelector = () => ({textContent:'Previous message'});
+  f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[0].row_id});
+  f.ctx.document.querySelector = () => ({textContent:'Urgent: new'});
+  assert.match(f.message({type:'EXTRACT_EMAIL'}).error, /still opening/);
+  f.body.innerText += ' An unrelated mutation in the previous body.';
+  assert.match(f.message({type:'EXTRACT_EMAIL'}).error, /still opening/);
+});
+
+test('rapid A to B to A reselect accepts the already loaded A without a body mutation', () => {
+  const f = fixture(['Urgent A', 'Urgent B'], false, true); const r = f.message({type:'PRECHECK_INBOX'}); f.showBody();
+  f.ctx.location.hash = '#all/123456789abcdef0';
+  f.ctx.document.querySelector = () => ({textContent:'Urgent A'});
+  const open = i => f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[i].row_id});
+  open(1); assert.match(f.message({type:'EXTRACT_EMAIL'}).error, /still opening/);
+  open(0); assert.equal(f.message({type:'EXTRACT_EMAIL'}).ok, true);
+  assert.equal(f.message({type:'EXTRACT_EMAIL'}).email.subject, 'Urgent A');
+});
+
+test('available Gmail thread identity must match even when duplicate subjects and body metadata change', () => {
+  const f = fixture(['Urgent same', 'Urgent same'], false, true); const r = f.message({type:'PRECHECK_INBOX'}); f.showBody();
+  f.ctx.document.querySelector = () => ({textContent:'Urgent same'});
+  const container = new El(); container.querySelector = () => null;
+  container.setAttribute('data-legacy-thread-id', '123456789abcdef0');
+  container.setAttribute('data-message-id', 'message-A'); f.body.closest = () => container;
+  f.ctx.location.hash = '#all/123456789abcdef0';
+  f.message({type:'OPEN_INBOX_ROW',snapshot_id:r.snapshot_id,row_id:r.flagged[1].row_id});
+  container.setAttribute('data-message-id', 'another-message-in-A');
+  assert.match(f.message({type:'EXTRACT_EMAIL'}).error, /still opening/);
+  container.setAttribute('data-legacy-thread-id', '123456789abcdef1');
+  assert.equal(f.message({type:'EXTRACT_EMAIL'}).ok, true);
 });

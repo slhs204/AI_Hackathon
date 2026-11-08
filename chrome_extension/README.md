@@ -1,8 +1,8 @@
-# dobby’s catch 0.3.4: synchronized scan and results
+# Dobby’s Catch 0.3.4: retained title list and synchronized results
 
 Version 0.3.4 waits for both the backend response and the visual scan to finish before showing a result. Fast responses finish the current sweep; slow responses do not start another sweep or add a fresh delay. **Cancel check** clears the pending view and discards its eventual response, but cannot recall a backend request already sent.
 
-Version 0.3.3 replaced the former Hookline display name with **dobby’s catch** and uses the supplied cat-and-fish artwork in the toolbar, extension list and side-panel header. The packaged PNG icons preserve the full artwork at 16, 32, 48 and 128 pixels. The header wraps its controls on narrow panels. Internal message, session-storage and DOM identifiers remain unchanged. Chrome may clear session storage when reloading or updating an extension; reconnect if needed.
+The display name is now exactly **Dobby’s Catch**. The cat-and-fish artwork introduced in 0.3.3 remains in the toolbar, extension list and side-panel header. The packaged PNG icons preserve the full artwork at 16, 32, 48 and 128 pixels. The header wraps its controls on narrow panels. Internal message, session-storage and DOM identifiers remain unchanged. Chrome may clear session storage when reloading or updating an extension; reconnect if needed.
 
 This unpacked Chrome extension has two distinct modes:
 
@@ -30,9 +30,13 @@ When you choose **Analyze open email**, a pointer-transparent scan line makes on
 
 On the home screen, **Check inbox titles** checks up to the first 100 visible Gmail rows locally. English and Traditional Chinese rules look for time pressure, account/password requests and payment/bank-change wording. Matching subjects receive amber **Check title** marks and appear in the side panel. The title check does not send email content to the backend or read previews, senders or message bodies. It is a narrow keyword check, not a phishing classification, and an unmarked message is not an all-clear.
 
-Select a listed subject to open that captured Gmail row. Body analysis is still a separate **Analyze open email** action. **Clear marks**, changing tabs, navigating, or changing the list clears the results. Stale rows are checked before opening, and late responses cannot restore an old list. Titles and optional local guidance are not saved.
+**Selected email** and the **Suspicious titles** list remain visible above the analysis result. Select a listed title, review its body in Gmail, and choose **Analyze open email** separately. Then select another title and repeat without rerunning the title check. Selecting a title clears the previous body result and cancels any pending display, but does not send a body to the backend. **Connect to private staging** is now at the bottom of the panel; its settings and transport are unchanged.
 
-To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **dobby’s catch**, the cat icon appears, and the version is **0.3.4**. Do not remove and reinstall it just to update the branding. Reconnect the staging demo token if the session was cleared. Version 0.3.4 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
+The list is a captured, local snapshot, not a live inbox or a safety verdict. Opening messages, returning to the inbox, or reordering rows does not erase it. Captured Gmail thread identifiers open only a hash route in the same account. If a row has no supported identifier, it can only be opened while the original captured row is still visible and unchanged; otherwise the panel asks for another title check without discarding the other titles. **Clear marks**, a new title check, switching tabs/accounts, or closing/reloading the panel discards the snapshot. Late responses cannot restore an old list. Titles and optional local guidance are not saved.
+
+While Gmail loads a selected title, extraction rejects the previous body. Readiness prefers Gmail-owned thread metadata, and otherwise requires a newly loaded body/message identity or the exact previously resolved target view; heading-only and text-only changes are not enough. The fallback is still a DOM heuristic, not an authoritative Gmail API identity check. Unsupported or changing Gmail markup can require refreshing Gmail and checking titles again. Actual-account browser acceptance remains required.
+
+To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **Dobby’s Catch**, the cat icon appears, and the version is **0.3.4**. Do not remove and reinstall it just to update the branding. Reconnect the staging demo token if the session was cleared. Version 0.3.4 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
 
 ## Connect securely
 
@@ -61,7 +65,7 @@ node --check chrome_extension/sidepanel.js
 node --check chrome_extension/inbox-panel.js
 ```
 
-Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, finite body-scan completion, fast/slow backend responses, reduced motion, cancellation/retry, lost animation events/acknowledgments, late results, and subject-list invalidation. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
+Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, finite body-scan completion, fast/slow backend responses, reduced motion, cancellation/retry, lost animation events/acknowledgments, late results, retained title selection, rapid A→B→A switching, heading-only loading guards, account/tab invalidation and stale-response suppression. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
 Manual acceptance checklist, still required:
 
@@ -74,10 +78,10 @@ Manual acceptance checklist, still required:
 - Disconnect clears the token; Gmail analysis then fails until reconnecting.
 - Stop the proxy: request fails visibly, not as a clean assessment.
 - Check titles in a synthetic inbox: only matching visible subjects are marked and listed, and no backend request occurs. Repeat the check, clear marks, change tabs and change the inbox list; old results must not reopen the wrong message.
-- Open a listed message, then Analyze separately. With a fast backend, the one-pass animation must finish and disappear before the result appears. With a slow backend, it must stop after one pass while the text status keeps waiting; backend completion must not restart a delay.
+- Open a listed message, then Analyze separately. Confirm the title list remains below Selected email on the result screen. Select a second title and analyze it, then return to the first; repeat rapidly and while a check is pending. The old result must disappear, and no old body may be sent during loading. Confirm Connect to private staging is last in the panel. With a fast backend, the one-pass animation must finish and disappear before the result appears. With a slow backend, it must stop after one pass while the text status keeps waiting; backend completion must not restart a delay.
 - Enable reduced motion: no sweep and no artificial visual wait. Cancel during the sweep, retry, switch messages/tabs, disconnect, and close the panel: no late result or leftover overlay should appear. Errors must appear promptly and re-enable controls.
 - The scan remains pointer-transparent and only indicates activity, never scan coverage or an all-clear.
 
 Gmail DOM selectors are unstable and require actual-browser validation. Sender matching and a low risk score are not proof of authenticity. Do not test with sensitive real inbox data in public demos.
 
-Version 0.3.4 verification: 75 Node transport/DOM-stub tests and 133 backend tests pass. Real Chrome/Gmail E2E remains required. A synthetic headless Chromium check was attempted in this workspace but Chromium could not start because the environment disallowed its process socket; no rendered-browser pass is claimed.
+Version 0.3.4 verification: 90 Node transport/DOM-stub tests and 133 backend tests pass. Real Chrome/Gmail E2E remains required. A synthetic headless Chromium check was attempted in this workspace but Chromium could not start because the environment disallowed its process socket; no rendered-browser pass is claimed.

@@ -258,3 +258,23 @@ test('final active-tab validation rejects a switch even before the tab event arr
   const p=panel(async()=>({ok:true,data:result,mocked:false}));p.ctx.chrome.tabs.query=async()=>[{id:2}];
   await p.ctx.analyzeEmail(email,'gmail',1);assert.equal(p.get('simple-view').hidden,true);assert.match(p.get('status').textContent,/Tab changed/);
 });
+
+
+test('selecting another retained title immediately clears the previous result and local guidance', async () => {
+  const p=panel(async()=>({ok:true,data:result,mocked:false})); await p.ctx.analyzeEmail(email,'gmail',1);
+  p.get('simple-reply').handlers.click();
+  p.events['hookline:inbox-opening']({detail:{subject:'Next suspicious title'}});
+  assert.equal(p.get('simple-view').hidden,true); assert.equal(p.get('action-panel').hidden,true);
+  assert.equal(p.get('subject').textContent,'Next suspicious title');
+  assert.match(p.get('sender').textContent,/not been checked/);
+  assert.equal(p.get('analyze').disabled,false);
+});
+
+test('selecting a retained title discards an in-flight body analysis before Gmail finishes opening', async () => {
+  let finish; const p=panel(()=>new Promise(resolve=>finish=resolve));
+  const pending=p.ctx.analyzeEmail(email,'gmail',1); await new Promise(resolve=>setImmediate(resolve));
+  p.events['hookline:inbox-opening']({detail:{subject:'Next title'}});
+  finish({ok:true,data:result,mocked:false}); await pending;
+  assert.equal(p.get('simple-view').hidden,true); assert.equal(p.get('results').hidden,true);
+  assert.equal(p.get('subject').textContent,'Next title'); assert.equal(p.get('analyze').disabled,false);
+});

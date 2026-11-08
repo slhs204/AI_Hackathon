@@ -10,6 +10,8 @@
   let scan = null;
   let inboxSnapshot = null;
   let inboxRevision = 0;
+  let inboxNavigation = null;
+  const loadedInboxViews = new Map();
   const ROW_LIMIT = 100;
   const BODY_SWEEP_MS = 1600;
   const BODY_SWEEP_FALLBACK_MS = BODY_SWEEP_MS + 300;
@@ -128,6 +130,53 @@
     return row.querySelector("span.bog")?.textContent?.trim() || "";
   }
 
+  function rowThreadId(row) {
+    if (!row) return null;
+    // Gmail-owned row metadata only. Never use links from a message body.
+    const legacy = row.getAttribute?.("data-legacy-thread-id") ||
+      row.querySelector?.("[data-legacy-thread-id]")?.getAttribute("data-legacy-thread-id");
+    if (/^[0-9a-f]{16,32}$/i.test(legacy || "")) return legacy.toLowerCase();
+    const thread = row.getAttribute?.("data-thread-id") ||
+      row.querySelector?.("[data-thread-id]")?.getAttribute("data-thread-id");
+    const match = /^#?thread-f:(\d{1,40})$/.exec(thread || "");
+    return match ? BigInt(match[1]).toString(16) : null;
+  }
+
+  function inboxScope() {
+    return `${location.pathname || ""}${location.search || ""}`;
+  }
+
+  function messageView() {
+    const body = findMessageBody();
+    return { body, text: body?.innerText || "", subject: document.querySelector("h2.hP")?.textContent?.trim() || "",
+      threadId: rowThreadId(body?.closest("[data-legacy-thread-id], [data-thread-id]")),
+      messageId: body?.closest("[data-message-id]")?.getAttribute?.("data-message-id") || "" };
+  }
+
+  function awaitingInboxMessage() {
+    if (!inboxNavigation) return false;
+    const pending = inboxNavigation;
+    // A different user navigation cancels our loading guard, not their action.
+    if (location.hash !== pending.hash || inboxScope() !== pending.scope) {
+      inboxNavigation = null;
+      return false;
+    }
+    const view = messageView();
+    const known = loadedInboxViews.get(pending.threadId);
+    const alreadyLoaded = known && view.body === known.body && view.text === known.text && view.messageId === known.messageId;
+    const bodyReplaced = view.body !== pending.before.body ||
+      (view.messageId && view.messageId !== pending.before.messageId);
+    // Prefer Gmail-owned thread metadata. Without it, require a newly loaded body
+    // (not just a heading/text change), or an exact previously resolved target view.
+    if (view.body && view.subject === pending.subject && (view.threadId
+      ? view.threadId === pending.threadId : alreadyLoaded || bodyReplaced)) {
+      loadedInboxViews.set(pending.threadId, view);
+      inboxNavigation = null;
+      return false;
+    }
+    return true;
+  }
+
   function subjectSignals(subject) {
     const rules = [
       [/\b(?:urgent|immediately|final notice|action required|account suspended|within 24 hours)\b|緊急|立即|最後通知|帳[戶號].{0,4}(?:停用|凍結)/i, "Time pressure or account warning"],
@@ -141,6 +190,7 @@
     const previous = inboxSnapshot;
     if (!previous) return;
     inboxSnapshot = null;
+    loadedInboxViews.clear();
     previous.rows.forEach(item => item.mark?.remove());
     if (notify) chrome.runtime.sendMessage({ type: "INBOX_CHANGED", snapshot_id: previous.id }).catch(() => {});
   }
@@ -161,7 +211,7 @@
     const id = `inbox-${++inboxRevision}`;
     const rows = allRows.slice(0, ROW_LIMIT).map((element, index) => {
       const subject = rowSubject(element);
-      return { id: `${id}-${index}`, element, subject, signals: subjectSignals(subject) };
+      return { id: `${id}-${index}`, element, subject, threadId: rowThreadId(element), signals: subjectSignals(subject) };
     });
     for (const item of rows) {
       if (!item.signals.length) continue;
@@ -174,7 +224,7 @@
       title.after(mark);
       item.mark = mark;
     }
-    inboxSnapshot = { id, hash: location.hash, rows, total: allRows.length };
+    inboxSnapshot = { id, hash: location.hash, scope: inboxScope(), rows, total: allRows.length };
     return {
       ok: true, snapshot_id: id, checked: rows.length, visible_total: allRows.length,
       missing_subjects: rows.filter(item => !item.subject).length,
@@ -186,17 +236,37 @@
     if (!inboxSnapshot || inboxSnapshot.id !== snapshotId) {
       return { ok: false, error: "This title-check result expired. Run the check again." };
     }
-    if (!inboxUnchanged()) {
+    if (inboxScope() !== inboxSnapshot.scope) {
       clearInbox(true);
-      return { ok: false, error: "The Gmail list changed. Run the title check again." };
+      return { ok: false, error: "The Gmail account changed. Run the title check again." };
     }
     const item = inboxSnapshot.rows.find(row => row.id === rowId && row.signals.length);
     if (!item) return { ok: false, error: "This row is not part of the current title check." };
-    // Click only the captured Gmail row after checking its identity. Never follow an email URL.
-    item.element.click();
+    if (item.threadId) {
+      // A captured thread ID remains usable after Gmail detaches/reorders inbox rows.
+      // Change only the hash in the same Gmail account, never an email-supplied URL.
+      const hash = `#all/${item.threadId}`;
+      if (location.hash !== hash) {
+        const before = messageView();
+        if (!inboxNavigation && before.body) {
+          const currentThreadId = before.threadId || /\/([0-9a-f]{16,32})$/i.exec(location.hash)?.[1]?.toLowerCase();
+          if (currentThreadId) loadedInboxViews.set(currentThreadId, before);
+        }
+        inboxNavigation = { hash, threadId: item.threadId, scope: inboxSnapshot.scope, subject: item.subject, before };
+        stopBodyScan();
+        clearHighlight();
+        location.hash = hash;
+      }
+    } else {
+      // Unsupported Gmail markup: allow only the still-visible, unchanged captured row.
+      // Do not guess by subject or index, and keep the other captured results available.
+      if (!inboxUnchanged()) {
+        return { ok: false, error: "This title has no stable Gmail identifier. Return to the original inbox and check titles again." };
+      }
+      item.element.click();
+    }
     return { ok: true };
   }
-
 
   function visible(element) {
     return Boolean(element && element.getClientRects().length > 0);
@@ -218,6 +288,7 @@
   }
 
   function extractEmail() {
+    if (awaitingInboxMessage()) throw new Error("Gmail is still opening the selected title. Wait for its message body, then analyze again.");
     const body = findMessageBody();
     if (!body) return null;
 
@@ -336,7 +407,7 @@
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (["START_BODY_SCAN", "FINISH_BODY_SCAN", "STOP_BODY_SCAN", "PRECHECK_INBOX", "CLEAR_INBOX_MARKS", "OPEN_INBOX_ROW"].includes(message?.type)) {
       if (sender?.id !== chrome.runtime.id || sender.tab || sender.url !== chrome.runtime.getURL("sidepanel.html")) {
-        sendResponse({ ok: false, error: "Use the dobby’s catch side panel for this action." });
+        sendResponse({ ok: false, error: "Use the Dobby’s Catch side panel for this action." });
         return;
       }
       try {
@@ -368,7 +439,7 @@
   });
 
   function checkEmailChange() {
-    if (inboxSnapshot && !inboxUnchanged()) clearInbox(true);
+    if (inboxSnapshot && inboxScope() !== inboxSnapshot.scope) clearInbox(true);
     let now;
     try { now = extractEmail()?.email_id || null; }
     catch { now = null; }
@@ -385,7 +456,6 @@
   observer.observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["href", "email"] });
   window.addEventListener("hashchange", () => {
     stopBodyScan();
-    clearInbox(true);
     checkEmailChange();
   });
   document.addEventListener?.("visibilitychange", () => { if (document.visibilityState === "hidden") stopBodyScan(); });

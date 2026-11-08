@@ -4,6 +4,7 @@
   let revision = 0;
   let pendingTab = null;
   let snapshot = null;
+  let openRequest = 0;
 
   const status = (text, error = false) => {
     get("inbox-status").textContent = text;
@@ -15,6 +16,7 @@
 
   function reset(text) {
     revision++;
+    openRequest++;
     const old = snapshot;
     snapshot = null;
     pendingTab = null;
@@ -33,18 +35,23 @@
   async function openItem(item, owner) {
     if (snapshot !== owner) return;
     const request = revision;
+    const opening = ++openRequest;
     try {
-      if (await currentTab() !== owner.tabId || request !== revision) return;
+      if (await currentTab() !== owner.tabId || request !== revision || opening !== openRequest) return;
+      window.dispatchEvent(new CustomEvent("hookline:inbox-opening", { detail: { subject: item.subject } }));
       const result = await chrome.tabs.sendMessage(owner.tabId, {
         type: "OPEN_INBOX_ROW", snapshot_id: owner.id, row_id: item.row_id
       });
-      if (request !== revision) return;
+      if (request !== revision || opening !== openRequest) return;
       if (!result?.ok) throw new Error(result?.error || "The list changed. Check inbox titles again.");
-      reset("Message opened. Choose Analyze open email to check its body. Nothing was sent by the title check.");
+      for (const li of get("inbox-list").children) {
+        const button = li.children[0];
+        button.setAttribute("aria-current", String(button.dataset.rowId === item.row_id));
+      }
+      status("Message selected. Wait for Gmail to show its body, then choose Analyze open email. This title list stays available; no body was sent by selecting it.");
       get("analyze").focus?.();
     } catch (error) {
-      if (request !== revision) return;
-      reset("The Gmail list changed. Run the local title check again.");
+      if (request !== revision || opening !== openRequest) return;
       status(error.message, true);
     }
   }
@@ -56,6 +63,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "inbox-item";
+      button.dataset.rowId = item.row_id;
       button.setAttribute("aria-label", `Open message: ${item.subject}. Subject-only warning clue.`);
       const subject = document.createElement("strong");
       subject.textContent = item.subject;

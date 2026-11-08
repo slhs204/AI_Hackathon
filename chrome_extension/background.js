@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!message || !["ANALYZE", "CHALLENGE", "CONNECT", "DISCONNECT", "CONNECTION_STATUS"].includes(message.type)) return;
   // Gmail content scripts only extract/highlight. They cannot initiate backend calls.
   if (!trustedPanel(sender)) {
-    sendResponse({ ok: false, error: "Open the dobby’s catch side panel to run this action." });
+    sendResponse({ ok: false, error: "Open the Dobby’s Catch side panel to run this action." });
     return;
   }
   (async () => {

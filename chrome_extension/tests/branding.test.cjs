@@ -8,11 +8,11 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const manifest = JSON.parse(read('manifest.json'));
 
 test('extension and side panel use the exact requested display name', () => {
-  assert.equal(manifest.name, 'dobby’s catch');
+  assert.equal(manifest.name, 'Dobby’s Catch');
   assert.equal(manifest.version, '0.3.4');
-  assert.equal(manifest.action.default_title, 'Open dobby’s catch');
-  assert.match(read('sidepanel.html'), /<title>dobby’s catch<\/title>/);
-  assert.match(read('sidepanel.html'), /<strong>dobby’s catch<\/strong>/);
+  assert.equal(manifest.action.default_title, 'Open Dobby’s Catch');
+  assert.match(read('sidepanel.html'), /<title>Dobby’s Catch<\/title>/);
+  assert.match(read('sidepanel.html'), /<strong>Dobby’s Catch<\/strong>/);
   for (const file of ['sidepanel.html', 'sidepanel.js', 'background.js', 'content.js']) {
     assert.doesNotMatch(read(file), /Hookline/);
   }
@@ -47,4 +47,17 @@ test('branding keeps the existing permissions and session-storage identity', () 
   assert.equal(manifest.side_panel.default_path, 'sidepanel.html');
   assert.match(read('background.js'), /const SESSION_KEY = "hooklineConnection";/);
   assert.match(read('content.js'), /const HIGHLIGHT_NAME = "hookline-evidence";/);
+});
+
+
+test('Selected email and Suspicious titles stay outside the hidden home view and connection is last', () => {
+  const html = read('sidepanel.html');
+  const home = html.slice(html.indexOf('<div id="home-view">'), html.indexOf('<div class="section-label">Selected email</div>'));
+  assert.match(home, /<\/div>\s*<section class="panel">\s*$/);
+  const selected = html.indexOf('<div class="section-label">Selected email</div>');
+  const titles = html.indexOf('aria-labelledby="inbox-heading"');
+  const results = html.indexOf('<div id="result-context"');
+  const connection = html.indexOf('<details id="connection-settings">');
+  assert.ok(selected < titles && titles < results && results < connection);
+  assert.doesNotMatch(html.slice(connection), /<section/);
 });
