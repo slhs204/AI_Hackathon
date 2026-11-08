@@ -1,4 +1,4 @@
-param([switch]$CheckOnly)
+param([switch]$CheckOnly, [switch]$Local)
 
 $ErrorActionPreference = 'Stop'
 $script:DemoRoot = Split-Path $PSScriptRoot -Parent
@@ -74,12 +74,19 @@ function Get-DemoRequirementsHash {
 }
 
 function Start-Demo {
-    $checkpoint = Get-DemoCheckpoint (Join-Path $script:DemoRoot 'private/tinker-model.json')
+    if ($Local) { $checkpoint = Get-DemoCheckpoint (Join-Path $script:DemoRoot 'private/tinker-model.json') }
+    $cloudUrl = 'https://phish-staging-az465uxmla-uc.a.run.app'
+    if (-not $Local -and $env:CLOUD_RUN_URL) {
+        if ($env:CLOUD_RUN_URL -cnotmatch '^https://(?:[a-z][a-z0-9-]{0,61}[a-z0-9]---)?phish-staging-az465uxmla-uc\.a\.run\.app$') {
+            throw 'CLOUD_RUN_URL must be the fixed Cloud Run service or one of its tagged hosts, with no path, port or credentials.'
+        }
+        $cloudUrl = $env:CLOUD_RUN_URL
+    }
     Assert-DemoPortFree
     $python = Get-DemoPython
     $gcloud = Get-DemoGcloud
     if ($CheckOnly) {
-        Write-Host "Prerequisites OK. Python: $python; port: 8081; checkpoint expires: $($checkpoint.expires_at). No cloud or model calls made."
+        Write-Host "Prerequisites OK. Python: $python; port: 8081; local fallback: $Local. No cloud or model calls made."
         return
     }
 
@@ -97,43 +104,60 @@ function Start-Demo {
         if ($LASTEXITCODE -ne 0) { throw 'Backend dependency installation failed.' }
         Set-Content -LiteralPath $ready -Value $requirementsHash
     }
-    $names = @('CLOUDSDK_PYTHON', 'TINKER_API_KEY', 'TINKER_MODEL', 'TINKER_BASE_URL', 'MODEL_PROVIDER', 'DEMO_API_TOKEN')
+    $names = @('CLOUDSDK_PYTHON', 'TINKER_API_KEY', 'TINKER_MODEL', 'TINKER_BASE_URL', 'MODEL_PROVIDER', 'DEMO_API_TOKEN', 'CLOUD_DEMO_TOKEN', 'CLOUD_GCLOUD', 'CLOUD_RUN_URL')
     $previous = @{}
     foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
     try {
         $bundledPython = Join-Path (Split-Path (Split-Path $gcloud -Parent) -Parent) 'platform/bundledpython/python.exe'
         if (-not $env:CLOUDSDK_PYTHON -and -not (Test-Path -LiteralPath $bundledPython -PathType Leaf)) {
-            $env:CLOUDSDK_PYTHON = $python
+            $env:CLOUDSDK_PYTHON = $venv
         }
         $savedErrorAction = $ErrorActionPreference
+        $secretName = 'phish-demo-token'
+        $secretVersion = '1'
+        if ($Local) { $secretName = 'phish-tinker-key'; $secretVersion = 'latest' }
         try {
             $ErrorActionPreference = 'Continue'
-            $key = & $gcloud secrets versions access latest --secret=phish-tinker-key --project=lateral-nomad-514001-c7 2>$null
+            $key = & $gcloud secrets versions access $secretVersion "--secret=$secretName" --project=lateral-nomad-514001-c7 2>$null
             $secretExitCode = $LASTEXITCODE
-        } catch { throw 'Could not read the Tinker key. Check Google Cloud sign-in and Secret Manager access.' }
+        } catch { throw 'Could not read the demo credential. Check Google Cloud sign-in and Secret Manager access.' }
         finally { $ErrorActionPreference = $savedErrorAction }
         if ($secretExitCode -ne 0 -or -not $key -or @($key).Count -ne 1) {
-            throw 'Could not read the Tinker key. Check Google Cloud sign-in and Secret Manager access.'
+            throw 'Could not read the demo credential. Check Google Cloud sign-in and Secret Manager access.'
         }
-        $env:TINKER_API_KEY = "$key".Trim()
-        if (-not $env:TINKER_API_KEY) { throw 'Secret Manager returned an empty Tinker key.' }
+        $credential = "$key".Trim()
+        if (-not $credential) { throw 'Secret Manager returned an empty demo credential.' }
+        if ($Local) {
+            $env:TINKER_API_KEY = $credential
+            $env:TINKER_MODEL = $checkpoint.model
+            $env:TINKER_BASE_URL = 'https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1'
+            $module = 'main:app'
+        } else {
+            $env:TINKER_API_KEY = $null
+            $env:CLOUD_DEMO_TOKEN = $credential
+            $env:CLOUD_GCLOUD = $gcloud
+            $env:CLOUD_RUN_URL = $cloudUrl
+            $module = 'connector:app'
+        }
+        $credential = $null
         $key = $null
-        $env:TINKER_MODEL = $checkpoint.model
-        $env:TINKER_BASE_URL = 'https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1'
         $env:MODEL_PROVIDER = 'tinker'
         $env:DEMO_API_TOKEN = New-DemoToken
         Assert-DemoPortFree
-        Write-Host 'Direct local demo: http://127.0.0.1:8081. Keep this window open; Ctrl+C stops it.'
-        Write-Host "Checkpoint expires: $($checkpoint.expires_at). Startup does not create a sampler or run inference."
-        Write-Host 'Choose direct local in the extension, paste this temporary token into its password field, and explicitly enable Tinker:'
+        if ($Local) {
+            Write-Host "Local Tinker fallback; checkpoint expires: $($checkpoint.expires_at)."
+        } else { Write-Host 'Cloud Run AI connection. Provider key stays in Cloud Run; no sampler expiry dependency.' }
+        Write-Host 'Connect at http://127.0.0.1:8081. Keep this single window open; Ctrl+C stops it. Startup does not run inference.'
+        Write-Host 'Choose the one-click connection in the extension, paste this temporary token into its password field, and explicitly enable Tinker:'
         Write-Host $env:DEMO_API_TOKEN
         Push-Location (Join-Path $script:DemoRoot 'backend')
         try {
-            & $venv -m uvicorn --app-dir (Join-Path $script:DemoRoot 'backend') main:app --host 127.0.0.1 --port 8081 --no-access-log
+            & $venv -m uvicorn --app-dir (Join-Path $script:DemoRoot 'backend') $module --host 127.0.0.1 --port 8081 --no-access-log
             if ($LASTEXITCODE -ne 0) { throw 'Demo server stopped with an error.' }
         } finally { Pop-Location }
     } finally {
         $key = $null
+        $credential = $null
         foreach ($name in $names) { [Environment]::SetEnvironmentVariable($name, $previous[$name], 'Process') }
     }
 }

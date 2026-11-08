@@ -1,6 +1,6 @@
 # Dobby’s Catch (Phishing Coach): Project Spec
 
-**Status date: November 8, 2026 (direct-local Tinker demo)**
+**Status date: November 8, 2026 (private Cloud Run AI deployed and verified)**
 
 ## 1. The idea
 
@@ -15,16 +15,16 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | Part | Status |
 |---|---|
 | Google Cloud project and billing | Set up |
-| Private Cloud Run staging (`phish-staging`) | IAM-protected, runs rules only (`MODEL_PROVIDER=mock`); update steps in `docs/PRIVATE_STAGING.md` |
+| Private Cloud Run staging (`phish-staging`) | IAM-private Tinker revision `phish-staging-ai-3ec6847-a002` serves 100% traffic; base URL verified. Runtime account, IAM and limits preserved; see `docs/PRIVATE_STAGING.md` |
 | `GET /health`, `GET /session` | Built |
 | `POST /analyze` (rules, extra checks, optional model, evidence check, payroll policy) | Built |
 | `POST /triage` (inbox priority from sender, subject, preview) | Built |
 | `POST /challenge` | Built; never clears a finding |
 | Claude integration (Haiku 5.5 triage, Sonnet 5.5 analysis) | Built and evaluated offline; not enabled on staging |
-| Browser extension (Gmail, 0.3.5) | Built: simple result view, evidence highlights, challenge, practice question, local inbox-title check, local demo |
+| Browser extension (Gmail, 0.3.6) | Built: simple result view, evidence highlights, challenge, practice question, local inbox-title check, local demo and explicit session AI permission |
 | Evidence highlighting and scan animation | Built |
-| Automated tests | 151 backend pass, 1 skip; 97 extension pass (stubs; no real Chrome/Gmail E2E) |
-| Real Chrome/Gmail acceptance test | Manual checklist in `chrome_extension/README.md`; not yet recorded as done |
+| Automated tests | 187 backend pass, 1 skip; 99 extension pass; Windows PowerShell 5.1 launcher checks pass |
+| Real Chrome/Gmail acceptance test | Synthetic T23 analysis and challenge passed; partial extraction correctly flagged; revoked consent blocked analysis. Broader checklist remains in `chrome_extension/README.md` |
 
 ## 3. The user experience
 
@@ -46,6 +46,7 @@ The tool could highlight “Do not call me” and explain that the request disco
 
 ```text
 Chrome extension
+    -> One-window authenticated connector on loopback 8081
     -> FastAPI backend on Cloud Run
     -> Approved checks and company policies
     -> Model API
@@ -66,8 +67,9 @@ A matching domain does not prove that the sender is trustworthy. An account can 
 
 ## 5. Model plan and results
 
-- In use: Claude Haiku 5.5 (`claude-haiku-5-5`) for `/triage`, Claude Sonnet 5.5 (`claude-sonnet-5-5`) for `/analyze` and `/challenge`. Both can be changed with environment variables.
-- Tinker (`MODEL_PROVIDER=tinker`) passed real tiny-JSON, synthetic full-analysis and direct-local HTTP tests with Qwen3-8B. The Windows launcher uses loopback8081 without a proxy; the extension requires explicit session permission. This does not establish model accuracy or Cloud Run AI deployment.
+- Claude Haiku 5.5 (`claude-haiku-5-5`) for `/triage` and Claude Sonnet 5.5 (`claude-sonnet-5-5`) for `/analyze` and `/challenge` remain supported and evaluated offline.
+- Tinker (`MODEL_PROVIDER=tinker`) base model `Qwen/Qwen3-8B` passed real private Cloud Run canary analysis (7,922 ms) and challenge (1,453 ms), without an expiring sampler. The Windows launcher defaults to a one-window cloud connector on loopback 8081; the extension requires explicit session permission. Independent review passed; the AI revision serves 100% traffic and retains private IAM and a rules-only rollback tag. These results do not establish model accuracy.
+- `Start-Demo.cmd -Local` retains the earlier direct-local sampler fallback. Its checkpoint still expires and requires separate renewal.
 - GPT-6.1 Sol was a comparison candidate and has not been tested.
 
 Offline results on a 200-email public blind set (Gmail view): rules only flag 18/100 phishing with 5/100 false alarms; Sonnet 5.5 flags 100/100 phishing with 24/100 false alarms; Haiku 5.5 with prompt v2 and the pressure-words rule flags 48/50 phishing with 0/50 false alarms on the tuning half. The held-out test half still needs one run. Details are in `backend/eval/results/`.
@@ -79,7 +81,7 @@ No model fine-tuning or reinforcement learning has been done. User corrections a
 | Endpoint | Purpose | Status |
 |---|---|---|
 | `GET /health` | Check whether the backend is running | Available |
-| `GET /session` | Check the demo token and rules-only mode before sending email | Available |
+| `GET /session` | Check the demo token and selected provider mode before sending email | Available |
 | `POST /analyze` | Analyze one email | Available |
 | `POST /triage` | Sort up to 50 inbox rows by risk | Available |
 | `POST /challenge` | Reassess one finding with more context | Available |
@@ -112,8 +114,8 @@ The team lead gives testers the demo token privately. Testers enter it in the ex
 | Area | Next step |
 |---|---|
 | Evaluation | Run the chosen model once on the held-out test half (`--split test`) and record the numbers |
-| Staging | Decide whether to enable Claude on staging, then rotate the demo token after the demo |
-| Extension | Record the manual Chrome/Gmail acceptance checklist on a synthetic inbox |
+| Staging | Done: independent review passed, AI serves 100% traffic, private base URL and rules-only rollback tag verified |
+| Extension | Complete broader Chrome/Gmail checklist beyond the passed synthetic T23 analysis/challenge and consent checks |
 | Team | Settle the open items in `docs/TEAM_NOTES.md` |
 
 ## 9. Done means
@@ -125,8 +127,8 @@ The team lead gives testers the demo token privately. Testers enter it in the ex
 | Invalid evidence produces an incomplete result | Done (tested) |
 | Email instructions cannot grant new tool permissions | Done: the email is passed as delimited untrusted data; the model has no tools |
 | The challenge and short learning exercise work | Done (stub tests) |
-| The chosen model works inside Cloud Run | Not done: staging runs rules only |
-| The full extension-to-backend flow is demonstrated | Rules-only flow wired through the private staging proxy; real Chrome/Gmail acceptance still to be recorded |
+| The chosen model works inside Cloud Run | Done: private Tinker revision serves 100% traffic and base session verified |
+| The full extension-to-backend flow is demonstrated | Real Chrome synthetic T23 analysis/challenge passed through the one-window connector; partial extraction flagged and consent revocation blocked analysis |
 | Test results and limits are written down | Done: `backend/eval/results/`, `docs/PROGRESS_REPORT.zh-TW.md` |
 
 Attachment scanning, automatic blocking, multiple email platforms, dashboards, and model training are outside the first version. Full-inbox scanning is limited to a local keyword check of visible subject lines.

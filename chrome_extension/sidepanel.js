@@ -72,7 +72,7 @@ function setBusy(busy) {
 function modeLabel(analysis, mocked) {
   if (mocked) return "LOCAL DEMO";
   if (analysis?.model === "rules-only") return "BACKEND RULES ONLY";
-  if (analysis?.model?.startsWith("tinker:")) return "TINKER AI";
+  if (analysis?.model?.startsWith("tinker:")) return analysis.execution === "cloud-run" ? "CLOUD RUN · TINKER" : "TINKER AI";
   return "MODE UNVERIFIED";
 }
 
@@ -476,9 +476,9 @@ chrome.tabs.onActivated.addListener(({ tabId }) => {
 async function refreshConnection() {
   const response = await chrome.runtime.sendMessage({ type: "CONNECTION_STATUS" });
   connected = response?.ok && response.connected;
-  connectionMode = response?.allowAI ? "TINKER CONNECTED" : "STAGING CONNECTED";
+  connectionMode = response?.allowAI ? response.execution === "cloud-run" ? "CLOUD RUN · TINKER" : "TINKER CONNECTED" : "STAGING CONNECTED";
   $("connection-status").textContent = connected
-    ? `Connected to ${response.endpoint || "http://127.0.0.1:8080"}. ${response.allowAI ? "Tinker AI permitted for this session." : "Rules only; no AI calls permitted."}`
+    ? `Connected to ${response.endpoint || "http://127.0.0.1:8080"}. ${response.allowAI ? response.execution === "cloud-run" ? "Cloud Run · Tinker AI permitted for this session." : "Tinker AI permitted for this session." : "Rules only; no AI calls permitted."}`
     : "Not connected. Try demo stays local. Connect before analyzing Gmail.";
   if (connected) {
     $("backend-endpoint").value = response.endpoint?.endsWith(":8081") ? "local" : "staging";

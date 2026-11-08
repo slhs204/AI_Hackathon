@@ -3,6 +3,10 @@
 Owner: Sunday (AI, tools & evaluation). Wraps Albert's rule engine (`phishhook/`, copied unchanged)
 and adds the model layer, evidence checks, payroll policies, `/challenge`, and the eval.
 
+The prepared Windows demo now defaults to a one-window authenticated connector on loopback 8081, reaching IAM-private Cloud Run with Tinker base model `Qwen/Qwen3-8B`; no local sampler is needed. Canary `phish-staging-ai-3ec6847-a002` passed synthetic analysis (7,922 ms) and challenge (1,453 ms), and now serves 100% traffic after independent review. The default base URL launcher session passed after promotion. Existing runtime account, IAM and limits are preserved. See [startup](../scripts/README.md) and [deployment status](../docs/PRIVATE_STAGING.md).
+
+Current verification: 187 backend tests passed with 1 skipped, 99 extension tests passed, and Windows PowerShell 5.1 launcher checks passed. Real Chrome with extension 0.3.6 passed synthetic T23 analysis and challenge, correctly flagged partial extraction, and blocked analysis after consent revocation.
+
 ## Run locally
 
 ```bash
@@ -25,6 +29,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | Path | What it does |
 |---|---|
 | `main.py` | FastAPI app: routes, CORS, body-size limit, demo-token check, "no token → no paid model" |
+| `connector.py` | Foreground loopback connector: local token/AI-permission checks, Google IAM authentication, fixed private Cloud Run upstream and validated responses |
 | `app/schemas.py` | Request/response shapes and limits; accepts Albert's and Hookline's link formats |
 | `app/analyze.py` | The `/analyze` pipeline (rules → extra checks → model → verify → policies) |
 | `app/triage.py` | `/triage`: rules on sender/subject/preview, then the triage model (Haiku) may raise priorities |
@@ -41,7 +46,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `eval/run_eval.py` | Runs all fixtures in "full headers" and "Gmail-visible" views, writes `eval/results/` |
 | `eval/smoke_tinker.py` | One tiny call + one full analysis to prove the Tinker setup works |
 | `eval/smoke_anthropic.py` | Haiku triage of a 3-email inbox + one Sonnet analysis |
-| `tests/` | 143 tests: evidence, pipeline, API/token, fail-closed, rubric, Hookline compatibility, container permissions |
+| `tests/` | Evidence, pipeline, API/token, fail-closed, rubric, connector, Hookline compatibility and container permissions; 177 pass, 1 skip |
 | `../fixtures/` | `build_fixtures.py` (core set) and `convert_teddyha.py` (blind set from `external/teddyha`, MIT) |
 
 ## Environment
@@ -54,7 +59,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 | `ANTHROPIC_FALLBACKS` | Default `1`: Sonnet requests use the server-side refusal fallback (`fallbacks: "default"`). `0` turns it off. |
 | `DEMO_API_TOKEN` | Required header `X-Demo-Token` on POST routes. **Fail closed:** unset → POST routes return 503 (same as Albert's v3.1). |
 | `TINKER_API_KEY` | From Secret Manager. Never in the extension or Git. |
-| `TINKER_MODEL` | The model/checkpoint the team's smoke test proved works (not yet confirmed here) |
+| `TINKER_MODEL` | Cloud deployment: verified base model `Qwen/Qwen3-8B`, no sampler expiry. `-Local` fallback: separately prepared expiring sampler path |
 | `TINKER_BASE_URL` | Optional; defaults to Tinker's documented OpenAI-compatible endpoint |
 | `ALLOWED_ORIGINS` | CORS, comma-separated; default Gmail + Outlook web origins. Chrome extension origins are allowed. |
 | `MODEL_TIMEOUT_S`, `MODEL_MAX_TOKENS` | Defaults 30 s and 4000 output tokens (thinking counts toward the cap) |
@@ -86,7 +91,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 
 ## Not done / not verified
 
-- Claude (Haiku + Sonnet) has been evaluated (`eval/results/model*.md`). Tinker's Qwen3-8B sampler passed real tiny-JSON, full synthetic analysis and direct-local HTTP analysis on November 8, 2026. This is connectivity proof, not an accuracy evaluation. `TINKER_MODEL` is a sampler path; the prepared demo sampler expires and must be renewed separately. See [Windows startup](../scripts/README.md).
+- Claude (Haiku + Sonnet) has been evaluated (`eval/results/model*.md`). Tinker base model `Qwen/Qwen3-8B` passed private Cloud Run canary analysis and challenge, without a sampler. These are connectivity and integration proofs, not an accuracy evaluation. The retained `-Local` fallback alone uses the earlier expiring sampler and requires separate renewal. See [Windows startup](../scripts/README.md).
 - 23 fixtures: Albert's 10 samples (his rules were written against them, so optimistic), 4 extra cases,
   and 9 harder cases written to probe false alarms and misses. Rules-only today: 13/14 phishing flagged,
   2/7 legitimate emails falsely flagged, 1 miss (a real vendor account asking to move banks).
@@ -101,8 +106,8 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 ## Fail-closed staging contract
 
 - `X-Require-Rules-Only: 1` on any POST rejects with 409 before provider selection unless
-  `MODEL_PROVIDER=mock`. The staging extension uses this guard in addition to checking `/health`.
-- The direct-local Tinker connection uses `X-Require-Tinker: 1`; a provider mismatch returns 409 before any model selection. Transport retries are disabled for Tinker; malformed model JSON still has the existing one correction attempt. No inference runs on normal launcher startup.
+  `MODEL_PROVIDER=mock`. The retained legacy staging selection uses this guard.
+- Both the default cloud connector and direct-local fallback require explicit Tinker permission and use `X-Require-Tinker: 1`; a provider mismatch returns 409 before any model selection. Transport retries are disabled for Tinker; malformed model JSON still has the existing one correction attempt. No inference runs on normal launcher startup.
 - `AnalyzeRequest.extraction_complete` (default `true`) describes extraction of the submitted
   visible content, not authenticity. Gmail DOM clients should send `false` when headers,
   attachments, or full content are unavailable. `extraction_limitations` accepts up to ten

@@ -1,10 +1,10 @@
-# Dobby’s Catch 0.3.5: direct-local Tinker demo
+# Dobby’s Catch 0.3.6: private Cloud Run AI demo
 
 ## One-window Windows demo
 
-Double-click `Start-Demo.cmd` at the repository root. Keep that one window open; no proxy is needed. In **Connect demo backend**, choose **Direct local · 8081**, check the Tinker permission notice, paste the temporary app token from the window and click Connect. Reload the unpacked extension and refresh Gmail after updating. Use synthetic emails only. Normal startup makes no model calls; Analyze/Challenge can incur inference charges. The provider key stays in the backend process, never the extension. See [startup prerequisites and sampler expiry](../scripts/README.md).
+Double-click `Start-Demo.cmd` at the repository root. Keep that one window open; no separate proxy is needed. In **Connect demo backend**, choose **One-click backend · 8081**, check the Tinker permission notice, paste the temporary app token from the window and click Connect. The launcher connects to private Cloud Run by default; `-Local` retains the local fallback. Reload the unpacked extension and refresh Gmail after updating. Use synthetic emails only. Normal startup makes no model calls; Analyze/Challenge can incur inference charges. Provider keys and Google identity tokens stay outside the extension. See [startup prerequisites](../scripts/README.md).
 
-The default remains private staging on 8080 with the rules-only guard. Tinker permission is off by default and is stored with the app token only in browser-session storage; Disconnect clears it. Reconnecting revokes the previous session even if the new connection fails. Each request validates the selected mode server-side and rechecks the model before sending email. Local Tinker results say **TINKER AI**; model failure is an error, never an all-clear. Existing Cloud Run remains private and rules-only.
+The connection selector retains legacy private staging on 8080 with the rules-only guard. Tinker permission is off by default and is stored with the app token only in browser-session storage; Disconnect clears it. Reconnecting revokes the previous session even if the new connection fails. Each request validates the selected mode server-side and rechecks the model before sending email. Cloud connector results and connection status say **CLOUD RUN · TINKER**; local Tinker results retain **TINKER AI**. Model failure is an error, never an all-clear. Cloud Run remains private.
 
 ## Existing rules-only and offline behavior
 
@@ -15,7 +15,7 @@ The display name is now exactly **Dobby’s Catch**. The cat-and-fish artwork in
 The retained offline and legacy staging modes are:
 
 - **Try demo:** local pattern demonstration. No email leaves the browser and no AI runs.
-- **Analyze open email:** sends the selected Gmail message to the private staging backend through a local authenticated proxy. The badge says **BACKEND RULES ONLY**. The default staging connection rejects paid-model mode; direct-local Tinker requires separate explicit permission.
+- **Analyze open email with legacy staging selected:** sends the selected Gmail message through the historical local authenticated proxy. The badge says **BACKEND RULES ONLY**. This legacy selection rejects paid-model mode; the current one-click 8081 cloud/local connection requires separate explicit Tinker permission.
 
 Neither mode authenticates a sender or authorizes payment. Missing information stays unknown. Gmail extraction is explicitly partial: last visible expanded message only, no raw authentication headers, Reply-To or attachment content. Messages over 20,000 characters are rejected; more than 50 links are explicitly reported as partial.
 
@@ -38,25 +38,27 @@ When you choose **Analyze open email**, a pointer-transparent scan line makes on
 
 On the home screen, **Check inbox titles** checks up to the first 100 visible Gmail rows locally. English and Traditional Chinese rules look for time pressure, account/password requests and payment/bank-change wording. Matching subjects receive amber **Check title** marks and appear in the side panel. The title check does not send email content to the backend or read previews, senders or message bodies. It is a narrow keyword check, not a phishing classification, and an unmarked message is not an all-clear.
 
-**Selected email** and the **Suspicious titles** list remain visible above the analysis result. Select a listed title, review its body in Gmail, and choose **Analyze open email** separately. Then select another title and repeat without rerunning the title check. Selecting a title clears the previous body result and cancels any pending display, but does not send a body to the backend. **Connect demo backend** is now at the bottom of the panel; legacy staging remains available; the direct-local option is described above.
+**Selected email** and the **Suspicious titles** list remain visible above the analysis result. Select a listed title, review its body in Gmail, and choose **Analyze open email** separately. Then select another title and repeat without rerunning the title check. Selecting a title clears the previous body result and cancels any pending display, but does not send a body to the backend. **Connect demo backend** is now at the bottom of the panel; legacy staging remains available; the one-click 8081 cloud/local option is described above.
 
 The list is a captured, local snapshot, not a live inbox or a safety verdict. Opening messages, returning to the inbox, or reordering rows does not erase it. Captured Gmail thread identifiers open only a hash route in the same account. If a row has no supported identifier, it can only be opened while the original captured row is still visible and unchanged; otherwise the panel asks for another title check without discarding the other titles. **Clear marks**, a new title check, switching tabs/accounts, or closing/reloading the panel discards the snapshot. Late responses cannot restore an old list. Titles and optional local guidance are not saved.
 
 While Gmail loads a selected title, extraction rejects the previous body. Readiness prefers Gmail-owned thread metadata, and otherwise requires a newly loaded body/message identity or the exact previously resolved target view; heading-only and text-only changes are not enough. The fallback is still a DOM heuristic, not an authoritative Gmail API identity check. Unsupported or changing Gmail markup can require refreshing Gmail and checking titles again. Actual-account browser acceptance remains required.
 
-To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **Dobby’s Catch**, the cat icon appears, and the version is **0.3.5**. Do not remove and reinstall it just to update the branding. Reconnect the staging demo token if the session was cleared. Version 0.3.5 adds a second fixed loopback endpoint and a server-enforced Tinker opt-in; the default staging safeguards and host permissions are retained. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
+To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **Dobby’s Catch**, the cat icon appears, and the version is **0.3.6**. Do not remove and reinstall it just to update the branding. Reconnect the demo token if the session was cleared. Version 0.3.6 identifies Cloud Run execution through the one-click connector while retaining the local fallback, explicit Tinker permission and existing host permissions. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
 
-## Connect securely
+## Optional legacy rules-only connection
 
-1. For initial setup, update the private staging backend to the compatible PR #5 backend using [the staging guide](../docs/PRIVATE_STAGING.md). Keep Cloud Run IAM authentication enabled and MODEL_PROVIDER=mock.
+The following manual proxy instructions apply only to the optional 8080 rules-only selection. For the default one-window Cloud Run AI connection, follow the opening section instead. Use the `rules-only` tag, never the service's base URL, so promoting AI cannot silently change this legacy connection. The rules-only tag is retained and the independently reviewed AI revision serves 100% base-service traffic; see [deployment status](../docs/PRIVATE_STAGING.md).
+
+1. Confirm the `rules-only` tag points to the retained mock revision `phish-staging-fix-313b174`, with Cloud Run IAM authentication enabled. Do not redeploy the base service as mock to use this optional connection. If the tag is unavailable, stop rather than falling back to the base service.
 2. On the **same computer as Chrome**, use an already signed-in Google Cloud CLI account with existing invoker permission. Start:
 
    ```bash
-   gcloud run services proxy phish-staging --project=lateral-nomad-514001-c7 --region=us-central1 --port=8080
+   gcloud run services proxy phish-staging --project=lateral-nomad-514001-c7 --region=us-central1 --tag=rules-only --port=8080
    ```
 
    Cloud Shell is a different computer: its localhost is not your laptop's localhost. Leave the local proxy running. Do not change IAM, expose the service publicly, or copy Google identity tokens into the extension. If Google Cloud CLI is not installed or the account lacks access, stop and resolve that setup separately.
-3. Load this `chrome_extension` folder in `chrome://extensions` using **Load unpacked**, or reload the existing installation. The only backend host permission is `http://127.0.0.1/*`; the staging selection fixes port8080 and direct-local fixes port8081; both reject redirects. Refresh Gmail after reloading.
+3. Load this `chrome_extension` folder in `chrome://extensions` using **Load unpacked**, or reload the existing installation. The only backend host permission is `http://127.0.0.1/*`; legacy staging fixes port 8080 and the one-click cloud/local connection fixes port 8081; both reject redirects. Refresh Gmail after reloading.
 4. Open **Connect demo backend**. Enter the existing staging **demo token** directly into the password field and click Connect. Never put it in source code, chat, screenshots or Git. It is kept only in `chrome.storage.session`, not sync/local storage, and cleared on Disconnect or browser-session end. This is demo access control, not production authentication. If Chrome prompts for local-network access, review and allow it yourself only for this intended connection.
 5. Connection checks `/session`, validating both the app token and rules-only mode before any email is sent. An invalid token fails here. No provider key, service-account key or Cloud Run identity token is used by the extension.
 6. Open a **synthetic** Gmail message and click Analyze. The extension sends `X-Demo-Token` and `X-Require-Rules-Only: 1`; the backend refuses non-mock providers before calling a model. Challenge sends the original full finding and displays unresolved checks. A less-concerning response is never clearance.
@@ -75,7 +77,9 @@ node --check chrome_extension/inbox-panel.js
 
 Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, finite body-scan completion, fast/slow backend responses, reduced motion, cancellation/retry, lost animation events/acknowledgments, late results, retained title selection, rapid A→B→A switching, heading-only loading guards, account/tab invalidation and stale-response suppression. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
-Manual acceptance checklist, still required:
+Current verification: 99 extension tests and 187 backend tests pass, with 1 backend test skipped; Windows PowerShell 5.1 launcher checks pass. Real Chrome with version 0.3.6 passed synthetic T23 Analyze and Challenge through the cloud connector, flagged partial extraction, and blocked analysis after AI consent was revoked. This covers those specific browser paths; the broader checklist below is not claimed complete.
+
+Broader manual acceptance checklist (proxy/rules-only items apply only to legacy staging):
 
 - Local demo works offline and is labeled LOCAL DEMO.
 - Wrong app token is rejected; valid token connects through IAM proxy.
@@ -91,5 +95,3 @@ Manual acceptance checklist, still required:
 - The scan remains pointer-transparent and only indicates activity, never scan coverage or an all-clear.
 
 Gmail DOM selectors are unstable and require actual-browser validation. Sender matching and a low risk score are not proof of authenticity. Do not test with sensitive real inbox data in public demos.
-
-Version 0.3.4 verification: 90 Node transport/DOM-stub tests and 133 backend tests pass. Real Chrome/Gmail E2E remains required. A synthetic headless Chromium check was attempted in this workspace but Chromium could not start because the environment disallowed its process socket; no rendered-browser pass is claimed.

@@ -8,15 +8,16 @@ It never says an email is safe and never authorizes a payment. “No warning sig
 
 | Part | Status |
 |---|---|
-| Chrome extension (Gmail, version 0.3.5) | Built. Simple results, evidence highlights, challenge, practice, title checks, offline demo, and explicit per-session local Tinker permission |
+| Chrome extension (Gmail, version 0.3.6) | Built. Simple results, evidence highlights, challenge, practice, title checks, offline demo, and explicit per-session Tinker permission |
 | Backend (FastAPI, `backend/`) | Built. `/health`, `/session`, `/analyze`, `/triage`, `/challenge`; demo-token check fails closed |
 | Rule engine (`backend/phishhook/`) | Built. 8 detectors plus payroll-specific checks |
 | Evidence checks | Built. Every quote shown to the user is checked against the email; unverifiable output becomes “Analysis incomplete” |
 | Claude integration | Built and evaluated offline: Claude Haiku 5.5 for inbox triage, Claude Sonnet 5.5 for per-email analysis |
-| Private staging on Cloud Run | IAM-protected `phish-staging`, **rules only** (`MODEL_PROVIDER=mock`); unchanged by the direct-local demo |
-| Tinker | First real tiny-JSON and synthetic full-analysis tests passed with a Qwen3-8B sampler. This proves connectivity, not accuracy |
-| Windows demo | Double-click `Start-Demo.cmd`: direct local backend on loopback 8081, no proxy; see [startup guide](scripts/README.md) |
-| Tests | 151 backend tests pass, 1 is skipped; 97 extension tests pass. Browser/Gmail acceptance remains a separate check |
+| Private staging on Cloud Run | IAM-protected Tinker revision `phish-staging-ai-3ec6847-a002` serves 100% traffic; post-promotion session and anonymous-denial checks passed. Runtime account, IAM and resource limits preserved |
+| Tinker | Stable base model `Qwen/Qwen3-8B` passed real Cloud Run analysis and challenge without an expiring sampler. This proves connectivity, not accuracy |
+| Windows demo | Double-click `Start-Demo.cmd`: one-window cloud connector on loopback 8081, no separately managed proxy. `-Local` retains the sampler-backed fallback; see [startup guide](scripts/README.md) |
+| Tests | 187 backend tests pass, 1 is skipped; 99 extension tests and Windows PowerShell 5.1 launcher checks pass |
+| Chrome/Gmail acceptance | Synthetic T23 analysis and challenge passed; partial extraction correctly flagged. Revoking consent blocked further analysis |
 
 ## Evaluation (summary)
 
@@ -42,7 +43,9 @@ Details: [`backend/eval/results/`](backend/eval/results/) and [`docs/PROGRESS_RE
 
 ## Run it locally
 
-For the prepared Windows demo, use [Start-Demo.cmd](Start-Demo.cmd). It uses your existing Google Cloud sign-in to read the provider secret and an already-prepared, expiring sampler. Choose **Direct local** in the extension, explicitly allow Tinker, and paste the temporary app token displayed in the one demo window. Startup makes no inference calls. Use synthetic emails only; API inference uses credits. Cloud Run and its IAM protection remain unchanged.
+For the prepared Windows demo, use [Start-Demo.cmd](Start-Demo.cmd). It starts a connector in one window using your Google Cloud sign-in and the existing cloud app token. The provider key stays in private Cloud Run; the default cloud base model needs no sampler or local checkpoint. Choose the one-click connection in the extension, explicitly allow Tinker, and paste the temporary app token displayed in the window. Startup checks the remote session without inference. Use synthetic emails only; API inference uses credits. The independently reviewed AI revision now serves 100% traffic; see [deployment status](docs/PRIVATE_STAGING.md).
+
+Use `Start-Demo.cmd -Local` only for the previous direct-local fallback. That mode still needs its valid, expiring sampler; it does not renew it automatically.
 
 Backend (rules only, no model calls):
 

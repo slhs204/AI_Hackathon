@@ -14,6 +14,17 @@ function panel(send) {
   vm.runInContext('connected = true',ctx); // Fixtures start with the mocked session already configured.
   ctx.email=email;ctx.result=result;ctx.finding=finding;return {els,get,ctx,messages,events,focused:()=>focused};
 }
+test('cloud results and restored connection identify Cloud Run while local Tinker keeps its label',async()=>{
+  const p=panel(async()=>({ok:true,data:{...result,model:'tinker:test',execution:'cloud-run'},mocked:false}));
+  await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.equal(p.get('mode').textContent,'CLOUD RUN · TINKER');
+  assert.equal(p.ctx.modeLabel({model:'tinker:test'},false),'TINKER AI');
+  p.ctx.chrome.runtime.sendMessage=async()=>({ok:true,connected:true,allowAI:true,endpoint:'http://127.0.0.1:8081',execution:'cloud-run'});
+  p.ctx.clearResults();
+  await p.ctx.refreshConnection();
+  assert.equal(p.get('mode').textContent,'CLOUD RUN · TINKER');
+  assert.match(p.get('connection-status').textContent,/Cloud Run · Tinker/);
+});
 test('UI labels backend rules-only and shows incomplete limitations, not LIVE AI',async()=>{
   const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
   assert.equal(p.get('mode').textContent,'BACKEND RULES ONLY');assert.match(p.get('completeness').textContent,/Incomplete/);assert.equal(p.get('limitations').children[0].textContent,'Missing headers');assert.equal(p.get('verdict-box').dataset.state,'unknown');

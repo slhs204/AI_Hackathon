@@ -1,0 +1,164 @@
+{
+  "cloud-canary-result": {
+    "anonymous": {
+      "status": 403,
+      "ms": 250
+    },
+    "wrong_app_token": {
+      "status": 401,
+      "ms": 156
+    },
+    "missing_ai_guard": {
+      "status": 409,
+      "ms": 125
+    },
+    "rules_guard": {
+      "status": 409,
+      "ms": 109
+    },
+    "session": {
+      "status": 200,
+      "ms": 94,
+      "model": {
+        "triage": "tinker:Qwen/Qwen3-8B",
+        "analyze": "tinker:Qwen/Qwen3-8B",
+        "challenge": "tinker:Qwen/Qwen3-8B"
+      }
+    },
+    "analyze": {
+      "status": 200,
+      "ms": 7922,
+      "complete": true,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "findings": 16
+    },
+    "challenge": {
+      "status": 200,
+      "ms": 1453,
+      "model": "tinker:Qwen/Qwen3-8B",
+      "assessment": "still_concerning"
+    }
+  },
+  "cloud-provenance-a002": {
+    "revision": "phish-staging-ai-3ec6847-a002",
+    "source_commit": "3ec6847",
+    "source": "53 backend files checked byte-for-byte against Git blobs; archive CRLF conversion restored",
+    "image_digest": "us-central1-docker.pkg.dev/lateral-nomad-514001-c7/cloud-run-source-deploy/phish-staging@sha256:766e7c08173b23157d6e9dbeb48e69f94cdd07531d2ca947a1da8a7198730830",
+    "canary_url": "https://a002-ai---phish-staging-az465uxmla-uc.a.run.app",
+    "traffic_before_promotion": [
+      {
+        "revisionName": "phish-staging-ai-3ec6847-a002",
+        "tag": "a002-ai",
+        "url": "https://a002-ai---phish-staging-az465uxmla-uc.a.run.app"
+      },
+      {
+        "percent": 100,
+        "revisionName": "phish-staging-fix-313b174"
+      }
+    ],
+    "preserved": [
+      "IAM bindings empty/private",
+      "runtime service account",
+      "DEMO_API_TOKEN secret reference",
+      "CPU/memory",
+      "maxScale1",
+      "concurrency/timeout"
+    ],
+    "actual_windows_startup": {
+      "shell": "powershell.exe5.1",
+      "CLOUD_RUN_URL": "a002-ai tagged canary",
+      "pid": 55580,
+      "port": 8081,
+      "occupied_port": "actual second CheckOnly refused PID55580 and preserved listener"
+    },
+    "browser_evidence": "work/browser-a002-result.json"
+  },
+  "browser-a002-result": {
+    "extension": "0.3.6",
+    "installed_id": "iopebccgnblmhndpgeliepcabmjcambo",
+    "mail": "identified synthetic T23",
+    "route": "Chrome -> loopback8081 -> private Cloud Run canary -> Tinker",
+    "connected_label": "CLOUD RUN \u00b7 TINKER",
+    "analyze": "passed;3 warning signs;partial extraction truthfully flagged",
+    "challenge": "passed; IT verification claim does not replace independent verification",
+    "revocation": "unchecked AI cleared results/session; subsequent Analyze failed before backend",
+    "mail_mutation": false,
+    "coverage_limit": "single synthetic Gmail message; raw headers and attachment content unavailable"
+  },
+  "connector-final-live": {
+    "status": 200,
+    "execution": "cloud-run",
+    "model": "tinker:Qwen/Qwen3-8B",
+    "complete": true,
+    "missing_email_id_accepted": true,
+    "ms": 6218,
+    "startup": "actual PS5.1 from external cwd; tagged canary; direct SDK Python token minting"
+  },
+  "cloud-promoted-result": {
+    "service_url": "https://phish-staging-az465uxmla-uc.a.run.app",
+    "traffic": [
+      {
+        "percent": 100,
+        "revisionName": "phish-staging-ai-3ec6847-a002",
+        "tag": "a002-ai",
+        "url": "https://a002-ai---phish-staging-az465uxmla-uc.a.run.app"
+      },
+      {
+        "revisionName": "phish-staging-fix-313b174",
+        "tag": "rules-only",
+        "url": "https://rules-only---phish-staging-az465uxmla-uc.a.run.app"
+      }
+    ],
+    "authenticated_model": {
+      "triage": "tinker:Qwen/Qwen3-8B",
+      "analyze": "tinker:Qwen/Qwen3-8B",
+      "challenge": "tinker:Qwen/Qwen3-8B"
+    },
+    "anonymous_status": 403,
+    "IAM_bindings_unchanged": true,
+    "legacy_rules_tag_session": {
+      "triage": "rules-only",
+      "analyze": "rules-only",
+      "challenge": "rules-only"
+    },
+    "rollback_revision": "phish-staging-fix-313b174"
+  },
+  "production-launch-result": {
+    "entry": "unmodified scripts/start-demo.ps1",
+    "shell": "Windows PowerShell5.1",
+    "cwd": "external projectless folder",
+    "cloud_url_override": false,
+    "token": "fresh cryptographic token captured in memory; value withheld",
+    "session_status": 200,
+    "execution": "cloud-run",
+    "model": {
+      "triage": "tinker:Qwen/Qwen3-8B",
+      "analyze": "tinker:Qwen/Qwen3-8B",
+      "challenge": "tinker:Qwen/Qwen3-8B"
+    },
+    "startup_inference": false
+  },
+  "bundle-a002-result": {
+    "source_files": 314,
+    "source_bytes_equal": true,
+    "files_scanned": 316,
+    "provider_key_matches": 0,
+    "cloud_app_token_matches": 0,
+    "git_or_venv_included": false,
+    "installed_extension_runtime_bytes_equal": true,
+    "post_promotion_runtime_and_limits_unchanged": true
+  },
+  "automated_checks": {
+    "backend_pass": 187,
+    "backend_skip": 1,
+    "extension_pass": 99,
+    "PS5_1_launcher": "PASS"
+  },
+  "independent_review": {
+    "provider": "claude",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "final": "PASS",
+    "findings": "F1-F8,N1,L1-L3 resolved; whole fresh-machine and broader browser proof remain unclaimed"
+  }
+}

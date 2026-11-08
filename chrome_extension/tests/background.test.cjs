@@ -59,7 +59,7 @@ test('malformed/mismatched response and unexpected AI result fail closed',async(
   }
 });
 test('HTTP auth/validation/server errors, timeout and malformed JSON remain errors',async()=>{
-  for (const status of [403,409,422,503,500]) {
+  for (const status of [403,409,422,502,503,504,500]) {
     const h=harness(()=>({ok:false,status}));assert.equal((await h.send({type:'CONNECT',token:'x'})).ok,false);
   }
   for (const fetcher of [()=>{throw {name:'TimeoutError'}},()=>({ok:true,json:async()=>{throw Error('invalid')}})]) {
@@ -111,4 +111,16 @@ test('failed reconnect revokes the previous AI session rather than retaining per
   assert.equal((await h.send({type:'CONNECT',token:'x',endpoint:'local',allowAI:true})).ok,true);
   invalid=true;assert.equal((await h.send({type:'CONNECT',token:'wrong',endpoint:'local'})).ok,false);
   const before=h.calls.length;assert.equal((await h.send({type:'ANALYZE',email})).ok,false);assert.equal(h.calls.length,before);assert.deepEqual(h.storage,{});
+});
+
+test('cloud execution survives connection storage and status restoration without exposing tokens',async()=>{
+  const model='tinker:Qwen/Qwen3-8B';
+  const h=harness(()=>({ok:true,json:async()=>({...health,execution:'cloud-run',model:{analyze:model,challenge:model}})}));
+  const connected=await h.send({type:'CONNECT',token:'private-token',endpoint:'local',allowAI:true});
+  assert.equal(connected.execution,'cloud-run');
+  assert.equal(h.storage.hooklineConnection.execution,'cloud-run');
+  const restored=await h.send({type:'CONNECTION_STATUS'});
+  assert.equal(restored.execution,'cloud-run');
+  assert.equal(restored.allowAI,true);
+  assert.equal(JSON.stringify(restored).includes('private-token'),false);
 });

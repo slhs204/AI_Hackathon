@@ -1,4 +1,4 @@
-// The one-click backend is direct on 8081; legacy private staging stays on 8080.
+// The one-click backend uses the cloud connector on 8081; legacy staging stays on 8080.
 // No Cloud Run identity token, service-account key, or provider key belongs here.
 const API_BASE_URL = "http://127.0.0.1:8080";
 const LOCAL_API_URL = "http://127.0.0.1:8081";
@@ -35,9 +35,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const connection = { token, endpoint, allowAI };
         const health = await checkHealth(connection);
         connection.model = health.model.analyze;
+        connection.execution = health.execution === "cloud-run" ? "cloud-run" : "local";
         if (revision !== connectionRevision) throw new Error("Connection was cancelled.");
         await chrome.storage.session.set({ [SESSION_KEY]: connection });
-        sendResponse({ ok: true, connected: true, endpoint, allowAI });
+        sendResponse({ ok: true, connected: true, endpoint, allowAI, execution: connection.execution });
         return;
       }
       if (message.type === "DISCONNECT") {
@@ -48,7 +49,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       const connection = (await chrome.storage.session.get(SESSION_KEY))[SESSION_KEY];
       if (message.type === "CONNECTION_STATUS") {
-        sendResponse({ ok: true, connected: Boolean(connection?.token), endpoint: connection?.endpoint || API_BASE_URL, allowAI: connection?.allowAI === true });
+        sendResponse({ ok: true, connected: Boolean(connection?.token), endpoint: connection?.endpoint || API_BASE_URL, allowAI: connection?.allowAI === true, execution: connection?.execution });
         return;
       }
       const mocked = message.demo === true;
@@ -86,10 +87,12 @@ async function request(path, connection, payload) {
   if (!response.ok) {
     const detail = {
       401: "The demo token is missing or incorrect.",
-      403: "Cloud Run access was denied. Check the proxy's signed-in account and existing invoker access.",
+      403: "Cloud Run access was denied. Check the signed-in Google account and existing invoker access.",
       409: "Backend mode does not match your permission. Reconnect with the intended mode; no email was analyzed.",
       422: "The backend rejected the email or finding. No assessment was accepted.",
-      503: "The backend is not ready or its demo token is not configured."
+      503: "The backend is not ready or its demo token is not configured.",
+      502: "Cloud connection failed. Check Google Cloud sign-in and secret access, then restart Start-Demo.",
+      504: "Cloud request timed out. Check the demo window before retrying; the previous request may still use credits."
     }[response.status];
     throw new Error(detail || `Backend returned HTTP ${response.status}.`);
   }

@@ -9,7 +9,7 @@ const manifest = JSON.parse(read('manifest.json'));
 
 test('extension and side panel use the exact requested display name', () => {
   assert.equal(manifest.name, 'Dobby’s Catch');
-  assert.equal(manifest.version, '0.3.5');
+  assert.equal(manifest.version, '0.3.6');
   assert.equal(manifest.action.default_title, 'Open Dobby’s Catch');
   assert.match(read('sidepanel.html'), /<title>Dobby’s Catch<\/title>/);
   assert.match(read('sidepanel.html'), /<strong>Dobby’s Catch<\/strong>/);
