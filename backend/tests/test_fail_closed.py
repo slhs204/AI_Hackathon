@@ -151,3 +151,38 @@ def test_explicit_v1_schema_does_not_require_v2_fields(monkeypatch):
     result = analyze(email(), lambda *_: json.dumps({"summary": "Update", "explanations": [], "extra_findings": []}))
     assert result.analysis_complete
     assert result.model == "rules-only"  # fake provider, no paid calls
+
+@pytest.mark.parametrize('provider', ['mock', 'anthropic'])
+@pytest.mark.parametrize('route', ['/session', '/analyze'])
+def test_tinker_permission_blocks_other_providers_before_selection(monkeypatch, provider, route):
+    monkeypatch.setenv('DEMO_API_TOKEN', 'test-token')
+    monkeypatch.setenv('MODEL_PROVIDER', provider)
+    monkeypatch.setattr(main, 'model_for_request', lambda *args: pytest.fail('model selection must not run'))
+    client = TestClient(main.app)
+    headers = {'X-Demo-Token': 'test-token', 'X-Require-Tinker': '1'}
+    response = client.get(route, headers=headers) if route == '/session' else client.post(route, json=email().model_dump(), headers=headers)
+    assert response.status_code == 409
+
+@pytest.mark.parametrize('route', ['/session', '/analyze', '/challenge', '/triage'])
+def test_tinker_requires_explicit_permission_even_with_valid_token(monkeypatch, route):
+    monkeypatch.setenv('DEMO_API_TOKEN', 'test-token')
+    monkeypatch.setenv('MODEL_PROVIDER', 'tinker')
+    monkeypatch.setattr(main, 'model_for_request', lambda *args: pytest.fail('model selection must not run'))
+    client = TestClient(main.app)
+    response = client.get(route, headers={'X-Demo-Token': 'test-token'}) if route == '/session' else client.post(route, json={}, headers={'X-Demo-Token': 'test-token'})
+    assert response.status_code == 409
+
+def test_tinker_failure_returns_incomplete_instead_of_clearance(monkeypatch):
+    from app.llm import ModelUnavailable
+    monkeypatch.setenv('DEMO_API_TOKEN', 'test-token')
+    monkeypatch.setenv('MODEL_PROVIDER', 'tinker')
+    monkeypatch.setenv('TINKER_MODEL', 'test-sampler')
+    def unavailable(*args):
+        raise ModelUnavailable('test outage')
+    monkeypatch.setattr(main, 'model_for_request', lambda *args: unavailable)
+    response = TestClient(main.app).post('/analyze', json=email().model_dump(), headers={'X-Demo-Token':'test-token','X-Require-Tinker':'1'})
+    assert response.status_code == 200
+    body = response.json()
+    assert body['analysis_complete'] is False
+    assert body['model'] == 'rules-only (model unavailable)'
+    assert body['verdict']['key'] != 'pay'

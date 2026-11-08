@@ -15,6 +15,7 @@ let selectedFindingId = null;
 let requestNumber = 0;
 let challengeNumber = 0;
 let connected = false;
+let connectionMode = "STAGING CONNECTED";
 let pendingExtractionTab = null;
 let currentAnalysis = null;
 let simpleMode = true;
@@ -71,6 +72,7 @@ function setBusy(busy) {
 function modeLabel(analysis, mocked) {
   if (mocked) return "LOCAL DEMO";
   if (analysis?.model === "rules-only") return "BACKEND RULES ONLY";
+  if (analysis?.model?.startsWith("tinker:")) return "TINKER AI";
   return "MODE UNVERIFIED";
 }
 
@@ -94,7 +96,7 @@ function clearResults(status = "Open a Gmail message and analyze it.") {
   challengeNumber++;
   setBusy(false);
   $("challenge").disabled = false;
-  $("mode").textContent = connected ? "STAGING CONNECTED" : "NOT CONNECTED";
+  $("mode").textContent = connected ? connectionMode : "NOT CONNECTED";
   currentEmail = null;
   currentAnalysis = null;
   closeAction(false);
@@ -152,6 +154,7 @@ async function analyzeEmail(email, mode, tabId = null) {
   let scanTarget = null;
   try {
     if (mode === "gmail") {
+      if (!connected) throw new Error("Connect with the intended permission before analyzing Gmail.");
       scanTarget = await beginBodyScan(email, tabId, myRequest);
       if (myRequest !== requestNumber) return;
     }
@@ -174,6 +177,9 @@ async function analyzeEmail(email, mode, tabId = null) {
     currentFindings = Array.isArray(analysis.findings) ? analysis.findings : [];
     renderResults(analysis, response.mocked);
     setStatus(response.mocked ? "Local demo complete. No email was sent and no AI was called." :
+      analysis.model?.startsWith("tinker:") ? analysis.analysis_complete
+        ? "Tinker AI analysis returned. Review the missing-information notes; this is not payment approval."
+        : "Partial Tinker AI check. Missing information must not be treated as clearance." :
       analysis.analysis_complete ? "Backend rules-only check complete. No AI was called; this is not payment approval." :
       "Partial backend rules-only check. Review the missing-information notes before acting.");
   } catch (error) {
@@ -431,7 +437,7 @@ $("challenge").addEventListener("click", async () => {
     const data = response.data;
     $("challenge-result").textContent = response.mocked
       ? `Local demo response: ${data.explanation}\nNext step: ${data.next_action}`
-      : `Backend rules-only: ${data.assessment === "less_concerning" ? "Less concerning, not cleared" : "Still concerning"}. ${data.message}\nStill unresolved: ${data.still_unresolved}\nNext step: ${data.next_action}`;
+      : `${modeLabel(data, false)}: ${data.assessment === "less_concerning" ? "Less concerning, not cleared" : "Still concerning"}. ${data.message}\nStill unresolved: ${data.still_unresolved}\nNext step: ${data.next_action}`;
   } catch (error) {
     if (myRequest === requestNumber && myChallenge === challengeNumber) $("challenge-result").textContent = `Challenge failed: ${error.message}`;
   } finally {
@@ -470,36 +476,52 @@ chrome.tabs.onActivated.addListener(({ tabId }) => {
 async function refreshConnection() {
   const response = await chrome.runtime.sendMessage({ type: "CONNECTION_STATUS" });
   connected = response?.ok && response.connected;
+  connectionMode = response?.allowAI ? "TINKER CONNECTED" : "STAGING CONNECTED";
   $("connection-status").textContent = connected
-    ? "Session configured for 127.0.0.1:8080. Each analysis rechecks rules-only mode."
+    ? `Connected to ${response.endpoint || "http://127.0.0.1:8080"}. ${response.allowAI ? "Tinker AI permitted for this session." : "Rules only; no AI calls permitted."}`
     : "Not connected. Try demo stays local. Connect before analyzing Gmail.";
-  if (!currentEmail) $("mode").textContent = connected ? "STAGING CONNECTED" : "NOT CONNECTED";
+  if (connected) {
+    $("backend-endpoint").value = response.endpoint?.endsWith(":8081") ? "local" : "staging";
+    $("allow-tinker").checked = response.allowAI === true;
+  }
+  if (!currentEmail) $("mode").textContent = connected ? connectionMode : "NOT CONNECTED";
 }
 
 $("connect").addEventListener("click", async () => {
   $("connect").disabled = true;
   const token = $("demo-token").value;
   $("demo-token").value = "";
+  clearResults("Checking connection and permission. No email is being sent.");
   try {
-    const response = await chrome.runtime.sendMessage({ type: "CONNECT", token });
+    const response = await chrome.runtime.sendMessage({ type: "CONNECT", token, endpoint: $("backend-endpoint").value || "staging", allowAI: $("allow-tinker").checked === true });
     if (!response?.ok) throw new Error(response?.error || "Connection failed.");
     await refreshConnection();
-    clearResults("Connected to rules-only staging. Only a click on Analyze sends the selected email.");
+    clearResults("Connected. Only a click on Analyze sends the selected email to the permitted backend.");
   } catch (error) {
+    await refreshConnection();
     $("connection-status").textContent = `Connection failed: ${error.message}`;
   } finally { $("connect").disabled = false; }
 });
-$("disconnect").addEventListener("click", async () => {
+async function revokeConnection() {
+  connected = false;
   requestNumber++;
   challengeNumber++;
+  clearResults("Connection or permission changed. Reconnect before analyzing Gmail.");
   await chrome.runtime.sendMessage({ type: "DISCONNECT" });
   await clearGmailHighlight();
-  connected = false;
-  clearResults("Disconnected. Session token cleared; Try demo stays local.");
   await refreshConnection();
+}
+for (const id of ["backend-endpoint", "allow-tinker"]) {
+  $(id).addEventListener("change", revokeConnection);
+}
+$("disconnect").addEventListener("click", async () => {
+  await revokeConnection();
+  $("allow-tinker").checked = false;
+  $("backend-endpoint").value = "staging";
+  clearResults("Disconnected. Session token cleared; Try demo stays local.");
 });
 refreshConnection().catch(() => { $("connection-status").textContent = "Could not read connection state. Reload the extension."; });
-setStatus("Use synthetic email only. Connect to private staging before analyzing Gmail, or choose Try demo.");
+setStatus("Use synthetic email only. Connect the demo backend before analyzing Gmail, or choose Try demo.");
 
 
 // Simple is a presentation of the same assessment, never an override or payment authorization.

@@ -1,6 +1,7 @@
-// Private staging is reached through the local, IAM-authenticated gcloud proxy.
+// The one-click backend is direct on 8081; legacy private staging stays on 8080.
 // No Cloud Run identity token, service-account key, or provider key belongs here.
 const API_BASE_URL = "http://127.0.0.1:8080";
+const LOCAL_API_URL = "http://127.0.0.1:8081";
 const SESSION_KEY = "hooklineConnection";
 const TIMEOUT_MS = 45000;
 let connectionRevision = 0;
@@ -24,12 +25,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     try {
       if (message.type === "CONNECT") {
         const revision = ++connectionRevision;
+        await chrome.storage.session.remove(SESSION_KEY);
         const token = typeof message.token === "string" ? message.token.trim() : "";
-        if (!token || token.length > 512 || /[\r\n]/.test(token)) throw new Error("Enter the staging demo token privately in this panel.");
-        await checkHealth(token);
+        if (!token || token.length > 512 || /[\r\n]/.test(token)) throw new Error("Enter the demo token privately in this panel.");
+        if (message.endpoint && !["local", "staging"].includes(message.endpoint)) throw new Error("Choose a supported local connection.");
+        const endpoint = message.endpoint === "local" ? LOCAL_API_URL : API_BASE_URL;
+        const allowAI = message.allowAI === true;
+        if (allowAI && endpoint !== LOCAL_API_URL) throw new Error("Tinker permission applies only to the one-click local backend.");
+        const connection = { token, endpoint, allowAI };
+        const health = await checkHealth(connection);
+        connection.model = health.model.analyze;
         if (revision !== connectionRevision) throw new Error("Connection was cancelled.");
-        await chrome.storage.session.set({ [SESSION_KEY]: { token } });
-        sendResponse({ ok: true, connected: true, endpoint: API_BASE_URL });
+        await chrome.storage.session.set({ [SESSION_KEY]: connection });
+        sendResponse({ ok: true, connected: true, endpoint, allowAI });
         return;
       }
       if (message.type === "DISCONNECT") {
@@ -40,14 +48,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       const connection = (await chrome.storage.session.get(SESSION_KEY))[SESSION_KEY];
       if (message.type === "CONNECTION_STATUS") {
-        sendResponse({ ok: true, connected: Boolean(connection?.token), endpoint: API_BASE_URL });
+        sendResponse({ ok: true, connected: Boolean(connection?.token), endpoint: connection?.endpoint || API_BASE_URL, allowAI: connection?.allowAI === true });
         return;
       }
       const mocked = message.demo === true;
-      if (!mocked && !connection?.token) throw new Error("Connect to private staging first, or choose Try demo for local pattern rules.");
+      if (!mocked && !connection?.token) throw new Error("Connect the demo backend first, or choose Try demo for local pattern rules.");
       const result = mocked
         ? message.type === "ANALYZE" ? mockAnalyze(message.email) : mockChallenge(message)
-        : await callBackend(message, connection.token);
+        : await callBackend(message, connection);
       sendResponse({ ok: true, data: result, mocked });
     } catch (error) {
       sendResponse({ ok: false, error: String(error?.message || error) });
@@ -56,12 +64,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-async function request(path, token, payload) {
+async function request(path, connection, payload) {
+  const endpoint = connection.endpoint || API_BASE_URL;
+  if (![API_BASE_URL, LOCAL_API_URL].includes(endpoint) || connection.allowAI && endpoint !== LOCAL_API_URL) throw new Error("Unsupported connection. Reconnect in the panel.");
   let response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    response = await fetch(`${endpoint}${path}`, {
       method: payload ? "POST" : "GET",
-      headers: { "Content-Type": "application/json", "X-Demo-Token": token, "X-Require-Rules-Only": "1" },
+      headers: { "Content-Type": "application/json", "X-Demo-Token": connection.token,
+        ...(connection.allowAI ? { "X-Require-Tinker": "1" } : { "X-Require-Rules-Only": "1" }) },
       ...(payload ? { body: JSON.stringify(payload) } : {}),
       credentials: "omit",
       redirect: "error", // Never forward the token or email to another destination.
@@ -69,14 +80,14 @@ async function request(path, token, payload) {
       signal: AbortSignal.timeout(TIMEOUT_MS)
     });
   } catch (error) {
-    if (error?.name === "TimeoutError" || error?.name === "AbortError") throw new Error("Staging request timed out. No result was accepted; check the proxy before retrying.");
-    throw new Error("Cannot reach the local staging proxy. Start it on this computer and check Chrome's local-network permission if prompted.");
+    if (error?.name === "TimeoutError" || error?.name === "AbortError") throw new Error("Backend request timed out. No result was accepted; check the demo window before retrying.");
+    throw new Error("Cannot reach the backend. Run Start-Demo for local mode, or start the legacy staging proxy; check Chrome's local-network permission if prompted.");
   }
   if (!response.ok) {
     const detail = {
-      401: "The staging demo token is missing or incorrect.",
+      401: "The demo token is missing or incorrect.",
       403: "Cloud Run access was denied. Check the proxy's signed-in account and existing invoker access.",
-      409: "The backend is not rules-only. This staging build will not call a paid model.",
+      409: "Backend mode does not match your permission. Reconnect with the intended mode; no email was analyzed.",
       422: "The backend rejected the email or finding. No assessment was accepted.",
       503: "The backend is not ready or its demo token is not configured."
     }[response.status];
@@ -86,24 +97,26 @@ async function request(path, token, payload) {
   catch { throw new Error("The backend returned invalid JSON. No assessment was accepted."); }
 }
 
-async function checkHealth(token) {
-  const data = await request("/session", token);
+async function checkHealth(connection) {
+  const data = await request("/session", connection);
+  const model = data?.model?.analyze;
+  const expected = connection.allowAI ? typeof model === "string" && model.startsWith("tinker:") && model.length > 7 : model === "rules-only";
   if (data?.status !== "ok" || data?.service !== "phishing-coach" ||
-      data?.model?.analyze !== "rules-only" || data?.model?.challenge !== "rules-only") {
-    throw new Error("Expected the private phishing-coach rules-only staging backend. No email was sent.");
+      !expected || data?.model?.challenge !== model || connection.model && connection.model !== model) {
+    throw new Error("Backend model changed or does not match your permission. No email was sent; reconnect.");
   }
   return data;
 }
 
-async function callBackend(message, token) {
+async function callBackend(message, connection) {
   const revision = connectionRevision;
-  await checkHealth(token);
+  await checkHealth(connection);
   if (revision !== connectionRevision) throw new Error("Connection changed. No email was sent.");
   const isAnalyze = message.type === "ANALYZE";
   if (!isAnalyze && (!message.finding?.id || !message.finding?.evidence)) throw new Error("Select the original finding before challenging it.");
-  const data = await request(isAnalyze ? "/analyze" : "/challenge", token,
+  const data = await request(isAnalyze ? "/analyze" : "/challenge", connection,
     isAnalyze ? message.email : { email: message.email, finding: message.finding, user_context: message.context });
-  if (data?.model !== "rules-only") throw new Error("Unexpected backend model mode. No result was accepted.");
+  if (data?.model !== (connection.model || "rules-only")) throw new Error("Unexpected or unavailable backend model. No result was accepted.");
   if (isAnalyze) {
     if (data.email_id !== message.email?.email_id || !Array.isArray(data.findings) ||
         typeof data.analysis_complete !== "boolean" || !Array.isArray(data.limitations) ||

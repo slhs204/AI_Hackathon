@@ -8,13 +8,15 @@ It never says an email is safe and never authorizes a payment. “No warning sig
 
 | Part | Status |
 |---|---|
-| Chrome extension (Gmail, version 0.3.4) | Built. Simple result view (Don't pay yet / Check first / Can't tell yet), evidence highlights, challenge flow, practice question, local inbox-title check, local demo mode |
+| Chrome extension (Gmail, version 0.3.5) | Built. Simple results, evidence highlights, challenge, practice, title checks, offline demo, and explicit per-session local Tinker permission |
 | Backend (FastAPI, `backend/`) | Built. `/health`, `/session`, `/analyze`, `/triage`, `/challenge`; demo-token check fails closed |
 | Rule engine (`backend/phishhook/`) | Built. 8 detectors plus payroll-specific checks |
 | Evidence checks | Built. Every quote shown to the user is checked against the email; unverifiable output becomes “Analysis incomplete” |
 | Claude integration | Built and evaluated offline: Claude Haiku 5.5 for inbox triage, Claude Sonnet 5.5 for per-email analysis |
-| Private staging on Cloud Run | IAM-protected service `phish-staging`, run **rules only** (`MODEL_PROVIDER=mock`). The extension refuses paid-model mode |
-| Tests | 143 backend tests and 90 extension tests pass. They use stubs; real Chrome/Gmail end-to-end checks are still manual |
+| Private staging on Cloud Run | IAM-protected `phish-staging`, **rules only** (`MODEL_PROVIDER=mock`); unchanged by the direct-local demo |
+| Tinker | First real tiny-JSON and synthetic full-analysis tests passed with a Qwen3-8B sampler. This proves connectivity, not accuracy |
+| Windows demo | Double-click `Start-Demo.cmd`: direct local backend on loopback 8081, no proxy; see [startup guide](scripts/README.md) |
+| Tests | 151 backend tests pass, 1 is skipped; 97 extension tests pass. Browser/Gmail acceptance remains a separate check |
 
 ## Evaluation (summary)
 
@@ -39,6 +41,8 @@ Details: [`backend/eval/results/`](backend/eval/results/) and [`docs/PROGRESS_RE
 | [`DEPLOYMENT.md`](DEPLOYMENT.md) | Historical health-check-only deployment example. Do not use it for the real service |
 
 ## Run it locally
+
+For the prepared Windows demo, use [Start-Demo.cmd](Start-Demo.cmd). It uses your existing Google Cloud sign-in to read the provider secret and an already-prepared, expiring sampler. Choose **Direct local** in the extension, explicitly allow Tinker, and paste the temporary app token displayed in the one demo window. Startup makes no inference calls. Use synthetic emails only; API inference uses credits. Cloud Run and its IAM protection remain unchanged.
 
 Backend (rules only, no model calls):
 

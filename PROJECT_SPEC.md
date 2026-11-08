@@ -1,6 +1,6 @@
 # Dobby’s Catch (Phishing Coach): Project Spec
 
-**Status date: November 7, 2026 (updated after PR #5)**
+**Status date: November 8, 2026 (direct-local Tinker demo)**
 
 ## 1. The idea
 
@@ -21,9 +21,9 @@ The goal is both safer decisions and practical learning. Detection has been meas
 | `POST /triage` (inbox priority from sender, subject, preview) | Built |
 | `POST /challenge` | Built; never clears a finding |
 | Claude integration (Haiku 5.5 triage, Sonnet 5.5 analysis) | Built and evaluated offline; not enabled on staging |
-| Browser extension (Gmail, 0.3.4) | Built: simple result view, evidence highlights, challenge, practice question, local inbox-title check, local demo |
+| Browser extension (Gmail, 0.3.5) | Built: simple result view, evidence highlights, challenge, practice question, local inbox-title check, local demo |
 | Evidence highlighting and scan animation | Built |
-| Automated tests | 143 backend, 90 extension (stubs; no real Chrome/Gmail E2E) |
+| Automated tests | 151 backend pass, 1 skip; 97 extension pass (stubs; no real Chrome/Gmail E2E) |
 | Real Chrome/Gmail acceptance test | Manual checklist in `chrome_extension/README.md`; not yet recorded as done |
 
 ## 3. The user experience
@@ -67,7 +67,7 @@ A matching domain does not prove that the sender is trustworthy. An account can 
 ## 5. Model plan and results
 
 - In use: Claude Haiku 5.5 (`claude-haiku-5-5`) for `/triage`, Claude Sonnet 5.5 (`claude-sonnet-5-5`) for `/analyze` and `/challenge`. Both can be changed with environment variables.
-- Tinker is wired in as an alternative provider (`MODEL_PROVIDER=tinker`) but has not made a real call yet.
+- Tinker (`MODEL_PROVIDER=tinker`) passed real tiny-JSON, synthetic full-analysis and direct-local HTTP tests with Qwen3-8B. The Windows launcher uses loopback8081 without a proxy; the extension requires explicit session permission. This does not establish model accuracy or Cloud Run AI deployment.
 - GPT-6.1 Sol was a comparison candidate and has not been tested.
 
 Offline results on a 200-email public blind set (Gmail view): rules only flag 18/100 phishing with 5/100 false alarms; Sonnet 5.5 flags 100/100 phishing with 24/100 false alarms; Haiku 5.5 with prompt v2 and the pressure-words rule flags 48/50 phishing with 0/50 false alarms on the tuning half. The held-out test half still needs one run. Details are in `backend/eval/results/`.

@@ -1,0 +1,9 @@
+Double-click `Start-Demo.cmd` from the repository root. One terminal prepares the local Python environment on first use, reads the existing Tinker key through your Google Cloud sign-in, and runs the backend at `http://127.0.0.1:8081`. Keep it open; Ctrl+C stops the server.
+
+The setup prerequisite is a valid existing sampler recorded in `private/tinker-model.json` with `model` and an ISO `expires_at` including timezone. The first sampler expires **November 9, 2026 at 05:19:36 UTC** (November 9 at 00:19:36 EST). After expiry, repeat the controlled sampler setup before launching. Startup refuses missing, invalid or expired checkpoints; it never creates a sampler or runs a paid smoke test. Selecting an email with Tinker enabled can incur inference charges. A request that times out in the client may still consume credits, and correction retries can incur additional charges.
+
+Paste the displayed temporary demo token into the extension password field, choose direct local, and explicitly enable Tinker. The provider key stays in the server process environment. Each launch generates a new demo token.
+
+Python selection tries `DOBBY_PYTHON`, local `.venv`, `python`, then `%USERPROFILE%/micromamba/envs/ds/python.exe`. Python 3.10+ and Google Cloud CLI are required. The launcher preserves an existing `CLOUDSDK_PYTHON`, otherwise lets the SDK use its bundled Python when available. Backend dependencies install during initial environment setup and automatically reinstall when the SHA256 of `backend/requirements.txt` changes.
+
+Offline prerequisite check: `powershell -NoProfile -File scripts/start-demo.ps1 -CheckOnly`. It validates the checkpoint, tools, Python and port without reading a secret or contacting the model. Launcher self-checks: `powershell -NoProfile -File scripts/test-start-demo.ps1`.

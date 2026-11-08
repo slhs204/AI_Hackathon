@@ -174,9 +174,15 @@
     <p id="status" role="status" aria-live="polite" class="status app-status">Only the message you choose is analyzed.</p>
     <section class="panel">
       <details id="connection-settings">
-        <summary>Connect to private staging</summary>
-        <p class="supporting">Start the authenticated proxy on this computer at 127.0.0.1:8080. Cloud Run stays private. This build uses rules only, not AI.</p>
-        <label for="demo-token">Staging demo token (this browser session only)</label>
+        <summary>Connect demo backend</summary>
+        <p class="supporting">For the one-click demo, run Start-Demo and choose Direct local. No proxy is needed. Private staging remains available separately.</p>
+        <label for="backend-endpoint">Connection</label>
+        <select id="backend-endpoint">
+          <option value="staging">Private staging · 8080 · rules only</option>
+          <option value="local">Direct local · 8081 · Start-Demo</option>
+        </select>
+        <label><input id="allow-tinker" type="checkbox" /> Allow Tinker AI for this session. Analyze sends the selected email to Tinker and may use paid credits. Use synthetic email only.</label>
+        <label for="demo-token">Demo token (this browser session only)</label>
         <input id="demo-token" type="password" autocomplete="off" maxlength="512" spellcheck="false" />
         <div class="actions">
           <button id="connect" class="secondary">Connect</button>

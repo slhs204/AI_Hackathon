@@ -11,6 +11,7 @@ function panel(send) {
   const els={};let focused=null;const get=id=>{if(!els[id]) {els[id]=new El();els[id].focus=()=>{focused=id};}return els[id]};const messages=[];const events={};
   const ctx={setTimeout,clearTimeout,window:{addEventListener:(type,fn)=>events[type]=fn},document:{getElementById:get,createElement:()=>new El()},chrome:{runtime:{sendMessage:async m=>{messages.push(m);return m.type==='CONNECTION_STATUS'?{ok:true,connected:true}:send(m)},onMessage:{addListener:fn=>events.email=fn}},tabs:{query:async()=>[{id:1}],sendMessage:async(_,m)=>scanReply(m),onActivated:{addListener:fn=>events.tab=fn}}}};
   vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(__dirname,'..','sidepanel.js'),'utf8'),ctx);
+  vm.runInContext('connected = true',ctx); // Fixtures start with the mocked session already configured.
   ctx.email=email;ctx.result=result;ctx.finding=finding;return {els,get,ctx,messages,events,focused:()=>focused};
 }
 test('UI labels backend rules-only and shows incomplete limitations, not LIVE AI',async()=>{
@@ -44,7 +45,7 @@ test('repeated analyses accept only latest result',async()=>{
 function extract(bodyText,linkCount=0,from=null){
   const body={innerText:bodyText,getClientRects:()=>[1],closest:()=>({querySelector:()=>from}),querySelectorAll:()=>Array.from({length:linkCount},(_,i)=>({innerText:`Link ${i}`,href:`https://example.test/${i}`}))};
   const ctx={document:{querySelectorAll:()=>[body],querySelector:()=>({textContent:'Test'}),documentElement:{}},chrome:{runtime:{onMessage:{addListener:()=>{}},sendMessage:async()=>{}}},window:{addEventListener:()=>{}},location:{hash:'#synthetic'},MutationObserver:class{observe(){}},setTimeout,clearTimeout};
-  vm.createContext(ctx);let src=fs.readFileSync(path.join(__dirname,'..','content.js'),'utf8').replace('  checkEmailChange();\n})();','  globalThis.testExtract = extractEmail;\n})();');vm.runInContext(src,ctx);return ctx.testExtract();
+  vm.createContext(ctx);let src=fs.readFileSync(path.join(__dirname,'..','content.js'),'utf8').replace(/  checkEmailChange\(\);\r?\n\}\)\(\);/,'  globalThis.testExtract = extractEmail;\n})();');vm.runInContext(src,ctx);return ctx.testExtract();
 }
 test('extraction does not invent unknown address or borrow another message sender',()=>{
   const e=extract('Message');assert.equal(e.sender.address,'');assert.equal(e.extraction_complete,false);assert.ok(e.extraction_limitations.length>=2);
@@ -277,4 +278,35 @@ test('selecting a retained title discards an in-flight body analysis before Gmai
   finish({ok:true,data:result,mocked:false}); await pending;
   assert.equal(p.get('simple-view').hidden,true); assert.equal(p.get('results').hidden,true);
   assert.equal(p.get('subject').textContent,'Next title'); assert.equal(p.get('analyze').disabled,false);
+});
+
+test('Tinker result is identified and connection sends explicit per-session permission',async()=>{
+  const p=panel(async m=>m.type==='CONNECT'?{ok:true}:{ok:true,data:{...result,model:'tinker:test-sampler'},mocked:false});
+  p.get('backend-endpoint').value='local';p.get('allow-tinker').checked=true;p.get('demo-token').value='x';
+  await p.get('connect').handlers.click();
+  const connect=p.messages.find(m=>m.type==='CONNECT');assert.equal(connect.endpoint,'local');assert.equal(connect.allowAI,true);assert.equal(p.get('demo-token').value,'');
+  await p.ctx.analyzeEmail(email,'gmail',1);assert.equal(p.get('mode').textContent,'TINKER AI');assert.doesNotMatch(p.get('status').textContent,/No AI was called/);
+});
+
+test('changing connection or unchecking AI revokes the active session before another Gmail analysis',async()=>{
+  for(const id of ['backend-endpoint','allow-tinker']) {
+    const p=panel(async()=>({ok:true,data:result,mocked:false}));
+    await new Promise(r=>setImmediate(r));
+    let active = true;
+    p.ctx.chrome.runtime.sendMessage=async m=>{p.messages.push(m);if(m.type==='DISCONNECT')active=false;return m.type==='CONNECTION_STATUS'?{ok:true,connected:active,endpoint:'http://127.0.0.1:8081',allowAI:active}:{ok:true}};
+    await p.ctx.refreshConnection();p.ctx.clearResults();
+    assert.equal(p.get('mode').textContent,'TINKER CONNECTED');
+    p.get('allow-tinker').checked=false;
+    await p.get(id).handlers.change();
+    const before=p.messages.length;await p.ctx.analyzeEmail(email,'gmail',1);
+    assert.ok(p.messages.some(m=>m.type==='DISCONNECT'));
+    assert.ok(!p.messages.slice(before).some(m=>m.type==='ANALYZE'));
+  }
+});
+
+test('incomplete Tinker output remains partial and never clears the email',async()=>{
+  const p=panel(async()=>({ok:true,data:{...result,model:'tinker:test',analysis_complete:false,findings:[]},mocked:false}));
+  await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.match(p.get('status').textContent,/Partial Tinker/);assert.match(p.get('completeness').textContent,/Incomplete/);
+  assert.notEqual(p.get('simple-verdict').dataset.state,'clear');
 });

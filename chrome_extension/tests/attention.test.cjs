@@ -42,7 +42,7 @@ function fixture(subjects = [], reducedMotion = false, stableIds = false) {
       onMessage:{addListener:fn=>messageListener=fn},sendMessage:async m=>sent.push(m)}},
     MutationObserver:class{observe(){}},setTimeout:(fn,ms)=>{const id=++clock;timers.set(id,{fn,ms});return id},clearTimeout:id=>timers.delete(id)};
   vm.createContext(ctx);
-  const code = fs.readFileSync(path.join(__dirname,'..','content.js'),'utf8').replace('  checkEmailChange();\n})();', '  globalThis.testAPI = { extractEmail, subjectSignals, checkEmailChange };\n})();');
+  const code = fs.readFileSync(path.join(__dirname,'..','content.js'),'utf8').replace(/  checkEmailChange\(\);\r?\n\}\)\(\);/, '  globalThis.testAPI = { extractEmail, subjectSignals, checkEmailChange };\n})();');
   vm.runInContext(code, ctx);
   const trusted = {id:'hookline',url:'chrome-extension://hookline/sidepanel.html'};
   const message = (m,sender=trusted) => { let result;messageListener(m,sender,r=>result=r);return result };

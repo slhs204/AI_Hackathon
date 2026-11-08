@@ -9,6 +9,8 @@ All POST routes need header `X-Demo-Token: <token>`. **Fail closed** (same as Al
 `DEMO_API_TOKEN` configured, POST routes return 503; a wrong or missing token returns 401. Locally, start the
 server with `DEMO_API_TOKEN=dev` and send `X-Demo-Token: dev`.
 
+`GET /session` uses the same token check and returns the health/model object before email transmission. `X-Require-Rules-Only: 1` rejects non-mock providers with HTTP 409 before provider selection. The explicit local Tinker connection instead sends `X-Require-Tinker: 1`, which rejects any provider other than Tinker with HTTP 409. When MODEL_PROVIDER=tinker, X-Require-Tinker:1 is mandatory even with a valid app token; omitting it returns409. Neither header bypasses the app token. The extension rechecks the model before each POST and rejects mismatched or fallback results.
+
 ## `GET /health`
 
 ```json

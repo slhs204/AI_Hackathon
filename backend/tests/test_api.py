@@ -52,7 +52,7 @@ def test_correct_token_reaches_the_model(client, monkeypatch):
     monkeypatch.setenv("MODEL_PROVIDER", "tinker")
     monkeypatch.setenv("TINKER_MODEL", "test-model")
     monkeypatch.setattr(main.llm, "default_call", lambda *a: (lambda s, u: json.dumps({"summary": "hi", "explanations": [], "extra_findings": []})))
-    r = client.post("/analyze", json=BODY, headers={"X-Demo-Token": "s3cret"})
+    r = client.post("/analyze", json=BODY, headers={"X-Demo-Token": "s3cret", "X-Require-Tinker": "1"})
     assert r.status_code == 200 and r.json()["summary"] == "hi"
 
 

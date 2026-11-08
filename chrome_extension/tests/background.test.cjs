@@ -76,3 +76,39 @@ test('disconnect during preflight prevents the subsequent email POST',async()=>{
   await h.send({type:'CONNECT',token:'x'});const pending=h.send({type:'ANALYZE',email});await new Promise(r=>setImmediate(r));
   await h.send({type:'DISCONNECT'});finish();assert.equal((await pending).ok,false);assert.equal(h.calls.length,2);
 });
+
+test('local Tinker needs explicit permission and keeps a server-enforced provider guard',async()=>{
+  const model='tinker:test-sampler'; const liveHealth={...health,model:{analyze:model,challenge:model}};
+  const h=harness(url=>({ok:true,json:async()=>url.endsWith('/analyze')?{...analysis,model}:liveHealth}));
+  assert.equal((await h.send({type:'CONNECT',token:'x',endpoint:'local'})).ok,false);
+  assert.equal(h.calls.length,1);assert.equal(h.calls[0].opts.headers['X-Require-Rules-Only'],'1');
+  assert.equal((await h.send({type:'CONNECT',token:'x',endpoint:'local',allowAI:true})).ok,true);
+  const result=await h.send({type:'ANALYZE',email});assert.equal(result.ok,true);
+  assert.equal(h.calls.at(-1).url,'http://127.0.0.1:8081/analyze');
+  assert.equal(h.calls.at(-1).opts.headers['X-Require-Tinker'],'1');
+  assert.equal(h.calls.at(-1).opts.headers['X-Require-Rules-Only'],undefined);
+  await h.send({type:'DISCONNECT'});assert.deepEqual(h.storage,{});
+});
+
+test('rejects arbitrary destinations and AI permission on legacy staging',async()=>{
+  for(const endpoint of ['https://example.test','other','staging']) {
+    const h=harness();const r=await h.send({type:'CONNECT',token:'x',endpoint,allowAI:true});
+    assert.equal(r.ok,false);assert.equal(h.calls.length,0);
+  }
+});
+
+test('changing provider after Tinker connection prevents email POST',async()=>{
+  const model='tinker:test-sampler';let changed=false;
+  const h=harness(()=>({ok:true,json:async()=>({...health,model:{analyze:changed?'anthropic:other':model,challenge:changed?'anthropic:other':model}})}));
+  assert.equal((await h.send({type:'CONNECT',token:'x',endpoint:'local',allowAI:true})).ok,true);
+  changed=true;assert.equal((await h.send({type:'ANALYZE',email})).ok,false);
+  assert.ok(h.calls.every(c=>c.opts.method==='GET'));
+});
+
+test('failed reconnect revokes the previous AI session rather than retaining permission',async()=>{
+  const model='tinker:test-sampler';let invalid=false;
+  const h=harness(()=>invalid?{ok:false,status:401}:{ok:true,json:async()=>({...health,model:{analyze:model,challenge:model}})});
+  assert.equal((await h.send({type:'CONNECT',token:'x',endpoint:'local',allowAI:true})).ok,true);
+  invalid=true;assert.equal((await h.send({type:'CONNECT',token:'wrong',endpoint:'local'})).ok,false);
+  const before=h.calls.length;assert.equal((await h.send({type:'ANALYZE',email})).ok,false);assert.equal(h.calls.length,before);assert.deepEqual(h.storage,{});
+});

@@ -9,10 +9,11 @@ and adds the model layer, evidence checks, payroll policies, `/challenge`, and t
 cd backend
 uv venv --python 3.11 .venv && uv pip install --python .venv/bin/python -r requirements-dev.txt
 DEMO_API_TOKEN=dev .venv/bin/uvicorn main:app --reload --port 8080   # rules only; send X-Demo-Token: dev
-.venv/bin/python -m pytest -q                        # 143 tests
+.venv/bin/python -m pytest -q                        # backend tests
 .venv/bin/python -m eval.run_eval                    # writes eval/results/rules-only.md
 .venv/bin/python -m eval.run_eval --set blind        # 200 emails from a public MIT dataset nobody tuned to
-.venv/bin/python -m eval.smoke_tinker                # first real Tinker call (needs key + model)
+.venv/bin/python -m eval.smoke_tinker --preflight    # configuration only; no inference
+.venv/bin/python -m eval.smoke_tinker --allow-paid   # explicit tiny JSON + synthetic analysis
 .venv/bin/python -m eval.smoke_anthropic             # first real Haiku + Sonnet calls (needs ANTHROPIC_API_KEY)
 ```
 
@@ -85,8 +86,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 
 ## Not done / not verified
 
-- Claude (Haiku + Sonnet) has been run for real (`eval/results/model*.md`). **No real Tinker call yet.** The OpenAI-compatible endpoint is beta, and its docs
-  show checkpoint paths (`tinker://...`) as the model name. Confirm `TINKER_MODEL` with the team's smoke test.
+- Claude (Haiku + Sonnet) has been evaluated (`eval/results/model*.md`). Tinker's Qwen3-8B sampler passed real tiny-JSON, full synthetic analysis and direct-local HTTP analysis on November 8, 2026. This is connectivity proof, not an accuracy evaluation. `TINKER_MODEL` is a sampler path; the prepared demo sampler expires and must be renewed separately. See [Windows startup](../scripts/README.md).
 - 23 fixtures: Albert's 10 samples (his rules were written against them, so optimistic), 4 extra cases,
   and 9 harder cases written to probe false alarms and misses. Rules-only today: 13/14 phishing flagged,
   2/7 legitimate emails falsely flagged, 1 miss (a real vendor account asking to move banks).
@@ -102,6 +102,7 @@ Open issues for the team: [`docs/TEAM_NOTES.md`](../docs/TEAM_NOTES.md).
 
 - `X-Require-Rules-Only: 1` on any POST rejects with 409 before provider selection unless
   `MODEL_PROVIDER=mock`. The staging extension uses this guard in addition to checking `/health`.
+- The direct-local Tinker connection uses `X-Require-Tinker: 1`; a provider mismatch returns 409 before any model selection. Transport retries are disabled for Tinker; malformed model JSON still has the existing one correction attempt. No inference runs on normal launcher startup.
 - `AnalyzeRequest.extraction_complete` (default `true`) describes extraction of the submitted
   visible content, not authenticity. Gmail DOM clients should send `false` when headers,
   attachments, or full content are unavailable. `extraction_limitations` accepts up to ten

@@ -64,7 +64,7 @@ def _tinker_call(system: str, user: str) -> str:
     from openai import OpenAI  # lazy import: mock mode needs no provider SDK
 
     client = OpenAI(api_key=key, base_url=os.environ.get("TINKER_BASE_URL", DEFAULT_TINKER_BASE_URL),
-                    timeout=TIMEOUT_S, max_retries=1)
+                    timeout=TIMEOUT_S, max_retries=0)
     try:
         resp = client.chat.completions.create(
             model=model,
