@@ -289,7 +289,7 @@
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (["START_BODY_SCAN", "STOP_BODY_SCAN", "PRECHECK_INBOX", "CLEAR_INBOX_MARKS", "OPEN_INBOX_ROW"].includes(message?.type)) {
       if (sender?.id !== chrome.runtime.id || sender.tab || sender.url !== chrome.runtime.getURL("sidepanel.html")) {
-        sendResponse({ ok: false, error: "Use the Hookline side panel for this action." });
+        sendResponse({ ok: false, error: "Use the dobby’s catch side panel for this action." });
         return;
       }
       try {

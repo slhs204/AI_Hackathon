@@ -1,4 +1,6 @@
-# Hookline 0.3.2: Simple interface, body scan and local subject list
+# dobby’s catch 0.3.3: refreshed name and cat icon
+
+Version 0.3.3 replaces the former Hookline display name with **dobby’s catch** and uses the supplied cat-and-fish artwork in the toolbar, extension list and side-panel header. The packaged PNG icons preserve the full artwork at 16, 32, 48 and 128 pixels. The header wraps its controls on narrow panels. Internal message, session-storage and DOM identifiers remain unchanged. Chrome may clear session storage when reloading or updating an extension; reconnect if needed.
 
 This unpacked Chrome extension has two distinct modes:
 
@@ -28,7 +30,7 @@ On the home screen, **Check inbox titles** checks up to the first 100 visible Gm
 
 Select a listed subject to open that captured Gmail row. Body analysis is still a separate **Analyze open email** action. **Clear marks**, changing tabs, navigating, or changing the list clears the results. Stale rows are checked before opening, and late responses cannot restore an old list. Titles and optional local guidance are not saved.
 
-To update an existing unpacked installation, replace the extension files, reload Hookline at `chrome://extensions`, and refresh Gmail. Reconnect the staging demo token if the session was cleared. Version 0.3.2 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
+To update an existing unpacked installation, replace the files in the same existing extension folder, reload the extension at `chrome://extensions` (it may still show the old Hookline name until reloaded), then refresh Gmail. Confirm the name is **dobby’s catch**, the cat icon appears, and the version is **0.3.3**. Do not remove and reinstall it just to update the branding. Reconnect the staging demo token if the session was cleared. Version 0.3.3 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
 
 ## Connect securely
 
@@ -57,7 +59,7 @@ node --check chrome_extension/sidepanel.js
 node --check chrome_extension/inbox-panel.js
 ```
 
-Automated tests cover transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, body-scan lifecycle and subject-list invalidation. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
+Automated tests cover branding, PNG icon dimensions, transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, body-scan lifecycle and subject-list invalidation. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
 Manual acceptance checklist, still required:
 

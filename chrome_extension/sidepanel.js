@@ -222,7 +222,7 @@ async function selectFinding(finding) {
   $("hook-detail-check").textContent = `How to check: ${finding.next_action || "Use a trusted, separate channel."}`;
   $("hook-detail").hidden = false;
   $("hook-instruction").textContent = currentMode === "gmail"
-    ? "Selected clue. Hookline is locating its exact text in Gmail."
+    ? "Selected clue. dobby’s catch is locating its exact text in Gmail."
     : "Demo clue selected. Analyze an email in Gmail to see the exact highlight.";
   $("challenge-result").textContent = "";
   await highlightFinding(finding);
@@ -359,7 +359,7 @@ $("analyze").addEventListener("click", async () => {
     clearResults();
     const missingReceiver = /Receiving end does not exist|Could not establish connection/i.test(String(error?.message || ""));
     setStatus(missingReceiver
-      ? "Hookline could not connect to Gmail. Make sure Gmail is active, refresh the Gmail tab, and try again."
+      ? "dobby’s catch could not connect to Gmail. Make sure Gmail is active, refresh the Gmail tab, and try again."
       : `Could not read the message: ${error.message}`, true);
   }
 });
