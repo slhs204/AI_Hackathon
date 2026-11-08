@@ -8,11 +8,11 @@ Checkout: C:\Users\pc297\.codex\worktrees\tinker-demo\AI_Hackathon-313b174
 
 Branch: detached HEAD — local task commits
 
-Current: A-006 — awaiting owner input. [Completed A-005 and local-only delivery](artifacts/A-005/tracker.md).
+Current: A-007 — awaiting owner input; [completed real-email check and local-only delivery](artifacts/A-006/tracker.md).
 
-Proven: Token rotation and one-window restart verified; title flow observed in Chrome,110 extension tests pass; live-demo script delivered. [Evidence](artifacts/A-005/verification.json).
+Proven: Fresh public-email spot check finished07:48:49EST;20attempts/19partialresults/1failure, rules+Qwen8suspectedphishwarn versus rules2,1hamfalsealarm. [Report](../docs/REAL_EMAIL_SPOTCHECK.md).
 
-Next: Rehearse with synthetic-only Gmail after reloading the extension; choose a branch before any push. Billing balance/final invoice remain unavailable.
+Next: Use qualified judge proof line; B-001Unicode evidence repair is proposed separately. Pick a branch before any push; no more inference scheduled.
 
 Archived eras: none.
 
@@ -289,3 +289,37 @@ Empty registry scaffold created; no accepted SYS-INV IDs. Existing product guara
 ---
 
 # → Ask / A-006
+
++ 開始引入真實資料實測以最能說服評審為目的 務必在8:00以前完成
+
+# → Reply / A-006
+
+* _2026-11-08 07:55:37 -0500_
+
+1. **開始引入真實資料實測以最能說服評審為目的 務必在8:00以前完成**
+
+   The bounded test finished at07:48:49EST, before08:00. We introduced20publicly captured messages from two new sources:10hand-picked suspected-phishing messages from pinnedPhishingPot and10hash-ranked archivednonspam messages fromSpamAssassin. The productionpipeline/model stayed frozen; identical transformedinputs were compared rules-only versus rules+Qwen.
+
+   Rules+Qwen warned on8of10suspectedphishing messages versus2withrulesalone. Onephish had no retainedwarning; onefailedprocessing. Oneof10ham was falselywarned,9were not.19analysisresults returned,allpartial;20Tinkercalls total,no automaticreplay or post-result replacement. The difference is6additional warnings onthis selectedset, not representativeaccuracy. The earlier97/100test remains separate.
+
+   These are provisional/nonrandomlabels, oldham versus newer/multilingualphish and redactedMIMEinputs, not realprivateGmail orCloudRunE2E validation. Reportallerrors and these limits to judges. Textquote existence does not validate modeldomainexplanations. No privateinbox or maliciouslinks/attachments were accessed.
+
+   **Key Records — read these first**
+
+   - [Real-email report and judge wording](../docs/REAL_EMAIL_SPOTCHECK.md) explains the observeddifference, all20outcomes, sources and limits.
+
+   - [Case metrics](../docs/REAL_EMAIL_SPOTCHECK.metrics.json) and [source/hash projection](../docs/REAL_EMAIL_SPOTCHECK.sources.json) provide inspectable structuredproof withoutoriginalmessagebodies.
+
+   - [Independentreview and disposition](artifacts/A-006/review.md) records countrecomputation/privatehostchecks/limitations. Matchingreports are copied tolocaldemooutput;source/recordscommittedlocally,detachedHEADblockspush.
+
+## Backlog changes
+
+B-001, proposed: Unicodecasefold expansion can crash evidence matching or silentlyshift quotes. Localßreproductionsconfirmthedefect; linkage tooneGermanfailedcase remainsinferredwithouttheexactstacktrace. Fix/retestseparately withoutrewritingthisfrozenrun. [Backlog](backlog.md), [reproduction](artifacts/A-006/unicode-reproduction.json), [report](../docs/REAL_EMAIL_SPOTCHECK.md).
+
+## Questions (batched — each with a suggested default)
+
+- None.
+
+---
+
+# → Ask / A-007

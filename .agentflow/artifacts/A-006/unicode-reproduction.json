@@ -1,0 +1,27 @@
+{
+  "runtime_unchanged": true,
+  "paid_retry": false,
+  "checks": [
+    {
+      "text": "Grüßen",
+      "result": null,
+      "error": "IndexError"
+    },
+    {
+      "text": "Straße",
+      "result": null,
+      "error": "IndexError"
+    },
+    {
+      "text": "hello",
+      "result": "hello",
+      "error": null
+    }
+  ],
+  "silent_misalignment": {
+    "input": "ßabc tail",
+    "quote": "abc",
+    "observed": "bc ",
+    "expected": "abc"
+  }
+}

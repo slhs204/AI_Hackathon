@@ -1,0 +1,277 @@
+{
+  "summary": {
+    "planned": 20,
+    "phishing": 10,
+    "ham": 10,
+    "completed_results": 19,
+    "processing_failures": 1,
+    "provider_calls_started": 20,
+    "underlying_calls_journalled": 20,
+    "rules": {
+      "phishing_warned": 2,
+      "ham_warned": 1
+    },
+    "rules_qwen": {
+      "phishing_warned": 8,
+      "phishing_no_warning": 1,
+      "phishing_failed": 1,
+      "ham_warned": 1,
+      "ham_no_warning": 9
+    },
+    "new_phishing_warnings": 6,
+    "analysis_complete": 0,
+    "start": "2026-11-08T12:48:33.350097+00:00",
+    "finish": "2026-11-08T12:48:49.050982+00:00",
+    "source_commit": "78be141545ed9e56eefb857808ac78e83eb81b81",
+    "runtime_commit": "e120308",
+    "inference_location": "local backend code calling Tinker API; not Cloud Run/Gmail E2E",
+    "model": "tinker:Qwen/Qwen3-8B",
+    "prompt": "v3",
+    "sampling": "purposive10phish plus hash-ranked10ham; not independent gold/representative",
+    "original_100_test_unchanged": true
+  },
+  "cases": [
+    {
+      "id": "ham-8fbea4b8839d",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1733,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-138b12553770",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 3858,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-1831c0e59b13",
+      "label": "legit",
+      "rules_warning": true,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 5233,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "urgency_pressure"
+      ]
+    },
+    {
+      "id": "ham-b0f5f3a12357",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 2250,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-1aefed29d3ad",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 3921,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-2bc77a45c897",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 2047,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-7933961b53fa",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1453,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-52e86e8bd492",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1202,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-9a06cd7bb4ee",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1577,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "ham-1c17f3f04aaf",
+      "label": "legit",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 2046,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": []
+    },
+    {
+      "id": "pot-58b65de0ae7b",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": null,
+      "status": "processing_failed_IndexError",
+      "provider_success_reported": null,
+      "ms": null,
+      "discarded_unverifiable_model_findings": null,
+      "finding_categories": []
+    },
+    {
+      "id": "pot-63a1c05e2a47",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 2233,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "deceptive_link",
+        "urgency_pressure"
+      ]
+    },
+    {
+      "id": "pot-8b2ed31f6061",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1952,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "deceptive_link"
+      ]
+    },
+    {
+      "id": "pot-a958a0028317",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1735,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "authority_impersonation",
+        "deceptive_link"
+      ]
+    },
+    {
+      "id": "pot-df4ae155db88",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1952,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "deceptive_link"
+      ]
+    },
+    {
+      "id": "pot-237385b1ba7c",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 2312,
+      "discarded_unverifiable_model_findings": 1,
+      "finding_categories": [
+        "sender_impersonation"
+      ]
+    },
+    {
+      "id": "pot-35c325c80421",
+      "label": "phishing",
+      "rules_warning": true,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1812,
+      "discarded_unverifiable_model_findings": 1,
+      "finding_categories": [
+        "deceptive_link",
+        "urgency_pressure"
+      ]
+    },
+    {
+      "id": "pot-36229780890c",
+      "label": "phishing",
+      "rules_warning": true,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1421,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "deceptive_link",
+        "urgency_pressure"
+      ]
+    },
+    {
+      "id": "pot-2aea4270287d",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": true,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 2438,
+      "discarded_unverifiable_model_findings": 0,
+      "finding_categories": [
+        "deceptive_link"
+      ]
+    },
+    {
+      "id": "pot-d4e53126383c",
+      "label": "phishing",
+      "rules_warning": false,
+      "qwen_warning": false,
+      "status": "completed_partial",
+      "provider_success_reported": true,
+      "ms": 1641,
+      "discarded_unverifiable_model_findings": 2,
+      "finding_categories": []
+    }
+  ]
+}

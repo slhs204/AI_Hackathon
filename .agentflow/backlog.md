@@ -2,4 +2,6 @@
 
 Actionable future work, not an execution queue. Entries are proposed (inferred) or deferred (owner accepted for later); scheduling needs owner authority. Each B-NNN item records source/Ask, intended outcome, open reason and expected effort or next decision. Record proved completion in the notebook before removing the entry.
 
-No open items.
+## B-001 — Unicode evidence matching can raise IndexError
+
+Status: proposed. Source: A-006 captured-email spot check and local reproduction. Intended outcome: normalize Unicode casefold expansions with a source-index entry for every output codepoint so exact quotes such as German sharp-s do not crash evidence matching or silently shift the returned substring. Reproduced in unchanged app/evidence.py: find_exact("Grüßen","Grüßen") and find_exact("Straße","Straße") raise IndexError; ASCIIcontrolpasses; find_exact("ßabc tail","abc") also returns a wrong substring without an exception. The German bank case failed during this run, but its exact exception stack was not captured, so linkage remains inferred. Open reason: evaluation runtime stays frozen and the owner deadline is08:00; fix/retest separately, do not rewrite the existing20case result. Expected effort: small targeted codefix with expansion/quote-mapping tests, then separately labelled regression. [Evidence](artifacts/A-006/unicode-reproduction.json), [test report](../docs/REAL_EMAIL_SPOTCHECK.md).

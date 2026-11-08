@@ -1,0 +1,16 @@
+{
+  "runtime_source_hashes_equal_frozen": true,
+  "model_attempts": 20,
+  "model_completed": 19,
+  "uncertain_not_replayed": [
+    "gmail/pot-58b65de0ae7b"
+  ],
+  "no_extra_paid_retry": true,
+  "fresh_exact_body_overlap": 0,
+  "schema_validation": 20,
+  "sanitizer_self_check": "pass",
+  "mbox_envelope_validation": "pass after pre-inference adapter correction",
+  "known_unicode_bug_reproduced_locally": true,
+  "mutation_of_runtime": false,
+  "finished_at": "2026-11-08T12:48:49.050982+00:00"
+}

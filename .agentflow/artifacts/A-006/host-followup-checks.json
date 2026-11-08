@@ -1,0 +1,179 @@
+{
+  "prior_fixture_files": 223,
+  "recipient_substitutions": [
+    {
+      "id": "ham-1831c0e59b13",
+      "field": "body",
+      "context": "________________________\n[RECIPIENT] mailing list\nredacted@re"
+    },
+    {
+      "id": "ham-1831c0e59b13",
+      "field": "body",
+      "context": "hat.com/mailman/listinfo/[RECIPIENT]"
+    },
+    {
+      "id": "ham-9a06cd7bb4ee",
+      "field": "body",
+      "context": "________________________\n[RECIPIENT] mailing list\nredacted@li"
+    },
+    {
+      "id": "ham-9a06cd7bb4ee",
+      "field": "body",
+      "context": "forge.net/lists/listinfo/[RECIPIENT]"
+    },
+    {
+      "id": "ham-1c17f3f04aaf",
+      "field": "subject",
+      "context": "[[RECIPIENT]] \"Can't use and undefine"
+    },
+    {
+      "id": "ham-1c17f3f04aaf",
+      "field": "body",
+      "context": "________________________\n[RECIPIENT] mailing list\nredacted@li"
+    },
+    {
+      "id": "ham-1c17f3f04aaf",
+      "field": "body",
+      "context": "forge.net/lists/listinfo/[RECIPIENT]"
+    },
+    {
+      "id": "pot-237385b1ba7c",
+      "field": "subject",
+      "context": " Your Account, User lD : [RECIPIENT]"
+    }
+  ],
+  "quote_checks": [
+    {
+      "id": "ham-1831c0e59b13",
+      "source": "rules",
+      "category": "urgency_pressure",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-63a1c05e2a47",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-63a1c05e2a47",
+      "source": "model",
+      "category": "urgency_pressure",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-8b2ed31f6061",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-a958a0028317",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-a958a0028317",
+      "source": "model",
+      "category": "authority_impersonation",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-df4ae155db88",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-237385b1ba7c",
+      "source": "model",
+      "category": "sender_impersonation",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-35c325c80421",
+      "source": "rules",
+      "category": "urgency_pressure",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-35c325c80421",
+      "source": "rules",
+      "category": "urgency_pressure",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-35c325c80421",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-36229780890c",
+      "source": "rules",
+      "category": "urgency_pressure",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-36229780890c",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    },
+    {
+      "id": "pot-2aea4270287d",
+      "source": "model",
+      "category": "deceptive_link",
+      "nonempty": true,
+      "verbatim_in_submitted_fields": true
+    }
+  ],
+  "casefold_expansions": [
+    {
+      "id": "pot-58b65de0ae7b",
+      "field": "body",
+      "characters": [
+        "ß"
+      ],
+      "completed": false
+    }
+  ],
+  "discard_counts": {
+    "ham-8fbea4b8839d": 0,
+    "ham-138b12553770": 0,
+    "ham-1831c0e59b13": 0,
+    "ham-b0f5f3a12357": 0,
+    "ham-1aefed29d3ad": 0,
+    "ham-2bc77a45c897": 0,
+    "ham-7933961b53fa": 0,
+    "ham-52e86e8bd492": 0,
+    "ham-9a06cd7bb4ee": 0,
+    "ham-1c17f3f04aaf": 0,
+    "pot-63a1c05e2a47": 0,
+    "pot-8b2ed31f6061": 0,
+    "pot-a958a0028317": 0,
+    "pot-df4ae155db88": 0,
+    "pot-237385b1ba7c": 1,
+    "pot-35c325c80421": 1,
+    "pot-36229780890c": 0,
+    "pot-2aea4270287d": 0,
+    "pot-d4e53126383c": 2
+  },
+  "all_retained_quotes_verbatim": true,
+  "retained_quotes_checked": 14,
+  "completed_rows_with_casefold_expansion": 0
+}
