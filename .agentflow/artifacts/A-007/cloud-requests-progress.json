@@ -1,0 +1,50 @@
+[
+  {
+    "timestamp": "2026-11-08T13:24:35.303879Z",
+    "revision": "phish-staging-p2-ai-b3b3e19-a005",
+    "method": "POST",
+    "status": 200,
+    "url": "https://phish-staging-az465uxmla-uc.a.run.app/analyze",
+    "latency": "2.010117118s"
+  },
+  {
+    "timestamp": "2026-11-08T13:24:34.058957Z",
+    "revision": "phish-staging-p2-ai-b3b3e19-a005",
+    "method": "GET",
+    "status": 200,
+    "url": "https://phish-staging-az465uxmla-uc.a.run.app/session",
+    "latency": "0.005393408s"
+  },
+  {
+    "timestamp": "2026-11-08T13:21:48.172911Z",
+    "revision": "phish-staging-p2-ai-b3b3e19-a005",
+    "method": "POST",
+    "status": 200,
+    "url": "https://phish-staging-az465uxmla-uc.a.run.app/analyze",
+    "latency": "2.140228848s"
+  },
+  {
+    "timestamp": "2026-11-08T13:21:46.965441Z",
+    "revision": "phish-staging-p2-ai-b3b3e19-a005",
+    "method": "GET",
+    "status": 200,
+    "url": "https://phish-staging-az465uxmla-uc.a.run.app/session",
+    "latency": "0.005585047s"
+  },
+  {
+    "timestamp": "2026-11-08T13:18:34.601439Z",
+    "revision": "phish-staging-p2-ai-b3b3e19-a005",
+    "method": "POST",
+    "status": 200,
+    "url": "https://phish-staging-az465uxmla-uc.a.run.app/analyze",
+    "latency": "9.099348642s"
+  },
+  {
+    "timestamp": "2026-11-08T13:18:33.380555Z",
+    "revision": "phish-staging-p2-ai-b3b3e19-a005",
+    "method": "GET",
+    "status": 200,
+    "url": "https://phish-staging-az465uxmla-uc.a.run.app/session",
+    "latency": "0.004628630s"
+  }
+]

@@ -70,17 +70,17 @@
 
   function render(result, owner) {
     get("inbox-list").replaceChildren();
-    for (const item of result.items) {
+    for (const item of result.flagged) {
       const li = document.createElement("li");
       const button = document.createElement("button");
       button.type = "button";
       button.className = "inbox-item";
       button.dataset.rowId = item.row_id;
-      button.setAttribute("aria-label", `Open message: ${item.subject || "(No readable subject)"}. ${item.signals.length ? "Subject-only warning clue." : "Body not checked."}`);
+      button.setAttribute("aria-label", `Open message: ${item.subject || "(No readable subject)"}. Subject-only warning clue.`);
       const subject = document.createElement("strong");
       subject.textContent = item.subject || "(No readable subject)";
       const signals = document.createElement("span");
-      signals.textContent = item.signals.length ? `⚠ ${item.signals.join(" · ")}` : "No local title clue. Body not checked.";
+      signals.textContent = `⚠ ${item.signals.join(" · ")}`;
       const action = document.createElement("span");
       action.textContent = "Open message →";
       button.append(subject, signals, action);

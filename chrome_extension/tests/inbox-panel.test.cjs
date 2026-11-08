@@ -174,12 +174,12 @@ test('tab change clears retained titles and ignores delayed opening response', a
   assert.equal(p.get('analyze').focused, undefined);
 });
 
-test('all checked subjects are selectable after sweep acknowledgement', async()=>{
+test('only suspicious titles appear after sweep acknowledgement', async()=>{
  const all={...result,items:[...result.flagged,{row_id:'normal',subject:'Team lunch',signals:[]}]};
  let acknowledge;const p=panel(async()=>all,()=>new Promise(r=>acknowledge=r));
  const pending=p.get('inbox-check').handlers.click();await tick();assert.equal(p.get('inbox-list').children.length,0);
- acknowledge(all);await pending;assert.equal(p.get('inbox-list').children.length,2);
- assert.match(p.get('inbox-list').children[1].children[0].children[1].textContent,/Body not checked/);
+ acknowledge(all);await pending;assert.equal(p.get('inbox-list').children.length,result.flagged.length);
+ assert.ok(p.get('inbox-list').children.every(li=>li.children[0].dataset.rowId!=='normal'));
 });
 
 test('mismatched title acknowledgement never displays results', async()=>{
@@ -193,4 +193,12 @@ test('lost title acknowledgement restores controls and clears matching snapshot'
  assert.equal(p.get('inbox-check').disabled,false);assert.equal(p.get('inbox-list').children.length,0);
  assert.ok(p.calls.some(c=>c.type==='CLEAR_INBOX_MARKS'&&c.snapshot_id==='inbox-1'));
  finish(result);await tick();assert.equal(p.get('inbox-list').children.length,0);
+});
+
+test('no suspicious titles leaves the list empty without declaring mail safe', async()=>{
+ const normal={...result,checked:1,visible_total:1,flagged:[],items:[{row_id:'normal',subject:'Team lunch',signals:[]}]};
+ const p=panel(async()=>normal,async()=>normal);await p.get('inbox-check').handlers.click();
+ assert.equal(p.get('inbox-list').children.length,0);
+ assert.match(p.get('inbox-status').textContent,/0 titles flagged among 1 visible rows/);
+ assert.match(p.get('inbox-status').textContent,/not a safety determination/);
 });

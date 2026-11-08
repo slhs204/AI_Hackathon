@@ -6,13 +6,13 @@ Notebook: .agentflow/ai-hackathon-313b174.devlog.md — root
 
 Checkout: C:\Users\pc297\.codex\worktrees\tinker-demo\AI_Hackathon-313b174
 
-Branch: detached HEAD — local task commits
+Branch: main — bound at the verified attributed local tip for owner-authorized fast-forward publication
 
-Current: A-007 — awaiting owner input; [completed real-email check and local-only delivery](artifacts/A-006/tracker.md).
+Current: A-008 intake; unfinished A-007 test-account Gmail/CloudRun replay remains in [tracker](artifacts/A-007/tracker.md).
 
 Proven: Fresh public-email spot check finished07:48:49EST;20attempts/19partialresults/1failure, rules+Qwen8suspectedphishwarn versus rules2,1hamfalsealarm. [Report](../docs/REAL_EMAIL_SPOTCHECK.md).
 
-Next: Use qualified judge proof line; B-001Unicode evidence repair is proposed separately. Pick a branch before any push; no more inference scheduled.
+Next: Complete owner-authorized fast-forward GitHub delivery; resume the remaining seventeen UI checks only after Chrome foreground identity is reliable. Do not repeat completed calls.
 
 Archived eras: none.
 
@@ -323,3 +323,33 @@ B-001, proposed: Unicodecasefold expansion can crash evidence matching or silent
 ---
 
 # → Ask / A-007
+
++ lordyvoldyshorts@gmail.com是測試帳號 將20封公開捕獲的真實來源郵件用測試帳號進行測試 重跑 Gmail／Cloud Run 端到端流程
+
++ 先更新github上的檔案
+
++ Checked inbox titles應該要只保留可疑的郵件
+
+# → Reply / A-007
+
+* _2026-11-08 08:59:33 -0500_
+
+1. **將20封公開捕獲的真實來源郵件用測試帳號進行測試 重跑 Gmail／Cloud Run 端到端流程**
+
+   Twenty authorized copies were sent once and delivered. Only R20/R19/R18 completed explicit Gmail/Cloud Run/Tinker analysis, supported by three HTTP 200 request logs. Seventeen remain untested; R17 was reserved but never analyzed. Desktop screenshot/accessibility identity disagreed, so clicks stopped. [Progress and limits](../docs/GMAIL_CLOUD_E2E.md), [recovery tracker](artifacts/A-007/tracker.md). This round closes with that work explicitly unfinished; no full twenty-case claim is made.
+
+2. **先更新github上的檔案**
+
+   The canonical repository identity and main branch were verified. Six attributed prior commits descend from remote main. The checkout is now on local main with the canonical remote URL. Source, reviewed filter and partial test records are prepared for an ordinary fast-forward push under this explicit instruction. Inspect the actual remote tip for delivery outcome; never force or rewrite history.
+
+3. **Checked inbox titles應該要只保留可疑的郵件**
+
+   Version 0.3.8 renders only the existing flagged subset after the full matching title sweep. With no suspicious titles the list is empty; absence is not a safety determination. Explicit body analysis and navigation guards remain unchanged. All 111 extension tests passed; backend verification passed 238 with one skipped. Independent review found no blocking code defect. The demo script now opens unlisted T23 directly from Gmail and does not rely on preserving the old snapshot. Installed source and the demo bundle are updated; reload the existing extension and refresh Gmail. The new filter has not yet been verified in real Chrome.
+
+## Questions (batched — each with a suggested default)
+
+- None. The existing Chrome foreground handoff remains pending in the recovery tracker.
+
+---
+
+# → Ask / A-008

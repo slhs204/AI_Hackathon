@@ -1,0 +1,13 @@
+{
+  "outgoing_commits": 6,
+  "objects_scanned": 215,
+  "blobs_scanned": 146,
+  "pending_files_scanned": 13,
+  "active_credential_matches": 0,
+  "high_confidence_key_pattern_matches": 0,
+  "private_work_runtime_tracked": false,
+  "old_disabled_token": "not re-enabled; earlier active-token scans reused",
+  "remote_repository_id": 1448933235,
+  "canonical": "slhs204/Dobbys-Catch",
+  "base": "c71e201"
+}

@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-11-08T13:16:32.296407+00:00",
+  "traffic": [
+    {
+      "percent": 100,
+      "revisionName": "phish-staging-p2-ai-b3b3e19-a005",
+      "tag": "p1-ai",
+      "url": "https://p1-ai---phish-staging-az465uxmla-uc.a.run.app"
+    },
+    {
+      "revisionName": "phish-staging-p2-rules-b3b3e19-a005",
+      "tag": "rules-only",
+      "url": "https://rules-only---phish-staging-az465uxmla-uc.a.run.app"
+    }
+  ],
+  "latest_ready": "phish-staging-p2-ai-b3b3e19-a005"
+}

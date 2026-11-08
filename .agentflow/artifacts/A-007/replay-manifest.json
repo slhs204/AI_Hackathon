@@ -1,0 +1,244 @@
+[
+  {
+    "index": 1,
+    "source_case": "ham-8fbea4b8839d",
+    "label": "legit",
+    "body_sha256": "e0548ecdb7ad96a5b26813b792e4ce2a19a7d5b4a87395fc033d4601b60371f9",
+    "html_sha256": "806b553de23a6a1bbe9936c39cf4be47d2030e20cd4fd09e01470c6cc971e841",
+    "link_ids_preserved": [
+      "l1",
+      "l2",
+      "l3"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 2,
+    "source_case": "ham-138b12553770",
+    "label": "legit",
+    "body_sha256": "4b78af493dd3db4a90fe4df47db0a5e41a522494b6c7e3a7b92087fdbf656665",
+    "html_sha256": "9cd514ec68ac792a57fe1736cd0737c96e9503ad814dde7ab0e3d6feb520e66f",
+    "link_ids_preserved": [
+      "l1",
+      "l2"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 3,
+    "source_case": "ham-1831c0e59b13",
+    "label": "legit",
+    "body_sha256": "43c7ad72afd7af3a4223173fbd44291983454eae97a6e2004104cd1a3e301059",
+    "html_sha256": "0cc85c6c7345b5cbb522988d3559c7acbb82664ddbfd4caa4c31b5fc32184ff0",
+    "link_ids_preserved": [],
+    "link_ids_omitted": [
+      "l1"
+    ]
+  },
+  {
+    "index": 4,
+    "source_case": "ham-b0f5f3a12357",
+    "label": "legit",
+    "body_sha256": "5072dc82425777c0a9b230c96c57b07aeba1f9d51f8bde434d1bdc1d4dd07d94",
+    "html_sha256": "74bb5e5d1effb90ac943e22f30d709253e761379214d2b8d1f879b5747108478",
+    "link_ids_preserved": [
+      "l1",
+      "l2",
+      "l3",
+      "l4",
+      "l5",
+      "l6"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 5,
+    "source_case": "ham-1aefed29d3ad",
+    "label": "legit",
+    "body_sha256": "6c45eb8b048c38ef5d54413fd287fc84ec9046d885192df49dc4b70a08bf1ec6",
+    "html_sha256": "ff0aff842eefdcdc1f4325192912f6c22b4d39a232630ef09e852f22684646e4",
+    "link_ids_preserved": [
+      "l1",
+      "l2"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 6,
+    "source_case": "ham-2bc77a45c897",
+    "label": "legit",
+    "body_sha256": "d99021ac7b3ae375ea76acc730d9cf964acece2ea95aa4c80bf3432b1c4135ad",
+    "html_sha256": "6ea7c9e029d168bbb1e4c55db9280860c733931b28168112407353ec36ac8504",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 7,
+    "source_case": "ham-7933961b53fa",
+    "label": "legit",
+    "body_sha256": "0e3b383b51a3fc616cee8aa489350e8c41956b360dda87ecf1f59317c998c806",
+    "html_sha256": "158b9a38a51283f0aaadee9dc5913ddd8dc366283d178bc695c30d62d23041fd",
+    "link_ids_preserved": [
+      "l1",
+      "l2"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 8,
+    "source_case": "ham-52e86e8bd492",
+    "label": "legit",
+    "body_sha256": "cf322e9265bc6cf5a8af562b11f9e45dd0c4455d782415232fc73b80229ebb7e",
+    "html_sha256": "50a8e95b6432400b7e842facc1102d78d87bc471ae551060072a44ade1931061",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 9,
+    "source_case": "ham-9a06cd7bb4ee",
+    "label": "legit",
+    "body_sha256": "be16a39941d2eb42d55229510ba01c6afee5abfba11c46364065dc56560205be",
+    "html_sha256": "bde51769323300cfc57935aa08a6c933ded6a73aefa54da6c6007ad11ae6e12b",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": [
+      "l2"
+    ]
+  },
+  {
+    "index": 10,
+    "source_case": "ham-1c17f3f04aaf",
+    "label": "legit",
+    "body_sha256": "300e3a460436f822f3a092ff81598b45ea332ab26375192e5923c0404f84507b",
+    "html_sha256": "281211fdc982beed8a84146252f9a23041390d118b82c0b8e2a3b2d80f3fe285",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": [
+      "l2"
+    ]
+  },
+  {
+    "index": 11,
+    "source_case": "pot-58b65de0ae7b",
+    "label": "phishing",
+    "body_sha256": "d03683ff31da4ebbd640b557bb5c3ba338cf4639b2c6ffaddc7b1a05cce5bbd0",
+    "html_sha256": "e1e0c0674ba6f6969ef6ae67446f818e6254c62882487a52e0d9c4680fceaf07",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 12,
+    "source_case": "pot-63a1c05e2a47",
+    "label": "phishing",
+    "body_sha256": "3597c931b33135f7228040d018033531bbf58ba503fdb08dce226f424cc32b09",
+    "html_sha256": "71a32aaa5abb9d203f70fd1d068ba4e260db018da06fe711930fea5fa6a6740b",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 13,
+    "source_case": "pot-8b2ed31f6061",
+    "label": "phishing",
+    "body_sha256": "1d744886cac7d6f553f442b91c9c6f12214b569aa72caaa3d91eb6bf72ae36b0",
+    "html_sha256": "1dc905705d89c306fc90fd9901a499399b4bef0b0b6cf19e4ce01f0fd6f3d110",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 14,
+    "source_case": "pot-a958a0028317",
+    "label": "phishing",
+    "body_sha256": "184c089b824122bebbc0162c4157e10a115fa406113af5aaba3c4c64fced89a2",
+    "html_sha256": "b4d37d6c0581ce217df416d622c9415d26fbe29a1e5e7e86675a80ccec7cbe5b",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 15,
+    "source_case": "pot-df4ae155db88",
+    "label": "phishing",
+    "body_sha256": "c9ca1c6e03e5f3ee7fdd4ca07c1e48cd5dd06188aff53b5b95ca61bde46eb28f",
+    "html_sha256": "5b6d717dd3417de20e9910b68905d25f8c038dcdb0f3a709c1b9f20a4d0f2e03",
+    "link_ids_preserved": [
+      "l1",
+      "l2"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 16,
+    "source_case": "pot-237385b1ba7c",
+    "label": "phishing",
+    "body_sha256": "da74909f11a7e8295e7910313d3e2ffb98de2d802a07b7aab989cbacf6367adc",
+    "html_sha256": "0dbff2ee5b74101cb23e8c8a03c9b4f822cff9b7c34ed349ec2537840b91719b",
+    "link_ids_preserved": [
+      "l1",
+      "l2",
+      "l3",
+      "l4",
+      "l5",
+      "l6"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 17,
+    "source_case": "pot-35c325c80421",
+    "label": "phishing",
+    "body_sha256": "d367d78d350caa13dfbd791eddbea991a7c613ee3657d73d4702251d73c49095",
+    "html_sha256": "2ac8a9edea68eb2dce42e12078e822bb58a896b678714aa042303192138961bb",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 18,
+    "source_case": "pot-36229780890c",
+    "label": "phishing",
+    "body_sha256": "d9fe989791a84e0bc1e4d156dd487117dd04073fe9ca39001650c5e739ed7d95",
+    "html_sha256": "5ac9d78635b29cdc8ae0e2a476d859236bfbdf7ebc484b9b54643a781e0f945c",
+    "link_ids_preserved": [
+      "l1",
+      "l2"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 19,
+    "source_case": "pot-2aea4270287d",
+    "label": "phishing",
+    "body_sha256": "d4a75fa5b6e3e09816f82b09abfebedf4ec312471469fbb8d2be29ec8f9d1d55",
+    "html_sha256": "2686163a78f942f63315349d3a26e97e36855c3ace54d5279f334b7091da00e6",
+    "link_ids_preserved": [
+      "l1",
+      "l2"
+    ],
+    "link_ids_omitted": []
+  },
+  {
+    "index": 20,
+    "source_case": "pot-d4e53126383c",
+    "label": "phishing",
+    "body_sha256": "7ac0fbf291c4fc59cc95391469397f2d9226057b9635d9f4442084fcf59891ce",
+    "html_sha256": "839262ef007cac2adb920c2c9fa6a3b8921e301beadd946225e274257ad9220e",
+    "link_ids_preserved": [
+      "l1"
+    ],
+    "link_ids_omitted": []
+  }
+]

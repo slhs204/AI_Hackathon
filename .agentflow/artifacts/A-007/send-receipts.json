@@ -1,0 +1,147 @@
+{
+  "from": "authorized connected Gmail account",
+  "to": "owner-authorized test account",
+  "count": 20,
+  "case_receipts": [
+    {
+      "index": 1,
+      "case": "ham-8fbea4b8839d",
+      "sent_id": "1a1bb4ad6c668bb1",
+      "thread_id": "1a1bb4ad6c668bb1",
+      "at": "2026-11-08T13:13:26.180254+00:00"
+    },
+    {
+      "index": 2,
+      "case": "ham-138b12553770",
+      "sent_id": "1a1bb4b1b1ea5055",
+      "thread_id": "1a1bb4b1b1ea5055",
+      "at": "2026-11-08T13:13:43.613299+00:00"
+    },
+    {
+      "index": 3,
+      "case": "ham-1831c0e59b13",
+      "sent_id": "1a1bb4b1f084a04d",
+      "thread_id": "1a1bb4b1f084a04d",
+      "at": "2026-11-08T13:13:45.097579+00:00"
+    },
+    {
+      "index": 4,
+      "case": "ham-b0f5f3a12357",
+      "sent_id": "1a1bb4b2770bfcb1",
+      "thread_id": "1a1bb4b2770bfcb1",
+      "at": "2026-11-08T13:13:46.713152+00:00"
+    },
+    {
+      "index": 5,
+      "case": "ham-1aefed29d3ad",
+      "sent_id": "1a1bb4b2a3bbb6c0",
+      "thread_id": "1a1bb4b2a3bbb6c0",
+      "at": "2026-11-08T13:13:48.251399+00:00"
+    },
+    {
+      "index": 6,
+      "case": "ham-2bc77a45c897",
+      "sent_id": "1a1bb4b3132b947b",
+      "thread_id": "1a1bb4b3132b947b",
+      "at": "2026-11-08T13:13:49.711995+00:00"
+    },
+    {
+      "index": 7,
+      "case": "ham-7933961b53fa",
+      "sent_id": "1a1bb4b372c1f70a",
+      "thread_id": "1a1bb4b372c1f70a",
+      "at": "2026-11-08T13:13:51.124944+00:00"
+    },
+    {
+      "index": 8,
+      "case": "ham-52e86e8bd492",
+      "sent_id": "1a1bb4b3c039735d",
+      "thread_id": "1a1bb4b3c039735d",
+      "at": "2026-11-08T13:13:52.579214+00:00"
+    },
+    {
+      "index": 9,
+      "case": "ham-9a06cd7bb4ee",
+      "sent_id": "1a1bb4b4266c306f",
+      "thread_id": "1a1bb4b4266c306f",
+      "at": "2026-11-08T13:13:54.066180+00:00"
+    },
+    {
+      "index": 10,
+      "case": "ham-1c17f3f04aaf",
+      "sent_id": "1a1bb4b4924ce3d7",
+      "thread_id": "1a1bb4b4924ce3d7",
+      "at": "2026-11-08T13:13:55.655042+00:00"
+    },
+    {
+      "index": 11,
+      "case": "pot-58b65de0ae7b",
+      "sent_id": "1a1bb4b4f362a710",
+      "thread_id": "1a1bb4b4f362a710",
+      "at": "2026-11-08T13:13:57.385036+00:00"
+    },
+    {
+      "index": 12,
+      "case": "pot-63a1c05e2a47",
+      "sent_id": "1a1bb4b5461ae038",
+      "thread_id": "1a1bb4b5461ae038",
+      "at": "2026-11-08T13:13:58.900716+00:00"
+    },
+    {
+      "index": 13,
+      "case": "pot-8b2ed31f6061",
+      "sent_id": "1a1bb4b5de72984f",
+      "thread_id": "1a1bb4b5de72984f",
+      "at": "2026-11-08T13:14:00.495105+00:00"
+    },
+    {
+      "index": 14,
+      "case": "pot-a958a0028317",
+      "sent_id": "1a1bb4b60db064b2",
+      "thread_id": "1a1bb4b60db064b2",
+      "at": "2026-11-08T13:14:01.995055+00:00"
+    },
+    {
+      "index": 15,
+      "case": "pot-df4ae155db88",
+      "sent_id": "1a1bb4b66ee1aed6",
+      "thread_id": "1a1bb4b66ee1aed6",
+      "at": "2026-11-08T13:14:03.457570+00:00"
+    },
+    {
+      "index": 16,
+      "case": "pot-237385b1ba7c",
+      "sent_id": "1a1bb4b6c6a996aa",
+      "thread_id": "1a1bb4b6c6a996aa",
+      "at": "2026-11-08T13:14:05.009932+00:00"
+    },
+    {
+      "index": 17,
+      "case": "pot-35c325c80421",
+      "sent_id": "1a1bb4b73b1c2dd9",
+      "thread_id": "1a1bb4b73b1c2dd9",
+      "at": "2026-11-08T13:14:06.575100+00:00"
+    },
+    {
+      "index": 18,
+      "case": "pot-36229780890c",
+      "sent_id": "1a1bb4b783a46227",
+      "thread_id": "1a1bb4b783a46227",
+      "at": "2026-11-08T13:14:08.016308+00:00"
+    },
+    {
+      "index": 19,
+      "case": "pot-2aea4270287d",
+      "sent_id": "1a1bb4b7e8e8dd6e",
+      "thread_id": "1a1bb4b7e8e8dd6e",
+      "at": "2026-11-08T13:14:09.633958+00:00"
+    },
+    {
+      "index": 20,
+      "case": "pot-d4e53126383c",
+      "sent_id": "1a1bb4b848b50319",
+      "thread_id": "1a1bb4b848b50319",
+      "at": "2026-11-08T13:14:11.163837+00:00"
+    }
+  ]
+}
