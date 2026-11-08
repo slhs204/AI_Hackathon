@@ -16,6 +16,25 @@ let requestNumber = 0;
 let challengeNumber = 0;
 let connected = false;
 let pendingExtractionTab = null;
+let currentAnalysis = null;
+let simpleMode = true;
+let activeAction = null;
+let actionOpener = null;
+let activeBodyScan = null;
+
+async function endBodyScan(target = activeBodyScan) {
+  if (!target) return;
+  if (activeBodyScan === target) activeBodyScan = null;
+  await chrome.tabs.sendMessage(target.tabId, { type: "STOP_BODY_SCAN", scan_id: target.id }).catch(() => {});
+}
+
+async function beginBodyScan(email, tabId, request) {
+  const target = { tabId, id: `scan-${request}` };
+  activeBodyScan = target;
+  const response = await chrome.tabs.sendMessage(tabId, { type: "START_BODY_SCAN", email_id: email.email_id, scan_id: target.id });
+  if (!response?.ok) throw new Error(response?.error || "Could not confirm the selected Gmail message. Refresh Gmail and try again.");
+  return target;
+}
 
 function setBusy(busy) {
   $("analyze").disabled = busy;
@@ -42,12 +61,16 @@ function setEmail(email) {
 }
 
 function clearResults(status = "Open a Gmail message and analyze it.") {
+  const hadResult = currentAnalysis !== null;
+  void endBodyScan();
   requestNumber++;
   challengeNumber++;
   setBusy(false);
   $("challenge").disabled = false;
   $("mode").textContent = connected ? "STAGING CONNECTED" : "NOT CONNECTED";
   currentEmail = null;
+  currentAnalysis = null;
+  closeAction(false);
   currentFindings = [];
   selectedFindingId = null;
   currentMode = null;
@@ -61,6 +84,8 @@ function clearResults(status = "Open a Gmail message and analyze it.") {
   $("challenge-result").textContent = "";
   $("practice-feedback").textContent = "";
   setStatus(status);
+  updateView();
+  if (hadResult) $("analyze").focus?.();
 }
 
 async function activeTab() {
@@ -80,6 +105,9 @@ async function analyzeEmail(email, mode, tabId = null) {
   setBusy(true);
   await clearGmailHighlight();
   if (myRequest !== requestNumber) return;
+  currentAnalysis = null;
+  closeAction(false);
+  updateView();
   currentEmail = email;
   currentMode = mode;
   currentTabId = tabId;
@@ -92,9 +120,14 @@ async function analyzeEmail(email, mode, tabId = null) {
   $("practice").hidden = true;
   $("challenge-result").textContent = "";
   $("practice-feedback").textContent = "";
-  setStatus("Analyzing selected message…");
+  setStatus("Checking the selected message body… Animation shows activity, not proof of a complete check.");
   setBusy(true);
+  let scanTarget = null;
   try {
+    if (mode === "gmail") {
+      scanTarget = await beginBodyScan(email, tabId, myRequest);
+      if (myRequest !== requestNumber) return;
+    }
     const response = await chrome.runtime.sendMessage({ type: "ANALYZE", email, demo: mode === "demo" });
     if (myRequest !== requestNumber) return;
     if (!response?.ok) throw new Error(response?.error || "No analysis returned.");
@@ -108,6 +141,7 @@ async function analyzeEmail(email, mode, tabId = null) {
   } catch (error) {
     if (myRequest === requestNumber) setStatus(`Analysis failed: ${error.message}`, true);
   } finally {
+    await endBodyScan(scanTarget || (activeBodyScan?.id === `scan-${myRequest}` ? activeBodyScan : null));
     if (myRequest === requestNumber) setBusy(false);
   }
 }
@@ -224,7 +258,9 @@ function renderVerdictBox(analysis) {
 
 function renderResults(analysis, mocked) {
   const count = currentFindings.length;
+  currentAnalysis = analysis;
   renderVerdictBox(analysis);
+  renderSimple(analysis);
   $("warning-total").textContent = String(count);
   $("count").textContent = `warning sign${count === 1 ? "" : "s"}`;
   $("summary").textContent = analysis.summary || "Review the findings and evidence below.";
@@ -267,6 +303,8 @@ function renderResults(analysis, mocked) {
   $("challenge-section").hidden = count === 0;
   $("practice").hidden = count === 0;
   $("mode").textContent = modeLabel(analysis, mocked);
+  updateView();
+  $(simpleMode ? "simple-title" : "results").focus?.();
 }
 
 async function highlightFinding(finding) {
@@ -412,3 +450,137 @@ $("disconnect").addEventListener("click", async () => {
 });
 refreshConnection().catch(() => { $("connection-status").textContent = "Could not read connection state. Reload the extension."; });
 setStatus("Use synthetic email only. Connect to private staging before analyzing Gmail, or choose Try demo.");
+
+
+// Simple is a presentation of the same assessment, never an override or payment authorization.
+function simpleAssessment(analysis) {
+  const verdict = analysis?.verdict;
+  const dims = Array.isArray(analysis?.dimensions) ? analysis.dimensions : [];
+  const findings = Array.isArray(analysis?.findings) ? analysis.findings : [];
+  if (verdict?.key === "stop") return { state: "stop", title: "Don't pay yet" };
+  if (findings.length || dims.some(d => d.status === "warn")) return { state: "verify", title: "Check first" };
+  const allChecked = ["sender", "money", "pressure", "links"].every(key =>
+    dims.filter(d => d.key === key).length === 1 && dims.find(d => d.key === key).status === "ok");
+  if (verdict?.key === "pay" && verdict.state !== "unknown" && analysis.analysis_complete === true &&
+      allChecked && dims.length === 4 && !(analysis.limitations || []).length) {
+    return { state: "clear", title: "No warning signs" };
+  }
+  if (verdict?.key === "verify" && verdict.state !== "unknown" && analysis.analysis_complete === true) {
+    return { state: "verify", title: "Check first" };
+  }
+  return { state: "unknown", title: "Can't tell yet" };
+}
+
+function renderSimple(analysis) {
+  const assessment = simpleAssessment(analysis);
+  $("simple-verdict").dataset.state = assessment.state;
+  $("simple-title").textContent = assessment.title;
+  $("result-subject").textContent = currentEmail?.subject || "Selected message";
+  $("result-sender").textContent = currentEmail
+    ? `${currentEmail.sender?.name || "Unknown sender"} · ${currentEmail.sender?.address || "address unavailable"}`
+    : "Sender unavailable";
+  const count = currentFindings.length;
+  $("simple-scope").textContent = count
+    ? `${count} warning sign${count === 1 ? "" : "s"}. Check through a channel you already trust.`
+    : analysis.analysis_complete !== true || assessment.state === "unknown"
+      ? "Not enough information to assess this message. Verify through a channel you already trust."
+      : "No warning signs found is not proof of safety. Verify independently before acting.";
+  $("simple-warning").textContent = analysis.analysis_complete === true
+    ? "Sender identity and payment approval are not established by this tool."
+    : "Incomplete check. Sender, headers or other information could not be verified. This is not payment approval.";
+  $("simple-reviewed").hidden = assessment.state !== "clear";
+  $("simple-call").hidden = false;
+  $("reviewed-note").textContent = "";
+}
+
+function updateView() {
+  const hasResult = currentAnalysis !== null;
+  $("home-view").hidden = hasResult;
+  $("result-context").hidden = !hasResult;
+  $("simple-view").hidden = !hasResult || !simpleMode || activeAction !== null;
+  $("details-view").hidden = !hasResult || simpleMode || activeAction !== null;
+  $("action-panel").hidden = !hasResult || activeAction === null;
+  $("back").hidden = !hasResult;
+  $("simple-toggle").checked = simpleMode;
+}
+
+const SIMPLE_ACTIONS = {
+  call: {
+    title: "Call to check",
+    guidance: "Use a number from your saved contacts or your organization's trusted directory. Do not use a phone number or link from this email. Confirm the request and follow the normal approval process. This button does not place a call."
+  },
+  reply: {
+    title: "Reply: wait",
+    guidance: "You do not need to reply to a suspicious sender. If appropriate, contact the person separately using a known address. The wording below is only a local draft; review it before you use it.",
+    template: "I will hold this request while I verify it through our usual process."
+  },
+  report: {
+    title: "Tell IT",
+    guidance: "Use your organization's established phishing-reporting button or known IT/security contact. Do not use contact details in the suspicious email. Nothing is reported automatically, and email contents are not copied into this draft.",
+    template: "Please review a potentially suspicious email. I have paused the request pending verification. What is the approved way to report it?"
+  }
+};
+
+function openAction(kind, opener) {
+  if (!currentAnalysis || !SIMPLE_ACTIONS[kind]) return;
+  const action = SIMPLE_ACTIONS[kind];
+  activeAction = kind;
+  actionOpener = opener;
+  $("action-title").textContent = action.title;
+  $("action-guidance").textContent = action.guidance;
+  $("action-template").value = action.template || "";
+  $("action-template").hidden = !action.template;
+  $("action-template-label").hidden = !action.template;
+  updateView();
+  $("action-title").focus?.();
+}
+
+function closeAction(restoreFocus = true) {
+  const opener = actionOpener;
+  activeAction = null;
+  actionOpener = null;
+  $("action-template").value = "";
+  $("action-panel").hidden = true;
+  if (restoreFocus) {
+    updateView();
+    $(opener || "simple-title").focus?.();
+  }
+}
+
+$("simple-toggle").addEventListener("change", () => {
+  simpleMode = $("simple-toggle").checked;
+  closeAction(false);
+  updateView();
+});
+$("simple-why").addEventListener("click", () => {
+  simpleMode = false;
+  updateView();
+  $("results").focus?.();
+});
+$("back").addEventListener("click", async () => {
+  if (activeAction) return closeAction();
+  if (!simpleMode && currentAnalysis) {
+    simpleMode = true;
+    updateView();
+    $("simple-title").focus?.();
+    return;
+  }
+  const backRequest = ++requestNumber;
+  challengeNumber++;
+  await clearGmailHighlight();
+  if (backRequest !== requestNumber) return;
+  clearResults("Choose another message, then click Analyze open email. Try demo stays local.");
+  $("analyze").focus?.();
+});
+$("action-close").addEventListener("click", () => closeAction());
+for (const [kind, id] of [["call", "simple-call"], ["reply", "simple-reply"], ["report", "simple-report"]]) {
+  $(id).addEventListener("click", () => openAction(kind, id));
+}
+$("simple-reviewed").addEventListener("click", () => {
+  if (!currentAnalysis || simpleAssessment(currentAnalysis).state !== "clear") return;
+  $("reviewed-note").textContent = "Reviewed locally for this screen only. This does not verify the sender or approve payment.";
+});
+updateView();
+
+// Closing the panel should not leave an activity overlay in Gmail. The content script also has a timeout.
+globalThis.window?.addEventListener("pagehide", () => { void endBodyScan(); });

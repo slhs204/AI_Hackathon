@@ -7,10 +7,10 @@ const finding={id:'f1',category:'payment_or_data_request',evidence:{kind:'text',
 const email={email_id:'synthetic',sender:{address:'unknown'},subject:'Test',blocks:[{id:'b1',text:'Transfer money today.'}],links:[]};
 const result={email_id:'synthetic',model:'rules-only',findings:[finding],analysis_complete:false,limitations:['Missing headers'],notes:[],verdict:{key:'verify',state:'unknown',label:'Verify'},dimensions:[{key:'sender',status:'unknown',question:'Sender?',answer:'Cannot tell'}]};
 function panel(send) {
-  const els={};const get=id=>els[id] ||=new El();const messages=[];const events={};
-  const ctx={document:{getElementById:get,createElement:()=>new El()},chrome:{runtime:{sendMessage:async m=>{messages.push(m);return m.type==='CONNECTION_STATUS'?{ok:true,connected:true}:send(m)},onMessage:{addListener:fn=>events.email=fn}},tabs:{query:async()=>[{id:1}],sendMessage:async()=>({success:true}),onActivated:{addListener:fn=>events.tab=fn}}}};
+  const els={};let focused=null;const get=id=>{if(!els[id]) {els[id]=new El();els[id].focus=()=>{focused=id};}return els[id]};const messages=[];const events={};
+  const ctx={document:{getElementById:get,createElement:()=>new El()},chrome:{runtime:{sendMessage:async m=>{messages.push(m);return m.type==='CONNECTION_STATUS'?{ok:true,connected:true}:send(m)},onMessage:{addListener:fn=>events.email=fn}},tabs:{query:async()=>[{id:1}],sendMessage:async()=>({success:true,ok:true}),onActivated:{addListener:fn=>events.tab=fn}}}};
   vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(__dirname,'..','sidepanel.js'),'utf8'),ctx);
-  ctx.email=email;ctx.result=result;ctx.finding=finding;return {els,get,ctx,messages,events};
+  ctx.email=email;ctx.result=result;ctx.finding=finding;return {els,get,ctx,messages,events,focused:()=>focused};
 }
 test('UI labels backend rules-only and shows incomplete limitations, not LIVE AI',async()=>{
   const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
@@ -60,4 +60,135 @@ test('message change during first extraction prevents any backend request',async
   let finish;const p=panel(async()=>({ok:true,data:result,mocked:false}));p.ctx.chrome.tabs.sendMessage=()=>new Promise(r=>finish=r);
   const pending=p.get('analyze').handlers.click();await new Promise(r=>setImmediate(r));p.events.email({type:'EMAIL_CHANGED',email_id:'new'},{tab:{id:1}});finish({ok:true,email});await pending;
   assert.equal(p.messages.filter(x=>x.type==='ANALYZE').length,0);assert.equal(p.get('analyze').disabled,false);
+});
+
+test('Simple is the default, with truthful mode and incomplete warning visible',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.equal(p.get('simple-view').hidden,false);assert.equal(p.get('details-view').hidden,true);
+  assert.equal(p.get('home-view').hidden,true);assert.equal(p.get('simple-toggle').checked,true);
+  assert.equal(p.get('simple-title').textContent,'Check first');assert.match(p.get('simple-warning').textContent,/Incomplete/);
+  assert.equal(p.get('simple-reviewed').hidden,true);
+});
+test('stop always stays red even if the assessment is incomplete',()=>{
+  const p=panel();const a=p.ctx.simpleAssessment({...result,verdict:{key:'stop',state:'unknown'}});
+  assert.equal(a.state,'stop');assert.equal(a.title,"Don't pay yet");
+});
+test('missing or malformed verdict, incomplete and unknown never become green',()=>{
+  const p=panel();const dims=['sender','money','pressure','links'].map(key=>({key,status:'ok'}));
+  const clear={findings:[],analysis_complete:true,dimensions:dims,limitations:[],verdict:{key:'pay'}};
+  assert.equal(p.ctx.simpleAssessment(clear).state,'clear');
+  for(const changed of [
+    {verdict:undefined},{verdict:{}},{verdict:{key:'pay',state:'unknown'}},{analysis_complete:false},
+    {analysis_complete:undefined},{limitations:['Unverified']},{dimensions:[]},
+    {dimensions:dims.slice(1)},{dimensions:[...dims,{key:'sender',status:'ok'}]},
+    {dimensions:dims.map(d=>d.key==='sender'?{...d,status:'unknown'}:d)},
+  ]) assert.notEqual(p.ctx.simpleAssessment({...clear,...changed}).state,'clear');
+  assert.equal(p.ctx.simpleAssessment({...clear,findings:[finding]}).state,'verify');
+  assert.equal(p.ctx.simpleAssessment({...clear,dimensions:dims.map(d=>({...d,status:'warn'}))}).state,'verify');
+});
+test('zero findings is unknown, not a guarantee or payment authorization',async()=>{
+  const p=panel(async()=>({ok:true,data:{...result,findings:[],verdict:{key:'verify',state:'unknown'}},mocked:false}));
+  await p.ctx.analyzeEmail(email,'gmail',1);assert.equal(p.get('simple-title').textContent,"Can't tell yet");
+  assert.match(p.get('simple-scope').textContent,/Not enough information/);assert.equal(p.get('simple-verdict').dataset.state,'unknown');
+});
+test('Why and repeated toggles preserve results, then Back returns to Simple',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
+  const n=p.messages.length;p.get('simple-why').handlers.click();assert.equal(p.get('details-view').hidden,false);
+  assert.equal(p.get('simple-toggle').checked,false);await p.get('back').handlers.click();
+  assert.equal(p.get('simple-view').hidden,false);
+  for(const checked of [false,true,false,true]) {p.get('simple-toggle').checked=checked;p.get('simple-toggle').handlers.change();assert.equal(p.get('simple-view').hidden,!checked);}
+  assert.equal(p.messages.length,n);assert.equal(p.get('summary').textContent,'Review the findings and evidence below.');
+});
+test('Call, Reply and Tell IT are local-only guidance with no email data copied',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
+  const n=p.messages.length;
+  for(const id of ['simple-call','simple-reply','simple-report']) {
+    p.get(id).handlers.click();assert.equal(p.get('action-panel').hidden,false);assert.equal(p.get('simple-view').hidden,true);
+    assert.doesNotMatch(p.get('action-template').value,/Transfer money|unknown/);
+    p.get('action-template').value='Local edits';p.get('action-close').handlers.click();
+    assert.equal(p.get('action-template').value,'');assert.equal(p.get('action-panel').hidden,true);
+    assert.equal(p.get('simple-view').hidden,false);
+  }
+  assert.equal(p.messages.length,n);
+});
+test('Back closes guidance first, then clears result and Gmail highlight',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));const tabCalls=[];
+  p.ctx.chrome.tabs.sendMessage=async(id,m)=>{tabCalls.push(m);return {success:true,ok:true}};
+  await p.ctx.analyzeEmail(email,'gmail',1);p.get('simple-reply').handlers.click();
+  await p.get('back').handlers.click();assert.equal(p.get('simple-view').hidden,false);
+  await p.get('back').handlers.click();assert.equal(p.get('home-view').hidden,false);assert.equal(p.get('simple-view').hidden,true);
+  assert.equal(p.get('back').hidden,true);assert.equal(tabCalls.at(-1).type,'CLEAR_HIGHLIGHTS');
+});
+test('navigation clears open local drafts and late analysis cannot restore Simple',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
+  p.get('simple-report').handlers.click();p.get('action-template').value='Edited';
+  p.events.email({type:'EMAIL_CHANGED',email_id:'new'},{tab:{id:1}});
+  assert.equal(p.get('action-panel').hidden,true);assert.equal(p.get('action-template').value,'');assert.equal(p.get('simple-view').hidden,true);
+  let finish;p.ctx.chrome.runtime.sendMessage=()=>new Promise(r=>finish=r);
+  const pending=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));
+  p.ctx.clearResults('Changed');finish({ok:true,data:result,mocked:false});await pending;
+  assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('home-view').hidden,false);
+});
+test('analysis failure after a result does not leave a stale shield visible',async()=>{
+  let fail=false;const p=panel(async()=>fail?{ok:false,error:'Proxy stopped'}:{ok:true,data:result,mocked:false});
+  await p.ctx.analyzeEmail(email,'gmail',1);fail=true;await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('details-view').hidden,true);assert.match(p.get('status').textContent,/Proxy stopped/);
+});
+test('disconnect clears result, open guidance, token request and mode',async()=>{
+  const p=panel(async m=>m.type==='ANALYZE'?{ok:true,data:result,mocked:false}:{ok:true});
+  await p.ctx.analyzeEmail(email,'gmail',1);p.get('simple-call').handlers.click();
+  p.ctx.chrome.runtime.sendMessage=async m=>{p.messages.push(m);return m.type==='CONNECTION_STATUS'?{ok:true,connected:false}:{ok:true}};
+  await p.get('disconnect').handlers.click();assert.ok(p.messages.some(m=>m.type==='DISCONNECT'));
+  assert.equal(p.get('simple-view').hidden,true);assert.equal(p.get('action-panel').hidden,true);assert.equal(p.get('mode').textContent,'NOT CONNECTED');
+});
+test('mark reviewed never changes the verdict or transmits anything',async()=>{
+  const clear={...result,analysis_complete:true,findings:[],limitations:[],verdict:{key:'pay'},dimensions:['sender','money','pressure','links'].map(key=>({key,status:'ok'}))};
+  const p=panel(async()=>({ok:true,data:clear,mocked:false}));await p.ctx.analyzeEmail(email,'demo');
+  const n=p.messages.length;assert.equal(p.get('simple-title').textContent,'No warning signs');
+  p.get('simple-reviewed').handlers.click();assert.match(p.get('reviewed-note').textContent,/does not verify/);
+  assert.equal(p.messages.length,n);assert.equal(p.get('simple-verdict').dataset.state,'clear');
+  p.ctx.clearResults();p.get('simple-reviewed').handlers.click();assert.equal(p.get('simple-view').hidden,true);
+});
+
+
+test('result transitions move focus and retain subject and displayed sender',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.equal(p.focused(),'simple-title');assert.equal(p.get('result-context').hidden,false);
+  assert.equal(p.get('result-subject').textContent,'Test');assert.match(p.get('result-sender').textContent,/unknown/);
+  p.get('simple-why').handlers.click();assert.equal(p.focused(),'results');assert.equal(p.get('result-context').hidden,false);
+  p.ctx.clearResults();assert.equal(p.focused(),'analyze');assert.equal(p.get('result-context').hidden,true);
+});
+test('Back cannot erase a newer result while clearing old Gmail highlights',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));await p.ctx.analyzeEmail(email,'gmail',1);
+  let finish;p.ctx.chrome.tabs.sendMessage=()=>new Promise(r=>finish=r);
+  const back=p.get('back').handlers.click();await new Promise(r=>setImmediate(r));
+  p.ctx.clearResults();await p.ctx.analyzeEmail(email,'demo');finish({success:true,ok:true});await back;
+  assert.equal(p.get('simple-view').hidden,false);assert.equal(p.get('home-view').hidden,true);
+});
+
+test('failed body-scan identity check prevents backend transmission',async()=>{
+  const p=panel(async()=>({ok:true,data:result,mocked:false}));const calls=[];
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return {ok:false,error:'Selected message changed'}};
+  await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.equal(p.messages.filter(m=>m.type==='ANALYZE').length,0);
+  assert.match(p.get('status').textContent,/Selected message changed/);
+  assert.equal(p.get('analyze').disabled,false);
+  assert.equal(calls.at(-1).type,'STOP_BODY_SCAN');
+});
+test('navigation while starting a body scan prevents transmission and removes overlay',async()=>{
+  let finish;const calls=[];const p=panel(async()=>({ok:true,data:result,mocked:false}));
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return m.type==='START_BODY_SCAN'?new Promise(r=>finish=r):{ok:true}};
+  const pending=p.ctx.analyzeEmail(email,'gmail',1);await new Promise(r=>setImmediate(r));
+  p.ctx.clearResults('New message');finish({ok:true});await pending;
+  assert.equal(p.messages.filter(m=>m.type==='ANALYZE').length,0);
+  assert.equal(p.get('analyze').disabled,false);
+  assert.equal(calls.at(-1).type,'STOP_BODY_SCAN');
+});
+test('backend failures always stop the matching body scan and restore controls',async()=>{
+  const calls=[];const p=panel(async()=>({ok:false,error:'Backend unavailable'}));
+  p.ctx.chrome.tabs.sendMessage=async(_,m)=>{calls.push(m);return {ok:true}};
+  await p.ctx.analyzeEmail(email,'gmail',1);
+  assert.equal(calls[0].type,'START_BODY_SCAN');assert.equal(calls.at(-1).type,'STOP_BODY_SCAN');
+  assert.equal(calls[0].scan_id,calls.at(-1).scan_id);
+  assert.equal(p.get('analyze').disabled,false);assert.match(p.get('status').textContent,/Backend unavailable/);
 });

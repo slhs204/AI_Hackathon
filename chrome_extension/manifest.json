@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Hookline \u2014 Phishing Email Coach (Hackathon)",
-  "version": "0.3.0",
-  "description": "Interactive evidence-linked Gmail phishing training with a clickable fishing-hook visualization.",
+  "version": "0.3.2",
+  "description": "Simple, evidence-linked Gmail phishing training with explicit unknown states and local verification guidance.",
   "minimum_chrome_version": "116",
   "permissions": [
     "sidePanel",

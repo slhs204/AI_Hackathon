@@ -1,4 +1,4 @@
-# Hookline 0.3: private rules-only staging
+# Hookline 0.3.2: Simple interface, body scan and local subject list
 
 This unpacked Chrome extension has two distinct modes:
 
@@ -7,9 +7,32 @@ This unpacked Chrome extension has two distinct modes:
 
 Neither mode authenticates a sender or authorizes payment. Missing information stays unknown. Gmail extraction is explicitly partial: last visible expanded message only, no raw authentication headers, Reply-To or attachment content. Messages over 20,000 characters are rejected; more than 50 links are explicitly reported as partial.
 
+## Simple interface
+
+Simple is on by default. After Analyze or Try demo, the shield gives a short result:
+
+- Red: **Don't pay yet** for a stop verdict.
+- Amber: **Check first** when warning signs need review.
+- Gray: **Can't tell yet** when there is not enough verified information.
+- Green: **No warning signs**, only for a complete explicit all-clear response with all four dimensions checked, no findings and no limitations. It never says "OK to pay" or authorizes payment. The current partial Gmail rules-only checks do not establish sender authenticity and should not become green.
+
+**Why?** or unchecking Simple opens the existing evidence, dimensions, challenge and practice view. **Back** returns from details or guidance to Simple; Back from Simple clears the result so you can analyze another message. Message subject and the displayed (not authenticated) sender remain visible in both result views. Switching messages or tabs still clears stale results.
+
+**Call to check**, **Reply: wait** and **Tell IT** open local guidance and optional editable wording. They do not place calls, open links, create mailbox drafts, send email or report anything. Use existing trusted contact information, never details supplied by the suspect email. Local wording is discarded when closed or when the selected message changes. **Mark as reviewed**, when available, is only an ephemeral screen acknowledgment, not sender verification or payment approval.
+
+## Body scan and suspicious-title list
+
+When you choose **Analyze open email**, a pointer-transparent scan line moves over the visible message body while the check is pending. It is an activity indicator, not proof that every word or attachment was checked. The overlay stays outside the email DOM and is removed after success, failure, navigation, panel closure or a 46-second fallback timeout. Reduced-motion settings disable the moving line. Selecting an exact body-evidence clue highlights it temporarily for eight seconds without rewriting the message.
+
+On the home screen, **Check inbox titles** checks up to the first 100 visible Gmail rows locally. English and Traditional Chinese rules look for time pressure, account/password requests and payment/bank-change wording. Matching subjects receive amber **Check title** marks and appear in the side panel. The title check does not send email content to the backend or read previews, senders or message bodies. It is a narrow keyword check, not a phishing classification, and an unmarked message is not an all-clear.
+
+Select a listed subject to open that captured Gmail row. Body analysis is still a separate **Analyze open email** action. **Clear marks**, changing tabs, navigating, or changing the list clears the results. Stale rows are checked before opening, and late responses cannot restore an old list. Titles and optional local guidance are not saved.
+
+To update an existing unpacked installation, replace the extension files, reload Hookline at `chrome://extensions`, and refresh Gmail. Reconnect the staging demo token if the session was cleared. Version 0.3.2 does not change backend transport, host permissions or rules-only safeguards. An already-working PR #5 staging backend does not need to be redeployed for this UI update. This version still targets Gmail DOM selectors; Outlook or other email clients are not implemented.
+
 ## Connect securely
 
-1. Update the private staging backend to this same commit using [the staging guide](../docs/PRIVATE_STAGING.md). Keep Cloud Run IAM authentication enabled and MODEL_PROVIDER=mock.
+1. For initial setup, update the private staging backend to the compatible PR #5 backend using [the staging guide](../docs/PRIVATE_STAGING.md). Keep Cloud Run IAM authentication enabled and MODEL_PROVIDER=mock.
 2. On the **same computer as Chrome**, use an already signed-in Google Cloud CLI account with existing invoker permission. Start:
 
    ```bash
@@ -31,9 +54,10 @@ node --test chrome_extension/tests/*.test.cjs
 node --check chrome_extension/background.js
 node --check chrome_extension/content.js
 node --check chrome_extension/sidepanel.js
+node --check chrome_extension/inbox-panel.js
 ```
 
-Automated tests cover transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations and extraction. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
+Automated tests cover transport, token and mode guards, original-finding challenges, failure handling, interrupted/late results, limitations, extraction, body-scan lifecycle and subject-list invalidation. They use API/Chrome/DOM stubs, **not real Chrome/Gmail E2E**.
 
 Manual acceptance checklist, still required:
 
@@ -45,5 +69,7 @@ Manual acceptance checklist, still required:
 - Switching messages/tabs while extracting or analyzing clears stale results and leaves controls usable.
 - Disconnect clears the token; Gmail analysis then fails until reconnecting.
 - Stop the proxy: request fails visibly, not as a clean assessment.
+- Check titles in a synthetic inbox: only matching visible subjects are marked and listed, and no backend request occurs. Repeat the check, clear marks, change tabs and change the inbox list; old results must not reopen the wrong message.
+- Open a listed message, then Analyze separately: the body scan ends on result, error or navigation, does not capture clicks, and honors reduced motion.
 
 Gmail DOM selectors are unstable and require actual-browser validation. Sender matching and a low risk score are not proof of authenticity. Do not test with sensitive real inbox data in public demos.
